@@ -1,11 +1,4 @@
 module.exports = {
-  apps: [{
-    name: 'house-of-souls-ui',
-    script: 'npm',
-    args: 'start',
-    watch: './house-of-souls-ui',
-  }],
-
   deploy: {
     production: {
       user: 'root',
