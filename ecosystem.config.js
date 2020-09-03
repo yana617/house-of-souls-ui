@@ -7,7 +7,7 @@ module.exports = {
       repo: 'git@github.com:yana617/house-of-souls-ui.git',
       path: '/var/www/house-of-souls-ui',
       'pre-deploy-local': '',
-      'post-deploy': 'npm install && npm run build && pm2 reload ecosystem.config.js --env production',
+      'post-deploy': 'npm install && npm run build',
       'pre-setup': 'rm -rf /var/www/house-of-souls-ui/',
     },
   },
