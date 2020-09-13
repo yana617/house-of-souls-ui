@@ -1,12 +1,15 @@
 <template>
-<div id="nav">
-  <router-link to="/volunteers">Волонтеры</router-link>
-  <router-link class="nav-schedule" to="/">График</router-link>
-  <div class="auth-buttons">
+<div class="header">
+  <Dropdown class="header__dropdown" :items="links" :selected="selected" />
+  <div class="header__nav-menu">
+    <router-link to="/volunteers">Волонтеры</router-link>
+    <router-link class="header__nav-menu__schedule-btn" to="/">График</router-link>
+  </div>
+  <div class="header__auth">
     <Button title="Вход" />
-    <Button class="register-btn" title="Регистрация" />
+    <Button class="header__auth__register-btn" title="Регистрация" />
     <!-- ADD LOGIC <Button @click="$router.push('profile')" title="Профиль" />
-    <Button @click="$router.push('admin')" class="admin-btn" title="Админка" />-->
+    <Button @click="$router.push('admin')" class="header__auth__admin-btn" title="Админка" />-->
   </div>
 </div>
 <router-view />
@@ -14,59 +17,123 @@
 
 <script>
 import Button from './Button.vue';
+import Dropdown from './Dropdown.vue';
+
+const paths = {
+  '/': 'schedule',
+  '/volunteers': 'volunteers',
+};
+
+const LINKS = [{
+  url: '/volunteers',
+  label: 'Волонтеры',
+  slug: 'volunteers',
+}, {
+  url: '/',
+  label: 'График',
+  slug: 'schedule',
+}];
 
 export default {
   name: 'Header',
   components: {
     Button,
+    Dropdown,
+  },
+  data() {
+    return {
+      links: LINKS,
+    };
+  },
+  computed: {
+    path() {
+      return this.$route.path;
+    },
+    selected() {
+      return paths[this.path] || null;
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 $green: #42b983;
+$header-color: #1D1D1F;
 
-#nav {
+.header {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 16px 30px;
-  box-shadow: 0 5px 10px 0 rgba(50, 50, 50, .1);
   position: fixed;
-  background-color: white;
+  background-color: $header-color;
   width: 100%;
   top: 0;
 
+  &__dropdown {
+    display: none;
+  }
+
   a {
-    font-weight: bold;
-    color: #2c3e50;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: -.01em;
+    font-family: "SF Pro Text","Myriad Set Pro","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
+    color: #f5f5f7;
+    text-decoration: none;
 
     &.router-link-exact-active {
       color: #42b983;
     }
   }
-}
 
-.nav-schedule {
-  margin-left: 16px;
-}
+  &__nav-menu {
+    &__schedule-btn {
+      margin-left: 16px;
+    }
+  }
 
-.auth-buttons {
-  position: absolute;
-  right: 30px;
-}
+  &__auth {
+    position: absolute;
+    right: 30px;
 
-.register-btn {
-  margin-left: 8px;
-}
+    &__register-btn {
+      margin-left: 8px;
+    }
 
-.admin-btn {
-  margin-left: 8px;
-  color: $green;
-  border: 1px solid $green;
+    &__admin-btn {
+      margin-left: 8px;
+      color: $green;
+      border: 1px solid $green;
 
-  &:hover {
-    background-color: $green;
+      &:hover {
+        background-color: $green;
+      }
+    }
+  }
+
+  @media (max-width: 700px) {
+    justify-content: space-between;
+    padding: 8px 16px;
+
+    &__auth {
+      position: relative;
+      right: unset;
+    }
+  }
+
+  @media (max-width: 450px) {
+    &__nav-menu {
+      display: none;
+    }
+    &__dropdown {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 330px) {
+    padding: 8px;
   }
 }
+
 </style>
