@@ -1,5 +1,9 @@
 import { createStore } from 'vuex';
 
+import users from './modules/users';
+
+const debug = process.env.NODE_ENV !== 'production';
+
 export default createStore({
   state: {
   },
@@ -8,5 +12,7 @@ export default createStore({
   actions: {
   },
   modules: {
+    users,
   },
+  strict: debug,
 });
