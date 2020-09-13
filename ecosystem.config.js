@@ -8,7 +8,7 @@ module.exports = {
       path: '/var/www/house-of-souls-ui',
       'pre-deploy-local': '',
       'post-deploy': 'npm install && npm run build',
-      'pre-setup': 'rm -rf /var/www/house-of-souls-ui/',
+      // 'pre-setup': 'rm -rf /var/www/house-of-souls-ui/',
     },
   },
 };
