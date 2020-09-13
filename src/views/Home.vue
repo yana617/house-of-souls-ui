@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    Главная страница
+    <span id="title">Главная страница</span>
   </div>
 </template>
 

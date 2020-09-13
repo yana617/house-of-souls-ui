@@ -20,11 +20,23 @@ html, body {
   margin: 0;
   padding: 0;
 }
+* {
+  box-sizing: border-box;
+}
 #app {
   font-family: Helvetica, Avenir, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  margin-top: 50px;
+}
+
+#title {
+  display: block;
+  font-size: 18px;
+  color: #2c3e50;
+  font-weight: bold;
+  padding: 16px;
 }
 </style>
