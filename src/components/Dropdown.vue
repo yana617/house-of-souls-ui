@@ -1,16 +1,16 @@
 <template>
   <div class="dropdown">
-    <div @click="open=!open" class="dropdown__selected">
+    <div @click="toggleOpen" :class="['dropdown__selected', { open }]">
       <span>{{ title }}</span>
       <ArrowBottomSvg />
     </div>
     <div :class="['dropdown__options', { open }]">
       <div
-        class="dropdown__option"
+        :class="['dropdown__option', { selected: option.slug === selected }]"
         v-for="option in items"
         :key="option.slug"
       >
-        <router-link :click="open=false" :to="option.url">{{ option.label }}</router-link>
+        <a @click="handleRouteClick(option.url)">{{ option.label }}</a>
       </div>
     </div>
   </div>
@@ -38,6 +38,15 @@ export default {
       return selected ? selected.label : 'Выбрать';
     },
   },
+  methods: {
+    toggleOpen() {
+      this.open = !this.open;
+    },
+    handleRouteClick(url) {
+      this.open = false;
+      this.$router.push(url);
+    },
+  },
 };
 </script>
 
@@ -54,6 +63,10 @@ export default {
     cursor: pointer;
     display: flex;
     flex-wrap: nowrap;
+
+    &.open {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
 
     span {
       display: flex;
@@ -80,14 +93,16 @@ export default {
   &__option {
     display: flex;
     padding: 8px 16px;
+    color: white;
+    cursor: pointer;
+
     a {
       font-size: 15px;
-      color: white;
       text-decoration: none;
-
-      &.router-link-exact-active {
-      color: #42b983;
     }
+
+    &.selected {
+      color: #42b983;
     }
   }
 

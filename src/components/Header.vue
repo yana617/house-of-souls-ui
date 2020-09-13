@@ -18,21 +18,7 @@
 <script>
 import Button from './Button.vue';
 import Dropdown from './Dropdown.vue';
-
-const paths = {
-  '/': 'schedule',
-  '/volunteers': 'volunteers',
-};
-
-const LINKS = [{
-  url: '/volunteers',
-  label: 'Волонтеры',
-  slug: 'volunteers',
-}, {
-  url: '/',
-  label: 'График',
-  slug: 'schedule',
-}];
+import { PATHS, LINKS } from '../router/constants';
 
 export default {
   name: 'Header',
@@ -50,7 +36,7 @@ export default {
       return this.$route.path;
     },
     selected() {
-      return paths[this.path] || null;
+      return PATHS[this.path] || null;
     },
   },
 };

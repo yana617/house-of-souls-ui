@@ -1,6 +1,6 @@
 <template>
 <div class="admin">
-  Админка
+  <span id="title">Админка</span>
 </div>
 </template>
 
