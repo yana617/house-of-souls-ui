@@ -8,8 +8,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "deploy-setup": "pm2 deploy ecosystem.config.js production setup",
-    "deploy-production": "pm2 deploy ecosystem.config.js production --force",
-    "deploy": "npm run deploy-setup && npm run deploy-production"
+    "deploy": "pm2 deploy ecosystem.config.js production --force",
+    "deploy-with-setup": "npm run deploy-setup && npm run deploy"
   },
   "dependencies": {
     "axios": "^0.20.0",
