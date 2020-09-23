@@ -2,10 +2,14 @@
   <div v-if="modal" class="auth-modal__wrapper">
     <div class="auth-modal">
       <img class="auth-modal__background-image" src="@/assets/auth-modal-back.jpg" />
+      <img class="auth-modal__background-image mobile" src="@/assets/auth-modal-mobile.jpg" />
       <img @click="setModal(null)" class="auth-modal__header__close-icon" src="@/assets/close.png" />
       <div class="auth-modal__header">
         <span @click="setModal('login')" :class="modalHeaderTitleStyle('login')">Вход</span>
-        <span @click="setModal('registration')" :class="modalHeaderTitleStyle('registration')">Регистрация</span>
+        <span
+          @click="setModal('registration')"
+          :class="modalHeaderTitleStyle('registration')"
+        >Регистрация</span>
       </div>
       <Login v-if="modal === 'login'" />
       <Registration v-if="modal === 'registration'" />
@@ -57,6 +61,10 @@ export default {
     height: 100%;
     top: 0;
     left: 0;
+
+    &.mobile {
+      display: none;
+    }
   }
 
   &__wrapper {
@@ -81,7 +89,7 @@ export default {
 
     &__title {
       display: flex;
-      padding: 2px 0px;
+      padding: 4px 0px;
       margin: 8px;
       font-size: 18px;
       color: white;
@@ -99,6 +107,19 @@ export default {
       right: 16px;
       top: 12px;
       cursor: pointer;
+    }
+  }
+
+  @media (max-width: 700px) {
+    width: 100%;
+    height: 100%;
+
+    &__background-image {
+      display: none;
+
+      &.mobile {
+        display: flex;
+      }
     }
   }
 }
