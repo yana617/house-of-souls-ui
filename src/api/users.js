@@ -155,6 +155,13 @@ const usersMock = {
   total: 100,
 };
 
+const userMock = {
+  id: 1,
+  name: 'Yana',
+  surname: 'Sidorova',
+  phone: '375293355013',
+};
+
 export default {
   getVolunteers: async (params) => {
     // TO-DO: Remove with mocks
@@ -162,5 +169,15 @@ export default {
     const limit = parseInt(process.env.VUE_APP_LIMIT, 10);
     await axios.get('https://jsonplaceholder.typicode.com/todos/1', { params: { limit, ...params } });
     return usersMock;
+  },
+  login: async (body) => {
+    // TO-DO: Remove mocks
+    await axios.post('https://jsonplaceholder.typicode.com/posts', body);
+    return userMock;
+  },
+  register: async (body) => {
+    // TO-DO: Remove mocks
+    await axios.post('https://jsonplaceholder.typicode.com/posts', body);
+    return userMock;
   },
 };

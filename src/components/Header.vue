@@ -6,10 +6,11 @@
     <router-link class="header__nav-menu__schedule-btn" to="/">График</router-link>
   </div>
   <div class="header__auth">
-    <Button title="Вход" />
-    <Button class="header__auth__register-btn" title="Регистрация" />
-    <!-- ADD LOGIC <Button @click="$router.push('profile')" title="Профиль" />
-    <Button @click="$router.push('admin')" class="header__auth__admin-btn" title="Админка" />-->
+    <Button v-if="!user" @click="setModal('login')" title="Вход" />
+    <Button v-if="!user" @click="setModal('registration')" class="header__auth__register-btn" title="Регистрация" />
+    <Button v-if="user" @click="$router.push('profile')" title="Профиль" />
+    <Button v-if="user" @click="$router.push('admin')" class="header__auth__admin-btn" title="Админка" />
+    <AuthModal />
   </div>
 </div>
 <router-view />
@@ -18,6 +19,7 @@
 <script>
 import Button from './Button.vue';
 import Dropdown from './Dropdown.vue';
+import AuthModal from './AuthModal.vue';
 import { PATHS, LINKS } from '../router/constants';
 
 export default {
@@ -25,6 +27,7 @@ export default {
   components: {
     Button,
     Dropdown,
+    AuthModal,
   },
   data() {
     return {
@@ -37,6 +40,14 @@ export default {
     },
     selected() {
       return PATHS[this.path] || null;
+    },
+    user() {
+      return this.$store.state.users.user;
+    },
+  },
+  methods: {
+    setModal(modalName) {
+      this.$store.dispatch('app/setModal', modalName);
     },
   },
 };

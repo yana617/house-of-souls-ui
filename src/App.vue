@@ -16,12 +16,15 @@ export default {
 </script>
 
 <style lang="scss">
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
 * {
   box-sizing: border-box;
+  font-family: 'SF Pro Text', 'Myriad Set Pro', 'SF Pro Icons', 'Helvetica Neue',
+    'Helvetica', 'Arial', sans-serif;
 }
 #app {
   font-family: Helvetica, Avenir, Arial, sans-serif;
