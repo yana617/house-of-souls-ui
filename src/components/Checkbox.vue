@@ -11,16 +11,21 @@
       >-</span>
     </div>
     <label>{{label}}</label>
+    <Tooltip v-if="description" :helpText="description" />
   </div>
 </template>
 
 <script>
+import Tooltip from './CustomTooltip.vue';
+
 export default {
   name: 'Checkbox',
+  components: { Tooltip },
   props: {
     label: String,
     name: String,
     selected: Boolean,
+    description: String,
   },
 };
 </script>

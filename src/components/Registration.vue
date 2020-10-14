@@ -5,13 +5,22 @@
     <input id="egida-nick" v-model="egidaNick" type="text" name="egida-nick" placeholder="Ник на Эгиде" />
     <PhoneInput @onchange="onChangePhone" id="phone" placeholder="Телефон" />
     <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
-    <Checkbox @onchange="onChangeCheckbox" name="delya" :selected="delya" label="Деля" />
-    <Checkbox @onchange="onChangeCheckbox" name="key" :selected="key" label="Ключ" />
+    <Checkbox
+      v-for="field in additionalFields"
+      :key="field.name"
+      v-bind="field"
+      @onchange="onChangeCheckbox"
+      :selected="selected[field.name]"
+    />
     <Button @click="submitRegistration" class="registration__submit-btn" title="Зарегистрироваться" />
   </div>
 </template>
 
 <script>
+import {
+  mapState,
+} from 'vuex';
+
 import Checkbox from './Checkbox.vue';
 import Button from './Button.vue';
 import PhoneInput from './PhoneInput.vue';
@@ -19,6 +28,9 @@ import PhoneInput from './PhoneInput.vue';
 export default {
   name: 'Registration',
   components: { Checkbox, PhoneInput, Button },
+  computed: mapState({
+    additionalFields: (state) => state.users.additionalFields,
+  }),
   data() {
     return {
       name: null,
@@ -26,9 +38,15 @@ export default {
       egidaNick: null,
       phone: null,
       password: null,
-      delya: false,
-      key: false,
+      selected: {},
     };
+  },
+  created() {
+    this.$store.dispatch('users/getAdditionalFields').then(() => {
+      this.additionalFields.forEach((field) => {
+        this.selected[field.name] = false;
+      });
+    });
   },
   methods: {
     submitRegistration() {
@@ -37,9 +55,8 @@ export default {
         surname: this.surname,
         egidaNick: this.egidaNick,
         phone: this.phone,
-        delya: this.delya,
-        key: this.key,
         password: this.password,
+        ...this.selected,
       };
       this.$store.dispatch('users/register', body);
     },
@@ -48,7 +65,7 @@ export default {
       this.phone = phone;
     },
     onChangeCheckbox(name, value) {
-      this[name] = value;
+      this.selected[name] = value;
     },
   },
 };
