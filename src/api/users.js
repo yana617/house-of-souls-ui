@@ -162,6 +162,19 @@ const userMock = {
   phone: '375293355013',
 };
 
+const additionalFields = [{
+  name: 'delya',
+  icon: 'http://delya.png',
+  label: 'Деля',
+  description: `Вы можете выгулять Делю? Собака с характером, на каждой смене 
+  нужен хоть один человек кто с ней дружит.`,
+}, {
+  name: 'key',
+  icon: 'http://key.png',
+  label: 'Ключ',
+  description: 'Есть ли у вас ключ от домика? Чтобы не оказалось, что у всех на смене нет ключа.',
+}];
+
 export default {
   getVolunteers: async (params) => {
     // TO-DO: Remove with mocks
@@ -179,5 +192,10 @@ export default {
     // TO-DO: Remove mocks
     await axios.post('https://jsonplaceholder.typicode.com/posts', body);
     return userMock;
+  },
+  getAdditionalFields: async () => {
+    // TO-DO: Remove mocks
+    await axios.get('https://jsonplaceholder.typicode.com/todos/1');
+    return additionalFields;
   },
 };
