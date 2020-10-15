@@ -27,7 +27,7 @@ html {
   min-height: 100vh;
 }
 body {
-  min-height: calc(100vh - headerHeight);
+  min-height: calc(100vh - #{$headerHeight});
 }
 * {
   box-sizing: border-box;
@@ -40,7 +40,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  height: calc(100% - headerHeight);
+  height: calc(100% - #{$headerHeight});
 }
 
 #app-sub-container {
