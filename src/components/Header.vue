@@ -9,7 +9,12 @@
     <Button v-if="!user" @click="setModal('login')" title="Вход" />
     <Button v-if="!user" @click="setModal('registration')" class="header__auth__register-btn" title="Регистрация" />
     <Button v-if="user" @click="$router.push('profile')" title="Профиль" />
-    <Button v-if="user" @click="$router.push('admin')" class="header__auth__admin-btn" title="Админка" />
+    <Button
+      v-if="user"
+      @click="$router.push('/admin/volunteers-requests')"
+      class="header__auth__admin-btn"
+      title="Админка"
+    />
     <AuthModal />
   </div>
 </div>
