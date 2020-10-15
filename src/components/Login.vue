@@ -1,8 +1,16 @@
 <template>
   <div class="login">
-    <PhoneInput @onchange="onChangePhone" id="phone" placeholder="Телефон" />
-    <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
-    <Button @click="submitLogin" class="login__submit-btn" title="Войти" />
+    <div class="login__wrapper">
+      <PhoneInput @onchange="onChangePhone" id="phone" placeholder="Телефон" />
+      <input
+        id="password"
+        v-model="password"
+        type="password"
+        name="password"
+        placeholder="Пароль"
+      />
+      <Button @click="submitLogin" class="login__submit-btn" title="Войти" />
+    </div>
   </div>
 </template>
 
@@ -57,6 +65,14 @@ export default {
     &::placeholder {
       color: rgba(255, 255, 255, 0.8);
     }
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 2px;
   }
 
   &__submit-btn {
