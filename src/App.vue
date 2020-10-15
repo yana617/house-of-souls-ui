@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app-sub-container">
     <Header />
   </div>
 </template>
@@ -16,10 +16,18 @@ export default {
 </script>
 
 <style lang="scss">
+$headerHeight: 50px;
+
 html,
 body {
   margin: 0;
   padding: 0;
+}
+html {
+  min-height: 100vh;
+}
+body {
+  min-height: calc(100vh - headerHeight);
 }
 * {
   box-sizing: border-box;
@@ -32,7 +40,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 50px;
+  height: calc(100% - headerHeight);
+}
+
+#app-sub-container {
+  margin-top: $headerHeight;
 }
 
 #title {
