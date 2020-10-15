@@ -25,7 +25,7 @@
 import Button from './Button.vue';
 import Dropdown from './Dropdown.vue';
 import AuthModal from './AuthModal.vue';
-import { PATHS, LINKS } from '../router/constants';
+import { PATHS, HEADER_LINKS } from '../router/constants';
 
 export default {
   name: 'Header',
@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      links: LINKS,
+      links: HEADER_LINKS,
     };
   },
   computed: {
@@ -71,6 +71,7 @@ $header-color: #1D1D1F;
   background-color: $header-color;
   width: 100%;
   top: 0;
+  height: 50px;
 
   &__dropdown {
     display: none;
