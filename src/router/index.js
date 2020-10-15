@@ -21,6 +21,13 @@ const routes = [
     path: '/admin',
     name: 'AdminPanel',
     component: () => import(/* webpackChunkName: "admin" */ '../views/AdminPanel.vue'),
+    children: [{
+      path: 'volunteers-requests',
+      component: () => import(/* webpackChunkName: "admin" */ '../views/VolunteersRequests.vue'),
+    }, {
+      path: 'register-fields-control',
+      component: () => import(/* webpackChunkName: "admin" */ '../views/RegisterFieldsControl.vue'),
+    }],
   },
 ];
 
