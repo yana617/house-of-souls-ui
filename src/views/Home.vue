@@ -1,17 +1,29 @@
 <template>
   <div class="home">
-    <span id="title">Главная страница</span>
+    <Info v-for="info in infos" :key="info.title" v-bind="info" />
   </div>
   <Footer />
 </template>
 
 <script>
+import {
+  mapState,
+} from 'vuex';
+
 import Footer from '../components/Footer.vue';
+import Info from '../components/Info.vue';
 
 export default {
   name: 'Home',
   components: {
     Footer,
+    Info,
+  },
+  computed: mapState({
+    infos: (state) => state.info.actualInfo,
+  }),
+  created() {
+    this.$store.dispatch('info/getInfo');
   },
 };
 </script>

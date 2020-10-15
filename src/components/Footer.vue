@@ -6,7 +6,7 @@
         <b>
           <a class="footer__phone-link" href="tel:+375293226155">+375(29) 322-61-55</a>
           , <a class="footer__phone-link" href="tel:+375336611625">+375(33) 66-11-625</a>
-        </b> Тамара Ник. Корж (Мотя)
+        </b> Тамара Николаевна (Мотя)
       </span>
       <span>
         <b>
