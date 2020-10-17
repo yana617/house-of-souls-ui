@@ -8,7 +8,7 @@
   <div class="header__auth">
     <Button v-if="!user" @click="setModal('login')" title="Вход" />
     <Button v-if="!user" @click="setModal('registration')" class="header__auth__register-btn" title="Регистрация" />
-    <Button v-if="user" @click="$router.push('profile')" title="Профиль" />
+    <Button v-if="user" @click="$router.push('/profile')" title="Профиль" />
     <Button
       v-if="user"
       @click="$router.push('/admin/volunteers-requests')"

@@ -164,13 +164,13 @@ const userMock = {
 
 const additionalFields = [{
   name: 'delya',
-  icon: 'http://delya.png',
+  icon: 'https://image.flaticon.com/icons/png/512/91/91544.png',
   label: 'Деля',
   description: `Вы можете выгулять Делю? Собака с характером, на каждой смене 
   нужен хоть один человек кто с ней дружит.`,
 }, {
   name: 'key',
-  icon: 'http://key.png',
+  icon: 'https://cdn0.iconfinder.com/data/icons/mix-of-simple-vol-2/57/icon298-512.png',
   label: 'Ключ',
   description: 'Есть ли у вас ключ от домика? Чтобы не оказалось, что у всех на смене нет ключа.',
 }];

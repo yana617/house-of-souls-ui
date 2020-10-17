@@ -65,12 +65,5 @@ footer {
   footer {
     height: 90px;
   }
-  .footer {
-    &__phones {
-      span {
-        font-size: 12px;
-      }
-    }
-  }
 }
 </style>
