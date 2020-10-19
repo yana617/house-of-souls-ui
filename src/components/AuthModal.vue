@@ -6,10 +6,7 @@
       <img @click="setModal(null)" class="auth-modal__header__close-icon" src="@/assets/close.png" />
       <div class="auth-modal__header">
         <span @click="setModal('login')" :class="modalHeaderTitleStyle('login')">Вход</span>
-        <span
-          @click="setModal('registration')"
-          :class="modalHeaderTitleStyle('registration')"
-        >Регистрация</span>
+        <span @click="setModal('registration')" :class="modalHeaderTitleStyle('registration')">Регистрация</span>
       </div>
       <Login v-if="modal === 'login'" />
       <Registration v-if="modal === 'registration'" />
@@ -31,9 +28,7 @@ export default {
   }),
   methods: {
     modalHeaderTitleStyle(name) {
-      return `auth-modal__header__title ${
-        this.modal === name ? 'selected' : ''
-      }`;
+      return `auth-modal__header__title ${this.modal === name ? 'selected' : ''}`;
     },
     setModal(modalName) {
       this.$store.dispatch('app/setModal', modalName);

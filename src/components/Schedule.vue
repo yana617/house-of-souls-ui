@@ -10,13 +10,7 @@
           </span>
         </div>
         <ScheduleTimeLine title="УТРО" type="morning" :schedule="schedule" />
-        <ScheduleTimeLine
-          class="schedule__evening"
-          title="ВЕЧЕР"
-          type="evening"
-          borderTop
-          :schedule="schedule"
-        />
+        <ScheduleTimeLine class="schedule__evening" title="ВЕЧЕР" type="evening" borderTop :schedule="schedule" />
       </div>
     </div>
   </div>
@@ -52,7 +46,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$dayWidth: 170px;
+$dayWidth: 160px;
 
 .schedule {
   display: flex;

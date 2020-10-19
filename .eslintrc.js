@@ -15,6 +15,6 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'max-len': ['error', { code: 120 }],
     'no-shadow': ['error', { builtinGlobals: false, hoist: 'functions', allow: ['state'] }],
-    camelcase: ['error', { allow: ['egida_nick', 'apply_id', 'enter_time'] }],
+    camelcase: ['error', { allow: ['egida_nick', 'arrival_time', 'additional_people', 'additional_fields'] }],
   },
 };

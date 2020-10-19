@@ -1,0 +1,144 @@
+<template>
+  <div @click="this.$emit('onclose')" class="claim-info-modal__wrapper">
+    <div class="claim-info-modal" @click.stop>
+      <img @click="this.$emit('onclose')" class="claim-info-modal__close-icon" src="@/assets/close.png" />
+      <div class="claim-info-modal__header"></div>
+      <span class="claim-info-modal__info-title">Данные о волонтёре</span>
+      <span class="claim-info-modal__info-description"> {{ user.name }} {{ user.surname }} </span>
+      <span v-if="user.egida_nick" class="claim-info-modal__info-description">
+        Ник на эгиде: {{ user.egida_nick }}
+      </span>
+      <a class="claim-info-modal__info-description" :href="`tel:${user.phone}`">{{ user.phone }}</a>
+      <span v-if="haveAdditionFields" class="claim-info-modal__info-description">
+        <div class="claim-info-modal__additional-fields" v-for="field in user.additional_fields" :key="field.id">
+          <img
+            v-if="field.value"
+            :key="field.id"
+            class="claim-info-modal__icon"
+            :src="additionalFieldsById[field.id].icon"
+          />
+          <Tooltip
+            class="claim-info-modal__tooltip"
+            v-if="field.value"
+            :helpText="additionalFieldsById[field.id].label"
+          />
+        </div>
+      </span>
+      <span class="claim-info-modal__info-title">Дополнительные люди на смене</span>
+      <span class="claim-info-modal__info-description">{{ additional_people || '-' }}</span>
+      <span class="claim-info-modal__info-title">Примерное прибытие на смену</span>
+      <span class="claim-info-modal__info-description">{{ arrival_time || '-' }}</span>
+      <span class="claim-info-modal__info-title">Комментарий</span>
+      <div v-if="comment" class="claim-info-modal__comment__wrapper">
+        {{ comment }}
+      </div>
+      <span v-if="!comment" class="claim-info-modal__info-description">-</span>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapState } from 'vuex';
+
+import Tooltip from './CustomTooltip.vue';
+
+export default {
+  name: 'ClaimInfoModal',
+  components: { Tooltip },
+  computed: mapState({
+    additionalFields: (state) => state.users.additionalFields,
+    haveAdditionFields() {
+      return this.user.additional_fields.some((field) => !!field.value);
+    },
+    additionalFieldsById() {
+      const additionalFieldsById = {};
+      this.additionalFields.forEach((field) => {
+        additionalFieldsById[field.id] = field;
+      });
+      return additionalFieldsById;
+    },
+  }),
+  props: {
+    additional_people: Number,
+    arrival_time: String,
+    comment: String,
+    user: Object,
+  },
+};
+</script>
+
+<style lang="scss">
+.claim-info-modal {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 4px;
+  top: calc(50% - 200px);
+  left: calc(50% - 200px);
+  padding: 8px 16px 16px 16px;
+  text-align: left;
+  max-width: 400px;
+  min-width: 400px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+
+  &__wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 50, 0.3);
+    z-index: 10;
+  }
+
+  &__info-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 8px 0;
+  }
+
+  &__info-description {
+    display: flex;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 2px 0;
+  }
+
+  &__comment {
+    &__wrapper {
+      border: 1px solid #ccc;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+  }
+
+  &__icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  &__tooltip {
+    margin-left: 0;
+  }
+
+  &__close-icon {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    right: 12px;
+    top: 12px;
+    cursor: pointer;
+  }
+
+  @media (max-width: 450px) {
+    max-width: 100%;
+    min-width: 100%;
+    left: 0;
+    top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+</style>

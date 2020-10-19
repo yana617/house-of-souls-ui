@@ -1,7 +1,6 @@
 <template>
   <button
-    :class="['btn-group__button', first && 'btn-group__first',
-      last && 'btn-group__last', isSortParam && 'sort-param']"
+    :class="['btn-group__button', first && 'btn-group__first', last && 'btn-group__last', isSortParam && 'sort-param']"
     @click="changeSort"
   >
     {{ title }}
@@ -58,5 +57,4 @@ $green: #42b983;
   color: white;
   background-color: $green;
 }
-
 </style>

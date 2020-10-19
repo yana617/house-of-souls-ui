@@ -1,30 +1,29 @@
 <template>
-<div class="volunteers">
-  <span id="title">Список волонтеров</span>
-  <SearchBar ref="searchBar" />
-  <div id="volunteers-list">
-    <a
-      class="volunteer-item"
-      v-for="volunteer in volunteers"
-      :key="volunteer.id"
-      :href="`tel:${volunteer.phone.replace(/\s/g, '')}`"
-    >
-      <span>{{ volunteer.name }} {{ volunteer.surname }}
-        <span v-if="volunteer.egida_nick">({{ volunteer.egida_nick }})</span>
-      </span>
-      <a class="phone-container">
-        <img class="phone-icon" src="@/assets/phone-icon.png">
-        {{ volunteer.phone }}
+  <div class="volunteers">
+    <span id="title">Список волонтеров</span>
+    <SearchBar ref="searchBar" />
+    <div id="volunteers-list">
+      <a
+        class="volunteer-item"
+        v-for="volunteer in volunteers"
+        :key="volunteer.id"
+        :href="`tel:${volunteer.phone.replace(/\s/g, '')}`"
+      >
+        <span>
+          {{ volunteer.name }} {{ volunteer.surname }}
+          <span v-if="volunteer.egida_nick">({{ volunteer.egida_nick }})</span>
+        </span>
+        <a class="phone-container">
+          <img class="phone-icon" src="@/assets/phone-icon.png" />
+          {{ volunteer.phone }}
+        </a>
       </a>
-    </a>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
-import {
-  mapState,
-} from 'vuex';
+import { mapState } from 'vuex';
 
 import SearchBar from '@/components/SearchBar.vue';
 
@@ -47,8 +46,8 @@ export default {
     this.offset += limit;
 
     window.addEventListener('scroll', () => {
-      const bottomOfWindow = document.documentElement.scrollTop + window.innerHeight
-        === document.documentElement.offsetHeight;
+      const bottomOfWindow = (document.documentElement.scrollTop + window.innerHeight)
+       === document.documentElement.offsetHeight;
       if (bottomOfWindow && this.volunteers.length < this.total) {
         this.loadMore();
       }
@@ -59,13 +58,15 @@ export default {
   },
   methods: {
     loadMore() {
-      this.$store.dispatch('users/loadMoreVolunteers', {
-        attribute: this.$refs.searchBar.attribute,
-        offset: this.offset,
-        search: this.$refs.searchBar.searchText,
-      }).then(() => {
-        this.offset += 15;
-      });
+      this.$store
+        .dispatch('users/loadMoreVolunteers', {
+          attribute: this.$refs.searchBar.attribute,
+          offset: this.offset,
+          search: this.$refs.searchBar.searchText,
+        })
+        .then(() => {
+          this.offset += 15;
+        });
     },
   },
 };
@@ -103,5 +104,4 @@ $green: #42b983;
   width: 18px;
   height: 18px;
 }
-
 </style>

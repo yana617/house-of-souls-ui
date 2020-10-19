@@ -163,13 +163,13 @@ const userMock = {
 };
 
 const additionalFields = [{
-  name: 'delya',
+  id: 1,
   icon: 'https://image.flaticon.com/icons/png/512/91/91544.png',
   label: 'Деля',
   description: `Вы можете выгулять Делю? Собака с характером, на каждой смене 
   нужен хоть один человек кто с ней дружит.`,
 }, {
-  name: 'key',
+  id: 2,
   icon: 'https://cdn0.iconfinder.com/data/icons/mix-of-simple-vol-2/57/icon298-512.png',
   label: 'Ключ',
   description: 'Есть ли у вас ключ от домика? Чтобы не оказалось, что у всех на смене нет ключа.',
@@ -196,6 +196,6 @@ export default {
   getAdditionalFields: async () => {
     // TO-DO: Remove mocks
     await axios.get('https://jsonplaceholder.typicode.com/todos/1');
-    return additionalFields;
+    return additionalFields.map((field) => ({ ...field, id: field.id.toString() }));
   },
 };

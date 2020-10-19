@@ -64,6 +64,7 @@ $header-color: #1D1D1F;
 
 .header {
   display: flex;
+  z-index: 5;
   align-items: center;
   justify-content: center;
   padding: 16px 30px;

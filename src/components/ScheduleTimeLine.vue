@@ -6,40 +6,55 @@
       :key="day.date"
       :class="`schedule-time-line__applies ${borderTop ? 'border-top' : ''}`"
     >
-      <ScheduleApply
-        v-for="apply in day[type]"
-        :key="apply.apply_id"
-        class="schedule-time-line__apply"
-        :apply="apply"
+      <ScheduleClaim
+        v-for="claim in day[type]"
+        :key="claim.id"
+        class="schedule-time-line__claim"
+        :claim="claim"
+        @on-claim-click="openAppply"
       />
-      <Button class="schedule-time-line__apply-btn" title="Записаться" />
+      <Button class="schedule-time-line__claim-btn" title="Записаться" />
     </div>
+    <ClaimInfoModal v-if="claimInfoModalOpen" v-bind="selectedClaim" @onclose="claimInfoModalOpen = false" />
   </div>
 </template>
 
 <script>
 import Button from './Button.vue';
-import ScheduleApply from './ScheduleApply.vue';
+import ScheduleClaim from './ScheduleClaim.vue';
+import ClaimInfoModal from './ClaimInfoModal.vue';
 
 export default {
   name: 'ScheduleTimeLine',
-  components: { Button, ScheduleApply },
+  components: { Button, ScheduleClaim, ClaimInfoModal },
   props: {
     schedule: Array,
     title: String,
     type: String,
     borderTop: Boolean,
   },
+  data() {
+    return {
+      claimInfoModalOpen: false,
+      selectedClaim: null,
+    };
+  },
   computed: {
     haveTypeData() {
       return this.schedule.every((day) => !!day[this.type]);
+    },
+  },
+  methods: {
+    openAppply(claim) {
+      this.claimInfoModalOpen = true;
+      this.selectedClaim = claim;
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-$dayWidth: 170px;
+$dayWidth: 160px;
 
 .schedule-time-line {
   display: flex;
@@ -55,7 +70,7 @@ $dayWidth: 170px;
     }
   }
 
-  &__apply {
+  &__claim {
     display: flex;
     width: $dayWidth;
     font-size: 14px;
@@ -73,7 +88,7 @@ $dayWidth: 170px;
     padding-top: 16px;
   }
 
-  &__apply-btn {
+  &__claim-btn {
     width: $dayWidth;
     color: #42b983;
     border-color: #42b983;
