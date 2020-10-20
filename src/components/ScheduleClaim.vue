@@ -3,10 +3,10 @@
     <div v-if="haveAdditionFields" class="schedule-claim__additional-fields">
       <div
         class="schedule-claim__additional-fields__wrapper"
-        v-for="field in claim.user.additional_fields"
+        v-for="field in claim.user.user_additional_fields"
         :key="field.id"
       >
-        <img v-if="field.value" :key="field.id" class="schedule-claim__icon" :src="getIcon(field.id)" />
+        <img v-if="field.value" class="schedule-claim__icon" :src="getIcon(field.additional_field_template_id)" />
       </div>
     </div>
     <span>{{ username }}</span>
@@ -28,7 +28,7 @@ export default {
       return this.claim.user;
     },
     userAdditionalFields() {
-      return this.user.additional_fields;
+      return this.user.user_additional_fields;
     },
     username() {
       const { name, surname, egida_nick } = this.user;

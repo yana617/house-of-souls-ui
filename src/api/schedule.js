@@ -10,11 +10,13 @@ const scheduleMock = [{
       surname: 'Сидорова',
       egida_nick: null,
       phone: '+375293355013',
-      additional_fields: [{
+      user_additional_fields: [{
         id: 1,
+        additional_field_template_id: 1,
         value: true,
       }, {
         id: 2,
+        additional_field_template_id: 2,
         value: true,
       }],
     },
@@ -29,11 +31,13 @@ const scheduleMock = [{
       surname: 'Стадник',
       egida_nick: null,
       phone: '+375293767493',
-      additional_fields: [{
-        id: 1,
+      user_additional_fields: [{
+        id: 3,
+        additional_field_template_id: 1,
         value: false,
       }, {
-        id: 2,
+        id: 4,
+        additional_field_template_id: 2,
         value: true,
       }],
     },
@@ -48,11 +52,13 @@ const scheduleMock = [{
       surname: 'Качинская',
       phone: '+375293767493',
       egida_nick: null,
-      additional_fields: [{
-        id: 1,
+      user_additional_fields: [{
+        id: 5,
+        additional_field_template_id: 1,
         value: true,
       }, {
-        id: 2,
+        id: 6,
+        additional_field_template_id: 2,
         value: false,
       }],
     },
@@ -67,11 +73,13 @@ const scheduleMock = [{
       surname: 'Николаевна',
       phone: '+375293767493',
       egida_nick: null,
-      additional_fields: [{
-        id: 1,
+      user_additional_fields: [{
+        id: 7,
+        additional_field_template_id: 1,
         value: true,
       }, {
-        id: 2,
+        id: 8,
+        additional_field_template_id: 2,
         value: true,
       }],
     },
@@ -86,11 +94,13 @@ const scheduleMock = [{
       surname: 'Келлер',
       phone: '+375293767493',
       egida_nick: null,
-      additional_fields: [{
-        id: 1,
+      user_additional_fields: [{
+        id: 9,
+        additional_field_template_id: 1,
         value: false,
       }, {
-        id: 2,
+        id: 10,
+        additional_field_template_id: 2,
         value: false,
       }],
     },
@@ -108,13 +118,15 @@ const scheduleMock = [{
       id: 2,
       name: 'Олег',
       surname: 'Стадник',
-      phone: '++375293767493',
+      phone: '+375293767493',
       egida_nick: null,
-      additional_fields: [{
-        id: 1,
+      user_additional_fields: [{
+        id: 11,
+        additional_field_template_id: 1,
         value: false,
       }, {
-        id: 2,
+        id: 12,
+        additional_field_template_id: 2,
         value: false,
       }],
     },
@@ -132,11 +144,13 @@ const scheduleMock = [{
       surname: 'Sidorova',
       egida_nick: 'JanaSidorova',
       phone: '+375293767493',
-      additional_fields: [{
-        id: 1,
+      user_additional_fields: [{
+        id: 13,
+        additional_field_template_id: 1,
         value: false,
       }, {
-        id: 2,
+        id: 14,
+        additional_field_template_id: 2,
         value: false,
       }],
     },
@@ -151,11 +165,13 @@ const scheduleMock = [{
       surname: 'Стадник',
       phone: '+375293767493',
       egida_nick: null,
-      additional_fields: [{
-        id: 1,
+      user_additional_fields: [{
+        id: 15,
+        additional_field_template_id: 1,
         value: false,
       }, {
-        id: 2,
+        id: 16,
+        additional_field_template_id: 2,
         value: false,
       }],
     },
@@ -170,11 +186,13 @@ const scheduleMock = [{
       surname: 'Sidorova',
       egida_nick: 'JanaSidorova',
       phone: '+375293767493',
-      additional_fields: [{
-        id: 1,
+      user_additional_fields: [{
+        id: 17,
+        additional_field_template_id: 1,
         value: false,
       }, {
-        id: 2,
+        id: 18,
+        additional_field_template_id: 2,
         value: false,
       }],
     },
@@ -190,11 +208,13 @@ const scheduleMock = [{
       surname: 'Стадник',
       phone: '+375293767493',
       egida_nick: null,
-      additional_fields: [{
-        id: 1,
+      user_additional_fields: [{
+        id: 19,
+        additional_field_template_id: 1,
         value: false,
       }, {
-        id: 2,
+        id: 20,
+        additional_field_template_id: 2,
         value: false,
       }],
     },
@@ -213,11 +233,13 @@ const scheduleMock = [{
       surname: 'Стадник',
       phone: '+375293767493',
       egida_nick: null,
-      additional_fields: [{
-        id: 1,
+      user_additional_fields: [{
+        id: 21,
+        additional_field_template_id: 1,
         value: false,
       }, {
-        id: 2,
+        id: 22,
+        additional_field_template_id: 2,
         value: false,
       }],
     },
@@ -244,11 +266,13 @@ const scheduleMock = [{
       surname: 'Sidorova',
       egida_nick: 'JanaSidorova',
       phone: '+375293767493',
-      additional_fields: [{
-        id: 1,
+      user_additional_fields: [{
+        id: 23,
+        additional_field_template_id: 1,
         value: false,
       }, {
-        id: 2,
+        id: 24,
+        additional_field_template_id: 2,
         value: false,
       }],
     },
@@ -263,11 +287,13 @@ const scheduleMock = [{
       surname: 'Стадник',
       phone: '+375293767493',
       egida_nick: null,
-      additional_fields: [{
-        id: 1,
+      user_additional_fields: [{
+        id: 25,
+        additional_field_template_id: 1,
         value: false,
       }, {
-        id: 2,
+        id: 26,
+        additional_field_template_id: 2,
         value: false,
       }],
     },
@@ -282,11 +308,13 @@ const scheduleMock = [{
       phone: '+375293767493',
       surname: 'Стадник',
       egida_nick: null,
-      additional_fields: [{
-        id: 1,
+      user_additional_fields: [{
+        id: 27,
+        additional_field_template_id: 1,
         value: false,
       }, {
-        id: 2,
+        id: 28,
+        additional_field_template_id: 2,
         value: false,
       }],
     },
@@ -301,11 +329,13 @@ const scheduleMock = [{
       surname: 'Sidorova',
       egida_nick: 'JanaSidorova',
       phone: '+375293767493',
-      additional_fields: [{
-        id: 1,
+      user_additional_fields: [{
+        id: 29,
+        additional_field_template_id: 1,
         value: false,
       }, {
-        id: 2,
+        id: 30,
+        additional_field_template_id: 2,
         value: false,
       }],
     },

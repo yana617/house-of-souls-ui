@@ -10,17 +10,17 @@
       </span>
       <a class="claim-info-modal__info-description" :href="`tel:${user.phone}`">{{ user.phone }}</a>
       <span v-if="haveAdditionFields" class="claim-info-modal__info-description">
-        <div class="claim-info-modal__additional-fields" v-for="field in user.additional_fields" :key="field.id">
+        <div class="claim-info-modal__additional-fields" v-for="field in user.user_additional_fields" :key="field.id">
           <img
             v-if="field.value"
             :key="field.id"
             class="claim-info-modal__icon"
-            :src="additionalFieldsById[field.id].icon"
+            :src="additionalFieldsById[field.additional_field_template_id].icon"
           />
           <Tooltip
             class="claim-info-modal__tooltip"
             v-if="field.value"
-            :helpText="additionalFieldsById[field.id].label"
+            :helpText="additionalFieldsById[field.additional_field_template_id].label"
           />
         </div>
       </span>
@@ -48,7 +48,7 @@ export default {
   computed: mapState({
     additionalFields: (state) => state.users.additionalFields,
     haveAdditionFields() {
-      return this.user.additional_fields.some((field) => !!field.value);
+      return this.user.user_additional_fields.some((field) => !!field.value);
     },
     additionalFieldsById() {
       const additionalFieldsById = {};
