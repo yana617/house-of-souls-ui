@@ -65,7 +65,7 @@ export default {
           search: this.$refs.searchBar.searchText,
         })
         .then(() => {
-          this.offset += 15;
+          this.offset += limit;
         });
     },
   },
