@@ -43,11 +43,12 @@ export default {
   }),
   methods: {
     getIcon(id) {
-      const fields = this.additionalFields.filter((field) => field.id.toString() === id.toString());
-      if (!fields.length) {
+      // eslint-disable-next-line eqeqeq
+      const fieldObj = this.additionalFields.find((field) => field.id == id);
+      if (!fieldObj) {
         return '';
       }
-      return fields[0].icon;
+      return fieldObj.icon;
     },
   },
 };

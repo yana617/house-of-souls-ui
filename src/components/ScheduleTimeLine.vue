@@ -4,7 +4,8 @@
     <div
       v-for="day in schedule"
       :key="day.date"
-      :class="`schedule-time-line__applies ${borderTop ? 'border-top' : ''}`"
+      class="schedule-time-line__applies"
+      :class="{'border-top': borderTop}"
     >
       <ScheduleClaim
         v-for="claim in day[type]"

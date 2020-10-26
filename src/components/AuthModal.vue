@@ -5,11 +5,23 @@
       <img class="auth-modal__background-image mobile" src="@/assets/auth-modal-mobile.jpg" />
       <img @click="setModal(null)" class="auth-modal__header__close-icon" src="@/assets/close.png" />
       <div class="auth-modal__header">
-        <span @click="setModal('login')" :class="modalHeaderTitleStyle('login')">Вход</span>
-        <span @click="setModal('registration')" :class="modalHeaderTitleStyle('registration')">Регистрация</span>
+        <span
+          @click="setModal(MODAL.LOGIN)"
+          class="auth-modal__header__title"
+          :class="{ selected: modal === MODAL.LOGIN }"
+        >
+          Вход
+        </span>
+        <span
+          @click="setModal(MODAL.REGISTRATION)"
+          class="auth-modal__header__title"
+          :class="{ selected: modal === MODAL.REGISTRATION }"
+        >
+          Регистрация
+        </span>
       </div>
-      <Login v-if="modal === 'login'" />
-      <Registration v-if="modal === 'registration'" />
+      <Login v-if="modal === MODAL.LOGIN" />
+      <Registration v-if="modal === MODAL.REGISTRATION" />
     </div>
   </div>
 </template>
@@ -19,6 +31,7 @@ import { mapState } from 'vuex';
 
 import Registration from './Registration.vue';
 import Login from './Login.vue';
+import { MODAL } from '../utils/constants';
 
 export default {
   name: 'AuthModal',
@@ -26,10 +39,10 @@ export default {
   computed: mapState({
     modal: (state) => state.app.modal,
   }),
+  data() {
+    return { MODAL };
+  },
   methods: {
-    modalHeaderTitleStyle(name) {
-      return `auth-modal__header__title ${this.modal === name ? 'selected' : ''}`;
-    },
     setModal(modalName) {
       this.$store.dispatch('app/setModal', modalName);
     },

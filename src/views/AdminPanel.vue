@@ -4,6 +4,7 @@
       <Dropdown class="admin__dropdown" :items="links" :selected="selected" />
     </div>
     <div class="admin__nav-panel">
+      <span class="admin__nav-panel__title">Управление</span>
       <router-link
         v-for="link in links"
         :key="link.slug"
@@ -43,8 +44,9 @@ export default {
 <style lang="scss" scoped>
 $headerHeight: 50px;
 
-.router-link-active {
-  background-color: #42b983;
+.router-link-active{
+  color: white !important;
+  background-color: #233241;
 }
 
 .admin {
@@ -57,15 +59,26 @@ $headerHeight: 50px;
     width: 260px;
     height: calc(100vh - #{$headerHeight});
     border-right: 1px solid #ccc;
-    background-color: #2c3e50;
+    background-color: #20242a;
+    padding-top: 16px;
+
+    &__title {
+      color: white;
+      font-weight: bold;
+      padding-bottom: 12px;
+      font-size: 18px;
+    }
 
     &__link {
       display: flex;
-      color: white;
+      color: rgba(200, 200, 200, 0.7);
       font-size: 14px;
       padding: 12px 16px;
-      border-bottom: 1px solid rgba(204, 204, 204, 0.2);
       text-decoration: none;
+
+      &:hover {
+        color:#ccc;
+      }
     }
   }
 

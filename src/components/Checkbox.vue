@@ -1,12 +1,8 @@
 <template>
   <div class="checkbox">
     <div class="checkbox__selects">
-      <span @click="this.$emit('onchange', this.id, true)" :class="['checkbox__select first', { selected }]">+</span>
-      <span
-        @click="this.$emit('onchange', this.id, false)"
-        :class="['checkbox__select second', { selected: !selected }]"
-        >-</span
-      >
+      <span @click="$emit('input', true)" class="checkbox__select" :class="{ selected: value }">+</span>
+      <span @click="$emit('input', false)" class="checkbox__select" :class="{ selected: !value }">-</span>
     </div>
     <label>{{ label }}</label>
     <Tooltip v-if="description" :helpText="description" />
@@ -20,9 +16,8 @@ export default {
   name: 'Checkbox',
   components: { Tooltip },
   props: {
+    value: Boolean,
     label: String,
-    id: String,
-    selected: Boolean,
     description: String,
   },
 };
@@ -55,13 +50,13 @@ export default {
     padding: 2px 8px 4px 8px;
     border: 1px solid #ccc;
 
-    &.first {
+    &:first-child {
       border-right: none;
       border-top-left-radius: 4px;
       border-bottom-left-radius: 4px;
     }
 
-    &.second {
+    &:last-child {
       border-top-right-radius: 4px;
       border-bottom-right-radius: 4px;
     }

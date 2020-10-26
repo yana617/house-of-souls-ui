@@ -8,7 +8,6 @@
           name="name"
           @change-sort="handleChangeAttribute"
           :isSortParam="attribute === 'name'"
-          first
         />
         <SortButton
           title="Фамилии"
@@ -21,7 +20,6 @@
           name="phone"
           @change-sort="handleChangeAttribute"
           :isSortParam="attribute === 'phone'"
-          last
         />
       </div>
     </div>

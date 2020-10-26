@@ -8,13 +8,12 @@
 </template>
 
 <script>
-import {
-  mapState,
-} from 'vuex';
+import { mapState } from 'vuex';
 
 import Footer from '../components/Footer.vue';
 import Info from '../components/Info.vue';
 import Schedule from '../components/Schedule.vue';
+import { getPrevMondayString, getNextMondayString, getInTwoWeeksMondayString } from '../utils/date';
 
 export default {
   name: 'Home',
@@ -31,26 +30,10 @@ export default {
   created() {
     this.$store.dispatch('info/getInfo');
 
-    const WEEK_LENGTH = 7;
+    const nextMondayStr = getNextMondayString();
+    this.$store.dispatch('schedule/getSchedule', { from: getPrevMondayString(), to: nextMondayStr });
+    this.$store.dispatch('schedule/getNextWeekSchedule', { from: nextMondayStr, to: getInTwoWeeksMondayString() });
 
-    const prevMonday = new Date();
-    prevMonday.setDate(prevMonday.getDate() - ((prevMonday.getDay() + (WEEK_LENGTH - 1)) % WEEK_LENGTH));
-    prevMonday.setHours(6);
-    const prevMondayStr = prevMonday.toISOString().slice(0, 10);
-
-    const nextMonday = new Date();
-    nextMonday.setDate(prevMonday.getDate() + WEEK_LENGTH);
-    nextMonday.setHours(6);
-    const nextMondayStr = nextMonday.toISOString().slice(0, 10);
-
-    this.$store.dispatch('schedule/getSchedule', { from: prevMondayStr, to: nextMondayStr });
-
-    const inTwoWeeksMonday = new Date();
-    inTwoWeeksMonday.setDate(nextMonday.getDate() + WEEK_LENGTH);
-    inTwoWeeksMonday.setHours(6);
-    const inTwoWeeksMondayStr = inTwoWeeksMonday.toISOString().slice(0, 10);
-
-    this.$store.dispatch('schedule/getNextWeekSchedule', { from: nextMondayStr, to: inTwoWeeksMondayStr });
     this.$store.dispatch('users/getAdditionalFields');
   },
 };

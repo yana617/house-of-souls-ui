@@ -10,8 +10,8 @@
         v-for="field in additionalFields"
         :key="field.id"
         v-bind="field"
-        @onchange="onChangeCheckbox"
-        :selected="selected[field.id]"
+        :value="selected[field.id]"
+        @input="value => selected[field.id] = value"
       />
       <Button @click="submitRegistration" class="registration__submit-btn" title="Зарегистрироваться" />
     </div>
@@ -66,9 +66,6 @@ export default {
     onChangePhone(updatedPhone) {
       const phone = updatedPhone.replace(/[-+()_\s]/g, '');
       this.phone = phone;
-    },
-    onChangeCheckbox(id, value) {
-      this.selected[id] = value;
     },
   },
 };
