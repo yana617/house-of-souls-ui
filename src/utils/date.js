@@ -10,6 +10,9 @@ const daysOfWeek = {
   0: 'Воскресенье',
 };
 
+const DEFAULT_HOURS = 6;
+const DATE_LENGTH = 10;
+
 const parseDate = (date) => {
   const options = { day: 'numeric', month: 'long' };
   const jsDate = new Date(date);
@@ -19,23 +22,23 @@ const parseDate = (date) => {
 const getPrevMondayString = () => {
   const prevMonday = new Date();
   prevMonday.setDate(prevMonday.getDate() - ((prevMonday.getDay() + (WEEK_LENGTH - 1)) % WEEK_LENGTH));
-  prevMonday.setHours(6);
-  return prevMonday.toISOString().slice(0, 10);
+  prevMonday.setHours(DEFAULT_HOURS);
+  return prevMonday.toISOString().slice(0, DATE_LENGTH);
 };
 
 const getNextMondayString = () => {
   const nextMonday = new Date();
   nextMonday.setDate(nextMonday.getDate() + ((WEEK_LENGTH - nextMonday.getDay()) % WEEK_LENGTH) + 1);
-  nextMonday.setHours(6);
-  return nextMonday.toISOString().slice(0, 10);
+  nextMonday.setHours(DEFAULT_HOURS);
+  return nextMonday.toISOString().slice(0, DATE_LENGTH);
 };
 
 const getInTwoWeeksMondayString = () => {
   const inTwoWeeksMonday = new Date();
   inTwoWeeksMonday.setDate(inTwoWeeksMonday.getDate() + ((WEEK_LENGTH - inTwoWeeksMonday.getDay()) % WEEK_LENGTH)
     + 1 + WEEK_LENGTH);
-  inTwoWeeksMonday.setHours(6);
-  return inTwoWeeksMonday.toISOString().slice(0, 10);
+  inTwoWeeksMonday.setHours(DEFAULT_HOURS);
+  return inTwoWeeksMonday.toISOString().slice(0, DATE_LENGTH);
 };
 
 module.exports = {
