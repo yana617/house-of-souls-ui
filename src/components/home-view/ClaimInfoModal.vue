@@ -40,13 +40,13 @@
 <script>
 import { mapState } from 'vuex';
 
-import Tooltip from './CustomTooltip.vue';
+import Tooltip from '../common/CustomTooltip.vue';
 
 export default {
   name: 'ClaimInfoModal',
   components: { Tooltip },
   computed: mapState({
-    additionalFields: (state) => state.users.additionalFields,
+    additionalFields: (state) => state.additionalFields.current,
     haveAdditionFields() {
       return this.user.user_additional_fields.some((field) => !!field.value);
     },

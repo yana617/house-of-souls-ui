@@ -23,7 +23,7 @@ export default {
     claim: Object,
   },
   computed: mapState({
-    additionalFields: (state) => state.users.additionalFields,
+    additionalFields: (state) => state.additionalFields.current,
     user() {
       return this.claim.user;
     },
@@ -43,6 +43,7 @@ export default {
   }),
   methods: {
     getIcon(id) {
+      if (!this.additionalFields) return '';
       // eslint-disable-next-line eqeqeq
       const fieldObj = this.additionalFields.find((field) => field.id == id);
       if (!fieldObj) {

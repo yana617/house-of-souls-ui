@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import PhoneInput from './PhoneInput.vue';
-import Button from './Button.vue';
+import PhoneInput from '../common/PhoneInput.vue';
+import Button from '../common/Button.vue';
 
 export default {
   name: 'Login',

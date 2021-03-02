@@ -10,10 +10,10 @@
 <script>
 import { mapState } from 'vuex';
 
-import Footer from '../components/Footer.vue';
-import Info from '../components/Info.vue';
-import Schedule from '../components/Schedule.vue';
-import { getPrevMondayString, getNextMondayString, getInTwoWeeksMondayString } from '../utils/date';
+import Footer from '@/components/common/Footer.vue';
+import Info from '@/components/home-view/Info.vue';
+import Schedule from '@/components/home-view/Schedule.vue';
+import { getPrevMondayString, getNextMondayString, getInTwoWeeksMondayString } from '@/utils/date';
 
 export default {
   name: 'Home',
@@ -34,7 +34,7 @@ export default {
     this.$store.dispatch('schedule/getSchedule', { from: getPrevMondayString(), to: nextMondayStr });
     this.$store.dispatch('schedule/getNextWeekSchedule', { from: nextMondayStr, to: getInTwoWeeksMondayString() });
 
-    this.$store.dispatch('users/getAdditionalFields');
+    this.$store.dispatch('additionalFields/getAdditionalFields');
   },
 };
 </script>

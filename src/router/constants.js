@@ -16,6 +16,10 @@ export const ADMIN_LINKS = [{
   url: '/admin/register-fields-control',
   label: 'Управление полями регистрации',
   slug: 'register-fields-control',
+}, {
+  url: '/admin/info-control',
+  label: 'Информационные блоки',
+  slug: 'info-control',
 }];
 
 export const PATHS = {

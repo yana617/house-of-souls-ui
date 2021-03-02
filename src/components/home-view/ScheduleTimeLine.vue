@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Button from './Button.vue';
+import Button from '../common/Button.vue';
 import ScheduleClaim from './ScheduleClaim.vue';
 import ClaimInfoModal from './ClaimInfoModal.vue';
 

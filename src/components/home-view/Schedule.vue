@@ -18,7 +18,7 @@
 
 <script>
 import ScheduleTimeLine from './ScheduleTimeLine.vue';
-import { daysOfWeek, parseDate } from '../utils/date';
+import { daysOfWeek, parseDate } from '../../utils/date';
 
 export default {
   name: 'Schedule',

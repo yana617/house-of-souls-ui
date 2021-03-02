@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Header from '@/components/Header.vue';
+import Header from '@/components/common/Header.vue';
 
 export default {
   name: 'App',
@@ -31,8 +31,7 @@ body {
 }
 * {
   box-sizing: border-box;
-  font-family: 'SF Pro Text', 'Myriad Set Pro', 'SF Pro Icons', 'Helvetica Neue',
-    'Helvetica', 'Arial', sans-serif;
+  font-family: 'SF Pro Text', 'Myriad Set Pro', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 }
 #app {
   font-family: Helvetica, Avenir, Arial, sans-serif;
@@ -53,5 +52,20 @@ body {
   color: #2c3e50;
   font-weight: bold;
   padding: 16px;
+}
+
+.modal__wrapper {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  transition: opacity 0.3s ease;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
 }
 </style>

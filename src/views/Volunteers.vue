@@ -25,7 +25,7 @@
 <script>
 import { mapState } from 'vuex';
 
-import SearchBar from '@/components/SearchBar.vue';
+import SearchBar from '@/components/volunteers-view/SearchBar.vue';
 
 const limit = parseInt(process.env.VUE_APP_LIMIT, 10);
 

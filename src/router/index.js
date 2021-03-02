@@ -27,6 +27,9 @@ const routes = [
     }, {
       path: 'register-fields-control',
       component: () => import(/* webpackChunkName: "admin" */ '../views/RegisterFieldsControl.vue'),
+    }, {
+      path: 'info-control',
+      component: () => import(/* webpackChunkName: "admin" */ '../views/InfoControl.vue'),
     }],
   },
 ];

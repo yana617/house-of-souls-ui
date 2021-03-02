@@ -21,15 +21,15 @@
 <script>
 import { mapState } from 'vuex';
 
-import Checkbox from './Checkbox.vue';
-import Button from './Button.vue';
-import PhoneInput from './PhoneInput.vue';
+import Checkbox from '../common/Checkbox.vue';
+import Button from '../common/Button.vue';
+import PhoneInput from '../common/PhoneInput.vue';
 
 export default {
   name: 'Registration',
   components: { Checkbox, PhoneInput, Button },
   computed: mapState({
-    additionalFields: (state) => state.users.additionalFields,
+    additionalFields: (state) => state.additionalFields.current,
   }),
   data() {
     return {
@@ -42,7 +42,7 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch('users/getAdditionalFields').then(() => {
+    this.$store.dispatch('additionalFields/getAdditionalFields').then(() => {
       this.additionalFields.forEach((field) => {
         this.selected[field.id] = false;
       });
