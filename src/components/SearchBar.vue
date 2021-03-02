@@ -7,21 +7,19 @@
           title="Имени"
           name="name"
           @change-sort="handleChangeAttribute"
-          :isSortParam="attribute==='name'"
-          first
+          :isSortParam="attribute === 'name'"
         />
         <SortButton
           title="Фамилии"
           name="surname"
           @change-sort="handleChangeAttribute"
-          :isSortParam="attribute==='surname'"
+          :isSortParam="attribute === 'surname'"
         />
         <SortButton
           title="Телефону"
           name="phone"
           @change-sort="handleChangeAttribute"
-          :isSortParam="attribute==='phone'"
-          last
+          :isSortParam="attribute === 'phone'"
         />
       </div>
     </div>
@@ -122,5 +120,4 @@ $green: #42b983;
     }
   }
 }
-
 </style>

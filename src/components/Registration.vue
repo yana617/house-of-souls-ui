@@ -8,10 +8,10 @@
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
       <Checkbox
         v-for="field in additionalFields"
-        :key="field.name"
+        :key="field.id"
         v-bind="field"
-        @onchange="onChangeCheckbox"
-        :selected="selected[field.name]"
+        :value="selected[field.id]"
+        @input="value => selected[field.id] = value"
       />
       <Button @click="submitRegistration" class="registration__submit-btn" title="Зарегистрироваться" />
     </div>
@@ -19,9 +19,7 @@
 </template>
 
 <script>
-import {
-  mapState,
-} from 'vuex';
+import { mapState } from 'vuex';
 
 import Checkbox from './Checkbox.vue';
 import Button from './Button.vue';
@@ -46,7 +44,7 @@ export default {
   created() {
     this.$store.dispatch('users/getAdditionalFields').then(() => {
       this.additionalFields.forEach((field) => {
-        this.selected[field.name] = false;
+        this.selected[field.id] = false;
       });
     });
   },
@@ -58,16 +56,16 @@ export default {
         egidaNick: this.egidaNick,
         phone: this.phone,
         password: this.password,
-        ...this.selected,
+        additionalFields: Object.keys(this.selected).map((additionalFieldId) => ({
+          id: additionalFieldId,
+          value: this.selected[additionalFieldId],
+        })),
       };
       this.$store.dispatch('users/register', body);
     },
     onChangePhone(updatedPhone) {
       const phone = updatedPhone.replace(/[-+()_\s]/g, '');
       this.phone = phone;
-    },
-    onChangeCheckbox(name, value) {
-      this.selected[name] = value;
     },
   },
 };

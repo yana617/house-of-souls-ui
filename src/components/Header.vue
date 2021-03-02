@@ -6,9 +6,9 @@
     <router-link class="header__nav-menu__schedule-btn" to="/">График</router-link>
   </div>
   <div class="header__auth">
-    <Button v-if="!user" @click="setModal('login')" title="Вход" />
-    <Button v-if="!user" @click="setModal('registration')" class="header__auth__register-btn" title="Регистрация" />
-    <Button v-if="user" @click="$router.push('profile')" title="Профиль" />
+    <Button v-if="!user" @click="setModal(MODAL.LOGIN)" title="Вход" />
+    <Button v-if="!user" @click="setModal(MODAL.REGISTRATION)" class="header__auth__register-btn" title="Регистрация" />
+    <Button v-if="user" @click="$router.push('/profile')" title="Профиль" />
     <Button
       v-if="user"
       @click="$router.push('/admin/volunteers-requests')"
@@ -26,6 +26,7 @@ import Button from './Button.vue';
 import Dropdown from './Dropdown.vue';
 import AuthModal from './AuthModal.vue';
 import { PATHS, HEADER_LINKS } from '../router/constants';
+import { MODAL } from '../utils/constants';
 
 export default {
   name: 'Header',
@@ -37,6 +38,7 @@ export default {
   data() {
     return {
       links: HEADER_LINKS,
+      MODAL,
     };
   },
   computed: {
@@ -64,6 +66,7 @@ $header-color: #1D1D1F;
 
 .header {
   display: flex;
+  z-index: 5;
   align-items: center;
   justify-content: center;
   padding: 16px 30px;

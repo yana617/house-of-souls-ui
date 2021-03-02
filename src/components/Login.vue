@@ -2,13 +2,7 @@
   <div class="login">
     <div class="login__wrapper">
       <PhoneInput @onchange="onChangePhone" id="phone" placeholder="Телефон" />
-      <input
-        id="password"
-        v-model="password"
-        type="password"
-        name="password"
-        placeholder="Пароль"
-      />
+      <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
       <Button @click="submitLogin" class="login__submit-btn" title="Войти" />
     </div>
   </div>
