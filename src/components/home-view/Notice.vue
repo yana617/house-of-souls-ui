@@ -1,14 +1,14 @@
 <template>
-  <div v-if="show" class="info">
-    <h4 class="info__title">{{ title }}</h4>
-    <div class="info__line" />
-    <h5 class="info__description">{{ description }}</h5>
+  <div v-if="show" class="notice">
+    <h4 class="notice__title">{{ title }}</h4>
+    <div class="notice__line" />
+    <h5 class="notice__description">{{ description }}</h5>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Info',
+  name: 'Notice',
   props: {
     title: String,
     description: String,
@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style lang="scss">
-.info {
+.notice {
   display: flex;
   text-align: left;
   flex-direction: column;

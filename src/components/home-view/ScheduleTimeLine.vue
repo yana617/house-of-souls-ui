@@ -12,7 +12,7 @@
         :key="claim.id"
         class="schedule-time-line__claim"
         :claim="claim"
-        @on-claim-click="openAppply"
+        @on-claim-click="openApply"
       />
       <Button class="schedule-time-line__claim-btn" title="Записаться" />
     </div>
@@ -46,7 +46,7 @@ export default {
     },
   },
   methods: {
-    openAppply(claim) {
+    openApply(claim) {
       this.claimInfoModalOpen = true;
       this.selectedClaim = claim;
     },

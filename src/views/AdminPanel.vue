@@ -47,16 +47,19 @@ $headerHeight: 50px;
 .admin {
   display: flex;
   flex-direction: row;
+  padding-left: 260px;
 
   &__nav-panel {
     display: flex;
     flex-direction: column;
     width: 260px;
     min-width: 260px;
+    margin-left: -260px;
     height: calc(100vh - #{$headerHeight});
     border-right: 1px solid #ccc;
     background-color: #20242a;
     padding-top: 16px;
+    position: fixed;
 
     &__title {
       color: white;
@@ -84,6 +87,7 @@ $headerHeight: 50px;
 
   @media (max-width: 800px) {
     flex-direction: column;
+    padding-left: 0px;
 
     &__nav-panel {
       display: none;

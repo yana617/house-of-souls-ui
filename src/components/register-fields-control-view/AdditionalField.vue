@@ -88,7 +88,6 @@ export default {
           label: this.labelModel,
           description: this.descriptionModel,
         };
-        console.log(this.id);
         this.$store.dispatch('additionalFields/localUpdateAdditionalField', { field: updatedField, id: this.id });
       });
     },
