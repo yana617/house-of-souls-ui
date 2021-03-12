@@ -3,13 +3,11 @@ import users from '../../api/users';
 const SET_VOLUNTEERS = 'SET_VOLUNTEERS';
 const LOAD_MORE_VOLUNTEERS = 'LOAD_MORE_VOLUNTEERS';
 const SET_USER = 'SET_USER';
-const SET_ADDITIONAL_FIELDS = 'SET_ADDITIONAL_FIELDS';
 
 // initial state
 const state = () => ({
   volunteers: [],
   user: null,
-  additionalFields: [],
 });
 
 const getters = {};
@@ -33,10 +31,6 @@ const actions = {
     commit(SET_USER, user);
     commit('app/SET_MODAL', null, { root: true });
   },
-  getAdditionalFields: async ({ commit }) => {
-    const fields = await users.getAdditionalFields();
-    commit(SET_ADDITIONAL_FIELDS, fields);
-  },
 };
 
 const mutations = {
@@ -49,9 +43,6 @@ const mutations = {
   },
   [SET_USER](state, user) {
     state.user = user;
-  },
-  [SET_ADDITIONAL_FIELDS](state, fields) {
-    state.additionalFields = fields;
   },
 };
 

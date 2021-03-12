@@ -5,12 +5,7 @@
     </div>
     <div class="admin__nav-panel">
       <span class="admin__nav-panel__title">Управление</span>
-      <router-link
-        v-for="link in links"
-        :key="link.slug"
-        class="admin__nav-panel__link"
-        :to="link.url"
-      >
+      <router-link v-for="link in links" :key="link.slug" class="admin__nav-panel__link" :to="link.url">
         {{ link.label }}
       </router-link>
     </div>
@@ -19,8 +14,8 @@
 </template>
 
 <script>
-import Dropdown from '../components/Dropdown.vue';
-import { ADMIN_LINKS, PATHS } from '../router/constants';
+import Dropdown from '@/components/common/Dropdown.vue';
+import { ADMIN_LINKS, PATHS } from '@/router/constants';
 
 export default {
   name: 'AdminPanel',
@@ -43,8 +38,10 @@ export default {
 
 <style lang="scss" scoped>
 $headerHeight: 50px;
+$lightGrey: #ccc;
+$greyBlue: #2c3e50;
 
-.router-link-active{
+.router-link-active {
   color: white !important;
   background-color: #233241;
 }
@@ -57,8 +54,9 @@ $headerHeight: 50px;
     display: flex;
     flex-direction: column;
     width: 260px;
+    min-width: 260px;
     height: calc(100vh - #{$headerHeight});
-    border-right: 1px solid #ccc;
+    border-right: 1px solid $lightGrey;
     background-color: #20242a;
     padding-top: 16px;
 
@@ -77,7 +75,7 @@ $headerHeight: 50px;
       text-decoration: none;
 
       &:hover {
-        color:#ccc;
+        color: $lightGrey;
       }
     }
   }
@@ -95,7 +93,7 @@ $headerHeight: 50px;
 
     &__dropdown-container {
       display: flex;
-      background-color: #2c3e50;
+      background-color: $greyBlue;
       width: 100%;
       padding: 8px;
       align-items: center;

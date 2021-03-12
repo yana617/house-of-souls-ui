@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Header from '@/components/Header.vue';
+import Header from '@/components/common/Header.vue';
 
 export default {
   name: 'App',
@@ -17,6 +17,7 @@ export default {
 
 <style lang="scss">
 $headerHeight: 50px;
+$greyBlue: #2c3e50;
 
 html,
 body {
@@ -31,15 +32,14 @@ body {
 }
 * {
   box-sizing: border-box;
-  font-family: 'SF Pro Text', 'Myriad Set Pro', 'SF Pro Icons', 'Helvetica Neue',
-    'Helvetica', 'Arial', sans-serif;
+  font-family: 'SF Pro Text', 'Myriad Set Pro', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 }
 #app {
   font-family: Helvetica, Avenir, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: $greyBlue;
   height: calc(100% - #{$headerHeight});
 }
 
@@ -50,8 +50,23 @@ body {
 #title {
   display: block;
   font-size: 18px;
-  color: #2c3e50;
+  color: $greyBlue;
   font-weight: bold;
   padding: 16px;
+}
+
+.modal__wrapper {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  transition: opacity 0.3s ease;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
 }
 </style>

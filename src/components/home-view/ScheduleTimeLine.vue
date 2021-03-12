@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Button from './Button.vue';
+import Button from '../common/Button.vue';
 import ScheduleClaim from './ScheduleClaim.vue';
 import ClaimInfoModal from './ClaimInfoModal.vue';
 
@@ -56,6 +56,8 @@ export default {
 
 <style scoped lang="scss">
 $dayWidth: 160px;
+$green: #42b983;
+$lightGrey: #ccc;
 
 .schedule-time-line {
   display: flex;
@@ -67,7 +69,7 @@ $dayWidth: 160px;
     width: $dayWidth;
 
     &.border-top {
-      border-top: 1px solid #ccc;
+      border-top: 1px solid $lightGrey;
     }
   }
 
@@ -77,9 +79,9 @@ $dayWidth: 160px;
     font-size: 14px;
     padding: 4px;
     text-align: left;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    border-left: 1px solid $lightGrey;
+    border-right: 1px solid $lightGrey;
+    border-bottom: 1px solid $lightGrey;
   }
 
   &__title {
@@ -91,11 +93,11 @@ $dayWidth: 160px;
 
   &__claim-btn {
     width: $dayWidth;
-    color: #42b983;
-    border-color: #42b983;
+    color: $green;
+    border-color: $green;
     margin-top: 4px;
     &:hover {
-      background-color: #42b983;
+      background-color: $green;
       color: white;
     }
   }

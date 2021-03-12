@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import PhoneInput from './PhoneInput.vue';
-import Button from './Button.vue';
+import PhoneInput from '../common/PhoneInput.vue';
+import Button from '../common/Button.vue';
 
 export default {
   name: 'Login',
@@ -38,6 +38,8 @@ export default {
 </script>
 
 <style lang="scss">
+$lightGrey: #ccc;
+
 .login {
   display: flex;
   flex-direction: column;
@@ -54,7 +56,7 @@ export default {
     border: none;
     margin: 4px 0;
     background-color: transparent;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid $lightGrey;
     color: white;
     &::placeholder {
       color: rgba(255, 255, 255, 0.8);

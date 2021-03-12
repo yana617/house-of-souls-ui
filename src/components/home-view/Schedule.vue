@@ -18,7 +18,7 @@
 
 <script>
 import ScheduleTimeLine from './ScheduleTimeLine.vue';
-import { daysOfWeek, parseDate } from '../utils/date';
+import { daysOfWeek, parseDate } from '../../utils/date';
 
 export default {
   name: 'Schedule',
@@ -47,6 +47,7 @@ export default {
 
 <style scoped lang="scss">
 $dayWidth: 160px;
+$lightGrey: #ccc;
 
 .schedule {
   display: flex;
@@ -88,9 +89,9 @@ $dayWidth: 160px;
     display: flex;
     min-width: $dayWidth;
     margin: 0 4px;
-    border-bottom: 1px solid #ccc;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
+    border-bottom: 1px solid $lightGrey;
+    border-left: 1px solid $lightGrey;
+    border-right: 1px solid $lightGrey;
     padding: 8px;
     width: $dayWidth;
     background-color: rgba(247, 201, 101, 0.1);

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="modal" class="auth-modal__wrapper">
+  <div v-if="isModalOpen" class="modal__wrapper">
     <div class="auth-modal">
       <img class="auth-modal__background-image" src="@/assets/auth-modal-back.jpg" />
       <img class="auth-modal__background-image mobile" src="@/assets/auth-modal-mobile.jpg" />
@@ -31,13 +31,16 @@ import { mapState } from 'vuex';
 
 import Registration from './Registration.vue';
 import Login from './Login.vue';
-import { MODAL } from '../utils/constants';
+import { MODAL } from '../../utils/constants';
 
 export default {
   name: 'AuthModal',
   components: { Registration, Login },
   computed: mapState({
     modal: (state) => state.app.modal,
+    isModalOpen() {
+      return this.modal === MODAL.REGISTRATION || this.modal === MODAL.LOGIN;
+    },
   }),
   data() {
     return { MODAL };
@@ -51,6 +54,8 @@ export default {
 </script>
 
 <style lang="scss">
+$green: #42b983;
+
 .auth-modal {
   width: 700px;
   height: 450px;
@@ -75,21 +80,6 @@ export default {
     }
   }
 
-  &__wrapper {
-    position: fixed;
-    z-index: 9998;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    transition: opacity 0.3s ease;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(3px);
-  }
-
   &__header {
     display: flex;
     padding: 4px 16px;
@@ -104,7 +94,7 @@ export default {
       cursor: pointer;
 
       &.selected {
-        border-bottom: 2px solid #42b983;
+        border-bottom: 2px solid $green;
       }
     }
 

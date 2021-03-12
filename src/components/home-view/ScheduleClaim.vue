@@ -1,5 +1,5 @@
 <template>
-  <span @click="this.$emit('on-claim-click', this.claim)" class="schedule-claim">
+  <span @click="$emit('on-claim-click', claim)" class="schedule-claim">
     <div v-if="haveAdditionFields" class="schedule-claim__additional-fields">
       <div
         class="schedule-claim__additional-fields__wrapper"
@@ -23,7 +23,7 @@ export default {
     claim: Object,
   },
   computed: mapState({
-    additionalFields: (state) => state.users.additionalFields,
+    additionalFields: (state) => state.additionalFields.current,
     user() {
       return this.claim.user;
     },
@@ -43,6 +43,7 @@ export default {
   }),
   methods: {
     getIcon(id) {
+      if (!this.additionalFields) return '';
       // eslint-disable-next-line eqeqeq
       const fieldObj = this.additionalFields.find((field) => field.id == id);
       if (!fieldObj) {

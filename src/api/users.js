@@ -20,9 +20,4 @@ export default {
     await axios.post('https://jsonplaceholder.typicode.com/posts', body);
     return mock.generateUser();
   },
-  getAdditionalFields: async () => {
-    // TO-DO: Remove mocks
-    await axios.get('https://jsonplaceholder.typicode.com/todos/1');
-    return mock.additionalFieldsMock.map((field) => ({ ...field, id: field.id.toString() }));
-  },
 };

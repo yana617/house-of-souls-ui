@@ -24,9 +24,9 @@
 <script>
 import Button from './Button.vue';
 import Dropdown from './Dropdown.vue';
-import AuthModal from './AuthModal.vue';
-import { PATHS, HEADER_LINKS } from '../router/constants';
-import { MODAL } from '../utils/constants';
+import AuthModal from '../header-component/AuthModal.vue';
+import { PATHS, HEADER_LINKS } from '../../router/constants';
+import { MODAL } from '../../utils/constants';
 
 export default {
   name: 'Header',
@@ -89,7 +89,7 @@ $header-color: #1D1D1F;
     text-decoration: none;
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: $green;
     }
   }
 

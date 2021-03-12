@@ -25,7 +25,7 @@
 <script>
 import { mapState } from 'vuex';
 
-import SearchBar from '@/components/SearchBar.vue';
+import SearchBar from '@/components/volunteers-view/SearchBar.vue';
 
 const limit = parseInt(process.env.VUE_APP_LIMIT, 10);
 
@@ -74,14 +74,16 @@ export default {
 
 <style lang="scss" scoped>
 $green: #42b983;
+$lightGrey: #ccc;
+$greyBlue: #2c3e50;
 
 .volunteer-item {
   padding: 12px 16px;
   margin: 4px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid $lightGrey;
   display: flex;
   justify-content: space-between;
-  color: #2c3e50;
+  color: $greyBlue;
   text-decoration: none;
 
   @media (max-width: 600px) {
