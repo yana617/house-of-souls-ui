@@ -24,6 +24,9 @@ export default {
 </script>
 
 <style lang="scss">
+$green: #42b983;
+$lightGrey: #ccc;
+
 .checkbox {
   width: 300px;
   background-color: transparent;
@@ -48,7 +51,7 @@ export default {
   &__select {
     display: flex;
     padding: 2px 8px 4px 8px;
-    border: 1px solid #ccc;
+    border: 1px solid $lightGrey;
 
     &:first-child {
       border-right: none;
@@ -62,9 +65,9 @@ export default {
     }
 
     &.selected {
-      background-color: #42b983;
+      background-color: $green;
       color: white;
-      border-color: #42b983;
+      border-color: $green;
     }
   }
 }

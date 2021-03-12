@@ -1,7 +1,7 @@
 <template>
-  <div @click="this.$emit('onclose')" class="claim-info-modal__wrapper">
+  <div @click="$emit('onclose')" class="modal__wrapper claim-info-modal__wrapper">
     <div class="claim-info-modal" @click.stop>
-      <img @click="this.$emit('onclose')" class="claim-info-modal__close-icon" src="@/assets/close.png" />
+      <img @click="$emit('onclose')" class="claim-info-modal__close-icon" src="@/assets/close.png" />
       <div class="claim-info-modal__header"></div>
       <span class="claim-info-modal__info-title">Данные о волонтёре</span>
       <span class="claim-info-modal__info-description"> {{ user.name }} {{ user.surname }} </span>
@@ -68,6 +68,8 @@ export default {
 </script>
 
 <style lang="scss">
+$lightGrey: #ccc;
+
 .claim-info-modal {
   position: absolute;
   display: flex;
@@ -83,13 +85,8 @@ export default {
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
 
   &__wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
     background-color: rgba(0, 0, 50, 0.3);
-    z-index: 10;
+    backdrop-filter: blur(1px);
   }
 
   &__info-title {
@@ -107,7 +104,7 @@ export default {
 
   &__comment {
     &__wrapper {
-      border: 1px solid #ccc;
+      border: 1px solid $lightGrey;
       padding: 8px;
       border-radius: 4px;
       font-size: 14px;

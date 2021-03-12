@@ -29,6 +29,8 @@ export default {
 </script>
 
 <style lang="scss">
+$green: #42b983;
+
 .info {
   display: flex;
   text-align: left;
@@ -43,7 +45,7 @@ export default {
     width: 100px;
     height: 3px;
     border-radius: 4px;
-    background-color: #42b983;
+    background-color: $green;
     margin-left: -2px;
     margin-bottom: 4px;
     margin-top: 2px;

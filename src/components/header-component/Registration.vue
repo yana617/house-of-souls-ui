@@ -72,6 +72,8 @@ export default {
 </script>
 
 <style lang="scss">
+$lightGrey: #ccc;
+
 .registration {
   display: flex;
   flex-direction: column;
@@ -88,7 +90,7 @@ export default {
     border: none;
     margin: 4px 0;
     background-color: transparent;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid $lightGrey;
     color: white;
     &::placeholder {
       color: rgba(255, 255, 255, 0.8);

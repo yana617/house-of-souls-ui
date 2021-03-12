@@ -66,6 +66,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+$green: #42b983;
+$lightGrey: #ccc;
+$darkGrey: #999;
+
 .register-fields-control {
   display: flex;
   align-items: flex-start;
@@ -84,7 +88,7 @@ export default {
     flex-direction: column;
     align-items: flex-end;
     padding-right: 32px;
-    border-right: 1px solid #ccc;
+    border-right: 1px solid $lightGrey;
     width: 50%;
   }
 
@@ -104,8 +108,8 @@ export default {
       border-color: black;
 
       &:hover {
-        border-color: #42b983;
-        color: #42b983;
+        border-color: $green;
+        color: $green;
       }
       &__container {
         display: flex;
@@ -130,7 +134,7 @@ export default {
     }
     &__description {
       font-size: 12px;
-      color: #999;
+      color: $darkGrey;
     }
   }
 
@@ -140,7 +144,7 @@ export default {
     }
     &__default-fields {
       border-right: none;
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid $lightGrey;
       width: 100%;
       padding-right: 0;
       align-items: center;

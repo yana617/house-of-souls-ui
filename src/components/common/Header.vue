@@ -89,7 +89,7 @@ $header-color: #1D1D1F;
     text-decoration: none;
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: $green;
     }
   }
 

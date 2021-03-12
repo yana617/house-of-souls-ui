@@ -51,6 +51,8 @@ export default {
 </script>
 
 <style lang="scss">
+$green: #42b983;
+
 .dropdown {
   position: relative;
 
@@ -102,7 +104,7 @@ export default {
     }
 
     &.selected {
-      color: #42b983;
+      color: $green;
     }
   }
 

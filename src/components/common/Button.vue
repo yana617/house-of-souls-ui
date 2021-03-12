@@ -14,7 +14,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$grey-blue: #2c3e50;
+$greyBlue: #2c3e50;
 
 button {
   background-color: transparent;
@@ -31,7 +31,7 @@ button {
   transition: all 0.3s ease-out;
   &:hover {
     background-color: white;
-    color: $grey-blue;
+    color: $greyBlue;
   }
 
   @media (max-width: 360px) {

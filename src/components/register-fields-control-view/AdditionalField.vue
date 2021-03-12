@@ -88,7 +88,6 @@ export default {
           label: this.labelModel,
           description: this.descriptionModel,
         };
-        console.log(this.id);
         this.$store.dispatch('additionalFields/localUpdateAdditionalField', { field: updatedField, id: this.id });
       });
     },
@@ -97,6 +96,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$green: #42b983;
+
 .additional-field {
   display: flex;
   flex-direction: column;
@@ -167,7 +168,7 @@ export default {
     display: flex;
     margin-left: 16px;
     padding: 0px 8px !important;
-    color: #42b983;
+    color: $green;
     border-color: transparent;
     &:hover {
       color: blue;

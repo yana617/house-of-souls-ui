@@ -17,6 +17,7 @@ export default {
 
 <style lang="scss">
 $headerHeight: 50px;
+$greyBlue: #2c3e50;
 
 html,
 body {
@@ -38,7 +39,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: $greyBlue;
   height: calc(100% - #{$headerHeight});
 }
 
@@ -49,14 +50,14 @@ body {
 #title {
   display: block;
   font-size: 18px;
-  color: #2c3e50;
+  color: $greyBlue;
   font-weight: bold;
   padding: 16px;
 }
 
 .modal__wrapper {
   position: fixed;
-  z-index: 9998;
+  z-index: 10;
   top: 0;
   left: 0;
   width: 100%;
