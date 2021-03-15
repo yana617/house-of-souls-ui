@@ -7,7 +7,7 @@
       <textarea class="new-notice-modal__description" v-model="description" placeholder="Подробности" />
       <label class="new-notice-modal__authorized">
         Только для волонторов
-        <input type="checkbox" v-model="authorized" placeholder="Authorized" />
+        <a-switch v-model:checked="authorized" />
       </label>
       <Button class="new-notice-modal__save-btn" @click="save()" title="Добавить" />
     </div>
@@ -15,16 +15,18 @@
 </template>
 
 <script>
+import { defineComponent, ref } from 'vue';
+
 import Button from '../common/Button.vue';
 
-export default {
+export default defineComponent({
   name: 'NewNoticeModal',
   components: { Button },
   data() {
     return {
       title: null,
       description: null,
-      authorized: false,
+      authorized: ref(false),
     };
   },
   methods: {
@@ -43,12 +45,16 @@ export default {
       });
     },
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>
+$green: #42b983;
+$lightGrey: #ccc;
+
 .new-notice-modal {
   width: 600px;
+  padding: 16px 0 8px 0;
   position: relative;
   border-radius: 4px;
   overflow: hidden;
@@ -70,7 +76,7 @@ export default {
   &__description {
     display: flex;
     width: 80%;
-    border: 1px solid #ccc;
+    border: 1px solid $lightGrey;
     outline: none;
     padding: 8px 16px;
     margin: 8px;
@@ -87,14 +93,14 @@ export default {
   }
 
   &__save-btn {
-    color: #42b983;
-    border-color: #42b983;
+    color: $green;
+    border-color: $green;
     margin-top: 16px;
     margin-bottom: 8px;
     padding: 8px 16px;
 
     &:hover {
-      background-color: #42b983;
+      background-color: $green;
       color: white;
     }
   }

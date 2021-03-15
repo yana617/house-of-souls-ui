@@ -25,10 +25,11 @@ export default {
 
 <style scoped lang="scss">
 $green: #42b983;
+$greyBlue: #2c3e50;
 
 .sort-button {
-  color: #2c3e50;
-  border: 1px solid #2c3e50;
+  color: $greyBlue;
+  border: 1px solid $greyBlue;
   background-color: white;
   padding: 4px 8px;
   width: 80px;

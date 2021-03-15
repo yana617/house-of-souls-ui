@@ -1,6 +1,6 @@
 <template>
   <div class="notices-control">
-    <span id="title">Информационные блоки</span>
+    <span class="notices-control__title">Информационные блоки</span>
     <Notice v-for="notice in notices" :key="notice.title" v-bind="notice" />
     <Button class="notices-control__add-btn" title="добавить новость" @click="openModal" />
     <NewNoticeModal v-if="isModalOpen" />
@@ -37,20 +37,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$green: #42b983;
+$darkGreen: #3ba675;
+
 .notices-control {
   width: 100%;
   padding: 16px;
-  background-color: rgb(240, 240, 240);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    display: flex;
+    align-self: center;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
 
   &__add-btn {
-    color: #42b983;
-    border-color: #42b983;
-    background-color: white;
+    color: white;
+    background-color: $green;
+    border-color: $green;
     padding: 8px 16px;
     font-size: 16px;
 
     &:hover {
-      background-color: #42b983;
+      background-color: $darkGreen;
       color: white;
     }
   }

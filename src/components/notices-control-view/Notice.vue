@@ -1,22 +1,12 @@
 <template>
   <div class="notice">
     <label>Заголовок</label>
-    <input :disabled="!edit" class="notice__title" :value="titleModel" @change="onTitleChange($event.target.value)" />
+    <input :disabled="!edit" class="notice__title" v-model="titleModel" />
     <label>Подробности</label>
-    <textarea
-      :disabled="!edit"
-      class="notice__description"
-      :value="descriptionModel"
-      @change="onDescriptionChange($event.target.value)"
-    />
+    <textarea :disabled="!edit" class="notice__description" v-model="descriptionModel" />
     <div class="notice__checkbox-container">
       <div class="notice__authorized-label">Видно только волонтерам:</div>
-      <input
-        type="checkbox"
-        :checked="authorizedModel"
-        :disabled="!edit"
-        @onAuthorizedChange="onAuthorizedChange($event.target.value)"
-      />
+      <a-switch v-model:checked="authorizedModel" :disabled="!edit" />
     </div>
     <div>
       <Button
@@ -32,8 +22,9 @@
 
 <script>
 import Button from '@/components/common/Button.vue';
+import { defineComponent, ref } from 'vue';
 
-export default {
+export default defineComponent({
   name: 'Notice',
   props: {
     id: String,
@@ -47,7 +38,7 @@ export default {
       edit: false,
       titleModel: this.title,
       descriptionModel: this.description,
-      authorizedModel: this.authorized,
+      authorizedModel: ref(this.authorized),
     };
   },
   computed: {
@@ -94,29 +85,28 @@ export default {
         this.$store.dispatch('notices/getNotices');
       });
     },
-    onTitleChange(title) {
-      this.titleModel = title;
-    },
-    onDescriptionChange(description) {
-      this.descriptionModel = description;
-    },
-    onAuthorizedChange(authorized) {
-      this.authorizedModel = authorized;
-    },
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>
+$green: #42b983;
+$lightGrey: #ccc;
+$lightestGrey: #f0f0f0;
+
 .notice {
   display: flex;
   text-align: left;
   flex-direction: column;
   padding: 8px 16px;
-  background-color: white;
-  margin: 16px 0;
-  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+  border: 1px solid $lightestGrey;
+  border-radius: 2px;
+  margin: 8px 0;
   width: 100%;
+
+  label {
+    font-weight: bold;
+  }
 
   &__title {
     padding: 4px 12px;
@@ -124,7 +114,7 @@ export default {
     min-width: 500px;
     outline: none;
     max-width: 600px;
-    border: 1px solid #ccc;
+    border: 1px solid $lightGrey;
     border-radius: 4px;
 
     &:disabled {
@@ -141,7 +131,7 @@ export default {
     min-height: 80px;
     max-width: 600px;
     margin: 8px 0;
-    border: 1px solid #ccc;
+    border: 1px solid $lightGrey;
     border-radius: 4px;
 
     &:disabled {
@@ -153,15 +143,31 @@ export default {
     color: blue;
     border-color: blue;
     margin: 8px 4px;
+
+    &:hover {
+      background-color: blue;
+      color: white;
+    }
   }
   &__delete-btn {
     color: red;
     border-color: red;
     margin: 8px 4px;
+
+    &:hover {
+      background-color: red;
+      color: white;
+    }
   }
   &__save-btn {
-    color: #42b983;
-    border-color: #42b983;
+    color: $green;
+    background-color: white;
+    border-color: $green;
+
+    &:hover {
+      background-color: $green;
+      color: white;
+    }
   }
 
   &__checkbox-container {
@@ -171,7 +177,8 @@ export default {
   }
 
   &__authorized-label {
-    margin: 4px 0;
+    margin: 4px 8px 4px 0;
+    font-weight: bold;
   }
 
   @media (max-width: 768px) {

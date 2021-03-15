@@ -54,6 +54,8 @@ export default {
 </script>
 
 <style lang="scss">
+$green: #42b983;
+
 .auth-modal {
   width: 700px;
   height: 450px;
@@ -92,7 +94,7 @@ export default {
       cursor: pointer;
 
       &.selected {
-        border-bottom: 2px solid #42b983;
+        border-bottom: 2px solid $green;
       }
     }
 

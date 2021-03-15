@@ -78,6 +78,9 @@ export default {
 </script>
 
 <style lang="scss">
+$green: #42b983;
+$lightGrey: #ccc;
+
 .new-additional-field-modal {
   width: 700px;
   height: 300px;
@@ -102,7 +105,7 @@ export default {
   &__description {
     display: flex;
     width: 80%;
-    border: 1px solid #ccc;
+    border: 1px solid $lightGrey;
     outline: none;
     padding: 8px 16px;
     margin: 8px;
@@ -118,8 +121,8 @@ export default {
       border-color: black !important;
     }
     &__save {
-      color: #42b983 !important;
-      border-color: #42b983 !important;
+      color: $green !important;
+      border-color: $green !important;
     }
   }
 
@@ -144,7 +147,7 @@ export default {
   }
 
   &__no-icon {
-    background-color: #ccc;
+    background-color: $lightGrey;
     border-radius: 4px;
   }
 

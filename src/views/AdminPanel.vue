@@ -38,6 +38,8 @@ export default {
 
 <style lang="scss" scoped>
 $headerHeight: 50px;
+$lightGrey: #ccc;
+$greyBlue: #2c3e50;
 
 .router-link-active {
   color: white !important;
@@ -56,7 +58,7 @@ $headerHeight: 50px;
     min-width: 260px;
     margin-left: -260px;
     height: calc(100vh - #{$headerHeight});
-    border-right: 1px solid #ccc;
+    border-right: 1px solid $lightGrey;
     background-color: #20242a;
     padding-top: 16px;
     position: fixed;
@@ -76,7 +78,7 @@ $headerHeight: 50px;
       text-decoration: none;
 
       &:hover {
-        color: #ccc;
+        color: $lightGrey;
       }
     }
   }
@@ -95,7 +97,7 @@ $headerHeight: 50px;
 
     &__dropdown-container {
       display: flex;
-      background-color: #2c3e50;
+      background-color: $greyBlue;
       width: 100%;
       padding: 8px;
       align-items: center;
