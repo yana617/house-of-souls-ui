@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Notice v-for="notice in notices" :key="notice.title" v-bind="notice" />
+    <Notice v-for="noticeId in notices.list" :key="noticeId" :noticeId="noticeId" v-bind="notices.data[noticeId]" />
     <Schedule :schedule="currentSchedule" />
     <Schedule :schedule="nextWeekSchedule" />
   </div>
@@ -23,7 +23,7 @@ export default {
     Schedule,
   },
   computed: mapState({
-    notices: (state) => state.notices.actualNotices,
+    notices: (state) => state.notices,
     currentSchedule: (state) => state.schedule.current,
     nextWeekSchedule: (state) => state.schedule.nextWeek,
   }),

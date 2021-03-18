@@ -10,9 +10,13 @@
 export default {
   name: 'Notice',
   props: {
+    noticeId: String,
     title: String,
     description: String,
     authorized: Boolean,
+  },
+  created() {
+    this.$store.dispatch('notices/getNoticeById', { _id: this.noticeId });
   },
   computed: {
     show() {
@@ -51,8 +55,13 @@ $green: #42b983;
     margin-top: 2px;
   }
 
+  &__title {
+    font-size: 16px;
+  }
+
   &__description {
     font-weight: normal;
+    font-size: 14px;
   }
 }
 </style>

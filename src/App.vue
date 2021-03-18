@@ -18,6 +18,8 @@ export default {
 <style lang="scss">
 $headerHeight: 50px;
 $greyBlue: #2c3e50;
+$lightGrey: #ccc;
+$lightestGrey: #f0f0f0;
 
 html,
 body {
@@ -33,6 +35,7 @@ body {
 * {
   box-sizing: border-box;
   font-family: 'SF Pro Text', 'Myriad Set Pro', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  line-height: unset !important;
 }
 #app {
   font-family: Helvetica, Avenir, Arial, sans-serif;
@@ -68,5 +71,17 @@ body {
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(3px);
+}
+
+@-webkit-keyframes rainbow {
+  0% {
+    background-color: $lightestGrey;
+  }
+  50% {
+    background-color: $lightGrey;
+  }
+  100% {
+    background-color: $lightestGrey;
+  }
 }
 </style>

@@ -9,7 +9,7 @@
         Только для волонторов
         <a-switch v-model:checked="authorized" />
       </label>
-      <Button class="new-notice-modal__save-btn" @click="save()" title="Добавить" />
+      <Button class="new-notice-modal__create-btn" @click="create()" title="Добавить" />
     </div>
   </div>
 </template>
@@ -33,13 +33,13 @@ export default defineComponent({
     closeModal() {
       this.$store.dispatch('app/setModal', null);
     },
-    save() {
+    create() {
       const body = {
         title: this.title,
         description: this.description,
         authorized: this.authorized,
       };
-      this.$store.dispatch('notices/saveNotice', body).then(() => {
+      this.$store.dispatch('notices/createNotice', body).then(() => {
         this.$store.dispatch('notices/getNotices');
         this.$store.dispatch('app/setModal', null);
       });
@@ -92,7 +92,7 @@ $lightGrey: #ccc;
     height: 160px;
   }
 
-  &__save-btn {
+  &__create-btn {
     color: $green;
     border-color: $green;
     margin-top: 16px;

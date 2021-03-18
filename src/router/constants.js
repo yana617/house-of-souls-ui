@@ -14,7 +14,7 @@ export const ADMIN_LINKS = [{
   slug: 'volunteers-requests',
 }, {
   url: '/admin/register-fields-control',
-  label: 'Управление полями регистрации',
+  label: 'Поля регистрации',
   slug: 'register-fields-control',
 }, {
   url: '/admin/notices-control',

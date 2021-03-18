@@ -78,6 +78,7 @@ $lightGrey: #ccc;
 $greyBlue: #2c3e50;
 
 .volunteer-item {
+  font-size: 16px;
   padding: 12px 16px;
   margin: 4px;
   border-bottom: 1px solid $lightGrey;

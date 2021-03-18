@@ -6,17 +6,22 @@ export default {
   getNotices: async () => {
     // TO-DO: Remove with mocks
     await axios.get('https://jsonplaceholder.typicode.com/todos/1');
-    return mock.noticesMock;
+    return mock.noticesIdsMock;
+  },
+  getNoticeById: async ({ _id }) => {
+    // TO-DO: Remove with mocks
+    await axios.get('https://jsonplaceholder.typicode.com/todos/1');
+    return mock.generateNotice(_id);
   },
   updateNotice: async (body) => {
     // TO-DO: Remove with mocks
-    await axios.get('https://jsonplaceholder.typicode.com/todos/1', body);
-    return mock.noticesMock[0];
-  },
-  saveNotice: async (body) => {
     await axios.put('https://jsonplaceholder.typicode.com/todos/1', body);
+    return mock.generateNotice(body._id);
   },
-  deleteNotice: async (body) => {
-    await axios.put('https://jsonplaceholder.typicode.com/todos/1', body);
+  createNotice: async (body) => {
+    await axios.post('https://jsonplaceholder.typicode.com/todos', body);
+  },
+  deleteNotice: async ({ _id }) => {
+    await axios.delete(`https://jsonplaceholder.typicode.com/todos/${_id}`);
   },
 };

@@ -1,38 +1,49 @@
 <template>
   <div class="notice">
     <label>Заголовок</label>
-    <input :disabled="!edit" class="notice__title" v-model="titleModel" />
+    <input
+      :disabled="!edit"
+      class="notice__title"
+      :class="{ notice__title__background: !title }"
+      v-model="titleModel"
+    />
     <label>Подробности</label>
-    <textarea :disabled="!edit" class="notice__description" v-model="descriptionModel" />
+    <textarea
+      :disabled="!edit"
+      class="notice__description"
+      :class="{ notice__description__background: !description }"
+      v-model="descriptionModel"
+    />
     <div class="notice__checkbox-container">
       <div class="notice__authorized-label">Видно только волонтерам:</div>
       <a-switch v-model:checked="authorizedModel" :disabled="!edit" />
     </div>
-    <div>
-      <Button
-        @click="onEditSave"
-        class="notice__edit-btn"
-        :class="{ 'notice__save-btn': edit }"
-        :title="firstBtnLabel"
-      />
-      <Button @click="onCancelDelete" class="notice__delete-btn" :title="secondBtnLabel" />
+    <div class="notice__btn-container">
+      <Button v-if="!edit" @click="onEdit" class="notice__edit-btn" title="редактировать" />
+      <Button v-if="edit" @click="onUpdate" class="notice__update-btn" title="сохранить" />
+      <Button v-if="edit" @click="onCancel" class="notice__cancel-btn" title="отменить" />
+      <Button @click="onDelete" class="notice__delete-btn" title="удалить" />
     </div>
   </div>
 </template>
 
 <script>
-import Button from '@/components/common/Button.vue';
 import { defineComponent, ref } from 'vue';
+
+import Button from '@/components/common/Button.vue';
 
 export default defineComponent({
   name: 'Notice',
   props: {
-    id: String,
+    noticeId: String,
     title: String,
     description: String,
     authorized: Boolean,
   },
   components: { Button },
+  created() {
+    this.$store.dispatch('notices/getNoticeById', { _id: this.noticeId });
+  },
   data() {
     return {
       edit: false,
@@ -41,28 +52,13 @@ export default defineComponent({
       authorizedModel: ref(this.authorized),
     };
   },
-  computed: {
-    firstBtnLabel() {
-      if (this.edit) {
-        return 'сохранить';
-      }
-      return 'редактировать';
-    },
-    secondBtnLabel() {
-      if (this.edit) {
-        return 'отменить';
-      }
-      return 'удалить';
-    },
-  },
   methods: {
-    onEditSave() {
-      if (!this.edit) {
-        this.edit = true;
-        return;
-      }
+    onEdit() {
+      this.edit = true;
+    },
+    onUpdate() {
       const body = {
-        id: this.id,
+        _id: this.noticeId,
         title: this.titleModel,
         description: this.descriptionModel,
         authorized: this.authorizedModel,
@@ -72,18 +68,27 @@ export default defineComponent({
         this.edit = false;
       });
     },
-    onCancelDelete() {
-      if (this.edit) {
-        this.titleModel = this.title;
-        this.descriptionModel = this.description;
-        this.authorizedModel = this.authorized;
-        this.edit = false;
-        return;
-      }
-
-      this.$store.dispatch('notices/deleteNotice', { id: this.id }).then(() => {
+    onCancel() {
+      this.titleModel = this.title;
+      this.descriptionModel = this.description;
+      this.authorizedModel = this.authorized;
+      this.edit = false;
+    },
+    onDelete() {
+      this.$store.dispatch('notices/deleteNotice', { _id: this.noticeId }).then(() => {
         this.$store.dispatch('notices/getNotices');
       });
+    },
+  },
+  watch: {
+    title(newValue) {
+      this.titleModel = newValue;
+    },
+    description(newValue) {
+      this.descriptionModel = newValue;
+    },
+    authorized(newValue) {
+      this.authorizedModel = ref(newValue);
     },
   },
 });
@@ -99,7 +104,7 @@ $lightestGrey: #f0f0f0;
   text-align: left;
   flex-direction: column;
   padding: 8px 16px;
-  border: 1px solid $lightestGrey;
+  border: 1px solid $lightGrey;
   border-radius: 2px;
   margin: 8px 0;
   width: 100%;
@@ -111,15 +116,20 @@ $lightestGrey: #f0f0f0;
   &__title {
     padding: 4px 12px;
     margin: 8px 0;
-    min-width: 500px;
+    width: 100%;
     outline: none;
-    max-width: 600px;
     border: 1px solid $lightGrey;
     border-radius: 4px;
+    font-size: 14px;
 
     &:disabled {
       background-color: transparent;
-      border: none;
+      border-color: $lightestGrey
+    }
+
+    &__background {
+      height: 50px;
+      animation: rainbow 3s infinite;
     }
   }
 
@@ -129,14 +139,27 @@ $lightestGrey: #f0f0f0;
     height: fit-content;
     outline: none;
     min-height: 80px;
-    max-width: 600px;
+    width: 100%;
     margin: 8px 0;
     border: 1px solid $lightGrey;
     border-radius: 4px;
+    font-size: 14px;
 
     &:disabled {
       background-color: transparent;
+      border-color: $lightestGrey;
     }
+
+    &__background {
+      height: 40px;
+      animation: rainbow 3s infinite;
+      border: none;
+    }
+  }
+
+  &__btn-container {
+    display: flex;
+    width: 100%;
   }
 
   &__edit-btn {
@@ -149,7 +172,18 @@ $lightestGrey: #f0f0f0;
       color: white;
     }
   }
-  &__delete-btn {
+  &__update-btn {
+    color: $green;
+    background-color: white;
+    border-color: $green;
+    margin: 8px 4px;
+
+    &:hover {
+      background-color: $green;
+      color: white;
+    }
+  }
+  &__cancel-btn, &__delete-btn {
     color: red;
     border-color: red;
     margin: 8px 4px;
@@ -159,15 +193,9 @@ $lightestGrey: #f0f0f0;
       color: white;
     }
   }
-  &__save-btn {
-    color: $green;
-    background-color: white;
-    border-color: $green;
-
-    &:hover {
-      background-color: $green;
-      color: white;
-    }
+  &__delete-btn {
+    margin-left: auto;
+    margin-right: 0;
   }
 
   &__checkbox-container {

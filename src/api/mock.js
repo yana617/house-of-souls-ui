@@ -55,22 +55,14 @@ const generateScheduleDay = () => ({
 
 const generateSchedule = () => Array(7).fill(null).map(generateScheduleDay);
 
-const noticesMock = [{
-  id: '87351',
-  authorized: false,
+const noticesIdsMock = [randomIntNumber().toString(), randomIntNumber().toString(), randomIntNumber().toString()];
+
+const generateNotice = (id) => ({
+  _id: id,
+  authorized: Math.random() > 0.5,
   title: 'Информация для незарегистрированных пользователей',
-  description: 'Для того, чтобы записываться в график, необходимо зарегистрироваться и пройти верификацию администратором. Вы будете верифицированы, если: 1) Администратор знает кто Вы, 2) Вы были в домике не менее 5 раз. Если же что-то из перечисленного не про вас, свяжитесь по телефонам указанным ниже.',
-}, {
-  id: '873r51',
-  authorized: true,
-  title: 'Лечим Флокси до 19.09',
-  description: 'У Флокси острый бронхит. Стало как бы хуже, но это на самом деле лучше. Надо менять антибиотик, теперь колем Цефтриаксон 2 раза в день. Колется она плохо, но надо. Если кто-то уверен, что не сможет уколоть, пишите, будем искать варианты. Прерывать антибиотик нельзя. Продолжаем давать Амброксол.',
-}, {
-  id: '873d51',
-  authorized: null,
-  title: 'Помогите оплатить коммуналку',
   description: 'Кто сколько может, кидайте в копилку или на нашу карту.',
-}];
+});
 
 const additionalFieldsMock = [{
   id: 1,
@@ -92,7 +84,8 @@ const volunteersMock = {
 export default {
   generateUser,
   generateSchedule,
-  noticesMock,
   additionalFieldsMock,
   volunteersMock,
+  noticesIdsMock,
+  generateNotice,
 };

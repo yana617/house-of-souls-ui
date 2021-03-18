@@ -89,6 +89,7 @@ $lightGrey: #ccc;
     min-height: 100%;
     min-width: 80px;
     padding-top: 16px;
+    font-size: 16px;
   }
 
   &__claim-btn {

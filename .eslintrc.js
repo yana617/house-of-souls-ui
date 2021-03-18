@@ -24,5 +24,6 @@ module.exports = {
         'additional_field_template_id',
       ],
     }],
+    'no-underscore-dangle': 'off',
   },
 };

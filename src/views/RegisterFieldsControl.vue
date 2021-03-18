@@ -124,6 +124,7 @@ $darkGrey: #999;
     display: flex;
     align-self: center;
     font-size: 18px;
+    font-weight: bold;
   }
 
   &__field {

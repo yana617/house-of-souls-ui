@@ -60,6 +60,7 @@ $lightGrey: #ccc;
     width: 100%;
     color: black;
     padding: 8px;
+    font-size: 16px;
   }
 
   &__container {
@@ -96,6 +97,7 @@ $lightGrey: #ccc;
     width: $dayWidth;
     background-color: rgba(247, 201, 101, 0.1);
     text-align: center;
+    font-size: 16px;
   }
 }
 </style>

@@ -70,6 +70,7 @@ $green: #42b983;
   span {
     display: flex;
     margin-right: 8px;
+    font-size: 16px;
   }
 }
 

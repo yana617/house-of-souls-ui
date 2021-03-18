@@ -1,10 +1,11 @@
 <template>
   <div class="notices-control">
     <span class="notices-control__title">Информационные блоки</span>
-    <Notice v-for="notice in notices" :key="notice.title" v-bind="notice" />
-    <Button class="notices-control__add-btn" title="добавить новость" @click="openModal" />
+    <Notice v-for="noticeId in notices.list" :key="noticeId" v-bind="notices.data[noticeId]" :noticeId="noticeId" />
+    <Button class="notices-control__add-btn" title="добавить" @click="openModal" />
     <NewNoticeModal v-if="isModalOpen" />
   </div>
+  <img class="notices-control__img" src="@/assets/cat_infos.jpeg" />
 </template>
 
 <script>
@@ -19,7 +20,7 @@ export default {
   name: 'NoticesControl',
   components: { Notice, Button, NewNoticeModal },
   computed: mapState({
-    notices: (state) => state.notices.actualNotices,
+    notices: (state) => state.notices,
     modal: (state) => state.app.modal,
     isModalOpen() {
       return this.modal === MODAL.NOTICE;
@@ -42,6 +43,7 @@ $darkGreen: #3ba675;
 
 .notices-control {
   width: 100%;
+  margin-right: 430px;
   padding: 16px;
   background-color: white;
   display: flex;
@@ -52,19 +54,40 @@ $darkGreen: #3ba675;
     align-self: center;
     font-size: 18px;
     margin-bottom: 8px;
+    font-weight: bold;
   }
 
   &__add-btn {
-    color: white;
-    background-color: $green;
+    color: $green;
+    background-color: white;
     border-color: $green;
     padding: 8px 16px;
     font-size: 16px;
 
     &:hover {
-      background-color: $darkGreen;
+      background-color: $green;
       color: white;
     }
+  }
+
+  &__img {
+    max-height: calc(100vh - 50px);
+    position: fixed;
+    width: 430px;
+    top: 50px;
+    right: 0;
+  }
+
+  @media (max-width: 1100px) {
+    margin-right: 0;
+
+    &__img {
+      display: none;
+    }
+  }
+
+  @media (max-width: 400px) {
+    padding: 8px;
   }
 }
 </style>
