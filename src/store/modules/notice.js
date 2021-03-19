@@ -20,7 +20,7 @@ const actions = {
     const result = await notices.getNoticeById(params);
     commit(SET_NOTICE_DATA, result);
   },
-  updateNotice: async (commit, params = {}) => {
+  updateNotice: async ({ commit }, params = {}) => {
     const result = await notices.updateNotice(params);
     commit(SET_NOTICE_DATA, result);
   },
