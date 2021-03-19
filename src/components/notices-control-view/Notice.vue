@@ -64,7 +64,6 @@ export default defineComponent({
         authorized: this.authorizedModel,
       };
       this.$store.dispatch('notices/updateNotice', body).then(() => {
-        this.$store.dispatch('notices/getNotices');
         this.edit = false;
       });
     },
