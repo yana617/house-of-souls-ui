@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Info v-for="info in infos" :key="info.title" v-bind="info" />
+    <Notice v-for="noticeId in notices.list" :key="noticeId" :noticeId="noticeId" v-bind="notices.data[noticeId]" />
     <Schedule :schedule="currentSchedule" />
     <Schedule :schedule="nextWeekSchedule" />
   </div>
@@ -11,7 +11,7 @@
 import { mapState } from 'vuex';
 
 import Footer from '@/components/common/Footer.vue';
-import Info from '@/components/home-view/Info.vue';
+import Notice from '@/components/home-view/Notice.vue';
 import Schedule from '@/components/home-view/Schedule.vue';
 import { getPrevMondayString, getNextMondayString, getInTwoWeeksMondayString } from '@/utils/date';
 
@@ -19,16 +19,16 @@ export default {
   name: 'Home',
   components: {
     Footer,
-    Info,
+    Notice,
     Schedule,
   },
   computed: mapState({
-    infos: (state) => state.info.actualInfo,
+    notices: (state) => state.notices,
     currentSchedule: (state) => state.schedule.current,
     nextWeekSchedule: (state) => state.schedule.nextWeek,
   }),
   created() {
-    this.$store.dispatch('info/getInfo');
+    this.$store.dispatch('notices/getNotices');
 
     const nextMondayStr = getNextMondayString();
     this.$store.dispatch('schedule/getSchedule', { from: getPrevMondayString(), to: nextMondayStr });

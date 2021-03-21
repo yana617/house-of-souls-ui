@@ -1,5 +1,5 @@
 <template>
-  <span @click="$emit('on-claim-click', claim)" class="schedule-claim">
+  <div @click="$emit('on-claim-click', claim)" class="schedule-claim">
     <div v-if="haveAdditionFields" class="schedule-claim__additional-fields">
       <div
         class="schedule-claim__additional-fields__wrapper"
@@ -11,7 +11,7 @@
     </div>
     <span>{{ username }}</span>
     <b class="schedule-claim__additional-people" v-if="claim.additional_people"> +{{ claim.additional_people }} </b>
-  </span>
+  </div>
 </template>
 
 <script>

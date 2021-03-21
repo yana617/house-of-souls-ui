@@ -1,18 +1,22 @@
 <template>
-  <div v-if="show" class="info">
-    <h4 class="info__title">{{ title }}</h4>
-    <div class="info__line" />
-    <h5 class="info__description">{{ description }}</h5>
+  <div v-if="show" class="notice">
+    <h4 class="notice__title">{{ title }}</h4>
+    <div class="notice__line" />
+    <h5 class="notice__description">{{ description }}</h5>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Info',
+  name: 'Notice',
   props: {
+    noticeId: String,
     title: String,
     description: String,
     authorized: Boolean,
+  },
+  created() {
+    this.$store.dispatch('notices/getNoticeById', { _id: this.noticeId });
   },
   computed: {
     show() {
@@ -31,7 +35,7 @@ export default {
 <style lang="scss">
 $green: #42b983;
 
-.info {
+.notice {
   display: flex;
   text-align: left;
   flex-direction: column;
@@ -51,8 +55,13 @@ $green: #42b983;
     margin-top: 2px;
   }
 
+  &__title {
+    font-size: 16px;
+  }
+
   &__description {
     font-weight: normal;
+    font-size: 14px;
   }
 }
 </style>

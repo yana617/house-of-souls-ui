@@ -14,12 +14,12 @@ export const ADMIN_LINKS = [{
   slug: 'volunteers-requests',
 }, {
   url: '/admin/register-fields-control',
-  label: 'Управление полями регистрации',
+  label: 'Поля регистрации',
   slug: 'register-fields-control',
 }, {
-  url: '/admin/info-control',
+  url: '/admin/notices-control',
   label: 'Информационные блоки',
-  slug: 'info-control',
+  slug: 'notices-control',
 }];
 
 export const PATHS = {
@@ -28,4 +28,5 @@ export const PATHS = {
   '/admin': 'admin',
   '/admin/register-fields-control': 'register-fields-control',
   '/admin/volunteers-requests': 'volunteers-requests',
+  '/admin/notices-control': 'notices-control',
 };
