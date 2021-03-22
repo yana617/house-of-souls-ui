@@ -6,7 +6,7 @@ import { API_HOST } from '@/constants';
 import { IS_AUTH } from '@/mocks/constants';
 
 import mockUtils from '../utils';
-import { users as data } from './mocks.json';
+import data from './mocks.json';
 
 export default [
   // logging a user in
@@ -23,7 +23,7 @@ export default [
       );
     }
 
-    const userFromDB = data.find((user) => user.phone === phone);
+    const userFromDB = data.users.find((user) => user.phone === phone);
 
     if (!userFromDB) {
       return res(
@@ -71,7 +71,7 @@ export default [
       ...userFromRequest,
       _id: uuidv4(),
     };
-    data.push(newUser);
+    data.users.push(newUser);
 
     sessionStorage.setItem(IS_AUTH, 'true');
     return res(
