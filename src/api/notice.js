@@ -19,7 +19,7 @@ export default {
     return notice;
   },
   createNotice: async (body) => {
-    const { data: { notice } } = await axios.post(`${API_HOST}/notices`, body);
+    const { data: { notice } } = await axios.post(`${API_HOST}/notices`, { notice: body });
     return notice;
   },
   deleteNotice: async ({ _id }) => {
