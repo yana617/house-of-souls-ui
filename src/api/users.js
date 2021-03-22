@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import { API_HOST } from '@/constants';
 import mock from './mock';
 
 export default {
@@ -11,13 +12,15 @@ export default {
     return mock.volunteersMock;
   },
   login: async (body) => {
-    // TO-DO: Remove mocks
-    await axios.post('https://jsonplaceholder.typicode.com/posts', body);
-    return mock.generateUser();
+    const { data: { user } } = await axios.post(`${API_HOST}/login`, { user: body });
+    return user;
+  },
+  logout: async () => {
+    await axios.delete(`${API_HOST}/logout`);
+    return true;
   },
   register: async (body) => {
-    // TO-DO: Remove mocks
-    await axios.post('https://jsonplaceholder.typicode.com/posts', body);
-    return mock.generateUser();
+    const { data: { user } } = await axios.post(`${API_HOST}/register`, { user: body });
+    return user;
   },
 };

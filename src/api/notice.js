@@ -1,27 +1,29 @@
 import axios from 'axios';
 
-import mock from './mock';
+import { API_HOST } from '@/constants';
 
 export default {
   getNotices: async () => {
-    // TO-DO: Remove with mocks
-    await axios.get('https://jsonplaceholder.typicode.com/todos/1');
-    return mock.noticesIdsMock;
+    const { data: { notices } } = await axios.get(`${API_HOST}/notices`);
+    return notices;
   },
   getNoticeById: async ({ _id }) => {
-    // TO-DO: Remove with mocks
-    await axios.get('https://jsonplaceholder.typicode.com/todos/1');
-    return mock.generateNotice(_id);
+    const { data: { notice } } = await axios.get(`${API_HOST}/notices/${_id}`);
+    return notice;
   },
-  updateNotice: async (body) => {
-    // TO-DO: Remove with mocks
-    await axios.put('https://jsonplaceholder.typicode.com/todos/1', body);
-    return mock.generateNotice(body._id);
+  updateNotice: async ({ _id, ...body }) => {
+    const { data: { notice } } = await axios.patch(
+      `${API_HOST}/notices/${_id}`,
+      { notice: body },
+    );
+    return notice;
   },
   createNotice: async (body) => {
-    await axios.post('https://jsonplaceholder.typicode.com/todos', body);
+    const { data: { notice } } = await axios.post(`${API_HOST}/notices`, body);
+    return notice;
   },
   deleteNotice: async ({ _id }) => {
     await axios.delete(`https://jsonplaceholder.typicode.com/todos/${_id}`);
+    return true;
   },
 };
