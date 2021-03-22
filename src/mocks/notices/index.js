@@ -6,14 +6,14 @@ import { API_HOST } from '@/constants';
 import { IS_AUTH } from '@/mocks/constants';
 
 import mockUtils from '../utils';
-import { notices as data } from './mocks.json';
+import data from './mocks.json';
 
 export default [
   // getting a list of notices id
   rest.get(`${API_HOST}/notices`, (_, res, ctx) => {
     const isAuth = sessionStorage.getItem(IS_AUTH);
 
-    const responseData = data.reduce((list, notice) => [
+    const responseData = data.notices.reduce((list, notice) => [
       ...list,
       ...(isAuth ? [notice._id] : [notice.authorized ? undefined : notice._id]),
     ], []);
@@ -31,7 +31,7 @@ export default [
     const isAuth = sessionStorage.getItem(IS_AUTH);
     const { id } = req.params;
 
-    const responseData = data.find((notice) => notice._id === id);
+    const responseData = data.notices.find((notice) => notice._id === id);
 
     if (!responseData) return res(ctx.status(404));
     if (responseData.authorized && !isAuth) return res(ctx.status(403));
@@ -59,14 +59,14 @@ export default [
     const { id } = req.params;
     const noticeFromRequest = mockUtils.clearNoticeRequest(req.body && req.body.notice);
 
-    const noticeFromDB = data.find((notice) => notice._id === id);
+    const noticeFromDB = data.notices.find((notice) => notice._id === id);
 
     if (!noticeFromDB) return res(ctx.status(404));
 
     // changing an entity in DB
-    data.forEach((notice, index) => {
+    data.notices.forEach((notice, index) => {
       if (notice._id === id) {
-        data[index] = {
+        data.notices[index] = {
           ...notice,
           ...noticeFromRequest,
         };
@@ -111,7 +111,7 @@ export default [
       _id: uuidv4(),
     };
 
-    data.push(newNotice);
+    data.notices.push(newNotice);
 
     return res(
       ctx.status(201),
@@ -134,7 +134,7 @@ export default [
 
     const { id } = req.params;
 
-    const noticeFromDB = data.find((notice) => notice._id === id);
+    const noticeFromDB = data.notices.find((notice) => notice._id === id);
     if (!noticeFromDB) {
       return res(
         ctx.status(404),
@@ -142,7 +142,8 @@ export default [
     }
 
     // deleting the notice in the DB
-    delete data[data.indexOf(noticeFromDB)];
+    data.notices.splice(data.notices.indexOf(noticeFromDB), 1);
+    console.log(data.notices);
 
     return res(
       ctx.status(204),

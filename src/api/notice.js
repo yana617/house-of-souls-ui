@@ -23,7 +23,7 @@ export default {
     return notice;
   },
   deleteNotice: async ({ _id }) => {
-    await axios.delete(`https://jsonplaceholder.typicode.com/todos/${_id}`);
+    await axios.delete(`${API_HOST}/notices/${_id}`);
     return true;
   },
 };
