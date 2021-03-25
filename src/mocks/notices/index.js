@@ -143,7 +143,6 @@ export default [
 
     // deleting the notice in the DB
     data.notices.splice(data.notices.indexOf(noticeFromDB), 1);
-    console.log(data.notices);
 
     return res(
       ctx.status(204),

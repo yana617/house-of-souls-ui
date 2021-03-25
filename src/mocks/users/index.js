@@ -11,7 +11,6 @@ import data from './mocks.json';
 export default [
   // logging a user in
   rest.post(`${API_HOST}/login`, (req, res, ctx) => {
-    console.log(req.body);
     const { phone } = req.body.user;
 
     if (!phone) {
