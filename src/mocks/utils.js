@@ -5,7 +5,7 @@ Probably it's overcomplicate mock server a bit and all these checks might be avo
 const NOTICE_ALLOWED_FIELDS = ['authorized', 'title', 'description'];
 const NOTICE_REQUIRED_FIELDS = ['title', 'description'];
 
-const USER_ALLOWED_FIELDS = ['name', 'surname', 'egida_nick', 'phone', 'password', 'features'];
+const USER_ALLOWED_FIELDS = ['name', 'surname', 'egida_nick', 'phone', 'password', 'user_additional_fields'];
 const USER_REQUIRED_FIELDS = ['name', 'phone', 'password'];
 
 const clearRequestData = (allowedFields = []) => (data = {}) => {
