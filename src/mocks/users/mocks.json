@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "id": "6c86759c-49f6-49dd-b7c0-4af19046369e",
+      "name": "Яна",
+      "surname": "Сидорова",
+      "egida_nick": "JavaSidorova",
+      "phone": "375111111111"
+    },
+    {
+      "id": "75b597b0-213d-4944-b25f-bd342d7edac3",
+      "name": "Евгений",
+      "surname": "Куликов",
+      "egida_nick": "Xoxol",
+      "phone": "375297563006"
+    }
+  ]
+}

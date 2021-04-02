@@ -14,6 +14,8 @@ npm install
 
 Create **.env.local** file from **.env.example** file and setup local variables.
 
+To have a mock server via service worker it's required to provide env variable `VUE_APP_MSW` with value `true`
+
 Run:
 
 ```bash
