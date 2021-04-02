@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { Switch } from 'ant-design-vue';
+import { Switch, Table, Tag } from 'ant-design-vue';
 
 import App from './App.vue';
 import router from './router';
@@ -10,4 +10,6 @@ createApp(App)
   .use(store)
   .use(router)
   .use(Switch)
+  .use(Table)
+  .use(Tag)
   .mount('#app');

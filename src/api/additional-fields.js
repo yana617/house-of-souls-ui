@@ -6,15 +6,15 @@ export default {
   getAdditionalFields: async () => {
     // TO-DO: Remove mocks
     await axios.get('https://jsonplaceholder.typicode.com/todos/1');
-    return mock.additionalFieldsMock.map((field) => ({ ...field, id: field.id.toString() }));
+    return mock.additionalFieldsMock;
   },
   updateAdditionalField: async (updatedAdditionalField) => {
     // TO-DO: Remove mocks
     await axios.post('https://jsonplaceholder.typicode.com/posts', updatedAdditionalField);
   },
-  deleteAdditionalField: async ({ id } = {}) => {
+  deleteAdditionalField: async ({ _id } = {}) => {
     // TO-DO: Remove mocks
-    await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
+    await axios.delete(`https://jsonplaceholder.typicode.com/todos/${_id}`);
   },
   saveAdditionalField: async (body = {}) => {
     await axios.post('https://jsonplaceholder.typicode.com/posts', body);

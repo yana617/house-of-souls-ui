@@ -4,7 +4,7 @@
       <div
         class="schedule-claim__additional-fields__wrapper"
         v-for="field in claim.user.user_additional_fields"
-        :key="field.id"
+        :key="field._id"
       >
         <img v-if="field.value" class="schedule-claim__icon" :src="getIcon(field.additional_field_template_id)" />
       </div>
@@ -31,10 +31,7 @@ export default {
       return this.user.user_additional_fields;
     },
     username() {
-      const { name, surname, egida_nick } = this.user;
-      if (egida_nick) {
-        return `${name} ${egida_nick}`;
-      }
+      const { name, surname } = this.user;
       return `${name} ${surname}`;
     },
     haveAdditionFields() {
@@ -44,8 +41,7 @@ export default {
   methods: {
     getIcon(id) {
       if (!this.additionalFields) return '';
-      // eslint-disable-next-line eqeqeq
-      const fieldObj = this.additionalFields.find((field) => field.id == id);
+      const fieldObj = this.additionalFields.find((field) => field._id === id);
       if (!fieldObj) {
         return '';
       }

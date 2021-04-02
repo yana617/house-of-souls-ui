@@ -1,8 +1,5 @@
 <template>
   <div class="admin">
-    <div class="admin__dropdown-container">
-      <Dropdown class="admin__dropdown" :items="links" :selected="selected" />
-    </div>
     <div class="admin__nav-panel">
       <router-link v-for="link in links" :key="link.slug" class="admin__nav-panel__link" :to="link.url">
         {{ link.label }}
@@ -13,12 +10,10 @@
 </template>
 
 <script>
-import Dropdown from '@/components/common/Dropdown.vue';
-import { ADMIN_LINKS, PATHS } from '@/router/constants';
+import { ADMIN_LINKS } from '@/router/constants';
 
 export default {
   name: 'AdminPanel',
-  components: { Dropdown },
   data() {
     return {
       links: ADMIN_LINKS,
@@ -27,9 +22,6 @@ export default {
   computed: {
     path() {
       return this.$route.path;
-    },
-    selected() {
-      return PATHS[this.path] || null;
     },
   },
 };
@@ -76,36 +68,12 @@ $greyBlue: #2c3e50;
     }
   }
 
-  &__dropdown-container {
-    display: none;
-  }
-
-  @media (max-width: 800px) {
+  @media (max-width: 768px) {
     flex-direction: column;
     padding-left: 0px;
 
     &__nav-panel {
       display: none;
-    }
-
-    &__dropdown-container {
-      display: flex;
-      background-color: $greyBlue;
-      width: 100%;
-      padding: 8px;
-      align-items: center;
-      justify-content: center;
-    }
-
-    &__dropdown {
-      width: fit-content;
-      min-width: 300px;
-    }
-  }
-  @media (max-width: 450px) {
-    &__dropdown {
-      min-width: 210px;
-      margin-left: 90px;
     }
   }
 }
