@@ -62,15 +62,6 @@ const generateScheduleDay = () => ({
 
 const generateSchedule = () => Array(7).fill(null).map(generateScheduleDay);
 
-const noticesIdsMock = [randomIntNumber().toString(), randomIntNumber().toString(), randomIntNumber().toString()];
-
-const generateNotice = (id) => ({
-  _id: id,
-  authorized: Math.random() > 0.5,
-  title: 'Информация для незарегистрированных пользователей',
-  description: 'Кто сколько может, кидайте в копилку или на нашу карту.',
-});
-
 const additionalFieldsMock = [{
   _id: '1',
   icon: 'https://image.flaticon.com/icons/png/512/91/91544.png',
@@ -93,6 +84,4 @@ export default {
   generateSchedule,
   additionalFieldsMock,
   usersMock,
-  noticesIdsMock,
-  generateNotice,
 };

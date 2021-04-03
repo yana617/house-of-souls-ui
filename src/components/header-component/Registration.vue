@@ -3,7 +3,6 @@
     <div class="registration__wrapper">
       <input id="name" v-model="name" type="text" name="name" placeholder="Имя" />
       <input id="surname" v-model="surname" type="text" name="surname" placeholder="Фамилия" />
-      <input id="egida-nick" v-model="egidaNick" type="text" name="egida-nick" placeholder="Ник на Эгиде" />
       <PhoneInput @onchange="onChangePhone" id="phone" placeholder="Телефон" />
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
       <Checkbox
@@ -35,7 +34,6 @@ export default {
     return {
       name: null,
       surname: null,
-      egidaNick: null,
       phone: null,
       password: null,
       selected: {},
@@ -53,7 +51,6 @@ export default {
       const body = {
         name: this.name,
         surname: this.surname,
-        egidaNick: this.egidaNick,
         phone: this.phone,
         password: this.password,
         additionalFields: Object.keys(this.selected).map((additionalFieldId) => ({
