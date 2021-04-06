@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { Switch } from 'ant-design-vue';
+import { Switch, TimePicker, Checkbox } from 'ant-design-vue';
 
 import App from './App.vue';
 import router from './router';
@@ -14,6 +14,8 @@ const run = () => {
     .use(store)
     .use(router)
     .use(Switch)
+    .use(TimePicker)
+    .use(Checkbox)
     .mount('#app');
 };
 

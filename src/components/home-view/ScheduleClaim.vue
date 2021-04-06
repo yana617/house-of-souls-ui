@@ -9,7 +9,7 @@
         <img v-if="field.value" class="schedule-claim__icon" :src="getIcon(field.additional_field_template_id)" />
       </div>
     </div>
-    <span>{{ username }}</span>
+    <span><b class="schedule-claim__questionable">{{ claim.questionable ? '?' : '' }}</b> {{ username }}</span>
     <b class="schedule-claim__additional-people" v-if="claim.additional_people"> +{{ claim.additional_people }} </b>
   </div>
 </template>
@@ -95,6 +95,10 @@ export default {
   &__icon {
     width: 16px;
     height: 16px;
+  }
+
+  &__questionable {
+    color: red;
   }
 }
 </style>

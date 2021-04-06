@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <Notice v-for="noticeId in notices.list" :key="noticeId" :noticeId="noticeId" v-bind="notices.data[noticeId]" />
-    <Schedule :schedule="currentSchedule" />
-    <Schedule :schedule="nextWeekSchedule" />
+    <Schedule v-bind="currentSchedule" />
+    <Schedule v-bind="nextWeekSchedule" />
   </div>
   <Footer />
 </template>
@@ -24,15 +24,15 @@ export default {
   },
   computed: mapState({
     notices: (state) => state.notices,
-    currentSchedule: (state) => state.schedule.current,
-    nextWeekSchedule: (state) => state.schedule.nextWeek,
+    currentSchedule: (state) => state.claim.currentSchedule,
+    nextWeekSchedule: (state) => state.claim.nextWeekSchedule,
   }),
   created() {
     this.$store.dispatch('notices/getNotices');
 
     const nextMondayStr = getNextMondayString();
-    this.$store.dispatch('schedule/getSchedule', { from: getPrevMondayString(), to: nextMondayStr });
-    this.$store.dispatch('schedule/getNextWeekSchedule', { from: nextMondayStr, to: getInTwoWeeksMondayString() });
+    this.$store.dispatch('claim/getSchedule', { from: getPrevMondayString(), to: nextMondayStr });
+    this.$store.dispatch('claim/getNextWeekSchedule', { from: nextMondayStr, to: getInTwoWeeksMondayString() });
 
     this.$store.dispatch('additionalFields/getAdditionalFields');
   },

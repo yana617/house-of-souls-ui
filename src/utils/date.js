@@ -1,13 +1,18 @@
 const WEEK_LENGTH = 7;
 
 const daysOfWeek = {
-  1: 'Понедельник',
-  2: 'Вторник',
-  3: 'Среда',
-  4: 'Четверг',
-  5: 'Пятница',
-  6: 'Суббота',
-  0: 'Воскресенье',
+  1: 'ПН',
+  2: 'ВТ',
+  3: 'СР',
+  4: 'ЧТ',
+  5: 'ПТ',
+  6: 'СБ',
+  0: 'ВС',
+};
+
+const typeOfTime = {
+  morning: 'Утро',
+  evening: 'Вечер',
 };
 
 const DEFAULT_HOURS = 6;
@@ -41,10 +46,14 @@ const getInTwoWeeksMondayString = () => {
   return inTwoWeeksMonday.toISOString().slice(0, DATE_LENGTH);
 };
 
+const randomDate = (start, end) => new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+
 module.exports = {
   daysOfWeek,
+  typeOfTime,
   parseDate,
   getPrevMondayString,
   getNextMondayString,
   getInTwoWeeksMondayString,
+  randomDate,
 };

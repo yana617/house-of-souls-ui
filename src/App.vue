@@ -31,6 +31,7 @@ html {
 }
 body {
   min-height: calc(100vh - #{$headerHeight});
+  height: unset !important;
 }
 * {
   box-sizing: border-box;
