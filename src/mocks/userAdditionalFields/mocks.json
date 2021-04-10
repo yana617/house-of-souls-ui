@@ -1,0 +1,28 @@
+{
+  "userAdditionalFields": [
+    {
+      "_id": "6b644721-2be5-4aa2-a12c-a93952a3c644",
+      "additional_field_template_id": "3e2c0de6-febc-4770-83ae-abeab070d28f",
+      "value": true,
+      "user_id": "6c86759c-49f6-49dd-b7c0-4af19046369e"
+    },
+    {
+      "_id": "982213d3-8b9a-4e5f-bc50-272b2b6a8de3",
+      "additional_field_template_id": "c8d735e8-e294-4dfe-be98-bbc0cb8c2e45",
+      "value": true,
+      "user_id": "6c86759c-49f6-49dd-b7c0-4af19046369e"
+    },
+    {
+      "_id": "f772844b-4733-4321-8e8b-acd622a567b5",
+      "additional_field_template_id": "3e2c0de6-febc-4770-83ae-abeab070d28f",
+      "value": true,
+      "user_id": "75b597b0-213d-4944-b25f-bd342d7edac3"
+    },
+    {
+      "_id": "f9470a33-c23b-40c5-a50e-68aff47567d6",
+      "additional_field_template_id": "c8d735e8-e294-4dfe-be98-bbc0cb8c2e45",
+      "value": false,
+      "user_id": "75b597b0-213d-4944-b25f-bd342d7edac3"
+    }
+  ]
+}

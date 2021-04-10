@@ -31,6 +31,10 @@ const actions = {
     commit(SET_USER, user);
     commit('app/SET_MODAL', null, { root: true });
   },
+  updateUser: async ({ commit }, body = {}) => {
+    const user = await users.updateUser(body);
+    commit(SET_USER, user);
+  },
 };
 
 const mutations = {

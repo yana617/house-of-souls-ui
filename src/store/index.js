@@ -2,6 +2,7 @@ import { createStore } from 'vuex';
 
 import users from './modules/users';
 import additionalFields from './modules/additional-fields';
+import userAdditionalFields from './modules/user-additional-fields';
 import notices from './modules/notice';
 import schedule from './modules/schedule';
 import app from './modules/app';
@@ -21,6 +22,7 @@ export default createStore({
     notices,
     schedule,
     additionalFields,
+    userAdditionalFields,
   },
   strict: debug,
 });

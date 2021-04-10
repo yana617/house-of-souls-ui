@@ -80,4 +80,42 @@ export default [
       }),
     );
   }),
+
+  rest.patch(`${API_HOST}/users/:id`, (req, res, ctx) => {
+    const isAuth = sessionStorage.getItem(IS_AUTH);
+
+    if (!isAuth) {
+      return res(
+        ctx.status(401),
+        ctx.json({ errorMessage: 'Please, authorize to change a user' }),
+      );
+    }
+
+    const { id } = req.params;
+
+    const userFromDb = data.users.find((user) => user._id === id);
+    const userFromRequest = mockUtils.clearUserRequest(req.body);
+
+    if (!userFromDb) return res(ctx.status(404));
+
+    data.users.forEach((user, index) => {
+      if (user._id === id) {
+        data.users[index] = {
+          ...user,
+          ...userFromRequest,
+        };
+      }
+    });
+
+    return res(
+      ctx.status(200),
+      ctx.json({
+        success: true,
+        user: {
+          ...userFromDb,
+          ...userFromRequest,
+        },
+      }),
+    );
+  }),
 ];

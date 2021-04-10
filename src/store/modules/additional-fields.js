@@ -23,8 +23,8 @@ const actions = {
   updateAdditionalField: async ({ commit }, body = {}) => {
     await additionalFields.updateAdditionalField(body);
   },
-  deleteAdditionalField: async ({ commit }, { id } = {}) => {
-    await additionalFields.deleteAdditionalField({ id });
+  deleteAdditionalField: async ({ commit }, { _id } = {}) => {
+    await additionalFields.deleteAdditionalField({ _id });
   },
   uploadIcon: async ({ commit }, formData) => {
     const link = await additionalFields.uploadIcon(formData);
