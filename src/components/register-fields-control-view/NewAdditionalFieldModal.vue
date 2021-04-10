@@ -20,9 +20,9 @@
         <Button class="new-additional-field-modal__btn__upload-icon" @click="uploadIcon()" title="Загрузить иконку" />
       </div>
       <input
-        class="new-additional-field-modal__name"
+        class="new-additional-field-modal__label"
         placeholder="Короткое название (желательно одно слово)"
-        v-model="name"
+        v-model="label"
       />
       <textarea class="new-additional-field-modal__description" v-model="description" placeholder="Описание" />
       <Button class="new-additional-field-modal__btn__save" @click="save()" title="Добавить" />
@@ -43,7 +43,7 @@ export default {
   }),
   data() {
     return {
-      name: null,
+      label: null,
       description: null,
     };
   },
@@ -65,7 +65,7 @@ export default {
     save() {
       const body = {
         icon: this.icon,
-        name: this.name,
+        label: this.label,
         description: this.description,
       };
       this.$store.dispatch('additionalFields/saveAdditionalField', body).then(() => {
@@ -101,7 +101,7 @@ $lightGrey: #ccc;
     cursor: pointer;
   }
 
-  &__name,
+  &__label,
   &__description {
     display: flex;
     width: 80%;

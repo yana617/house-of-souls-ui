@@ -57,7 +57,7 @@ export default {
         phone: this.phone,
         password: this.password,
         additionalFields: Object.keys(this.selected).map((additionalFieldId) => ({
-          id: additionalFieldId,
+          _id: additionalFieldId,
           value: this.selected[additionalFieldId],
         })),
       };

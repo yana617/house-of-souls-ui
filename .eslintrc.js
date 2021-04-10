@@ -22,8 +22,10 @@ module.exports = {
         'additional_people',
         'user_additional_fields',
         'additional_field_template_id',
+        'user_id',
       ],
     }],
     'no-underscore-dangle': 'off',
+    'vue/experimental-script-setup-vars': 'off',
   },
 };
