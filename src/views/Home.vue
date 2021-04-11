@@ -28,11 +28,16 @@ export default {
     nextWeekSchedule: (state) => state.schedule.nextWeek,
   }),
   created() {
+    this.$store.dispatch('app/setLoading', true);
     this.$store.dispatch('notices/getNotices');
 
     const nextMondayStr = getNextMondayString();
     this.$store.dispatch('schedule/getSchedule', { from: getPrevMondayString(), to: nextMondayStr });
-    this.$store.dispatch('schedule/getNextWeekSchedule', { from: nextMondayStr, to: getInTwoWeeksMondayString() });
+    this.$store
+      .dispatch('schedule/getNextWeekSchedule', { from: nextMondayStr, to: getInTwoWeeksMondayString() })
+      .then(() => {
+        this.$store.dispatch('app/setLoading', false);
+      });
 
     this.$store.dispatch('additionalFields/getAdditionalFields');
   },

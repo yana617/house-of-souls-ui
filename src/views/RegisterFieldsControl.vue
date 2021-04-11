@@ -14,11 +14,7 @@
       </div>
       <div class="register-fields-control__additional-fields">
         <span class="register-fields-control__additional-fields__title">Дополнительные поля</span>
-        <AdditionalField
-          v-for="field in fields"
-          :key="field.id"
-          v-bind="field"
-        />
+        <AdditionalField v-for="field in fields" :key="field.id" v-bind="field" />
       </div>
     </div>
     <div class="register-fields-control__additional-fields__add-btn__container">
@@ -55,7 +51,10 @@ export default {
     },
   }),
   created() {
-    this.$store.dispatch('additionalFields/getAdditionalFields');
+    this.$store.dispatch('app/setLoading', true);
+    this.$store.dispatch('additionalFields/getAdditionalFields').then(() => {
+      this.$store.dispatch('app/setLoading', false);
+    });
   },
   methods: {
     openModal() {

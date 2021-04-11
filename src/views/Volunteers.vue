@@ -42,12 +42,15 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch('users/getVolunteers', { attribute: 'name', offset: 0 });
+    this.$store.dispatch('app/setLoading', true);
+    this.$store.dispatch('users/getVolunteers', { attribute: 'name', offset: 0 }).then(() => {
+      this.$store.dispatch('app/setLoading', false);
+    });
     this.offset += limit;
 
     window.addEventListener('scroll', () => {
-      const bottomOfWindow = (document.documentElement.scrollTop + window.innerHeight)
-       === document.documentElement.offsetHeight;
+      const bottomOfWindow = document.documentElement.scrollTop
+        + window.innerHeight === document.documentElement.offsetHeight;
       if (bottomOfWindow && this.volunteers.length < this.total) {
         this.loadMore();
       }

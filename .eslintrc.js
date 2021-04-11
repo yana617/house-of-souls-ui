@@ -25,5 +25,6 @@ module.exports = {
       ],
     }],
     'no-underscore-dangle': 'off',
+    'vue/experimental-script-setup-vars': 'off',
   },
 };

@@ -6,12 +6,15 @@
       <input id="egida-nick" v-model="egidaNick" type="text" name="egida-nick" placeholder="Ник на Эгиде" />
       <PhoneInput @onchange="onChangePhone" id="phone" placeholder="Телефон" />
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
+      <div v-if="loading && !additionalFields" class="registration__loader-wrapper">
+        <Loader className="registration__loader" />
+      </div>
       <Checkbox
         v-for="field in additionalFields"
         :key="field.id"
         v-bind="field"
         :value="selected[field.id]"
-        @input="value => selected[field.id] = value"
+        @input="(value) => (selected[field.id] = value)"
       />
       <Button @click="submitRegistration" class="registration__submit-btn" title="Зарегистрироваться" />
     </div>
@@ -21,13 +24,19 @@
 <script>
 import { mapState } from 'vuex';
 
+import Loader from '../common/Loader.vue';
 import Checkbox from '../common/Checkbox.vue';
 import Button from '../common/Button.vue';
 import PhoneInput from '../common/PhoneInput.vue';
 
 export default {
   name: 'Registration',
-  components: { Checkbox, PhoneInput, Button },
+  components: {
+    Checkbox,
+    PhoneInput,
+    Button,
+    Loader,
+  },
   computed: mapState({
     additionalFields: (state) => state.additionalFields.current,
   }),
@@ -39,10 +48,13 @@ export default {
       phone: null,
       password: null,
       selected: {},
+      loading: false,
     };
   },
   created() {
+    this.loading = true;
     this.$store.dispatch('additionalFields/getAdditionalFields').then(() => {
+      this.loading = false;
       this.additionalFields.forEach((field) => {
         this.selected[field.id] = false;
       });
@@ -107,6 +119,11 @@ $lightGrey: #ccc;
 
   &__submit-btn {
     margin-top: 16px;
+  }
+
+  &__loader-wrapper {
+    width: 100%;
+    padding: 16px;
   }
 }
 </style>

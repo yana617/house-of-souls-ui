@@ -1,17 +1,27 @@
 <template>
   <div id="app-sub-container">
     <Header />
+    <div v-if="loading" class="loader__wrapper">
+      <Loader />
+    </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import Header from '@/components/common/Header.vue';
+import Loader from '@/components/common/Loader.vue';
 
 export default {
   name: 'App',
   components: {
     Header,
+    Loader,
   },
+  computed: mapState({
+    loading: (state) => state.app.loading,
+  }),
 };
 </script>
 
@@ -31,6 +41,7 @@ html {
 }
 body {
   min-height: calc(100vh - #{$headerHeight});
+  height: unset !important;
 }
 * {
   box-sizing: border-box;
