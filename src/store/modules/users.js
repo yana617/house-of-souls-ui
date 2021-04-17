@@ -26,6 +26,10 @@ const actions = {
     commit(SET_USER, user);
     commit('app/SET_MODAL', null, { root: true });
   },
+  logout: async ({ commit }) => {
+    await users.logout();
+    commit(SET_USER, null);
+  },
   register: async ({ commit }, body = {}) => {
     const user = await users.register(body);
     commit(SET_USER, user);

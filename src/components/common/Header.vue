@@ -1,9 +1,10 @@
 <template>
   <div class="header">
-    <Dropdown class="header__dropdown" :items="headerLinks" :selected="selected" />
+    <Dropdown v-if="$matchMedia.mobile" :items="headerLinks" :selected="selected" />
     <div class="header__nav-menu">
       <router-link to="/volunteers">Волонтеры</router-link>
-      <router-link class="header__nav-menu__schedule-btn" to="/">График</router-link>
+      <router-link class="header__nav-menu__right-btn" to="/">График</router-link>
+      <router-link v-if="user" class="header__nav-menu__right-btn" to="/profile">Профиль</router-link>
     </div>
     <div class="header__auth">
       <Button v-if="!user" @click="setModal(MODAL.LOGIN)" title="Вход" />
@@ -13,13 +14,13 @@
         class="header__auth__register-btn"
         title="Регистрация"
       />
-      <Button v-if="user" @click="$router.push('/profile')" title="Профиль" />
       <Button
         v-if="user"
         @click="$router.push('/admin/volunteers-requests')"
         class="header__auth__admin-btn"
         title="Админка"
       />
+      <Button v-if="user" class="header__auth__logout-btn" @click="logout()" title="Выход" />
       <AuthModal />
     </div>
   </div>
@@ -66,6 +67,9 @@ export default {
     setModal(modalName) {
       this.$store.dispatch('app/setModal', modalName);
     },
+    logout() {
+      this.$store.dispatch('users/logout');
+    },
   },
 };
 </script>
@@ -79,16 +83,12 @@ $header-color: #1d1d1f;
   z-index: 5;
   align-items: center;
   justify-content: center;
-  padding: 16px 30px;
+  padding: 0 30px;
   position: fixed;
   background-color: $header-color;
   width: 100%;
   top: 0;
   height: 50px;
-
-  &__dropdown {
-    display: none;
-  }
 
   a {
     font-size: 15px;
@@ -104,7 +104,7 @@ $header-color: #1d1d1f;
   }
 
   &__nav-menu {
-    &__schedule-btn {
+    &__right-btn {
       margin-left: 16px;
     }
   }
@@ -113,7 +113,7 @@ $header-color: #1d1d1f;
     position: absolute;
     right: 30px;
 
-    &__register-btn {
+    &__register-btn, &__logout-btn {
       margin-left: 8px;
     }
 
@@ -130,7 +130,7 @@ $header-color: #1d1d1f;
 
   @media (max-width: 768px) {
     justify-content: space-between;
-    padding: 8px 12px;
+    padding: 0 12px;
 
     &__auth {
       position: relative;
@@ -143,9 +143,6 @@ $header-color: #1d1d1f;
 
     &__nav-menu {
       display: none;
-    }
-    &__dropdown {
-      display: flex;
     }
   }
 

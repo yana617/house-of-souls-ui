@@ -1,10 +1,7 @@
 <template>
   <div class="dropdown">
-    <div
-      @click="toggleOpen"
-      :class="['dropdown__selected', { open, 'long-text': isLongText }]"
-    >
-      <span>{{ title }}</span>
+    <div @click="toggleOpen" :class="['dropdown__selected', { open }]">
+      <span class="dropdown__selected__text" :class="{ 'long-text': isLongText }">{{ title }}</span>
       <ArrowBottomSvg />
     </div>
     <div :class="['dropdown__options', { open }]">
@@ -59,30 +56,32 @@ $green: #42b983;
   position: relative;
 
   &__selected {
-    padding: 8px 16px;
     justify-content: space-between;
     background-color: rgba(255, 255, 255, 0.15);
     color: white;
     border-radius: 4px;
     cursor: pointer;
     display: flex;
+    align-items: center;
     flex-wrap: nowrap;
-    font-size: 15px;
     max-width: 170px;
+    height: 36px;
+    padding: 0 12px;
 
     &.open {
       background-color: rgba(255, 255, 255, 0.3);
     }
 
-    span {
-      display: flex;
-      margin-right: 8px;
-    }
+    &__text {
+      margin-right: 12px;
+      font-size: 15px;
 
-    &.long-text {
-      padding: 6px 12px;
-      line-height: 1;
-      font-size: 14px;
+      &.long-text {
+        margin-right: 8px;
+        padding: 0px;
+        line-height: 1;
+        font-size: 14px;
+      }
     }
   }
 
