@@ -12,8 +12,14 @@
             </span>
           </span>
         </div>
-        <ScheduleTimeLine title="УТРО" type="morning" :schedule="morning" />
-        <ScheduleTimeLine class="schedule__evening" title="ВЕЧЕР" type="evening" borderTop :schedule="evening" />
+        <ScheduleTimeLine title="УТРО" type="morning" :schedule="morningSchedule" />
+        <ScheduleTimeLine
+          class="schedule__evening"
+          title="ВЕЧЕР"
+          type="evening"
+          borderTop
+          :schedule="eveningSchedule"
+        />
       </div>
     </div>
   </div>
@@ -32,10 +38,10 @@ export default {
     claims: Array,
   },
   computed: {
-    morning() {
+    morningSchedule() {
       return this.claims.map((day) => ({ date: day.date, claims: day.morning }));
     },
-    evening() {
+    eveningSchedule() {
       return this.claims.map((day) => ({ date: day.date, claims: day.evening }));
     },
     fromDate() {

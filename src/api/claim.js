@@ -6,16 +6,18 @@ const mapClaims = (response) => {
   const { from, to, claims } = response;
   const fromDate = new Date(from);
   const dates = {};
-  const result = Array(7).fill(null).map((_, i) => {
+  const result = Array.from({ length: 7 }, (_, i) => {
     const date = new Date(fromDate.getTime() + i * 24 * 60 * 60 * 1000);
-    dates[date.toISOString().slice(0, 10)] = i;
+    dates[date.toLocaleDateString('ru-RU')] = i;
     return { date, morning: [], evening: [] };
   });
 
   claims.forEach((claim) => {
-    const date = new Date(claim.date).toISOString().slice(0, 10);
+    const date = new Date(claim.date).toLocaleDateString('ru-RU');
     const dayIndex = dates[date];
-    result[dayIndex][claim.type].push(claim);
+    if (result[dayIndex]) {
+      result[dayIndex][claim.type].push(claim);
+    }
   });
   return { from, to, claims: result };
 };

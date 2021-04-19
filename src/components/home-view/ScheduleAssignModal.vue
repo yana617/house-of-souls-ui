@@ -105,9 +105,7 @@ export default defineComponent({
     submit() {
       const body = {
         anotherPerson: this.anotherPerson,
-        ...(this.anotherPerson
-          ? { user: { name: this.name, surname: this.surname, phone: this.phone } }
-          : { user: this.user }),
+        user: !this.anotherPerson ? this.user : { name: this.name, surname: this.surname, phone: this.phone },
         arrival_time: this.time || null,
         additional_people: parseInt(this.additional_people, 10) || null,
         comment: this.comment,
