@@ -5,12 +5,9 @@
       <div class="claim-info-modal__header"></div>
       <span class="claim-info-modal__info-title">Данные о волонтёре</span>
       <span class="claim-info-modal__info-description"> {{ user.name }} {{ user.surname }} </span>
-      <span v-if="user.egida_nick" class="claim-info-modal__info-description">
-        Ник на эгиде: {{ user.egida_nick }}
-      </span>
       <a class="claim-info-modal__info-description" :href="`tel:${user.phone}`">{{ user.phone }}</a>
       <span v-if="haveAdditionFields" class="claim-info-modal__info-description">
-        <div class="claim-info-modal__additional-fields" v-for="field in user.user_additional_fields" :key="field.id">
+        <div class="claim-info-modal__additional-fields" v-for="field in user.user_additional_fields" :key="field._id">
           <img
             v-if="field.value"
             :key="field.id"
@@ -53,7 +50,7 @@ export default {
     additionalFieldsById() {
       const additionalFieldsById = {};
       this.additionalFields.forEach((field) => {
-        additionalFieldsById[field.id] = field;
+        additionalFieldsById[field._id] = field;
       });
       return additionalFieldsById;
     },

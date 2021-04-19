@@ -1,16 +1,12 @@
 <template>
   <div class="dropdown">
     <div @click="toggleOpen" :class="['dropdown__selected', { open }]">
-      <span>{{ title }}</span>
+      <span class="dropdown__selected__text" :class="{ 'long-text': isLongText }">{{ title }}</span>
       <ArrowBottomSvg />
     </div>
     <div :class="['dropdown__options', { open }]">
-      <div
-        :class="['dropdown__option', { selected: option.slug === selected }]"
-        v-for="option in items"
-        :key="option.slug"
-      >
-        <a @click="handleRouteClick(option.url)">{{ option.label }}</a>
+      <div class="dropdown__option" v-for="option in items" :key="option.slug">
+        <a :class="{ selected: option.slug === selected }" @click="handleRouteClick(option.url)">{{ option.label }}</a>
       </div>
     </div>
   </div>
@@ -37,6 +33,9 @@ export default {
       const selected = this.items.find((item) => item.slug === this.selected);
       return selected ? selected.label : 'Выбрать';
     },
+    isLongText() {
+      return this.title.length >= 10;
+    },
   },
   methods: {
     toggleOpen() {
@@ -57,23 +56,32 @@ $green: #42b983;
   position: relative;
 
   &__selected {
-    padding: 8px 16px;
     justify-content: space-between;
     background-color: rgba(255, 255, 255, 0.15);
     color: white;
     border-radius: 4px;
     cursor: pointer;
     display: flex;
+    align-items: center;
     flex-wrap: nowrap;
+    max-width: 170px;
+    height: 36px;
+    padding: 0 12px;
 
     &.open {
       background-color: rgba(255, 255, 255, 0.3);
     }
 
-    span {
-      display: flex;
-      margin-right: 8px;
+    &__text {
+      margin-right: 12px;
       font-size: 15px;
+
+      &.long-text {
+        margin-right: 8px;
+        padding: 0px;
+        line-height: 1;
+        font-size: 14px;
+      }
     }
   }
 
@@ -81,7 +89,6 @@ $green: #42b983;
     min-width: 110px;
     position: absolute;
     display: none;
-    width: 100%;
     top: 45px;
     flex-direction: column;
     background-color: rgba(0, 0, 0, 0.8);
@@ -95,21 +102,23 @@ $green: #42b983;
   &__option {
     display: flex;
     padding: 8px 16px;
-    color: white;
     cursor: pointer;
 
     a {
       font-size: 15px;
       text-decoration: none;
-    }
+      color: white;
+      white-space: nowrap;
 
-    &.selected {
-      color: $green;
+      &.selected {
+        color: $green;
+      }
     }
   }
 
   @media (max-width: 360px) {
-    &__selected span, &__option a {
+    &__selected span,
+    &__option a {
       font-size: 13px;
     }
   }
