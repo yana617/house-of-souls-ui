@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
-import { Switch } from 'ant-design-vue';
+import { Switch, Table, Tag } from 'ant-design-vue';
+import { createVueMatchMediaPlugin } from '@cwist/vue-match-media';
 
 import App from './App.vue';
 import router from './router';
@@ -9,11 +10,19 @@ import logger from './utils/logger';
 
 import 'ant-design-vue/dist/antd.css';
 
+const breakpoints = {
+  mobile: { maxWidth: 768 },
+};
+const VueMatchMediaPlugin = createVueMatchMediaPlugin({ breakpoints });
+
 const run = () => {
   createApp(App)
     .use(store)
     .use(router)
     .use(Switch)
+    .use(Table)
+    .use(Tag)
+    .use(VueMatchMediaPlugin)
     .mount('#app');
 };
 

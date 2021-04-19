@@ -21,6 +21,7 @@ export default [
     return res(
       ctx.status(200),
       ctx.json({
+        success: true,
         notices: responseData.filter((n) => !!n),
       }),
     );
@@ -33,12 +34,13 @@ export default [
 
     const responseData = data.notices.find((notice) => notice._id === id);
 
-    if (!responseData) return res(ctx.status(404));
+    if (!responseData) return res(ctx.status(404), ctx.json({ success: false }));
     if (responseData.authorized && !isAuth) return res(ctx.status(403));
 
     return res(
       ctx.status(200),
       ctx.json({
+        success: true,
         notice: responseData,
       }),
     );
@@ -52,7 +54,7 @@ export default [
     if (!isAuth) {
       return res(
         ctx.status(401),
-        ctx.json({ errorMessage: 'Please, authorize to change a notice' }),
+        ctx.json({ success: false, message: 'Please, authorize to change a notice' }),
       );
     }
 
@@ -61,7 +63,7 @@ export default [
 
     const noticeFromDB = data.notices.find((notice) => notice._id === id);
 
-    if (!noticeFromDB) return res(ctx.status(404));
+    if (!noticeFromDB) return res(ctx.status(404), ctx.json({ success: false }));
 
     // changing an entity in DB
     data.notices.forEach((notice, index) => {
@@ -76,6 +78,7 @@ export default [
     return res(
       ctx.status(200),
       ctx.json({
+        success: true,
         notice: {
           ...noticeFromDB,
           ...noticeFromRequest,
@@ -91,7 +94,7 @@ export default [
     if (!isAuth) {
       return res(
         ctx.status(403),
-        ctx.json({ errorMessage: 'Please, authorize to create a new notice' }),
+        ctx.json({ success: false, message: 'Please, authorize to create a new notice' }),
       );
     }
 
@@ -117,6 +120,7 @@ export default [
       ctx.status(201),
       ctx.json({
         notice: newNotice,
+        success: true,
       }),
     );
   }),
@@ -128,7 +132,7 @@ export default [
     if (!isAuth) {
       return res(
         ctx.status(403),
-        ctx.json({ errorMessage: 'Please, authorize to delete a notice' }),
+        ctx.json({ success: false, message: 'Please, authorize to delete a notice' }),
       );
     }
 
@@ -138,6 +142,7 @@ export default [
     if (!noticeFromDB) {
       return res(
         ctx.status(404),
+        ctx.json({ success: false }),
       );
     }
 
@@ -146,6 +151,7 @@ export default [
 
     return res(
       ctx.status(204),
+      ctx.json({ success: true }),
     );
   }),
 ];

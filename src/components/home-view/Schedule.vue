@@ -54,6 +54,7 @@ $lightGrey: #ccc;
   flex-direction: column;
   align-items: center;
   margin-bottom: 8px;
+  line-height: 1.15;
 
   &__dates-info {
     background-color: rgb(247, 200, 101);

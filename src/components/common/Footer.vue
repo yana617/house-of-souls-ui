@@ -33,6 +33,7 @@ footer {
   width: 100%;
   padding: 12px 16px;
   height: 60px;
+  line-height: 1.25;
 }
 .footer {
   &__phones {

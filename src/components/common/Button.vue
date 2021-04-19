@@ -17,6 +17,7 @@ export default {
 $greyBlue: #2c3e50;
 
 button {
+  line-height: 1.15;
   background-color: transparent;
   color: white;
   border: 1px solid white;
