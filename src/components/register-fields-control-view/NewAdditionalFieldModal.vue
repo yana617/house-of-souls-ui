@@ -91,6 +91,7 @@ $lightGrey: #ccc;
   align-items: center;
   flex-direction: column;
   background-color: white;
+  padding: 16px;
 
   &__close-icon {
     position: absolute;
@@ -153,6 +154,13 @@ $lightGrey: #ccc;
 
   &__unvisible-input {
     display: none;
+  }
+
+  @media (max-width: 768px) {
+    h2 {
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
   }
 }
 </style>

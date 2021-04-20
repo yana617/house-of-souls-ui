@@ -33,8 +33,8 @@ const actions = {
   saveAdditionalField: async ({ commit }, body) => {
     await additionalFields.saveAdditionalField(body);
   },
-  localUpdateAdditionalField: async ({ commit }, { field, id }) => {
-    commit(UPDATE_ADDITIONAL_FIELD, { field, id });
+  localUpdateAdditionalField: async ({ commit }, { field, _id }) => {
+    commit(UPDATE_ADDITIONAL_FIELD, { field, _id });
   },
 };
 
@@ -45,9 +45,9 @@ const mutations = {
   [SET_NEW_ADDITIONAL_FIELD_ICON_LINK](state, link) {
     state.new = { ...state.new, icon: link };
   },
-  [UPDATE_ADDITIONAL_FIELD](state, { field = {}, id }) {
+  [UPDATE_ADDITIONAL_FIELD](state, { field = {}, _id }) {
     const fields = state.current;
-    const foundIndex = fields.findIndex((f) => f.id === id);
+    const foundIndex = fields.findIndex((f) => f._id === _id);
     fields[foundIndex] = field;
     state.current = fields;
   },

@@ -4,11 +4,11 @@ import { API_HOST } from '@/constants';
 import mock from './mock';
 
 export default {
-  getVolunteers: async (params) => {
+  getUsers: async (params) => {
     // TO-DO: Remove with mocks
     const limit = parseInt(process.env.VUE_APP_LIMIT, 10);
     await axios.get('https://jsonplaceholder.typicode.com/todos/1', { params: { limit, ...params } });
-    return mock.volunteersMock;
+    return mock.usersMock;
   },
   login: async (body) => {
     const { data: { user } } = await axios.post(`${API_HOST}/login`, { user: body });

@@ -1,22 +1,31 @@
 {
   "users": [
     {
-      "_id": "6c86759c-49f6-49dd-b7c0-4af19046369e",
+      "id": "6c86759c-49f6-49dd-b7c0-4af19046369e",
       "createdAt": "2021-02-18T16:15:44.818Z",
       "name": "Яна",
       "surname": "Сидорова",
-      "birthday": "1999-07-07T16:15:44.818Z",
       "phone": "375111111111",
+      "birthday": "1999-07-07T16:15:44.818Z",
       "isVerified": true
     },
     {
-      "_id": "75b597b0-213d-4944-b25f-bd342d7edac3",
+      "id": "75b597b0-213d-4944-b25f-bd342d7edac3",
       "createdAt": "2021-03-18T16:15:44.818Z",
       "name": "Евгений",
       "surname": "Куликов",
-      "birthday": "1990-07-07T16:15:44.818Z",
       "phone": "375297563006",
+      "birthday": "1990-07-07T16:15:44.818Z",
       "isVerified": true
+    },
+    {
+      "id": "75b597b0-213d-4944-b25f-bd342d7edac3",
+      "createdAt": "2021-04-01T16:15:44.818Z",
+      "name": "Тамара",
+      "surname": "Николаевна",
+      "phone": "375293434343",
+      "birthday": "1960-07-07T16:15:44.818Z",
+      "isVerified": false
     }
   ]
 }

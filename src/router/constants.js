@@ -6,6 +6,10 @@ export const HEADER_LINKS = [{
   url: '/',
   label: 'График',
   slug: 'schedule',
+}, {
+  url: '/profile',
+  label: 'Профиль',
+  slug: 'profile',
 }];
 
 export const ADMIN_LINKS = [{
@@ -25,6 +29,7 @@ export const ADMIN_LINKS = [{
 export const PATHS = {
   '/': 'schedule',
   '/volunteers': 'volunteers',
+  '/profile': 'profile',
   '/admin': 'admin',
   '/admin/register-fields-control': 'register-fields-control',
   '/admin/volunteers-requests': 'volunteers-requests',

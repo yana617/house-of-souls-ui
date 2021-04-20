@@ -31,11 +31,11 @@ html {
 }
 body {
   min-height: calc(100vh - #{$headerHeight});
+  height: unset !important;
 }
 * {
   box-sizing: border-box;
   font-family: 'SF Pro Text', 'Myriad Set Pro', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-  line-height: unset !important;
 }
 #app {
   font-family: Helvetica, Avenir, Arial, sans-serif;

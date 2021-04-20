@@ -13,6 +13,25 @@ const daysOfWeek = {
 const DEFAULT_HOURS = 6;
 const DATE_LENGTH = 10;
 
+const calculateAge = (birthdayDate) => {
+  const birthday = new Date(birthdayDate);
+  const ageDifMs = Date.now() - birthday.getTime();
+  const ageDate = new Date(ageDifMs);
+  return Math.abs(ageDate.getUTCFullYear() - 1970);
+};
+
+const parseDateAndTime = (date) => {
+  const options = {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  };
+  const jsDate = new Date(date);
+  return jsDate.toLocaleDateString('ru-RU', options);
+};
+
 const parseDate = (date) => {
   const options = { day: 'numeric', month: 'long' };
   const jsDate = new Date(date);
@@ -41,10 +60,15 @@ const getInTwoWeeksMondayString = () => {
   return inTwoWeeksMonday.toISOString().slice(0, DATE_LENGTH);
 };
 
+const randomDate = (start, end) => new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+
 module.exports = {
   daysOfWeek,
+  parseDateAndTime,
   parseDate,
   getPrevMondayString,
   getNextMondayString,
   getInTwoWeeksMondayString,
+  calculateAge,
+  randomDate,
 };

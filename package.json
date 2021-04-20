@@ -12,6 +12,7 @@
     "deploy-with-setup": "npm run deploy-setup && npm run deploy"
   },
   "dependencies": {
+    "@cwist/vue-match-media": "^3.0.1",
     "ant-design-vue": "^2.0.1",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",

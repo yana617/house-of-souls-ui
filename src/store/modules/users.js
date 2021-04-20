@@ -1,30 +1,34 @@
 import users from '../../api/users';
 
-const SET_VOLUNTEERS = 'SET_VOLUNTEERS';
-const LOAD_MORE_VOLUNTEERS = 'LOAD_MORE_VOLUNTEERS';
+const SET_USERS = 'SET_USERS';
+const LOAD_MORE_USERS = 'LOAD_MORE_USERS';
 const SET_USER = 'SET_USER';
 
 // initial state
 const state = () => ({
-  volunteers: [],
+  list: [],
   user: null,
 });
 
 const getters = {};
 
 const actions = {
-  getVolunteers: async ({ commit }, params = {}) => {
-    const result = await users.getVolunteers(params);
-    commit(SET_VOLUNTEERS, result);
+  getUsers: async ({ commit }, params = {}) => {
+    const result = await users.getUsers(params);
+    commit(SET_USERS, result);
   },
-  loadMoreVolunteers: async ({ commit }, params = {}) => {
-    const volunteers = await users.getVolunteers(params);
-    commit(LOAD_MORE_VOLUNTEERS, volunteers);
+  loadMoreUsers: async ({ commit }, params = {}) => {
+    const result = await users.getUsers(params);
+    commit(LOAD_MORE_USERS, result);
   },
   login: async ({ commit }, body = {}) => {
     const user = await users.login(body);
     commit(SET_USER, user);
     commit('app/SET_MODAL', null, { root: true });
+  },
+  logout: async ({ commit }) => {
+    await users.logout();
+    commit(SET_USER, null);
   },
   register: async ({ commit }, body = {}) => {
     const user = await users.register(body);
@@ -38,12 +42,12 @@ const actions = {
 };
 
 const mutations = {
-  [SET_VOLUNTEERS](state, result) {
-    state.volunteers = result.volunteers;
+  [SET_USERS](state, result) {
+    state.list = result.users;
     state.total = result.total;
   },
-  [LOAD_MORE_VOLUNTEERS](state, result) {
-    state.volunteers = state.volunteers.concat(result.volunteers);
+  [LOAD_MORE_USERS](state, result) {
+    state.list = state.list.concat(result.users);
   },
   [SET_USER](state, user) {
     state.user = user;
