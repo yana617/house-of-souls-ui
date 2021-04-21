@@ -7,6 +7,8 @@
         <span class="register-fields-control__field__description">обязательное поле</span>
         <span class="register-fields-control__field__title">Фамилия</span>
         <span class="register-fields-control__field__description">обязательное поле</span>
+        <span class="register-fields-control__field__title">День рождения</span>
+        <span class="register-fields-control__field__description">обязательное поле</span>
         <span class="register-fields-control__field__title">Телефон</span>
         <span class="register-fields-control__field__description">обязательное поле</span>
         <span class="register-fields-control__field__title">Пароль</span>
