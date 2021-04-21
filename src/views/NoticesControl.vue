@@ -44,10 +44,11 @@ export default {
 <style lang="scss" scoped>
 $green: #42b983;
 $darkGreen: #3ba675;
+$img-width: 450px;
 
 .notices-control {
   width: 100%;
-  margin-right: 430px;
+  margin-right: $img-width;
   padding: 16px;
   background-color: white;
   display: flex;
@@ -76,8 +77,11 @@ $darkGreen: #3ba675;
 
   &__img {
     max-height: calc(100vh - 50px);
+    min-height: calc(100vh - 50px);
     position: fixed;
-    width: 430px;
+    width: $img-width;
+    min-width: $img-width;
+    max-width: $img-width;
     top: 50px;
     right: 0;
   }

@@ -14,7 +14,11 @@
       </div>
       <div class="register-fields-control__additional-fields">
         <span class="register-fields-control__additional-fields__title">Дополнительные поля</span>
-        <AdditionalField v-for="field in fields" :key="field.id" v-bind="field" />
+        <AdditionalField
+          v-for="field in fields"
+          :key="field._id"
+          v-bind="field"
+        />
       </div>
     </div>
     <div class="register-fields-control__additional-fields__add-btn__container">
@@ -138,7 +142,7 @@ $darkGrey: #999;
     }
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 768px) {
     &__fields-container {
       flex-direction: column;
     }

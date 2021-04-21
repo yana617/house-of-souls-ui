@@ -11,7 +11,6 @@
       >
         <span>
           {{ volunteer.name }} {{ volunteer.surname }}
-          <span v-if="volunteer.egida_nick">({{ volunteer.egida_nick }})</span>
         </span>
         <a class="phone-container">
           <img class="phone-icon" src="@/assets/phone-icon.png" />
@@ -33,7 +32,7 @@ export default {
   name: 'Volunteers',
   components: { SearchBar },
   computed: mapState({
-    volunteers: (state) => state.users.volunteers,
+    volunteers: (state) => state.users.list,
     total: (state) => state.users.total,
   }),
   data() {
@@ -43,7 +42,7 @@ export default {
   },
   created() {
     this.$store.dispatch('app/setLoading', true);
-    this.$store.dispatch('users/getVolunteers', { attribute: 'name', offset: 0 }).then(() => {
+    this.$store.dispatch('users/getUsers', { attribute: 'name', offset: 0 }).then(() => {
       this.$store.dispatch('app/setLoading', false);
     });
     this.offset += limit;
@@ -62,7 +61,7 @@ export default {
   methods: {
     loadMore() {
       this.$store
-        .dispatch('users/loadMoreVolunteers', {
+        .dispatch('users/loadMoreUsers', {
           attribute: this.$refs.searchBar.attribute,
           offset: this.offset,
           search: this.$refs.searchBar.searchText,
@@ -89,6 +88,7 @@ $greyBlue: #2c3e50;
   justify-content: space-between;
   color: $greyBlue;
   text-decoration: none;
+  line-height: 1.15;
 
   @media (max-width: 600px) {
     flex-direction: column;

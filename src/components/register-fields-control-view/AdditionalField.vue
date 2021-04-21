@@ -34,7 +34,7 @@ export default {
   name: 'AdditionalField',
   components: { Button },
   props: {
-    id: String,
+    _id: String,
     icon: String,
     label: String,
     description: String,
@@ -72,7 +72,7 @@ export default {
       this.edit = false;
     },
     deleteField() {
-      this.$store.dispatch('additionalFields/deleteAdditionalField', { id: this.id });
+      this.$store.dispatch('additionalFields/deleteAdditionalField', { _id: this._id });
     },
     onIconChange(e) {
       const files = e.target.files || e.dataTransfer.files;
@@ -83,12 +83,12 @@ export default {
       this.$store.dispatch('additionalFields/uploadIcon', formData).then(() => {
         const newIcon = this.uploadedIcon;
         const updatedField = {
-          id: this.id,
+          _id: this._id,
           icon: newIcon,
           label: this.labelModel,
           description: this.descriptionModel,
         };
-        this.$store.dispatch('additionalFields/localUpdateAdditionalField', { field: updatedField, id: this.id });
+        this.$store.dispatch('additionalFields/localUpdateAdditionalField', { field: updatedField, _id: this._id });
       });
     },
   },
@@ -175,7 +175,7 @@ $green: #42b983;
     }
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 768px) {
     max-width: 100%;
     min-width: 300px;
   }

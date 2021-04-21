@@ -3,7 +3,6 @@
     <div class="registration__wrapper">
       <input id="name" v-model="name" type="text" name="name" placeholder="Имя" />
       <input id="surname" v-model="surname" type="text" name="surname" placeholder="Фамилия" />
-      <input id="egida-nick" v-model="egidaNick" type="text" name="egida-nick" placeholder="Ник на Эгиде" />
       <PhoneInput @onchange="onChangePhone" id="phone" placeholder="Телефон" />
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
       <div v-if="loading && !additionalFields" class="registration__loader-wrapper">
@@ -11,10 +10,10 @@
       </div>
       <Checkbox
         v-for="field in additionalFields"
-        :key="field.id"
+        :key="field._id"
         v-bind="field"
-        :value="selected[field.id]"
-        @input="(value) => (selected[field.id] = value)"
+        :value="selected[field._id]"
+        @input="value => selected[field._id] = value"
       />
       <Button @click="submitRegistration" class="registration__submit-btn" title="Зарегистрироваться" />
     </div>
@@ -44,7 +43,6 @@ export default {
     return {
       name: null,
       surname: null,
-      egidaNick: null,
       phone: null,
       password: null,
       selected: {},
@@ -56,7 +54,7 @@ export default {
     this.$store.dispatch('additionalFields/getAdditionalFields').then(() => {
       this.loading = false;
       this.additionalFields.forEach((field) => {
-        this.selected[field.id] = false;
+        this.selected[field._id] = false;
       });
     });
   },
@@ -65,11 +63,10 @@ export default {
       const body = {
         name: this.name,
         surname: this.surname,
-        egidaNick: this.egidaNick,
         phone: this.phone,
         password: this.password,
         additionalFields: Object.keys(this.selected).map((additionalFieldId) => ({
-          id: additionalFieldId,
+          _id: additionalFieldId,
           value: this.selected[additionalFieldId],
         })),
       };

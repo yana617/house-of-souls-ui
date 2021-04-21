@@ -44,7 +44,7 @@ export default {
   },
   watch: {
     searchText(inputValue) {
-      this.$store.dispatch('users/getVolunteers', {
+      this.$store.dispatch('users/getUsers', {
         attribute: this.attribute,
         search: inputValue,
         offset: 0,
@@ -54,7 +54,7 @@ export default {
   methods: {
     handleChangeAttribute(attribute) {
       this.attribute = attribute;
-      this.$store.dispatch('users/getVolunteers', { attribute, offset: 0 });
+      this.$store.dispatch('users/getUsers', { attribute, offset: 0 });
     },
   },
 };
@@ -100,7 +100,7 @@ $green: #42b983;
   align-items: center;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 768px) {
   .search-bar {
     flex-direction: column-reverse;
   }
