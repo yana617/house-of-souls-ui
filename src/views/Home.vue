@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <Notice v-for="noticeId in notices.list" :key="noticeId" :noticeId="noticeId" v-bind="notices.data[noticeId]" />
-    <Schedule v-bind="currentSchedule" />
-    <Schedule v-bind="nextWeekSchedule" />
+    <Schedule v-bind="currentSchedule" @refreshSchedule="loadCurrentSchedule" />
+    <Schedule v-bind="nextWeekSchedule" @refreshSchedule="loadNextWeekSchedule" />
   </div>
   <Footer />
 </template>
@@ -13,7 +13,7 @@ import { mapState } from 'vuex';
 import Footer from '@/components/common/Footer.vue';
 import Notice from '@/components/home-view/Notice.vue';
 import Schedule from '@/components/home-view/Schedule.vue';
-import { getPrevMondayString, getNextMondayString, getInTwoWeeksMondayString } from '@/utils/date';
+// import { getPrevMondayString, getNextMondayString, getInTwoWeeksMondayString } from '@/utils/date';
 
 export default {
   name: 'Home',
@@ -30,11 +30,22 @@ export default {
   created() {
     this.$store.dispatch('notices/getNotices');
 
-    const nextMondayStr = getNextMondayString();
-    this.$store.dispatch('claim/getSchedule', { from: getPrevMondayString(), to: nextMondayStr });
-    this.$store.dispatch('claim/getNextWeekSchedule', { from: nextMondayStr, to: getInTwoWeeksMondayString() });
+    this.loadCurrentSchedule();
+    this.loadNextWeekSchedule();
 
     this.$store.dispatch('additionalFields/getAdditionalFields');
+  },
+  methods: {
+    loadCurrentSchedule() {
+      // TO-DO remove when backend will work
+      // const nextMondayStr = getNextMondayString();
+      // this.$store.dispatch('claim/getSchedule', { from: getPrevMondayString(), to: nextMondayStr });
+      this.$store.dispatch('claim/getSchedule', { from: '2021-05-03', to: '2021-05-10' });
+    },
+    loadNextWeekSchedule() {
+      // this.$store.dispatch('claim/getNextWeekSchedule', { from: nextMondayStr, to: getInTwoWeeksMondayString() });
+      this.$store.dispatch('claim/getNextWeekSchedule', { from: '2021-05-10', to: '2021-05-17' });
+    },
   },
 };
 </script>

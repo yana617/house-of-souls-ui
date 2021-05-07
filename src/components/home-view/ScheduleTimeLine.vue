@@ -14,17 +14,26 @@
         :claim="claim"
         @on-claim-click="openApply"
       />
-      <Button v-if="user" class="schedule-time-line__claim-btn" title="Записаться" @click="openAssignModal(day.date)" />
-      <span v-if="!user && !day.claims.length" class="schedule-time-line__no-assigned">
-        Никто не записан
-      </span>
+      <Button
+        v-if="user && !canUnsubscribe(day.claims)"
+        class="schedule-time-line__claim-btn"
+        title="Записаться"
+        @click="openAssignModal(day.date)"
+      />
+      <Button
+        v-if="canUnsubscribe(day.claims)"
+        class="schedule-time-line__unsubscribe-btn"
+        title="Отписаться"
+        @click="unsubscribe(day.claims)"
+      />
+      <span v-if="!user && !day.claims.length" class="schedule-time-line__no-assigned"> Никто не записан </span>
     </div>
     <ClaimInfoModal v-if="claimInfoModalOpen" v-bind="selectedClaim" @onclose="claimInfoModalOpen = false" />
     <ScheduleAssignModal
       v-if="scheduleAssignModalOpen"
       :type="type"
       :date="assignDate"
-      @onclose="scheduleAssignModalOpen = false"
+      @onclose="onAssignModalClose"
     />
   </div>
 </template>
@@ -50,6 +59,7 @@ export default {
     title: String,
     type: String,
     borderTop: Boolean,
+    period: String,
   },
   data() {
     return {
@@ -70,6 +80,19 @@ export default {
     openAssignModal(date) {
       this.assignDate = date;
       this.scheduleAssignModalOpen = true;
+    },
+    canUnsubscribe(claims) {
+      return this.user && claims.some((claim) => claim.user._id === this.user._id);
+    },
+    unsubscribe(claims) {
+      const userClaim = claims.find((claim) => claim.user._id === this.user._id);
+      this.$store.dispatch('claim/deleteClaim', { _id: userClaim._id }).then(() => {
+        this.$emit('refreshSchedule');
+      });
+    },
+    onAssignModalClose() {
+      this.scheduleAssignModalOpen = false;
+      this.$emit('refreshSchedule');
     },
   },
 };
@@ -114,13 +137,26 @@ $redBlack: rgb(50, 0, 0);
     font-size: 16px;
   }
 
-  &__claim-btn {
+  &__claim-btn,
+  &__unsubscribe-btn {
     width: $dayWidth;
+    margin-top: 4px;
+  }
+
+  &__claim-btn {
     color: $green;
     border-color: $green;
-    margin-top: 4px;
     &:hover {
       background-color: $green;
+      color: white;
+    }
+  }
+
+  &__unsubscribe-btn {
+    color: red;
+    border-color: red;
+    &:hover {
+      background-color: red;
       color: white;
     }
   }

@@ -23,6 +23,9 @@ const actions = {
   createClaim: async (_, body = {}) => {
     await claim.createClaim(body);
   },
+  deleteClaim: async (_, { _id } = {}) => {
+    await claim.deleteClaim({ _id });
+  },
 };
 
 const mutations = {

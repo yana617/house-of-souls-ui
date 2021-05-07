@@ -12,13 +12,14 @@
             </span>
           </span>
         </div>
-        <ScheduleTimeLine title="УТРО" type="morning" :schedule="morningSchedule" />
+        <ScheduleTimeLine title="УТРО" type="morning" :schedule="morningSchedule" @refreshSchedule="refreshSchedule" />
         <ScheduleTimeLine
           class="schedule__evening"
           title="ВЕЧЕР"
           type="evening"
           borderTop
           :schedule="eveningSchedule"
+          @refreshSchedule="refreshSchedule"
         />
       </div>
     </div>
@@ -58,6 +59,9 @@ export default {
     },
     parseDate(date) {
       return new Date(date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'numeric' });
+    },
+    refreshSchedule() {
+      this.$emit('refreshSchedule');
     },
   },
 };

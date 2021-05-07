@@ -1,12 +1,18 @@
-/*
-Probably it's overcomplicate mock server a bit and all these checks might be avoided
- */
-
-const NOTICE_ALLOWED_FIELDS = ['authorized', 'title', 'description'];
 const NOTICE_REQUIRED_FIELDS = ['title', 'description'];
+const NOTICE_ALLOWED_FIELDS = [...NOTICE_REQUIRED_FIELDS, 'authorized'];
 
-const USER_ALLOWED_FIELDS = ['name', 'surname', 'phone', 'password', 'user_additional_fields'];
-const USER_REQUIRED_FIELDS = ['name', 'phone', 'password'];
+const USER_REQUIRED_FIELDS = ['name', 'surname', 'phone', 'birthday', 'password'];
+const USER_ALLOWED_FIELDS = [...USER_REQUIRED_FIELDS];
+
+const ADDITIONAL_FIELD_TEMPLATE_REQUIRED_FIELDS = ['label', 'description'];
+const ADDITIONAL_FIELD_TEMPLATE_ALLOWED_FIELDS = [...ADDITIONAL_FIELD_TEMPLATE_REQUIRED_FIELDS, 'icon'];
+
+const USER_ADDITIONAL_FIELD_REQUIRED_FIELDS = ['additional_field_template_id', 'value', 'user_id'];
+const USER_ADDITIONAL_FIELD_ALLOWED_FIELDS = [...USER_ADDITIONAL_FIELD_REQUIRED_FIELDS];
+
+const CLAIM_REQUIRED_FIELDS = ['date', 'questionable', 'type', 'is_guest'];
+const CLAIM_ALLOWED_FIELDS = [...CLAIM_REQUIRED_FIELDS,
+  'additional_people', 'comment', 'arrival_time', 'user_id', 'guest_id'];
 
 const clearRequestData = (allowedFields = []) => (data = {}) => {
   if (allowedFields.length === 0) return data;
@@ -21,7 +27,7 @@ const checkRequiredFields = (requiredFields = []) => (data = {}) => {
   if (requiredFields.length === 0) return data;
 
   return requiredFields.reduce((result, field) => {
-    if (data[field]) return result;
+    if (data[field] || typeof data[field] === 'boolean') return result;
 
     return {
       ...result,
@@ -39,4 +45,10 @@ export default {
   checkRequiredNoticeFields: checkRequiredFields(NOTICE_REQUIRED_FIELDS),
   clearUserRequest: clearRequestData(USER_ALLOWED_FIELDS),
   checkRequiredUserFields: checkRequiredFields(USER_REQUIRED_FIELDS),
+  clearAdditionalFieldTemplateRequest: clearRequestData(ADDITIONAL_FIELD_TEMPLATE_ALLOWED_FIELDS),
+  checkRequiredAdditionalFieldTemplateFields: checkRequiredFields(ADDITIONAL_FIELD_TEMPLATE_REQUIRED_FIELDS),
+  clearUserAdditionalFieldRequest: clearRequestData(USER_ADDITIONAL_FIELD_ALLOWED_FIELDS),
+  checkRequiredUserAdditionalFieldFields: checkRequiredFields(USER_ADDITIONAL_FIELD_REQUIRED_FIELDS),
+  clearClaimRequest: clearRequestData(CLAIM_ALLOWED_FIELDS),
+  checkRequiredClaimFields: checkRequiredFields(CLAIM_REQUIRED_FIELDS),
 };

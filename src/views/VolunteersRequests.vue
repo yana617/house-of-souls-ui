@@ -14,10 +14,10 @@
       <template #name="{ record }">
         <span>{{ userInfo(record) }}</span>
       </template>
-      <template #userAdditionalFields="{ text: userAdditionalFields }">
+      <template #userAdditionalFields="{ record }">
         <span>
           <AdditionalFieldsTags
-            :userAdditionalFields="userAdditionalFields"
+            :userAdditionalFields="record.user_additional_fields"
             :additionalFieldsTemplates="additionalFieldsTemplates"
           />
         </span>
@@ -38,7 +38,7 @@
           <h4>{{ user.phone }}</h4>
           <div class="volunteers-requests__mobile__line" />
           <AdditionalFieldsTags
-            :userAdditionalFields="user.userAdditionalFields"
+            :userAdditionalFields="user.user_additional_fields"
             :additionalFieldsTemplates="additionalFieldsTemplates"
           />
         </div>
