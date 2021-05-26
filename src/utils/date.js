@@ -10,13 +10,12 @@ const daysOfWeek = {
   0: 'ВС',
 };
 
+const MS_IN_DAY_AMOUNT = 1000 * 60 * 60 * 24;
+
 const typeOfTime = {
   morning: 'Утро',
   evening: 'Вечер',
 };
-
-const DEFAULT_HOURS = 6;
-const DATE_LENGTH = 10;
 
 const calculateAge = (birthdayDate) => {
   const birthday = new Date(birthdayDate);
@@ -43,38 +42,23 @@ const parseDate = (date) => {
   return jsDate.toLocaleDateString('ru-RU', options);
 };
 
-const getPrevMondayString = () => {
-  const prevMonday = new Date();
-  prevMonday.setDate(prevMonday.getDate() - ((prevMonday.getDay() + (WEEK_LENGTH - 1)) % WEEK_LENGTH));
-  prevMonday.setHours(DEFAULT_HOURS);
-  return prevMonday.toISOString().slice(0, DATE_LENGTH);
-};
+const getWeekDatesRange = (diffFromCurrent = 0) => {
+  const target = new Date(Date.now() + WEEK_LENGTH * diffFromCurrent * MS_IN_DAY_AMOUNT);
+  const from = target.setDate(target.getDate() - (target.getDay() || WEEK_LENGTH) + 1);
+  const to = target.setDate(target.getDate() + WEEK_LENGTH - 1);
 
-const getNextMondayString = () => {
-  const nextMonday = new Date();
-  nextMonday.setDate(nextMonday.getDate() + ((WEEK_LENGTH - nextMonday.getDay()) % WEEK_LENGTH) + 1);
-  nextMonday.setHours(DEFAULT_HOURS);
-  return nextMonday.toISOString().slice(0, DATE_LENGTH);
-};
-
-const getInTwoWeeksMondayString = () => {
-  const inTwoWeeksMonday = new Date();
-  inTwoWeeksMonday.setDate(inTwoWeeksMonday.getDate() + ((WEEK_LENGTH - inTwoWeeksMonday.getDay()) % WEEK_LENGTH)
-    + 1 + WEEK_LENGTH);
-  inTwoWeeksMonday.setHours(DEFAULT_HOURS);
-  return inTwoWeeksMonday.toISOString().slice(0, DATE_LENGTH);
+  return { from, to };
 };
 
 const randomDate = (start, end) => new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 
 module.exports = {
+  MS_IN_DAY_AMOUNT,
   daysOfWeek,
   typeOfTime,
   parseDateAndTime,
   parseDate,
-  getPrevMondayString,
-  getNextMondayString,
-  getInTwoWeeksMondayString,
   calculateAge,
   randomDate,
+  getWeekDatesRange,
 };
