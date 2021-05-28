@@ -26,15 +26,15 @@
 </template>
 
 <script>
+import { daysOfWeek, parseDate } from '@/utils/date';
 import ScheduleTimeLine from './ScheduleTimeLine.vue';
-import { daysOfWeek, parseDate } from '../../utils/date';
 
 export default {
   name: 'Schedule',
   components: { ScheduleTimeLine },
   props: {
-    from: String,
-    to: String,
+    from: Number,
+    to: Number,
     claims: Array,
   },
   computed: {

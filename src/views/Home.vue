@@ -13,7 +13,7 @@ import { mapState } from 'vuex';
 import Footer from '@/components/common/Footer.vue';
 import Notice from '@/components/home-view/Notice.vue';
 import Schedule from '@/components/home-view/Schedule.vue';
-import { getPrevMondayString, getNextMondayString, getInTwoWeeksMondayString } from '@/utils/date';
+import { getWeekDatesRange } from '@/utils/date';
 
 export default {
   name: 'Home',
@@ -30,9 +30,8 @@ export default {
   created() {
     this.$store.dispatch('notices/getNotices');
 
-    const nextMondayStr = getNextMondayString();
-    this.$store.dispatch('claim/getSchedule', { from: getPrevMondayString(), to: nextMondayStr });
-    this.$store.dispatch('claim/getNextWeekSchedule', { from: nextMondayStr, to: getInTwoWeeksMondayString() });
+    this.$store.dispatch('claim/getSchedule', getWeekDatesRange());
+    this.$store.dispatch('claim/getNextWeekSchedule', getWeekDatesRange(+1));
 
     this.$store.dispatch('additionalFields/getAdditionalFields');
   },
