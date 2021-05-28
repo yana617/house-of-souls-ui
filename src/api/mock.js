@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
-import { randomIntNumber, randomElement } from '../utils';
-import { randomDate } from '../utils/date';
+import { randomIntNumber, randomElement } from '@/utils';
+import { randomDate } from '@/utils/date';
 
 const primitiveMocks = {
   names: ['Яна', 'Олег', 'Аня', 'Гюнель', 'Александра'],
@@ -8,6 +8,7 @@ const primitiveMocks = {
   phones: ['+375293355013', '+375299284739', '+375292960171'],
   arrival_time: ['8.30', '17.00', null],
   comments: ['Буду только к 19.00', 'Новенькие со мной - в первый-первый раз', null],
+  type: ['morning', 'evening'],
 };
 
 const generateBirthday = () => randomDate(new Date(1980, 1, 1), new Date(2010, 1, 1));
@@ -35,15 +36,18 @@ const generateUser = () => {
   };
 };
 
-const generateUserClaim = () => {
+const generateUserClaim = (from, to) => {
   const user = generateUser();
   const claimId = randomIntNumber().toString();
 
   return {
     id: claimId,
+    date: randomDate(new Date(from), new Date(to)),
+    type: randomElement(primitiveMocks.type),
     arrival_time: randomElement(primitiveMocks.arrival_time),
-    additional_people: randomIntNumber(2),
+    additional_people: randomIntNumber(1),
     comment: randomElement(primitiveMocks.comments),
+    questionable: Math.random() > 0.5,
     user: {
       ...user,
       user_additional_fields: [
@@ -54,13 +58,7 @@ const generateUserClaim = () => {
   };
 };
 
-const generateScheduleDay = () => ({
-  date: new Date(),
-  morning: Array(randomIntNumber(5)).fill(null).map(generateUserClaim),
-  evening: Array(randomIntNumber(5)).fill(null).map(generateUserClaim),
-});
-
-const generateSchedule = () => Array(7).fill(null).map(generateScheduleDay);
+const generateClaims = (from, to) => Array(30).fill(null).map(() => generateUserClaim(from, to));
 
 const additionalFieldsMock = [{
   _id: '1',
@@ -81,7 +79,7 @@ const usersMock = {
 
 export default {
   generateUser,
-  generateSchedule,
+  generateClaims,
   additionalFieldsMock,
   usersMock,
 };

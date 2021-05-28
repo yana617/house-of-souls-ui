@@ -1,5 +1,11 @@
 import { createApp } from 'vue';
-import { Switch, Table, Tag } from 'ant-design-vue';
+import {
+  Switch,
+  Table,
+  Tag,
+  TimePicker,
+  Checkbox,
+} from 'ant-design-vue';
 import { createVueMatchMediaPlugin } from '@cwist/vue-match-media';
 
 import App from './App.vue';
@@ -20,6 +26,8 @@ const run = () => {
     .use(store)
     .use(router)
     .use(Switch)
+    .use(TimePicker)
+    .use(Checkbox)
     .use(Table)
     .use(Tag)
     .use(VueMatchMediaPlugin)
