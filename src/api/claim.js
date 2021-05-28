@@ -1,26 +1,55 @@
 import axios from 'axios';
 
 import { API_HOST } from '@/constants';
+import { MS_IN_DAY_AMOUNT } from '@/utils/date';
+
+const getDayMock = (date) => ({
+  date,
+  morning: [],
+  evening: [],
+});
+
+const generateDatesRange = (fromTimeStamp, toTimeStamp) => {
+  const iterateDate = new Date(fromTimeStamp);
+  const range = [];
+
+  do {
+    range.push(getDayMock(new Date(iterateDate)));
+  } while (iterateDate.setHours(24) <= toTimeStamp);
+
+  return range;
+};
 
 const mapClaims = (response) => {
   const { from, to, claims } = response;
-  const fromDate = new Date(from);
-  const dates = {};
-  let mappedClaims = Array.from({ length: 7 }, (_, i) => {
-    const date = new Date(fromDate.getTime() + i * 24 * 60 * 60 * 1000);
-    dates[date.toLocaleDateString('ru-RU')] = i;
-    return { date, morning: [], evening: [] };
-  });
 
-  mappedClaims = claims.reduce((result, claim) => {
-    const date = new Date(claim.date).toLocaleDateString('ru-RU');
-    const dayIndex = dates[date];
-    if (result[dayIndex]) {
-      result[dayIndex][claim.type].push(claim);
-    }
-    return result;
-  }, mappedClaims);
-  return { from, to, claims: mappedClaims };
+  const fromTimeStamp = new Date(from).setHours(0, 0, 0, 0);
+  const toTimeStamp = new Date(to).setHours(0, 0, 0, 0);
+
+  return {
+    from,
+    to,
+    claims: claims.reduce((result, claim) => {
+      const currentDate = new Date(claim.date);
+      const currentTimeStamp = currentDate.setHours(0, 0, 0, 0);
+
+      if (currentTimeStamp > toTimeStamp || currentTimeStamp < fromTimeStamp) return result;
+
+      const dayIndex = Math.floor((currentTimeStamp - fromTimeStamp) / MS_IN_DAY_AMOUNT);
+      const day = result[dayIndex];
+      const current = [];
+
+      current[dayIndex] = {
+        ...day,
+        [claim.type]: [
+          ...day[claim.type],
+          claim,
+        ],
+      };
+
+      return Object.assign([], result, current);
+    }, generateDatesRange(fromTimeStamp, toTimeStamp)),
+  };
 };
 // result structure:
 // [{ date: String, morning: [claims], evening: [claims] }]

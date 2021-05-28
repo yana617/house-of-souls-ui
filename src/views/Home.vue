@@ -13,7 +13,7 @@ import { mapState } from 'vuex';
 import Footer from '@/components/common/Footer.vue';
 import Notice from '@/components/home-view/Notice.vue';
 import Schedule from '@/components/home-view/Schedule.vue';
-// import { getPrevMondayString, getNextMondayString, getInTwoWeeksMondayString } from '@/utils/date';
+// import { getWeekDatesRange } from '@/utils/date';
 
 export default {
   name: 'Home',
@@ -38,13 +38,12 @@ export default {
   methods: {
     loadCurrentSchedule() {
       // TO-DO remove when backend will work
-      // const nextMondayStr = getNextMondayString();
-      // this.$store.dispatch('claim/getSchedule', { from: getPrevMondayString(), to: nextMondayStr });
-      this.$store.dispatch('claim/getSchedule', { from: '2021-05-03', to: '2021-05-10' });
+      // this.$store.dispatch('claim/getSchedule', getWeekDatesRange());
+      this.$store.dispatch('claim/getSchedule', { from: '2021-05-03', to: '2021-05-09' });
     },
     loadNextWeekSchedule() {
-      // this.$store.dispatch('claim/getNextWeekSchedule', { from: nextMondayStr, to: getInTwoWeeksMondayString() });
-      this.$store.dispatch('claim/getNextWeekSchedule', { from: '2021-05-10', to: '2021-05-17' });
+      // this.$store.dispatch('claim/getNextWeekSchedule', getWeekDatesRange(+1));
+      this.$store.dispatch('claim/getNextWeekSchedule', { from: '2021-05-10', to: '2021-05-16' });
     },
   },
 };

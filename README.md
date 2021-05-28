@@ -1,5 +1,7 @@
 # house-of-souls-ui
 
+Volunteers come to the house of the rescued souls (HOS, in russian - Домик Спасенных Душ или ДСД) every day to look after the animals, in the morning and in the evening. To control when and who will be, a schedule is kept in Excel. Purpose - to automate the process of recording people on a schedule.
+
 ## Project setup
 
 ```bash
