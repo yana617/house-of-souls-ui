@@ -70,6 +70,7 @@ export default {
 <style scoped lang="scss">
 $dayWidth: 160px;
 $lightGrey: #ccc;
+$lightBlue: #d0e1f9;
 
 .schedule {
   display: flex;
@@ -79,7 +80,7 @@ $lightGrey: #ccc;
   line-height: 1.15;
 
   &__dates-info {
-    background-color: rgb(247, 200, 101);
+    background-color: $lightBlue;
     width: 100%;
     color: black;
     padding: 8px;

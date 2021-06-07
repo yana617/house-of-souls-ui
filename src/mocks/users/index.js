@@ -83,9 +83,8 @@ export default [
   }),
 
   rest.get(`${API_HOST}/users`, (req, res, ctx) => {
-    const isVerified = req.url.searchParams.get('isVerified') === 'true';
-
-    if (!isVerified && typeof isVerified !== 'boolean') {
+    const isVerifiedQuery = req.url.searchParams.get('isVerified');
+    if (!isVerifiedQuery) {
       return res(
         ctx.status(401),
         ctx.json({
@@ -94,6 +93,7 @@ export default [
       );
     }
 
+    const isVerified = isVerifiedQuery === 'true';
     let users = data.users.filter((user) => user.isVerified === isVerified);
     users = users.map((user) => {
       const user_additional_fields = userAdditionalFieldsMocks.filter((uaf) => uaf.user_id === user._id);

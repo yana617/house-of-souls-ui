@@ -25,12 +25,9 @@ export default [
       );
     }
 
-    const fromInSecs = new Date(from).getTime();
-    const toInSecs = new Date(to).getTime();
-
     let claims = claimsMocks.filter((claim) => {
       const claimDateInSecs = new Date(claim.date).getTime();
-      return claimDateInSecs > fromInSecs && claimDateInSecs < toInSecs;
+      return claimDateInSecs > from && claimDateInSecs < to;
     });
 
     claims = claims.map((claim) => {

@@ -39,11 +39,15 @@ export default {
     loadCurrentSchedule() {
       // TO-DO remove when backend will work
       // this.$store.dispatch('claim/getSchedule', getWeekDatesRange());
-      this.$store.dispatch('claim/getSchedule', { from: '2021-05-03', to: '2021-05-09' });
+      const fromTimeStamp = new Date('2021-05-03').setHours(0, 0, 0);
+      const toTimeStamp = new Date('2021-05-09').setHours(0, 0, 0);
+      this.$store.dispatch('claim/getSchedule', { from: fromTimeStamp, to: toTimeStamp });
     },
     loadNextWeekSchedule() {
       // this.$store.dispatch('claim/getNextWeekSchedule', getWeekDatesRange(+1));
-      this.$store.dispatch('claim/getNextWeekSchedule', { from: '2021-05-10', to: '2021-05-16' });
+      const fromTimeStamp = new Date('2021-05-10').setHours(0, 0, 0);
+      const toTimeStamp = new Date('2021-05-16').setHours(0, 0, 0);
+      this.$store.dispatch('claim/getNextWeekSchedule', { from: fromTimeStamp, to: toTimeStamp });
     },
   },
 };
