@@ -7,9 +7,9 @@ import { IS_AUTH } from '@/mocks/constants';
 
 import mockUtils from '../utils';
 import data from './mocks.json';
+import { userAdditionalFields as userAdditionalFieldsMocks } from '../userAdditionalFields/mocks.json';
 
 export default [
-  // logging a user in
   rest.post(`${API_HOST}/login`, (req, res, ctx) => {
     const { phone } = req.body.user;
 
@@ -52,7 +52,6 @@ export default [
     );
   }),
 
-  // creating a new user
   rest.post(`${API_HOST}/register`, (req, res, ctx) => {
     const userFromRequest = mockUtils.clearUserRequest(req.body.user);
 
@@ -84,4 +83,34 @@ export default [
   rest.post(`${API_HOST}/restore-password`, (_, res, ctx) => res(
     ctx.status(200),
   )),
+
+  rest.get(`${API_HOST}/users`, (req, res, ctx) => {
+    const isVerifiedQuery = req.url.searchParams.get('isVerified');
+    if (!isVerifiedQuery) {
+      return res(
+        ctx.status(401),
+        ctx.json({
+          errorMessage: 'Please provide a isVerified query',
+        }),
+      );
+    }
+
+    const isVerified = isVerifiedQuery === 'true';
+    let users = data.users.filter((user) => user.isVerified === isVerified);
+    users = users.map((user) => {
+      const user_additional_fields = userAdditionalFieldsMocks.filter((uaf) => uaf.user_id === user._id);
+      return { ...user, user_additional_fields };
+    });
+
+    return res(
+      ctx.status(200),
+      ctx.json({
+        success: true,
+        data: {
+          users,
+          total: users.length,
+        },
+      }),
+    );
+  }),
 ];

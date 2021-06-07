@@ -5,9 +5,7 @@
       <span class="schedule-assign-modal__header">Запись в график</span>
       <span class="schedule-assign-modal__info-title">
         <b v-if="!anotherPerson">{{ userData }}</b>
-        <b v-if="anotherPerson">
-          Запись другого человека <a @click="anotherPerson = false">(записать себя)</a>
-        </b>
+        <b v-if="anotherPerson"> Запись другого человека <a @click="anotherPerson = false">(записать себя)</a> </b>
       </span>
       <div v-if="anotherPerson">
         <input class="schedule-assign-modal__another-prs-input" v-model="name" type="text" placeholder="Имя" />
@@ -104,8 +102,7 @@ export default defineComponent({
     },
     submit() {
       const body = {
-        anotherPerson: this.anotherPerson,
-        user: !this.anotherPerson ? this.user : { name: this.name, surname: this.surname, phone: this.phone },
+        is_guest: this.anotherPerson,
         arrival_time: this.time || null,
         additional_people: parseInt(this.additional_people, 10) || null,
         comment: this.comment,
@@ -113,6 +110,15 @@ export default defineComponent({
         date: this.date,
         type: this.type,
       };
+      if (this.anotherPerson) {
+        body.guest_info = {
+          name: this.name,
+          surname: this.surname,
+          phone: this.phone,
+        };
+      } else {
+        body.user_id = this.user._id;
+      }
       this.$store.dispatch('claim/createClaim', body).then(() => {
         this.$emit('onclose');
       });

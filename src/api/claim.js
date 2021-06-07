@@ -1,8 +1,7 @@
 import axios from 'axios';
 
+import { API_HOST } from '@/constants';
 import { MS_IN_DAY_AMOUNT } from '@/utils/date';
-
-import mock from './mock';
 
 const getDayMock = (date) => ({
   date,
@@ -52,15 +51,18 @@ const mapClaims = (response) => {
     }, generateDatesRange(fromTimeStamp, toTimeStamp)),
   };
 };
+// result structure:
+// [{ date: String, morning: [claims], evening: [claims] }]
 
 export default {
-  getClaims: async (params) => {
-    // TO-DO: Remove with mocks
-    await axios.get('https://jsonplaceholder.typicode.com/todos/1', { params });
-    return mapClaims({ from: params.from, to: params.to, claims: mock.generateClaims(params.from, params.to) });
+  getClaims: async ({ from, to }) => {
+    const { data: { claims } } = await axios.get(`${API_HOST}/claims?from=${from}&to=${to}`);
+    return mapClaims({ from, to, claims });
   },
   createClaim: async (body) => {
-    await axios.post('https://jsonplaceholder.typicode.com/todos', { body });
-    return body;
+    await axios.post(`${API_HOST}/claims`, { claim: body });
+  },
+  deleteClaim: async ({ _id } = {}) => {
+    await axios.delete(`${API_HOST}/claims/${_id}`);
   },
 };
