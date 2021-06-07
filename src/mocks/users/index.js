@@ -10,7 +10,6 @@ import data from './mocks.json';
 import { userAdditionalFields as userAdditionalFieldsMocks } from '../userAdditionalFields/mocks.json';
 
 export default [
-  // logging a user in
   rest.post(`${API_HOST}/login`, (req, res, ctx) => {
     const { phone } = req.body.user;
 
@@ -53,7 +52,6 @@ export default [
     );
   }),
 
-  // creating a new user
   rest.post(`${API_HOST}/register`, (req, res, ctx) => {
     const userFromRequest = mockUtils.clearUserRequest(req.body.user);
 
@@ -81,6 +79,10 @@ export default [
       }),
     );
   }),
+
+  rest.post(`${API_HOST}/restore-password`, (_, res, ctx) => res(
+    ctx.status(200),
+  )),
 
   rest.get(`${API_HOST}/users`, (req, res, ctx) => {
     const isVerifiedQuery = req.url.searchParams.get('isVerified');

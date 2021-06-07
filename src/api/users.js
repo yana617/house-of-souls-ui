@@ -20,4 +20,8 @@ export default {
     const { data: { user } } = await axios.post(`${API_HOST}/register`, { user: body });
     return user;
   },
+  restorePassword: async ({ email }) => {
+    const { data } = await axios.post(`${API_HOST}/restore-password`, { email });
+    return data;
+  },
 };

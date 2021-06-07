@@ -35,6 +35,9 @@ const actions = {
     commit(SET_USER, user);
     commit('app/SET_MODAL', null, { root: true });
   },
+  restorePassword: async (_, body = {}) => {
+    await users.restorePassword(body);
+  },
 };
 
 const mutations = {
