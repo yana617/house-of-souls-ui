@@ -80,4 +80,8 @@ export default [
       }),
     );
   }),
+
+  rest.post(`${API_HOST}/restore-password`, (_, res, ctx) => res(
+    ctx.status(200),
+  )),
 ];
