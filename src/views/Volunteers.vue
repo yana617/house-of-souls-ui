@@ -41,7 +41,7 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch('users/getUsers', { attribute: 'name', offset: 0 });
+    this.$store.dispatch('users/getUsers', { isVerified: true, attribute: 'name', offset: 0 });
     this.offset += limit;
 
     window.addEventListener('scroll', () => {
