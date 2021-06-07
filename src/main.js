@@ -1,9 +1,14 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 import { createApp } from 'vue';
 import {
   Switch,
   Table,
   Tag,
   Spin,
+  TimePicker,
+  Checkbox,
+  Input,
 } from 'ant-design-vue';
 import { createVueMatchMediaPlugin } from '@cwist/vue-match-media';
 
@@ -26,8 +31,11 @@ const run = () => {
     .use(router)
     .use(Switch)
     .use(Spin)
+    .use(TimePicker)
+    .use(Checkbox)
     .use(Table)
     .use(Tag)
+    .use(Input)
     .use(VueMatchMediaPlugin)
     .mount('#app');
 };

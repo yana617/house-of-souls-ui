@@ -42,10 +42,10 @@ export default {
   },
   created() {
     this.$store.dispatch('app/setLoading', true);
-    this.$store.dispatch('users/getUsers', { attribute: 'name', offset: 0 }).then(() => {
+    this.$store.dispatch('users/getUsers', { isVerified: true, attribute: 'name', offset: 0 }).then(() => {
+      this.offset += limit;
       this.$store.dispatch('app/setLoading', false);
     });
-    this.offset += limit;
 
     window.addEventListener('scroll', () => {
       const bottomOfWindow = document.documentElement.scrollTop

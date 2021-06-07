@@ -4,6 +4,9 @@
       <PhoneInput @onchange="onChangePhone" id="phone" placeholder="Телефон" />
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
       <Button @click="submitLogin" class="login__submit-btn" title="Войти" />
+      <router-link @click="closeModal" class="login__forgot-password-label" to="/restore-password">
+        забыли пароль?
+      </router-link>
     </div>
   </div>
 </template>
@@ -33,12 +36,16 @@ export default {
       };
       this.$store.dispatch('users/login', body);
     },
+    closeModal() {
+      this.$store.dispatch('app/setModal', null);
+    },
   },
 };
 </script>
 
 <style lang="scss">
 $lightGrey: #ccc;
+$blue-link: rgba(0, 180, 255, 0.7);
 
 .login {
   display: flex;
@@ -73,6 +80,11 @@ $lightGrey: #ccc;
 
   &__submit-btn {
     margin-top: 16px;
+  }
+
+  &__forgot-password-label {
+    margin-top: 8px;
+    color: $blue-link;
   }
 }
 </style>
