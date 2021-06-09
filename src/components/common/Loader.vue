@@ -17,8 +17,6 @@ export default {
 </script>
 
 <style lang="scss">
-$green: #42b983;
-
 .loader {
   margin-top: 40vh !important;
 
