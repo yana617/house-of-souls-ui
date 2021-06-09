@@ -1,0 +1,264 @@
+{
+  "claims": [{
+    "_id": "9328d202-44a1-45e7-839b-8c58748299dc",
+    "date": "2021-05-03T20:58:22+0000",
+    "type": "morning",
+    "arrival_time": "08.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "6c86759c-49f6-49dd-b7c0-4af19046369e"
+  }, {
+    "_id": "434b4987-73ee-463d-bef0-d8b935b56978",
+    "date": "2021-05-07T20:58:22+0000",
+    "type": "evening",
+    "arrival_time": "17.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "75b597b0-213d-4944-b25f-bd342d7edac3"
+  }, {
+    "_id": "2385d022-e399-4528-a353-e1d090464760",
+    "date": "2021-05-15T20:58:22+0000",
+    "type": "morning",
+    "arrival_time": "09.30",
+    "additional_people": 1,
+    "comment": "Some comment",
+    "questionable": true,
+    "user_id": "75b597b0-213d-4944-b25f-bd342d7edac3"
+  }, {
+    "_id": "4ceebf6c-97e0-4144-a2b2-271d674de143",
+    "date": "2021-05-15T20:58:22+0000",
+    "type": "morning",
+    "arrival_time": "08.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "e3bad91b-78b2-48d1-97a4-5738d74809ac"
+  }, {
+    "_id": "806d69f2-42e9-48a0-9e8d-b64cbd066bfd",
+    "date": "2021-05-05T20:58:22+0000",
+    "type": "morning",
+    "arrival_time": "08.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": true,
+    "user_id": "1e16a7d7-ae0c-4863-a4b2-a941664046c3"
+  }, {
+    "_id": "ba5c69bd-37ec-4835-a6f7-5b9deebfcc24",
+    "date": "2021-05-11T20:58:22+0000",
+    "type": "evening",
+    "arrival_time": "17.30",
+    "additional_people": 1,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "6c86759c-49f6-49dd-b7c0-4af19046369e"
+  }, {
+    "_id": "edf77006-2c33-49ff-ad16-b8b5461411dc",
+    "date": "2021-05-04T20:58:22+0000",
+    "type": "morning",
+    "arrival_time": "08.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "6c86759c-49f6-49dd-b7c0-4af19046369e"
+  }, {
+    "_id": "25de8331-589a-4676-baab-3e7f699bbdb0",
+    "date": "2021-05-09T20:58:22+0000",
+    "type": "evening",
+    "arrival_time": "17.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "75b597b0-213d-4944-b25f-bd342d7edac3"
+  }, {
+    "_id": "6a975b71-e1d4-4434-9e9a-6d4f5081700b",
+    "date": "2021-05-09T20:58:22+0000",
+    "type": "morning",
+    "arrival_time": "09.30",
+    "additional_people": 1,
+    "comment": "Some comment",
+    "questionable": true,
+    "user_id": "75b597b0-213d-4944-b25f-bd342d7edac3"
+  }, {
+    "_id": "2f677888-00bc-4829-8410-08ce4d48dde3",
+    "date": "2021-05-12T20:58:22+0000",
+    "type": "morning",
+    "arrival_time": "08.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "e3bad91b-78b2-48d1-97a4-5738d74809ac"
+  }, {
+    "_id": "a8fade89-b4b0-4124-b3f6-a9adc6e715a9",
+    "date": "2021-05-05T20:58:22+0000",
+    "type": "morning",
+    "arrival_time": "08.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "e3bad91b-78b2-48d1-97a4-5738d74809ac"
+  }, {
+    "_id": "1fde3dbf-f573-490f-b126-2b9d3ab23707",
+    "date": "2021-05-10T20:58:22+0000",
+    "type": "evening",
+    "arrival_time": "17.30",
+    "additional_people": 1,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "6c86759c-49f6-49dd-b7c0-4af19046369e"
+  }, {
+    "_id": "3e632aaa-f9e3-4850-95ce-c8d2c8c73d4b",
+    "date": "2021-05-13T20:58:22+0000",
+    "type": "morning",
+    "arrival_time": "10.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "75b597b0-213d-4944-b25f-bd342d7edac3"
+  }, {
+    "_id": "b9f48224-a7ac-45cc-b3e2-98794fd6fdc8",
+    "date": "2021-05-14T20:58:22+0000",
+    "type": "evening",
+    "arrival_time": "17.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "6c86759c-49f6-49dd-b7c0-4af19046369e"
+  }, {
+    "_id": "0883210d-fae9-4bdc-b892-e09f7eb5be95",
+    "date": "2021-05-03T20:58:22+0000",
+    "type": "evening",
+    "arrival_time": "17.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "75b597b0-213d-4944-b25f-bd342d7edac3"
+  }, {
+    "_id": "8131f5ed-df1d-4cfd-9e64-295b9371d9a6",
+    "date": "2021-05-04T20:58:22+0000",
+    "type": "evening",
+    "arrival_time": "17.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "1e16a7d7-ae0c-4863-a4b2-a941664046c3"
+  }, {
+    "_id": "e4a8b868-3dc3-4f06-9dfa-4cd4fd7ddf52",
+    "date": "2021-05-05T20:58:22+0000",
+    "type": "evening",
+    "arrival_time": "17.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "b9945b75-024f-400d-940d-27b646ca471d"
+  }, {
+    "_id": "966c20c7-1827-44cd-90ce-a85223abffc7",
+    "date": "2021-05-06T20:58:22+0000",
+    "type": "evening",
+    "arrival_time": "17.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "b9945b75-024f-400d-940d-27b646ca471d"
+  }, {
+    "_id": "631b2a98-6946-4439-bdc7-e766d81627b4",
+    "date": "2021-05-08T20:58:22+0000",
+    "type": "evening",
+    "arrival_time": "17.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "1e16a7d7-ae0c-4863-a4b2-a941664046c3"
+  }, {
+    "_id": "9f26b665-b888-45de-a676-463567e94c2d",
+    "date": "2021-05-06T20:58:22+0000",
+    "type": "morning",
+    "arrival_time": "08.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "1e16a7d7-ae0c-4863-a4b2-a941664046c3"
+  }, {
+    "_id": "02cea68e-4eba-4cc6-a048-d9806042408f",
+    "date": "2021-05-07T20:58:22+0000",
+    "type": "morning",
+    "arrival_time": "08.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "6c86759c-49f6-49dd-b7c0-4af19046369e"
+  }, {
+    "_id": "1cb3b115-86c6-4cff-99c0-1cf94138e72c",
+    "date": "2021-05-08T20:58:22+0000",
+    "type": "morning",
+    "arrival_time": "08.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "b9945b75-024f-400d-940d-27b646ca471d"
+  }, {
+    "_id": "6e17440f-1908-4a50-bfa8-76c7f8706dcd",
+    "date": "2021-05-03T20:58:22+0000",
+    "type": "evening",
+    "arrival_time": "18.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "36f2c0b3-c5f5-43bf-9cc8-eab7d09e5a21"
+  }, {
+    "_id": "dd1d2de2-76f2-44c6-a00c-5cd45d301afd",
+    "date": "2021-05-05T20:58:22+0000",
+    "type": "morning",
+    "arrival_time": "08.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "36f2c0b3-c5f5-43bf-9cc8-eab7d09e5a21"
+  }, {
+    "_id": "e45ab8cd-6ee2-4c64-8051-1553c0637eeb",
+    "date": "2021-05-07T20:58:22+0000",
+    "type": "evening",
+    "arrival_time": "18.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "36f2c0b3-c5f5-43bf-9cc8-eab7d09e5a21"
+  }, {
+    "_id": "f452ed6b-f4a8-4a75-88fd-0eeb9d95b035",
+    "date": "2021-05-08T20:58:22+0000",
+    "type": "morning",
+    "arrival_time": "08.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "36f2c0b3-c5f5-43bf-9cc8-eab7d09e5a21"
+  }, {
+    "_id": "dbfeaae5-366f-435b-84e1-4de6dc9b68e8",
+    "date": "2021-05-03T20:58:22+0000",
+    "type": "evening",
+    "arrival_time": "18.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "b9945b75-024f-400d-940d-27b646ca471d"
+  }, {
+    "_id": "e6ee330a-da75-434f-8785-e606afc61503",
+    "date": "2021-05-05T20:58:22+0000",
+    "type": "morning",
+    "arrival_time": "10.30",
+    "additional_people": 2,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "6c86759c-49f6-49dd-b7c0-4af19046369e"
+  }, {
+    "_id": "f583f0f1-8d7a-4a81-b0da-fbe1b8b9bdf8",
+    "date": "2021-05-09T20:58:22+0000",
+    "type": "evening",
+    "arrival_time": "18.30",
+    "additional_people": 0,
+    "comment": "Some comment",
+    "questionable": false,
+    "user_id": "6c86759c-49f6-49dd-b7c0-4af19046369e"
+  }]
+}

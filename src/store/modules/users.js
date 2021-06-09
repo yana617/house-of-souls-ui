@@ -39,6 +39,9 @@ const actions = {
     const user = await users.updateUser(body);
     commit(SET_USER, user);
   },
+  restorePassword: async (_, body = {}) => {
+    await users.restorePassword(body);
+  },
 };
 
 const mutations = {

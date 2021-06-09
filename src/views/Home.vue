@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <Notice v-for="noticeId in notices.list" :key="noticeId" :noticeId="noticeId" v-bind="notices.data[noticeId]" />
-    <Schedule :schedule="currentSchedule" />
-    <Schedule :schedule="nextWeekSchedule" />
+    <Schedule v-bind="currentSchedule" @refreshSchedule="loadCurrentSchedule" />
+    <Schedule v-bind="nextWeekSchedule" @refreshSchedule="loadNextWeekSchedule" />
   </div>
   <Footer />
 </template>
@@ -13,7 +13,7 @@ import { mapState } from 'vuex';
 import Footer from '@/components/common/Footer.vue';
 import Notice from '@/components/home-view/Notice.vue';
 import Schedule from '@/components/home-view/Schedule.vue';
-import { getPrevMondayString, getNextMondayString, getInTwoWeeksMondayString } from '@/utils/date';
+// import { getWeekDatesRange } from '@/utils/date';
 
 export default {
   name: 'Home',
@@ -24,17 +24,31 @@ export default {
   },
   computed: mapState({
     notices: (state) => state.notices,
-    currentSchedule: (state) => state.schedule.current,
-    nextWeekSchedule: (state) => state.schedule.nextWeek,
+    currentSchedule: (state) => state.claim.currentSchedule,
+    nextWeekSchedule: (state) => state.claim.nextWeekSchedule,
   }),
   created() {
     this.$store.dispatch('notices/getNotices');
 
-    const nextMondayStr = getNextMondayString();
-    this.$store.dispatch('schedule/getSchedule', { from: getPrevMondayString(), to: nextMondayStr });
-    this.$store.dispatch('schedule/getNextWeekSchedule', { from: nextMondayStr, to: getInTwoWeeksMondayString() });
+    this.loadCurrentSchedule();
+    this.loadNextWeekSchedule();
 
     this.$store.dispatch('additionalFields/getAdditionalFields');
+  },
+  methods: {
+    loadCurrentSchedule() {
+      // TO-DO remove when backend will work
+      // this.$store.dispatch('claim/getSchedule', getWeekDatesRange());
+      const fromTimeStamp = new Date('2021-05-03').setHours(0, 0, 0);
+      const toTimeStamp = new Date('2021-05-09').setHours(0, 0, 0);
+      this.$store.dispatch('claim/getSchedule', { from: fromTimeStamp, to: toTimeStamp });
+    },
+    loadNextWeekSchedule() {
+      // this.$store.dispatch('claim/getNextWeekSchedule', getWeekDatesRange(+1));
+      const fromTimeStamp = new Date('2021-05-10').setHours(0, 0, 0);
+      const toTimeStamp = new Date('2021-05-16').setHours(0, 0, 0);
+      this.$store.dispatch('claim/getNextWeekSchedule', { from: fromTimeStamp, to: toTimeStamp });
+    },
   },
 };
 </script>

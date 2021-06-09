@@ -1,45 +1,67 @@
 <template>
-  <div v-if="schedule" class="schedule">
-    <div class="schedule__dates-info">с {{ from }} по {{ to }}</div>
+  <div v-if="claims" class="schedule">
+    <div class="schedule__dates-info">с {{ fromDate }} по {{ toDate }}</div>
     <div class="schedule__container">
       <div class="schedule__sub-container">
         <div class="schedule__line">
           <div style="min-width: 80px"></div>
-          <span v-for="day in schedule" :key="day.date" class="schedule__date">
-            {{ dayOfWeek(day.date) }}
+          <span v-for="day in claims" :key="day.date" class="schedule__date">
+            <span class="schedule__date__sub-container">
+              {{ dayOfWeek(day.date) }}
+              <span class="schedule__date__numeric">{{ parseDate(day.date) }}</span>
+            </span>
           </span>
         </div>
-        <ScheduleTimeLine title="УТРО" type="morning" :schedule="schedule" />
-        <ScheduleTimeLine class="schedule__evening" title="ВЕЧЕР" type="evening" borderTop :schedule="schedule" />
+        <ScheduleTimeLine title="УТРО" type="morning" :schedule="morningSchedule" @refreshSchedule="refreshSchedule" />
+        <ScheduleTimeLine
+          class="schedule__evening"
+          title="ВЕЧЕР"
+          type="evening"
+          borderTop
+          :schedule="eveningSchedule"
+          @refreshSchedule="refreshSchedule"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { daysOfWeek, parseDate } from '@/utils/date';
 import ScheduleTimeLine from './ScheduleTimeLine.vue';
-import { daysOfWeek, parseDate } from '../../utils/date';
 
 export default {
   name: 'Schedule',
   components: { ScheduleTimeLine },
   props: {
-    schedule: Array,
+    from: Number,
+    to: Number,
+    claims: Array,
   },
   computed: {
-    from() {
-      if (!this.schedule || !this.schedule.length) return '';
-      return parseDate(this.schedule[0].date);
+    morningSchedule() {
+      return this.claims.map((day) => ({ date: day.date, claims: day.morning }));
     },
-    to() {
-      if (!this.schedule || !this.schedule.length) return '';
-      return parseDate(this.schedule[this.schedule.length - 1].date);
+    eveningSchedule() {
+      return this.claims.map((day) => ({ date: day.date, claims: day.evening }));
+    },
+    fromDate() {
+      return parseDate(this.from);
+    },
+    toDate() {
+      return parseDate(this.to);
     },
   },
   methods: {
     dayOfWeek(date) {
       const dayOfWeekNumber = new Date(date).getDay();
       return daysOfWeek[dayOfWeekNumber];
+    },
+    parseDate(date) {
+      return new Date(date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'numeric' });
+    },
+    refreshSchedule() {
+      this.$emit('refreshSchedule');
     },
   },
 };
@@ -48,6 +70,7 @@ export default {
 <style scoped lang="scss">
 $dayWidth: 160px;
 $lightGrey: #ccc;
+$lightBlue: #d0e1f9;
 
 .schedule {
   display: flex;
@@ -57,7 +80,7 @@ $lightGrey: #ccc;
   line-height: 1.15;
 
   &__dates-info {
-    background-color: rgb(247, 200, 101);
+    background-color: $lightBlue;
     width: 100%;
     color: black;
     padding: 8px;
@@ -99,6 +122,11 @@ $lightGrey: #ccc;
     background-color: rgba(247, 201, 101, 0.1);
     text-align: center;
     font-size: 16px;
+    flex-wrap: nowrap;
+
+    &__sub-container {
+      margin: auto;
+    }
   }
 }
 </style>

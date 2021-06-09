@@ -23,6 +23,8 @@ module.exports = {
         'user_additional_fields',
         'additional_field_template_id',
         'user_id',
+        'is_guest',
+        'guest_info',
       ],
     }],
     'no-underscore-dangle': 'off',

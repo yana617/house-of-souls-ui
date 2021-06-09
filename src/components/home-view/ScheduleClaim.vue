@@ -1,5 +1,5 @@
 <template>
-  <div @click="$emit('on-claim-click', claim)" class="schedule-claim">
+  <div @click="$emit('on-claim-click', claim)" class="schedule-claim" :class="{ 'is-my-claim': isMyClaim }">
     <div v-if="haveAdditionFields" class="schedule-claim__additional-fields">
       <div
         class="schedule-claim__additional-fields__wrapper"
@@ -9,7 +9,7 @@
         <img v-if="field.value" class="schedule-claim__icon" :src="getIcon(field.additional_field_template_id)" />
       </div>
     </div>
-    <span>{{ username }}</span>
+    <span><b class="schedule-claim__questionable">{{ claim.questionable ? '?' : '' }}</b> {{ username }}</span>
     <b class="schedule-claim__additional-people" v-if="claim.additional_people"> +{{ claim.additional_people }} </b>
   </div>
 </template>
@@ -24,18 +24,22 @@ export default {
   },
   computed: mapState({
     additionalFields: (state) => state.additionalFields.current,
-    user() {
+    user: (state) => state.users.user,
+    claimUser() {
       return this.claim.user;
     },
     userAdditionalFields() {
-      return this.user.user_additional_fields;
+      return this.claimUser.user_additional_fields;
     },
     username() {
-      const { name, surname } = this.user;
+      const { name, surname } = this.claimUser;
       return `${name} ${surname}`;
     },
     haveAdditionFields() {
       return this.userAdditionalFields.some((field) => !!field.value);
+    },
+    isMyClaim() {
+      return this.user && this.user._id === this.claimUser._id;
     },
   }),
   methods: {
@@ -56,6 +60,11 @@ export default {
   display: flex;
   position: relative;
   cursor: pointer;
+
+  &.is-my-claim {
+    font-weight: bold;
+    background-color: rgba(151,251,151,0.2);
+  }
 
   &__additional-fields {
     position: absolute;
@@ -91,6 +100,10 @@ export default {
   &__icon {
     width: 16px;
     height: 16px;
+  }
+
+  &__questionable {
+    color: red;
   }
 }
 </style>
