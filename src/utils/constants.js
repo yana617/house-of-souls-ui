@@ -35,3 +35,24 @@ exports.volunteersColumns = [
     slots: { customRender: 'action' },
   },
 ];
+
+exports.claimsColumns = [
+  {
+    title: 'Дата',
+    dataIndex: 'date',
+    key: 'date',
+    slots: { customRender: 'date' },
+  },
+  {
+    title: 'С вами',
+    dataIndex: 'additionalPeople',
+    key: 'additionalPeople',
+    slots: { customRender: 'additionalPeople' },
+  },
+  {
+    title: 'Время',
+    dataIndex: 'typeOfTime',
+    key: 'typeOfTime',
+    slots: { customRender: 'typeOfTime' },
+  },
+];

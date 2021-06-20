@@ -105,7 +105,7 @@ $blue: #1890ff;
 .profile-form {
   display: flex;
   flex-direction: column;
-  padding: 0 35%;
+  padding: 4px 35%;
 
   h3 {
     text-align: left;
@@ -143,6 +143,10 @@ $blue: #1890ff;
     border-radius: 4px;
   }
 
+  &__date-picker input {
+    color: black;
+  }
+
   &__additional-field {
     &__container {
       display: flex;
@@ -153,6 +157,7 @@ $blue: #1890ff;
 
   &__btns-container {
     margin-left: auto;
+    margin-top: 4px;
   }
 
   &__save-btn {

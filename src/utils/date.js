@@ -52,6 +52,11 @@ const getWeekDatesRange = (diffFromCurrent = 0) => {
 
 const randomDate = (start, end) => new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 
+const weekDayOfDate = (dateString) => {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat('ru-RU', { weekday: 'long' }).format(date);
+};
+
 module.exports = {
   MS_IN_DAY_AMOUNT,
   daysOfWeek,
@@ -61,4 +66,5 @@ module.exports = {
   calculateAge,
   randomDate,
   getWeekDatesRange,
+  weekDayOfDate,
 };

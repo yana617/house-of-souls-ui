@@ -2,11 +2,13 @@ import claim from '../../api/claim';
 
 const SET_CURRENT_SCHEDULE = 'SET_CURRENT_SCHEDULE';
 const SET_NEXT_WEEK_SCHEDULE = 'SET_NEXT_WEEK_SCHEDULE';
+const SET_PERSONAL_CLAIMS = 'SET_PERSONAL_CLAIMS';
 
 // initial state
 const state = () => ({
   currentSchedule: null,
   nextWeekSchedule: null,
+  personal: {},
 });
 
 const getters = {};
@@ -19,6 +21,10 @@ const actions = {
   getNextWeekSchedule: async ({ commit }, params = {}) => {
     const result = await claim.getClaims(params);
     commit(SET_NEXT_WEEK_SCHEDULE, result);
+  },
+  getClaimsByUserId: async ({ commit }, params = {}) => {
+    const result = await claim.getClaimsByUserId(params);
+    commit(SET_PERSONAL_CLAIMS, result);
   },
   createClaim: async (_, body = {}) => {
     await claim.createClaim(body);
@@ -34,6 +40,9 @@ const mutations = {
   },
   [SET_NEXT_WEEK_SCHEDULE](state, result) {
     state.nextWeekSchedule = result;
+  },
+  [SET_PERSONAL_CLAIMS](state, result) {
+    state.personal = result;
   },
 };
 

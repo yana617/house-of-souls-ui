@@ -9,15 +9,13 @@
         <div class="profile__name-phone-container">
           <span class="profile__name">{{ user.name }} {{ user.surname }}</span>
           <span class="profile__phone">+{{ user.phone }}</span>
-          <span class="profile__visits"><b>20</b> посещений</span>
+          <span class="profile__visits"><b>{{ personalClaims.total || '..' }}</b> посещений</span>
         </div>
       </div>
     </div>
     <a-tabs v-model:activeKey="activeKey">
       <a-tab-pane key="1" tab="Посещения">
-        <Visit />
-        <Visit />
-        <Visit />
+        <VisitsTable :claims="personalClaims.claims" />
       </a-tab-pane>
       <a-tab-pane key="2" tab="Личные данные">
         <ProfileForm :userId="user._id" />
@@ -30,20 +28,24 @@
 import { ref } from 'vue';
 import { mapState } from 'vuex';
 
-import Visit from '@/components/profile-view/Visit.vue';
+import VisitsTable from '@/components/profile-view/VisitsTable.vue';
 import ProfileForm from '@/components/profile-view/ProfileForm.vue';
 import Button from '@/components/common/Button.vue';
 
 export default {
   name: 'Profile',
-  components: { Visit, ProfileForm, Button },
+  components: { VisitsTable, ProfileForm, Button },
   data() {
     return {
       activeKey: ref('1'),
     };
   },
+  created() {
+    this.$store.dispatch('claim/getClaimsByUserId', { userId: this.user._id });
+  },
   computed: mapState({
     user: (state) => state.users.user,
+    personalClaims: (state) => state.claim.personal,
   }),
 };
 </script>

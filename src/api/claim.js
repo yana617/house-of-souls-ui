@@ -59,6 +59,10 @@ export default {
     const { data: { claims } } = await axios.get(`${API_HOST}/claims?from=${from}&to=${to}`);
     return mapClaims({ from, to, claims });
   },
+  getClaimsByUserId: async ({ userId } = {}) => {
+    const { data: { claims, total } } = await axios.get(`${API_HOST}/claims/${userId}`);
+    return { claims, total };
+  },
   createClaim: async (body) => {
     await axios.post(`${API_HOST}/claims`, { claim: body });
   },
