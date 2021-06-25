@@ -1,8 +1,11 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { createApp } from 'vue';
 import {
   Switch,
   Table,
   Tag,
+  Tabs,
+  DatePicker,
   TimePicker,
   Checkbox,
   Input,
@@ -27,6 +30,8 @@ const run = () => {
     .use(store)
     .use(router)
     .use(Switch)
+    .use(Tabs)
+    .use(DatePicker)
     .use(TimePicker)
     .use(Checkbox)
     .use(Table)
