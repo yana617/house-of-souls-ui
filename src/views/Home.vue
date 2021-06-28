@@ -27,27 +27,30 @@ export default {
     currentSchedule: (state) => state.claim.currentSchedule,
     nextWeekSchedule: (state) => state.claim.nextWeekSchedule,
   }),
-  created() {
+  async created() {
+    this.$store.dispatch('app/setLoading', true);
     this.$store.dispatch('notices/getNotices');
 
-    this.loadCurrentSchedule();
-    this.loadNextWeekSchedule();
+    await this.loadCurrentSchedule();
+    await this.loadNextWeekSchedule();
+
+    this.$store.dispatch('app/setLoading', false);
 
     this.$store.dispatch('additionalFields/getAdditionalFields');
   },
   methods: {
-    loadCurrentSchedule() {
+    async loadCurrentSchedule() {
       // TO-DO remove when backend will work
       // this.$store.dispatch('claim/getSchedule', getWeekDatesRange());
       const fromTimeStamp = new Date('2021-05-03').setHours(0, 0, 0);
       const toTimeStamp = new Date('2021-05-09').setHours(23, 59, 59);
-      this.$store.dispatch('claim/getSchedule', { from: fromTimeStamp, to: toTimeStamp });
+      await this.$store.dispatch('claim/getSchedule', { from: fromTimeStamp, to: toTimeStamp });
     },
-    loadNextWeekSchedule() {
+    async loadNextWeekSchedule() {
       // this.$store.dispatch('claim/getNextWeekSchedule', getWeekDatesRange(+1));
       const fromTimeStamp = new Date('2021-05-10').setHours(0, 0, 0);
       const toTimeStamp = new Date('2021-05-16').setHours(23, 59, 59);
-      this.$store.dispatch('claim/getNextWeekSchedule', { from: fromTimeStamp, to: toTimeStamp });
+      await this.$store.dispatch('claim/getNextWeekSchedule', { from: fromTimeStamp, to: toTimeStamp });
     },
   },
 };

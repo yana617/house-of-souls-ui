@@ -60,7 +60,9 @@ export default {
         label: this.labelModel,
         description: this.descriptionModel,
       };
+      this.$store.dispatch('app/setLoading', true);
       this.$store.dispatch('additionalFields/updateAdditionalField', body).then(() => {
+        this.$store.dispatch('app/setLoading', false);
         this.$store.dispatch('additionalFields/getAdditionalFields');
         this.edit = false;
       });
@@ -72,7 +74,10 @@ export default {
       this.edit = false;
     },
     deleteField() {
-      this.$store.dispatch('additionalFields/deleteAdditionalField', { _id: this._id });
+      this.$store.dispatch('app/setLoading', true);
+      this.$store.dispatch('additionalFields/deleteAdditionalField', { _id: this._id }).then(() => {
+        this.$store.dispatch('app/setLoading', false);
+      });
     },
     onIconChange(e) {
       const files = e.target.files || e.dataTransfer.files;

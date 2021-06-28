@@ -7,6 +7,8 @@
         <span class="register-fields-control__field__description">обязательное поле</span>
         <span class="register-fields-control__field__title">Фамилия</span>
         <span class="register-fields-control__field__description">обязательное поле</span>
+        <span class="register-fields-control__field__title">День рождения</span>
+        <span class="register-fields-control__field__description">обязательное поле</span>
         <span class="register-fields-control__field__title">Телефон</span>
         <span class="register-fields-control__field__description">обязательное поле</span>
         <span class="register-fields-control__field__title">Пароль</span>
@@ -55,7 +57,10 @@ export default {
     },
   }),
   created() {
-    this.$store.dispatch('additionalFields/getAdditionalFields');
+    this.$store.dispatch('app/setLoading', true);
+    this.$store.dispatch('additionalFields/getAdditionalFields').then(() => {
+      this.$store.dispatch('app/setLoading', false);
+    });
   },
   methods: {
     openModal() {

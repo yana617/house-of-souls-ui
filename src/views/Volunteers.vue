@@ -41,12 +41,15 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch('users/getUsers', { isVerified: true, attribute: 'name', offset: 0 });
-    this.offset += limit;
+    this.$store.dispatch('app/setLoading', true);
+    this.$store.dispatch('users/getUsers', { isVerified: true, attribute: 'name', offset: 0 }).then(() => {
+      this.offset += limit;
+      this.$store.dispatch('app/setLoading', false);
+    });
 
     window.addEventListener('scroll', () => {
-      const bottomOfWindow = (document.documentElement.scrollTop + window.innerHeight)
-       === document.documentElement.offsetHeight;
+      const bottomOfWindow = document.documentElement.scrollTop
+        + window.innerHeight === document.documentElement.offsetHeight;
       if (bottomOfWindow && this.volunteers.length < this.total) {
         this.loadMore();
       }

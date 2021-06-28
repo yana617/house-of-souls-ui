@@ -86,7 +86,9 @@ export default {
     },
     unsubscribe(claims) {
       const userClaim = claims.find((claim) => claim.user._id === this.user._id);
+      this.$store.dispatch('app/setLoading', true);
       this.$store.dispatch('claim/deleteClaim', { _id: userClaim._id }).then(() => {
+        this.$store.dispatch('app/setLoading', false);
         this.$emit('refreshSchedule');
       });
     },
