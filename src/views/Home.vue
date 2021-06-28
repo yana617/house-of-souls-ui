@@ -43,13 +43,13 @@ export default {
       // TO-DO remove when backend will work
       // this.$store.dispatch('claim/getSchedule', getWeekDatesRange());
       const fromTimeStamp = new Date('2021-05-03').setHours(0, 0, 0);
-      const toTimeStamp = new Date('2021-05-09').setHours(0, 0, 0);
+      const toTimeStamp = new Date('2021-05-09').setHours(23, 59, 59);
       await this.$store.dispatch('claim/getSchedule', { from: fromTimeStamp, to: toTimeStamp });
     },
     async loadNextWeekSchedule() {
       // this.$store.dispatch('claim/getNextWeekSchedule', getWeekDatesRange(+1));
       const fromTimeStamp = new Date('2021-05-10').setHours(0, 0, 0);
-      const toTimeStamp = new Date('2021-05-16').setHours(0, 0, 0);
+      const toTimeStamp = new Date('2021-05-16').setHours(23, 59, 59);
       await this.$store.dispatch('claim/getNextWeekSchedule', { from: fromTimeStamp, to: toTimeStamp });
     },
   },

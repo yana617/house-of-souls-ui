@@ -51,6 +51,22 @@ export default [
       }),
     );
   }),
+
+  rest.get(`${API_HOST}/claims/:userId`, (req, res, ctx) => {
+    const { userId } = req.params;
+
+    const claims = claimsMocks.filter((claim) => claim.user_id === userId);
+
+    return res(
+      ctx.status(200),
+      ctx.json({
+        success: true,
+        claims,
+        total: claims.length,
+      }),
+    );
+  }),
+
   rest.delete(`${API_HOST}/claims/:id`, (req, res, ctx) => {
     const isAuth = sessionStorage.getItem(IS_AUTH);
 
