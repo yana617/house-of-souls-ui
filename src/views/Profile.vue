@@ -41,7 +41,10 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch('claim/getClaimsByUserId', { userId: this.user._id });
+    this.$store.dispatch('app/setLoading', true);
+    this.$store.dispatch('claim/getClaimsByUserId', { userId: this.user._id }).then(() => {
+      this.$store.dispatch('app/setLoading', false);
+    });
   },
   computed: mapState({
     user: (state) => state.users.user,
