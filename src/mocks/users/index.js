@@ -151,4 +151,24 @@ export default [
       }),
     );
   }),
+
+  rest.get(`${API_HOST}/users/permissions`, (req, res, ctx) => res(
+    ctx.status(200),
+    ctx.json({
+      success: true,
+      permissions: {
+        userPermissions: [
+          'EDIT_NOTICE',
+        ],
+        rolePermissions: [
+          'VIEW_PROFILE',
+          'EDIT_PROFILE',
+          'CREATE_CLAIM',
+          'EDIT_CLAIM',
+          'DELETE_CLAIM',
+          'VIEW_USERS',
+        ],
+      },
+    }),
+  )),
 ];

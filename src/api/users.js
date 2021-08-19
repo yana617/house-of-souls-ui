@@ -28,4 +28,11 @@ export default {
     const { data } = await axios.post(`${API_HOST}/restore-password`, { email });
     return data;
   },
+  getUserPermissions: async () => {
+    const { data: { permissions } } = await axios.get(`${API_HOST}/users/permissions`);
+    return permissions;
+  },
+  updateRole: async ({ userId, role }) => {
+    await axios.put(`${API_HOST}/users/${userId}/role`, { role });
+  },
 };
