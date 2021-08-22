@@ -35,4 +35,8 @@ export default {
   updateRole: async ({ userId, role }) => {
     await axios.put(`${API_HOST}/users/${userId}/role`, { role });
   },
+  getUserProfile: async ({ userId }) => {
+    const { data: { user } } = await axios.get(`${API_HOST}/users/${userId}`);
+    return user;
+  },
 };

@@ -7,10 +7,12 @@
         </div>
         <div class="profile__name-phone-container">
           <span class="profile__name">{{ user.name }} {{ user.surname }}</span>
-          <a :href="`tel:${user.phone}`"><span class="profile__phone">+{{ user.phone }}</span></a>
-          <span class="profile__visits"
-            ><b>{{ personalClaims.total || '..' }}</b> посещений</span
-          >
+          <a :href="`tel:${user.phone}`">
+            <span class="profile__phone">+{{ user.phone }}</span>
+          </a>
+          <span class="profile__visits">
+            <b>{{ personalClaims.total || '..' }}</b> посещений
+          </span>
         </div>
       </div>
     </div>
@@ -18,11 +20,11 @@
       <a-tab-pane key="1" tab="Посещения">
         <VisitsTable :claims="personalClaims.claims" />
       </a-tab-pane>
-      <a-tab-pane key="2" tab="Личные данные">
-        <ProfileForm :userId="user._id" />
+      <a-tab-pane v-if="!isUserProfile" key="2" tab="Личные данные">
+        <ProfileForm :userId="userId" />
       </a-tab-pane>
-      <a-tab-pane key="3" tab="Права">
-        <Permissions :userId="user._id" userRole="USER" />
+      <a-tab-pane v-if="isUserProfile" key="3" tab="Права">
+        <Permissions :userId="userId" userRole="USER" />
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -45,12 +47,33 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch('claim/getClaimsByUserId', { userId: this.user._id });
+    const userId = this.$route.params.id;
+    if (userId) {
+      this.$store.dispatch('users/getUserProfile', { userId });
+    }
+    this.$store.dispatch('claim/getClaimsByUserId', { userId: this.userId });
   },
   computed: mapState({
-    user: (state) => state.users.user,
+    isUserProfile() {
+      return !!this.$route.params.id;
+    },
+    user(state) {
+      if (this.isUserProfile) {
+        return state.users.userProfile;
+      }
+      return state.users.user;
+    },
     personalClaims: (state) => state.claim.personal,
+    userId(state) {
+      if (this.isUserProfile) {
+        return this.$route.params.id;
+      }
+      return state.users.user._id;
+    },
   }),
+  unmounted() {
+    this.$store.dispatch('users/clearUserProfile');
+  },
 };
 </script>
 
@@ -109,9 +132,9 @@ $lightBlue: #e7f5fc;
     font-size: 16px;
   }
 
-  @media (max-width: 350px) {
+  @media (max-width: 450px) {
     &__main-data-container {
-      left: 10%;
+      left: unset;
     }
   }
 }

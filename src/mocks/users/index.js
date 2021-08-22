@@ -171,4 +171,27 @@ export default [
       },
     }),
   )),
+
+  rest.get(`${API_HOST}/users/:id`, (req, res, ctx) => {
+    const isAuth = sessionStorage.getItem(IS_AUTH);
+
+    if (!isAuth) {
+      return res(
+        ctx.status(401),
+        ctx.json({ errorMessage: 'Please, authorize to change a user' }),
+      );
+    }
+
+    const { id } = req.params;
+
+    const userFromDb = data.users.find((user) => user._id === id);
+
+    return res(
+      ctx.status(200),
+      ctx.json({
+        success: true,
+        user: userFromDb,
+      }),
+    );
+  }),
 ];
