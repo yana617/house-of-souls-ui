@@ -18,9 +18,14 @@ const routes = [
     component: () => import(/* webpackChunkName: "volunteers" */ '../views/Profile.vue'),
   },
   {
-    path: '/restore-password',
-    name: 'RestorePassword',
-    component: () => import(/* webpackChunkName: "volunteers" */ '../views/RestorePassword.vue'),
+    path: '/forgot-password',
+    name: 'ForgotPassword',
+    component: () => import(/* webpackChunkName: "volunteers" */ '../views/ForgotPassword.vue'),
+  },
+  {
+    path: '/reset-password',
+    name: 'ResetPassword',
+    component: () => import(/* webpackChunkName: "volunteers" */ '../views/ResetPassword.vue'),
   },
   {
     path: '/admin',

@@ -1,10 +1,10 @@
 <template>
   <div class="login">
     <div class="login__wrapper">
-      <PhoneInput @onchange="onChangePhone" id="phone" placeholder="Телефон" />
+      <input id="email" v-model="email" type="text" name="email" placeholder="Почта" />
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
       <Button @click="submitLogin" class="login__submit-btn" title="Войти" />
-      <router-link @click="closeModal" class="login__forgot-password-label" to="/restore-password">
+      <router-link @click="closeModal" class="login__forgot-password-label" to="/forgot-password">
         забыли пароль?
       </router-link>
     </div>
@@ -12,26 +12,21 @@
 </template>
 
 <script>
-import PhoneInput from '../common/PhoneInput.vue';
 import Button from '../common/Button.vue';
 
 export default {
   name: 'Login',
-  components: { PhoneInput, Button },
+  components: { Button },
   data() {
     return {
-      phone: null,
+      email: null,
       password: null,
     };
   },
   methods: {
-    onChangePhone(updatedPhone) {
-      const phone = updatedPhone.replace(/[-+()_\s]/g, '');
-      this.phone = phone;
-    },
     submitLogin() {
       const body = {
-        phone: this.phone,
+        email: this.email,
         password: this.password,
       };
       this.$store.dispatch('users/login', body);

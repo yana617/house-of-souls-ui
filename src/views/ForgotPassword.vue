@@ -1,9 +1,12 @@
 <template>
-  <div class="restore-password">
-    <form :onsubmit="restorePassword">
+  <div class="forgot-password">
+    <form :onsubmit="forgotPassword">
       <label>Восстановление пароля</label>
+      <a-typography-text type="secondary" class="forgot-password__description">
+        Вам на почту придет ссылка, перейдя по которой можно будет поменять пароль
+      </a-typography-text>
       <a-input type="email" size="large" v-model:value="email" placeholder="Почта" />
-      <Button class="restore-password__btn" title="Отправить запрос" />
+      <Button class="forgot-password__btn" title="Отправить запрос" />
     </form>
   </div>
 </template>
@@ -12,7 +15,7 @@
 import Button from '@/components/common/Button.vue';
 
 export default {
-  name: 'RestorePassword',
+  name: 'ForgotPassword',
   components: { Button },
   data() {
     return {
@@ -20,9 +23,9 @@ export default {
     };
   },
   methods: {
-    restorePassword() {
-      this.$store.dispatch('users/restorePassword', { email: this.email }).then(() => {
-        this.$router.push('/');
+    forgotPassword() {
+      this.$store.dispatch('users/forgotPassword', { email: this.email }).then(() => {
+        this.$router.push('/reset-password');
       });
       return false;
     },
@@ -34,7 +37,7 @@ export default {
 $cyan: rgb(27, 147, 245);
 $blueGrey: rgb(235, 245, 255);
 
-.restore-password {
+.forgot-password {
   background-color: $blueGrey;
   height: calc(100vh - 50px);
   display: flex;
@@ -60,6 +63,12 @@ $blueGrey: rgb(235, 245, 255);
     }
   }
 
+  &__description {
+    max-width: 300px;
+    margin-top: -12px;
+    margin-bottom: 16px;
+  }
+
   &__btn {
     color: white;
     background-color: $cyan;
@@ -69,6 +78,16 @@ $blueGrey: rgb(235, 245, 255);
     &:hover {
       color: $cyan;
       border-color: $cyan;
+    }
+  }
+
+  @media (max-width: 400px) {
+    form {
+      border-left: none;
+      border-right: none;
+      input {
+        width: 100%;
+      }
     }
   }
 }

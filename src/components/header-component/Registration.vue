@@ -4,6 +4,7 @@
       <input id="name" v-model="name" type="text" name="name" placeholder="Имя" />
       <input id="surname" v-model="surname" type="text" name="surname" placeholder="Фамилия" />
       <PhoneInput @onchange="onChangePhone" id="phone" placeholder="Телефон" />
+      <input id="email" v-model="email" type="text" name="email" placeholder="Почта" />
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
       <Checkbox
         v-for="field in additionalFields"
@@ -35,6 +36,7 @@ export default {
       name: null,
       surname: null,
       phone: null,
+      email: null,
       password: null,
       selected: {},
     };
@@ -52,6 +54,7 @@ export default {
         name: this.name,
         surname: this.surname,
         phone: this.phone,
+        email: this.email,
         password: this.password,
         additionalFields: Object.keys(this.selected).map((additionalFieldId) => ({
           _id: additionalFieldId,
