@@ -22,12 +22,16 @@ export default {
   computed: mapState({
     notices: (state) => state.notices,
     modal: (state) => state.app.modal,
+    loading: (state) => state.app.loading,
     isModalOpen() {
       return this.modal === MODAL.NOTICE;
     },
   }),
   created() {
-    this.$store.dispatch('notices/getNotices');
+    this.$store.dispatch('app/setLoading', true);
+    this.$store.dispatch('notices/getNotices').then(() => {
+      this.$store.dispatch('app/setLoading', false);
+    });
   },
   methods: {
     openModal() {

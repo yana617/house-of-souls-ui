@@ -4,6 +4,7 @@ import {
   Switch,
   Table,
   Tag,
+  Spin,
   Tabs,
   DatePicker,
   TimePicker,
@@ -30,6 +31,7 @@ const run = () => {
     .use(store)
     .use(router)
     .use(Switch)
+    .use(Spin)
     .use(Tabs)
     .use(DatePicker)
     .use(TimePicker)
