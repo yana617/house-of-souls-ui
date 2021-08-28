@@ -20,10 +20,10 @@
       <a-tab-pane key="1" tab="Посещения">
         <VisitsTable :claims="personalClaims.claims" />
       </a-tab-pane>
-      <a-tab-pane v-if="!isUserProfile" key="2" tab="Личные данные">
+      <a-tab-pane v-if="!isAnotherUserProfile" key="2" tab="Личные данные">
         <ProfileForm :userId="userId" />
       </a-tab-pane>
-      <a-tab-pane v-if="isUserProfile" key="3" tab="Права">
+      <a-tab-pane v-if="isAnotherUserProfile" key="3" tab="Права">
         <Permissions :userId="userId" userRole="USER" />
       </a-tab-pane>
     </a-tabs>
@@ -47,33 +47,42 @@ export default {
     };
   },
   created() {
-    const userId = this.$route.params.id;
-    this.$store.dispatch('app/setLoading', true);
-    if (userId) {
-      this.$store.dispatch('users/getUserProfile', { userId });
-    }
-    this.$store.dispatch('claim/getClaimsByUserId', { userId: this.user._id }).then(() => {
-      this.$store.dispatch('app/setLoading', false);
-    });
+    this.loadUserAndClaims();
   },
   computed: mapState({
-    isUserProfile() {
-      return !!this.$route.params.id;
+    isAnotherUserProfile(state) {
+      return !!this.$route.params.id && this.$route.params.id !== state.users.user._id;
     },
     user(state) {
-      if (this.isUserProfile) {
+      if (this.isAnotherUserProfile) {
         return state.users.userProfile;
       }
       return state.users.user;
     },
     personalClaims: (state) => state.claim.personal,
     userId(state) {
-      if (this.isUserProfile) {
+      if (this.isAnotherUserProfile) {
         return this.$route.params.id;
       }
       return state.users.user._id;
     },
   }),
+  watch: {
+    isAnotherUserProfile() {
+      this.loadUserAndClaims();
+    },
+  },
+  methods: {
+    loadUserAndClaims() {
+      this.$store.dispatch('app/setLoading', true);
+      if (this.isAnotherUserProfile) {
+        this.$store.dispatch('users/getUserProfile', { userId: this.userId });
+      }
+      this.$store.dispatch('claim/getClaimsByUserId', { userId: this.userId }).then(() => {
+        this.$store.dispatch('app/setLoading', false);
+      });
+    },
+  },
   unmounted() {
     this.$store.dispatch('users/clearUserProfile');
   },
