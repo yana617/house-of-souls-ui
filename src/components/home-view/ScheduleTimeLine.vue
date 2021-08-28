@@ -29,12 +29,7 @@
       <span v-if="!user && !day.claims.length" class="schedule-time-line__no-assigned"> Никто не записан </span>
     </div>
     <ClaimInfoModal v-if="claimInfoModalOpen" v-bind="selectedClaim" @onclose="claimInfoModalOpen = false" />
-    <ScheduleAssignModal
-      v-if="scheduleAssignModalOpen"
-      :type="type"
-      :date="assignDate"
-      @onclose="onAssignModalClose"
-    />
+    <ScheduleAssignModal v-if="scheduleAssignModalOpen" :type="type" :date="assignDate" @onclose="onAssignModalClose" />
   </div>
 </template>
 
@@ -87,6 +82,12 @@ export default {
     unsubscribe(claims) {
       const userClaim = claims.find((claim) => claim.user._id === this.user._id);
       this.$store.dispatch('claim/deleteClaim', { _id: userClaim._id }).then(() => {
+        this.$store.dispatch('historyActions/createHistoryAction', {
+          action_type: 'DELETE_CLAIM',
+          claim_date: userClaim.date,
+          claim_type: userClaim.type,
+          user_from: this.user._id,
+        });
         this.$emit('refreshSchedule');
       });
     },

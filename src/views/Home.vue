@@ -1,15 +1,23 @@
 <template>
-  <div class="home">
-    <Notice v-for="noticeId in notices.list" :key="noticeId" :noticeId="noticeId" v-bind="notices.data[noticeId]" />
-    <Schedule v-bind="currentSchedule" @refreshSchedule="loadCurrentSchedule" />
-    <Schedule v-bind="nextWeekSchedule" @refreshSchedule="loadNextWeekSchedule" />
-  </div>
-  <Footer />
+  <a-layout style="min-height: 100vh">
+    <a-layout-content style="background-color: white">
+      <div class="home">
+        <Notice v-for="noticeId in notices.list" :key="noticeId" :noticeId="noticeId" v-bind="notices.data[noticeId]" />
+        <Schedule v-bind="currentSchedule" @refreshSchedule="loadCurrentSchedule" />
+        <Schedule v-bind="nextWeekSchedule" @refreshSchedule="loadNextWeekSchedule" />
+      </div>
+    </a-layout-content>
+    <HistoryActions />
+  </a-layout>
+  <a-layout-footer>
+    <Footer />
+  </a-layout-footer>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 
+import HistoryActions from '@/components/home-view/HistoryActions.vue';
 import Footer from '@/components/common/Footer.vue';
 import Notice from '@/components/home-view/Notice.vue';
 import Schedule from '@/components/home-view/Schedule.vue';
@@ -21,6 +29,7 @@ export default {
     Footer,
     Notice,
     Schedule,
+    HistoryActions,
   },
   computed: mapState({
     notices: (state) => state.notices,
@@ -34,6 +43,7 @@ export default {
     this.loadNextWeekSchedule();
 
     this.$store.dispatch('additionalFields/getAdditionalFields');
+    this.$store.dispatch('historyActions/getHistoryActions');
   },
   methods: {
     loadCurrentSchedule() {

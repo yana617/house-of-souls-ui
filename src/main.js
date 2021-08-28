@@ -9,8 +9,12 @@ import {
   TimePicker,
   Checkbox,
   Input,
+  Layout,
+  LayoutContent,
+  LayoutFooter,
 } from 'ant-design-vue';
 import { createVueMatchMediaPlugin } from '@cwist/vue-match-media';
+import { io } from 'socket.io-client';
 
 import App from './App.vue';
 import router from './router';
@@ -25,8 +29,15 @@ const breakpoints = {
 };
 const VueMatchMediaPlugin = createVueMatchMediaPlugin({ breakpoints });
 
+const socket = io('http://localhost:1082', {
+  cors: {
+    origin: 'http://localhost:1082',
+    methods: ['GET', 'POST'],
+  },
+});
+
 const run = () => {
-  createApp(App)
+  const app = createApp(App)
     .use(store)
     .use(router)
     .use(Switch)
@@ -37,8 +48,13 @@ const run = () => {
     .use(Table)
     .use(Tag)
     .use(Input)
-    .use(VueMatchMediaPlugin)
-    .mount('#app');
+    .use(Layout)
+    .use(LayoutContent)
+    .use(LayoutFooter)
+    .use(VueMatchMediaPlugin);
+
+  app.config.globalProperties.$socket = socket;
+  app.mount('#app');
 };
 
 if (process.env.VUE_APP_MSW === 'true') {

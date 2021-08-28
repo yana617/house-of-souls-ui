@@ -120,6 +120,14 @@ export default defineComponent({
         body.user_id = this.user._id;
       }
       this.$store.dispatch('claim/createClaim', body).then(() => {
+        if (!this.anotherPerson) {
+          this.$store.dispatch('historyActions/createHistoryAction', {
+            action_type: 'CREATE_CLAIM',
+            claim_date: this.date,
+            claim_type: this.type,
+            user_from: this.user._id,
+          });
+        }
         this.$emit('onclose');
       });
     },

@@ -4,13 +4,14 @@
       <input id="name" v-model="name" type="text" name="name" placeholder="Имя" />
       <input id="surname" v-model="surname" type="text" name="surname" placeholder="Фамилия" />
       <PhoneInput @onchange="onChangePhone" id="phone" placeholder="Телефон" />
+      <a-date-picker v-model:value="birthday" placeholder="День рождения" />
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
       <Checkbox
         v-for="field in additionalFields"
         :key="field._id"
         v-bind="field"
         :value="selected[field._id]"
-        @input="value => selected[field._id] = value"
+        @input="(value) => (selected[field._id] = value)"
       />
       <Button @click="submitRegistration" class="registration__submit-btn" title="Зарегистрироваться" />
     </div>
@@ -35,6 +36,7 @@ export default {
       name: null,
       surname: null,
       phone: null,
+      birthday: null,
       password: null,
       selected: {},
     };
@@ -52,6 +54,7 @@ export default {
         name: this.name,
         surname: this.surname,
         phone: this.phone,
+        birthday: this.birthday,
         password: this.password,
         additionalFields: Object.keys(this.selected).map((additionalFieldId) => ({
           _id: additionalFieldId,
