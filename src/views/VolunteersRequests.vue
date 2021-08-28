@@ -64,7 +64,10 @@ export default {
   name: 'VolunteersRequests',
   components: { Button, AdditionalFieldsTags },
   created() {
-    this.$store.dispatch('users/getUsers', { isVerified: false });
+    this.$store.dispatch('app/setLoading', true);
+    this.$store.dispatch('users/getUsers', { isVerified: false }).then(() => {
+      this.$store.dispatch('app/setLoading', false);
+    });
     this.$store.dispatch('additionalFields/getAdditionalFields');
   },
   computed: mapState({

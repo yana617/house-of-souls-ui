@@ -48,10 +48,13 @@ export default {
   },
   created() {
     const userId = this.$route.params.id;
+    this.$store.dispatch('app/setLoading', true);
     if (userId) {
       this.$store.dispatch('users/getUserProfile', { userId });
     }
-    this.$store.dispatch('claim/getClaimsByUserId', { userId: this.userId });
+    this.$store.dispatch('claim/getClaimsByUserId', { userId: this.user._id }).then(() => {
+      this.$store.dispatch('app/setLoading', false);
+    });
   },
   computed: mapState({
     isUserProfile() {
