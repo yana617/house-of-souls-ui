@@ -32,4 +32,15 @@ export default {
     const { data } = await axios.post(`${API_HOST}/reset-password`, body);
     return data;
   },
+  getUserPermissions: async () => {
+    const { data: { permissions } } = await axios.get(`${API_HOST}/users/permissions`);
+    return permissions;
+  },
+  updateRole: async ({ userId, role }) => {
+    await axios.put(`${API_HOST}/users/${userId}/role`, { role });
+  },
+  getUserProfile: async ({ userId }) => {
+    const { data: { user } } = await axios.get(`${API_HOST}/users/${userId}`);
+    return user;
+  },
 };

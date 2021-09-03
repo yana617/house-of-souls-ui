@@ -4,12 +4,14 @@ import {
   Switch,
   Table,
   Tag,
+  Spin,
   Tabs,
   DatePicker,
   TimePicker,
   Checkbox,
   Input,
   Typography,
+  Select,
 } from 'ant-design-vue';
 import { createVueMatchMediaPlugin } from '@cwist/vue-match-media';
 
@@ -31,6 +33,7 @@ const run = () => {
     .use(store)
     .use(router)
     .use(Switch)
+    .use(Spin)
     .use(Tabs)
     .use(DatePicker)
     .use(TimePicker)
@@ -39,6 +42,7 @@ const run = () => {
     .use(Tag)
     .use(Input)
     .use(Typography)
+    .use(Select)
     .use(VueMatchMediaPlugin)
     .mount('#app');
 };

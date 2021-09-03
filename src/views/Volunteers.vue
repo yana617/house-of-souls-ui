@@ -3,16 +3,11 @@
     <span id="title">Список волонтеров</span>
     <SearchBar ref="searchBar" />
     <div id="volunteers-list">
-      <a
-        class="volunteer-item"
-        v-for="volunteer in volunteers"
-        :key="volunteer.id"
-        :href="`tel:${volunteer.phone.replace(/\s/g, '')}`"
-      >
-        <span>
-          {{ volunteer.name }} {{ volunteer.surname }}
-        </span>
-        <a class="phone-container">
+      <a class="volunteer-item" v-for="volunteer in volunteers" :key="volunteer._id">
+        <router-link :to="`/users/${volunteer._id}`">
+          <span> {{ volunteer.name }} {{ volunteer.surname }} </span>
+        </router-link>
+        <a class="phone-container" :href="`tel:${volunteer.phone.replace(/\s/g, '')}`">
           <img class="phone-icon" src="@/assets/phone-icon.png" />
           {{ volunteer.phone }}
         </a>
@@ -41,12 +36,15 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch('users/getUsers', { isVerified: true, attribute: 'name', offset: 0 });
-    this.offset += limit;
+    this.$store.dispatch('app/setLoading', true);
+    this.$store.dispatch('users/getUsers', { isVerified: true, attribute: 'name', offset: 0 }).then(() => {
+      this.offset += limit;
+      this.$store.dispatch('app/setLoading', false);
+    });
 
     window.addEventListener('scroll', () => {
-      const bottomOfWindow = (document.documentElement.scrollTop + window.innerHeight)
-       === document.documentElement.offsetHeight;
+      const bottomOfWindow = document.documentElement.scrollTop
+        + window.innerHeight === document.documentElement.offsetHeight;
       if (bottomOfWindow && this.volunteers.length < this.total) {
         this.loadMore();
       }
