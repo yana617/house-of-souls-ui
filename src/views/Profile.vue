@@ -24,7 +24,7 @@
         <ProfileForm :userId="userId" />
       </a-tab-pane>
       <a-tab-pane v-if="isAnotherUserProfile" key="3" tab="Права">
-        <Permissions :userId="userId" userRole="USER" />
+        <PermissionsAndRoles :userId="userId" userRole="USER" />
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -36,11 +36,11 @@ import { mapState } from 'vuex';
 
 import VisitsTable from '@/components/profile-view/VisitsTable.vue';
 import ProfileForm from '@/components/profile-view/ProfileForm.vue';
-import Permissions from '@/components/profile-view/Permissions.vue';
+import PermissionsAndRoles from '@/components/profile-view/PermissionsAndRoles.vue';
 
 export default {
   name: 'Profile',
-  components: { VisitsTable, ProfileForm, Permissions },
+  components: { VisitsTable, ProfileForm, PermissionsAndRoles },
   data() {
     return {
       activeKey: ref('1'),
