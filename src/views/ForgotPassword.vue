@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import { notification } from 'ant-design-vue';
+
 import Button from '@/components/common/Button.vue';
 
 export default {
@@ -25,9 +27,16 @@ export default {
   methods: {
     forgotPassword() {
       this.$store.dispatch('users/forgotPassword', { email: this.email }).then(() => {
-        this.$router.push('/reset-password');
+        this.openNotification();
       });
       return false;
+    },
+    openNotification() {
+      notification.success({
+        message: 'Проверяйте почту :)',
+        description: 'Сообщение на почту успешно отправлено!',
+        placement: 'bottomRight',
+      });
     },
   },
 };
