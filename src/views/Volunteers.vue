@@ -3,16 +3,11 @@
     <span id="title">Список волонтеров</span>
     <SearchBar ref="searchBar" />
     <div id="volunteers-list">
-      <a
-        class="volunteer-item"
-        v-for="volunteer in volunteers"
-        :key="volunteer.id"
-        :href="`tel:${volunteer.phone.replace(/\s/g, '')}`"
-      >
-        <span>
-          {{ volunteer.name }} {{ volunteer.surname }}
-        </span>
-        <a class="phone-container">
+      <a class="volunteer-item" v-for="volunteer in volunteers" :key="volunteer._id">
+        <router-link :to="`/users/${volunteer._id}`">
+          <span> {{ volunteer.name }} {{ volunteer.surname }} </span>
+        </router-link>
+        <a class="phone-container" :href="`tel:${volunteer.phone.replace(/\s/g, '')}`">
           <img class="phone-icon" src="@/assets/phone-icon.png" />
           {{ volunteer.phone }}
         </a>

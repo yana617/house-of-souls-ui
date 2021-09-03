@@ -3,11 +3,18 @@ import users from '../../api/users';
 const SET_USERS = 'SET_USERS';
 const LOAD_MORE_USERS = 'LOAD_MORE_USERS';
 const SET_USER = 'SET_USER';
+const SET_PERMISSIONS = 'SET_PERMISSIONS';
+const SET_USER_PROFILE = 'SET_USER_PROFILE';
 
 // initial state
 const state = () => ({
   list: [],
   user: null,
+  userProfile: null,
+  permissions: {
+    userPermissions: [],
+    rolePermissions: [],
+  },
 });
 
 const getters = {};
@@ -42,6 +49,20 @@ const actions = {
   restorePassword: async (_, body = {}) => {
     await users.restorePassword(body);
   },
+  getUserPermissions: async ({ commit }) => {
+    const result = await users.getUserPermissions();
+    commit(SET_PERMISSIONS, result);
+  },
+  updateRole: async (_, { userId, role } = {}) => {
+    await users.updateRole({ userId, role });
+  },
+  getUserProfile: async ({ commit }, { userId }) => {
+    const result = await users.getUserProfile({ userId });
+    commit(SET_USER_PROFILE, result);
+  },
+  clearUserProfile: async ({ commit }) => {
+    commit(SET_USER_PROFILE, null);
+  },
 };
 
 const mutations = {
@@ -54,6 +75,12 @@ const mutations = {
   },
   [SET_USER](state, user) {
     state.user = user;
+  },
+  [SET_PERMISSIONS](state, result) {
+    state.permissions = result;
+  },
+  [SET_USER_PROFILE](state, result) {
+    state.userProfile = result;
   },
 };
 

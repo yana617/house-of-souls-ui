@@ -1,15 +1,18 @@
 <template>
   <div v-if="user" class="profile">
     <div class="profile__header">
-      <a :href="`tel:${user.phone}`"><Button class="profile__call-btn" title="позвонить" /></a>
       <div class="profile__main-data-container">
         <div class="profile__img-container">
           <img class="profile__img" src="@/assets/cat_infos.jpeg" />
         </div>
         <div class="profile__name-phone-container">
           <span class="profile__name">{{ user.name }} {{ user.surname }}</span>
-          <span class="profile__phone">+{{ user.phone }}</span>
-          <span class="profile__visits"><b>{{ personalClaims.total || '..' }}</b> посещений</span>
+          <a :href="`tel:${user.phone}`">
+            <span class="profile__phone">+{{ user.phone }}</span>
+          </a>
+          <span class="profile__visits">
+            <b>{{ personalClaims.total || '..' }}</b> посещений
+          </span>
         </div>
       </div>
     </div>
@@ -17,8 +20,11 @@
       <a-tab-pane key="1" tab="Посещения">
         <VisitsTable :claims="personalClaims.claims" />
       </a-tab-pane>
-      <a-tab-pane key="2" tab="Личные данные">
-        <ProfileForm :userId="user._id" />
+      <a-tab-pane v-if="!isAnotherUserProfile" key="2" tab="Личные данные">
+        <ProfileForm :userId="userId" />
+      </a-tab-pane>
+      <a-tab-pane v-if="isAnotherUserProfile" key="3" tab="Права">
+        <PermissionsAndRoles :userId="userId" userRole="USER" />
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -30,50 +36,78 @@ import { mapState } from 'vuex';
 
 import VisitsTable from '@/components/profile-view/VisitsTable.vue';
 import ProfileForm from '@/components/profile-view/ProfileForm.vue';
-import Button from '@/components/common/Button.vue';
+import PermissionsAndRoles from '@/components/profile-view/PermissionsAndRoles.vue';
 
 export default {
   name: 'Profile',
-  components: { VisitsTable, ProfileForm, Button },
+  components: { VisitsTable, ProfileForm, PermissionsAndRoles },
   data() {
     return {
       activeKey: ref('1'),
     };
   },
   created() {
-    this.$store.dispatch('app/setLoading', true);
-    this.$store.dispatch('claim/getClaimsByUserId', { userId: this.user._id }).then(() => {
-      this.$store.dispatch('app/setLoading', false);
-    });
+    this.loadUserAndClaims();
   },
   computed: mapState({
-    user: (state) => state.users.user,
+    isAnotherUserProfile(state) {
+      return !!this.$route.params.id && this.$route.params.id !== state.users.user._id;
+    },
+    user(state) {
+      if (this.isAnotherUserProfile) {
+        return state.users.userProfile;
+      }
+      return state.users.user;
+    },
     personalClaims: (state) => state.claim.personal,
+    userId(state) {
+      if (this.isAnotherUserProfile) {
+        return this.$route.params.id;
+      }
+      return state.users.user._id;
+    },
   }),
+  watch: {
+    isAnotherUserProfile() {
+      this.loadUserAndClaims();
+    },
+  },
+  methods: {
+    loadUserAndClaims() {
+      this.$store.dispatch('app/setLoading', true);
+      if (this.isAnotherUserProfile) {
+        this.$store.dispatch('users/getUserProfile', { userId: this.userId });
+      }
+      this.$store.dispatch('claim/getClaimsByUserId', { userId: this.userId }).then(() => {
+        this.$store.dispatch('app/setLoading', false);
+      });
+    },
+  },
+  unmounted() {
+    this.$store.dispatch('users/clearUserProfile');
+  },
 };
 </script>
 
 <style scoped lang="scss">
+$lightBlue: #e7f5fc;
+
 .profile {
   &__header {
     position: relative;
     width: 100%;
-    height: 200px;
-    background-color: rgba(66, 185, 131, 1);
+    height: 150px;
+    background-color: $lightBlue;
     position: relative;
     max-width: 100%;
     color: black;
-    background-position: 0% 65%;
-    background-size: cover;
-    background-image: url('~@/assets/profile-background.jpeg');
   }
   &__main-data-container {
     position: absolute;
     bottom: 20px;
-    left: 10%;
+    left: 20%;
     display: flex;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.4);
     padding: 8px 16px;
     border-radius: 4px;
   }
@@ -110,19 +144,9 @@ export default {
     font-size: 16px;
   }
 
-  &__call-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background-color: rgba(24, 144, 255, 0.7);
-  }
-
-  @media (max-width: 768px) {
-    &__header {
-      background-position: center;
-    }
+  @media (max-width: 450px) {
     &__main-data-container {
-      background-color: rgba(255, 255, 255, 0.6);
+      left: unset;
     }
   }
 }

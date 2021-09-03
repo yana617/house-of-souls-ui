@@ -22,9 +22,9 @@
           />
         </span>
       </template>
-      <template #action="{}">
+      <template #action="{ record }">
         <span>
-          <a>Верифицировать</a>
+          <a @click="changeRole(record._id)">Сделать волонтером</a>
         </span>
       </template>
     </a-table>
@@ -42,7 +42,11 @@
             :additionalFieldsTemplates="additionalFieldsTemplates"
           />
         </div>
-        <Button class="volunteers-requests__mobile__submit-btn" title="Верифицировать" />
+        <Button
+          @click="changeRole(user._id)"
+          class="volunteers-requests__mobile__submit-btn"
+          title="Сделать волонтером"
+        />
       </div>
     </div>
   </div>
@@ -84,6 +88,11 @@ export default {
     },
     userInfo(user) {
       return `${user.name} ${user.surname} (${this.getAge(user.birthday)})`;
+    },
+    changeRole(userId) {
+      this.$store.dispatch('users/updateRole', { userId, role: 'VOLUNTEER' }).then(() => {
+        this.$store.dispatch('users/getUsers', { isVerified: false });
+      });
     },
   },
 };
