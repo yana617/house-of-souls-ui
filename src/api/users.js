@@ -24,8 +24,12 @@ export default {
     const { data: { user } } = await axios.patch(`${API_HOST}/users/${body._id}`, body);
     return user;
   },
-  restorePassword: async ({ email }) => {
-    const { data } = await axios.post(`${API_HOST}/restore-password`, { email });
+  forgotPassword: async ({ email }) => {
+    const { data } = await axios.post(`${API_HOST}/forgot-password`, { email });
+    return data;
+  },
+  resetPassword: async (body) => {
+    const { data } = await axios.post(`${API_HOST}/reset-password`, body);
     return data;
   },
   getUserPermissions: async () => {

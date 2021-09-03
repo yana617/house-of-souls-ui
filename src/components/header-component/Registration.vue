@@ -4,6 +4,8 @@
       <input id="name" v-model="name" type="text" name="name" placeholder="Имя" />
       <input id="surname" v-model="surname" type="text" name="surname" placeholder="Фамилия" />
       <PhoneInput @onchange="onChangePhone" id="phone" placeholder="Телефон" />
+      <input id="email" v-model="email" type="text" name="email" placeholder="Почта" />
+      <a-date-picker size="large" placeholder="День рождения" class="registration__birthday" v-model:value="birthday" />
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
       <div v-if="loading && !additionalFields" class="registration__loader-wrapper">
         <Loader className="registration__loader" />
@@ -13,7 +15,7 @@
         :key="field._id"
         v-bind="field"
         :value="selected[field._id]"
-        @input="value => selected[field._id] = value"
+        @input="(value) => (selected[field._id] = value)"
       />
       <Button @click="submitRegistration" class="registration__submit-btn" title="Зарегистрироваться" />
     </div>
@@ -22,6 +24,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import { ref } from 'vue';
 
 import Loader from '../common/Loader.vue';
 import Checkbox from '../common/Checkbox.vue';
@@ -44,8 +47,10 @@ export default {
       name: null,
       surname: null,
       phone: null,
+      email: null,
       password: null,
       selected: {},
+      birthday: ref(),
       loading: false,
     };
   },
@@ -64,6 +69,8 @@ export default {
         name: this.name,
         surname: this.surname,
         phone: this.phone,
+        email: this.email,
+        birthday: this.birthday,
         password: this.password,
         additionalFields: Object.keys(this.selected).map((additionalFieldId) => ({
           _id: additionalFieldId,
@@ -103,6 +110,16 @@ $lightGrey: #ccc;
     color: white;
     &::placeholder {
       color: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  &__birthday {
+    input {
+      &::placeholder {
+        font-size: 13.3px;
+      }
+      margin: 4px 0px;
+      line-height: 1 !important;
     }
   }
 

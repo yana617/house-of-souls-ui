@@ -58,7 +58,7 @@ $green: #42b983;
 
 .auth-modal {
   width: 700px;
-  height: 450px;
+  height: 510px;
   position: relative;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
   border-radius: 4px;

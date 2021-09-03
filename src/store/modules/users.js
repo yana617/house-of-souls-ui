@@ -46,8 +46,11 @@ const actions = {
     const user = await users.updateUser(body);
     commit(SET_USER, user);
   },
-  restorePassword: async (_, body = {}) => {
-    await users.restorePassword(body);
+  forgotPassword: async (_, body = {}) => {
+    await users.forgotPassword(body);
+  },
+  resetPassword: async (_, body = {}) => {
+    await users.resetPassword(body);
   },
   getUserPermissions: async ({ commit }) => {
     const result = await users.getUserPermissions();

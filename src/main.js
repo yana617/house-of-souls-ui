@@ -10,6 +10,7 @@ import {
   TimePicker,
   Checkbox,
   Input,
+  Typography,
   Select,
 } from 'ant-design-vue';
 import { createVueMatchMediaPlugin } from '@cwist/vue-match-media';
@@ -40,6 +41,7 @@ const run = () => {
     .use(Table)
     .use(Tag)
     .use(Input)
+    .use(Typography)
     .use(Select)
     .use(VueMatchMediaPlugin)
     .mount('#app');

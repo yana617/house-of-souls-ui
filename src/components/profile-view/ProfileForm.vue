@@ -8,6 +8,8 @@
       <input :disabled="!edit" class="profile-form__input" placeholder="Фамилия" v-model="profile.surname" />
       <label>Телефон</label>
       <input :disabled="!edit" class="profile-form__input" placeholder="Телефон" v-model="profile.phone" />
+      <label>Почта</label>
+      <input :disabled="!edit" class="profile-form__input" placeholder="Почта" v-model="profile.email" />
       <label>День рождения</label>
       <a-date-picker
         size="large"
@@ -105,7 +107,7 @@ $blue: #1890ff;
 .profile-form {
   display: flex;
   flex-direction: column;
-  padding: 4px 35%;
+  padding: 8px 35% 16px 35%;
 
   h3 {
     text-align: left;
@@ -192,7 +194,7 @@ $blue: #1890ff;
   }
 
   @media (max-width: 768px) {
-    padding: 8px 16px;
+    padding: 8px 16px 16px 16px;
   }
 }
 </style>
