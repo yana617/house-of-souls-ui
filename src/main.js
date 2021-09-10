@@ -14,19 +14,19 @@ import {
   Select,
 } from 'ant-design-vue';
 import { createVueMatchMediaPlugin } from '@cwist/vue-match-media';
+import 'ant-design-vue/dist/antd.css';
 
 import App from './App.vue';
 import router from './router';
 import store from './store';
-
 import logger from './utils/logger';
-
-import 'ant-design-vue/dist/antd.css';
+import interceptorsSetup from './utils/axios';
 
 const breakpoints = {
   mobile: { maxWidth: 768 },
 };
 const VueMatchMediaPlugin = createVueMatchMediaPlugin({ breakpoints });
+interceptorsSetup();
 
 const run = () => {
   createApp(App)
@@ -54,8 +54,6 @@ if (process.env.VUE_APP_MSW === 'true') {
     .then((worker) => worker.start())
     .then(() => {
       logger.log('Mock server successfully started');
-      // reset IS_AUTH state
-      fetch('https://api.house-of-souls.by/logout', { method: 'delete' });
     })
     .then(run)
     .catch(() => logger.error('Mock server start failed'));

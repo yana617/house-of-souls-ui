@@ -75,7 +75,7 @@ export default {
   methods: {
     setFields() {
       this.userAdditionalFields.forEach((userAF) => {
-        const field = this.additionalFieldsTemplates.find((aft) => aft._id === userAF.additional_field_template_id);
+        const field = this.additionalFieldsTemplates.find((aft) => aft.id === userAF.additional_field_template_id);
         this.userAF[userAF._id] = { ...field, ...userAF };
       });
     },

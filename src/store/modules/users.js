@@ -1,12 +1,15 @@
 import users from '../../api/users';
+import notifications from '@/utils/notifications';
 
 const SET_USERS = 'SET_USERS';
 const LOAD_MORE_USERS = 'LOAD_MORE_USERS';
 const SET_USER = 'SET_USER';
 const SET_PERMISSIONS = 'SET_PERMISSIONS';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
+const SET_REGISTER_ERRORS = 'SET_REGISTER_ERRORS';
+const SET_FORGOT_PASSWORD_ERRORS = 'SET_FORGOT_PASSWORD_ERRORS';
+const SET_RESET_PASSWORD_ERRORS = 'SET_RESET_PASSWORD_ERRORS';
 
-// initial state
 const state = () => ({
   list: [],
   user: null,
@@ -15,6 +18,9 @@ const state = () => ({
     userPermissions: [],
     rolePermissions: [],
   },
+  registerErrors: [],
+  forgotPasswordValidationErrors: [],
+  resetPasswordValidationErrors: [],
 });
 
 const getters = {};
@@ -29,28 +35,58 @@ const actions = {
     commit(LOAD_MORE_USERS, result);
   },
   login: async ({ commit }, body = {}) => {
-    const user = await users.login(body);
-    commit(SET_USER, user);
-    commit('app/SET_MODAL', null, { root: true });
+    const response = await users.login(body);
+    if (response.success) {
+      commit(SET_USER, response.data);
+      commit('app/SET_MODAL', null, { root: true });
+    }
+  },
+  getUser: async ({ commit }) => {
+    const response = await users.getUser();
+    if (response.success) {
+      commit(SET_USER, response.data);
+    }
   },
   logout: async ({ commit }) => {
     await users.logout();
     commit(SET_USER, null);
   },
   register: async ({ commit }, body = {}) => {
-    const user = await users.register(body);
-    commit(SET_USER, user);
-    commit('app/SET_MODAL', null, { root: true });
+    const response = await users.register(body);
+    if (response.success) {
+      commit(SET_USER, response.data);
+      commit('app/SET_MODAL', null, { root: true });
+    } else if (response.errors) {
+      commit(SET_REGISTER_ERRORS, response.errors);
+    }
   },
   updateUser: async ({ commit }, body = {}) => {
     const user = await users.updateUser(body);
     commit(SET_USER, user);
   },
-  forgotPassword: async (_, body = {}) => {
-    await users.forgotPassword(body);
+  forgotPassword: async ({ commit }, body = {}) => {
+    const response = await users.forgotPassword(body);
+    if (response.success) {
+      notifications.success('Проверяйте почту :)', 'Сообщение на почту успешно отправлено!');
+      return;
+    }
+    if (response.errors) {
+      commit(SET_FORGOT_PASSWORD_ERRORS, response.errors);
+    } else {
+      commit(SET_FORGOT_PASSWORD_ERRORS, []);
+    }
   },
-  resetPassword: async (_, body = {}) => {
-    await users.resetPassword(body);
+  resetPassword: async ({ commit }, body = {}) => {
+    const response = await users.resetPassword(body);
+    if (response.success) {
+      notifications.success('Проверяйте почту :)', 'Сообщение на почту успешно отправлено!');
+      return;
+    }
+    if (response.errors) {
+      commit(SET_RESET_PASSWORD_ERRORS, response.errors);
+    } else {
+      commit(SET_RESET_PASSWORD_ERRORS, []);
+    }
   },
   getUserPermissions: async ({ commit }) => {
     const result = await users.getUserPermissions();
@@ -63,7 +99,10 @@ const actions = {
     const result = await users.getUserProfile({ userId });
     commit(SET_USER_PROFILE, result);
   },
-  clearUserProfile: async ({ commit }) => {
+  clearUser: ({ commit }) => {
+    commit(SET_USER, null);
+  },
+  clearUserProfile: ({ commit }) => {
     commit(SET_USER_PROFILE, null);
   },
 };
@@ -84,6 +123,15 @@ const mutations = {
   },
   [SET_USER_PROFILE](state, result) {
     state.userProfile = result;
+  },
+  [SET_REGISTER_ERRORS](state, errors) {
+    state.registerErrors = errors;
+  },
+  [SET_FORGOT_PASSWORD_ERRORS](state, errors) {
+    state.forgotPasswordValidationErrors = errors;
+  },
+  [SET_RESET_PASSWORD_ERRORS](state, errors) {
+    state.resetPasswordValidationErrors = errors;
   },
 };
 

@@ -88,12 +88,11 @@ export default {
       this.$store.dispatch('additionalFields/uploadIcon', formData).then(() => {
         const newIcon = this.uploadedIcon;
         const updatedField = {
-          _id: this._id,
           icon: newIcon,
           label: this.labelModel,
           description: this.descriptionModel,
         };
-        this.$store.dispatch('additionalFields/localUpdateAdditionalField', { field: updatedField, _id: this._id });
+        this.$store.dispatch('additionalFields/localUpdateAdditionalField', { field: updatedField, id: this.id });
       });
     },
   },

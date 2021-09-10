@@ -3,15 +3,19 @@
     <form :onsubmit="resetPassword">
       <label>Восстановление пароля</label>
       <a-input type="password" size="large" v-model:value="password" placeholder="Пароль" />
+      <span class="reset-password__error">{{ getError('password') }}</span>
       <a-input type="password" size="large" v-model:value="repeatPassword" placeholder="Подтвердите пароль" />
+      <span class="reset-password__error">{{ getError('token') }}</span>
+      <span class="reset-password__error">{{ getError('userId') }}</span>
       <Button class="reset-password__btn" title="Отправить запрос" />
     </form>
   </div>
 </template>
 
 <script>
-import { notification } from 'ant-design-vue';
+import { mapState } from 'vuex';
 
+import notifications from '@/utils/notifications';
 import Button from '@/components/common/Button.vue';
 
 export default {
@@ -23,24 +27,25 @@ export default {
       repeatPassword: '',
     };
   },
+  computed: mapState({
+    errors: (state) => state.users.resetPasswordValidationErrors,
+  }),
   methods: {
     resetPassword() {
       if (this.password !== this.repeatPassword) {
-        this.openNotification('Пароли отличаются');
+        notifications.error('Пароли отличаются');
         return false;
       }
       const { token, userId } = this.$route.query;
-      this.$store.dispatch('users/resetPassword', { password: this.password, token, userId }).then(() => {
-        this.$router.push('/');
-      });
+      this.$store.dispatch('users/resetPassword', { password: this.password, token, userId });
       return false;
     },
-    openNotification(message) {
-      notification.error({
-        message: 'Ошибка',
-        description: message,
-        placement: 'bottomRight',
-      });
+    getError(field) {
+      if (!this.errors || !this.errors.some((err) => err.param === field)) {
+        return '';
+      }
+      const error = this.errors.find((err) => err.param === field);
+      return error.msg;
     },
   },
 };
@@ -87,6 +92,15 @@ $blueGrey: rgb(235, 245, 255);
       color: $cyan;
       border-color: $cyan;
     }
+  }
+
+  &__error {
+    text-align: left;
+    color: rgba(255, 0, 0, 0.8);
+    font-size: 13px;
+    width: 300px;
+    margin-top: -4px;
+    margin-bottom: 8px;
   }
 
   @media (max-width: 400px) {

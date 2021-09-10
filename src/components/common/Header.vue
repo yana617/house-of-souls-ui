@@ -4,23 +4,23 @@
     <div class="header__nav-menu">
       <router-link to="/volunteers">Волонтеры</router-link>
       <router-link class="header__nav-menu__right-btn" to="/">График</router-link>
-      <router-link v-if="user" class="header__nav-menu__right-btn" to="/profile">Профиль</router-link>
+      <router-link v-if="isAuthorized || user" class="header__nav-menu__right-btn" to="/profile">Профиль</router-link>
     </div>
     <div class="header__auth">
-      <Button v-if="!user" @click="setModal(MODAL.LOGIN)" title="Вход" />
+      <Button v-if="!isAuthorized && !user" @click="setModal(MODAL.LOGIN)" title="Вход" />
       <Button
-        v-if="!user"
+        v-if="!isAuthorized && !user"
         @click="setModal(MODAL.REGISTRATION)"
         class="header__auth__register-btn"
         title="Регистрация"
       />
       <Button
-        v-if="user"
+        v-if="isAuthorized || user"
         @click="$router.push('/admin/volunteers-requests')"
         class="header__auth__admin-btn"
         title="Админка"
       />
-      <Button v-if="user" class="header__auth__logout-btn" @click="logout()" title="Выход" />
+      <Button v-if="isAuthorized || user" class="header__auth__logout-btn" @click="logout()" title="Выход" />
       <AuthModal />
     </div>
   </div>
@@ -28,11 +28,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import Button from './Button.vue';
 import Dropdown from './Dropdown.vue';
 import AuthModal from '../header-component/AuthModal.vue';
 import { PATHS, HEADER_LINKS, ADMIN_LINKS } from '../../router/constants';
 import { MODAL } from '../../utils/constants';
+import { getToken, clearStorage } from '@/utils/sessionStorage';
 
 export default {
   name: 'Header',
@@ -44,17 +47,17 @@ export default {
   data() {
     return {
       MODAL,
+      isAuthorized: !!getToken(),
     };
   },
-  computed: {
+  computed: mapState({
+    additionalFields: (state) => state.additionalFields.current,
+    user: (state) => state.users.user,
     path() {
       return this.$route.path;
     },
     selected() {
       return PATHS[this.path] || null;
-    },
-    user() {
-      return this.$store.state.users.user;
     },
     headerLinks() {
       if (this.user) {
@@ -62,13 +65,16 @@ export default {
       }
       return HEADER_LINKS;
     },
-  },
+  }),
   methods: {
     setModal(modalName) {
       this.$store.dispatch('app/setModal', modalName);
     },
     logout() {
-      this.$store.dispatch('users/logout');
+      clearStorage();
+      this.$store.dispatch('users/clearUser');
+      this.isAuthorized = false;
+      this.$router.push('/');
     },
   },
 };
@@ -113,7 +119,8 @@ $header-color: #1d1d1f;
     position: absolute;
     right: 30px;
 
-    &__register-btn, &__logout-btn {
+    &__register-btn,
+    &__logout-btn {
       margin-left: 8px;
     }
 

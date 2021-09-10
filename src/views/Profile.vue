@@ -51,7 +51,7 @@ export default {
   },
   computed: mapState({
     isAnotherUserProfile(state) {
-      return !!this.$route.params.id && this.$route.params.id !== state.users.user._id;
+      return !!this.$route.params.id && state.users.user && this.$route.params.id !== state.users.user.id;
     },
     user(state) {
       if (this.isAnotherUserProfile) {
@@ -60,11 +60,11 @@ export default {
       return state.users.user;
     },
     personalClaims: (state) => state.claim.personal,
-    userId(state) {
-      if (this.isAnotherUserProfile) {
-        return this.$route.params.id;
+    userId() {
+      if (!this.user) {
+        return null;
       }
-      return state.users.user._id;
+      return this.user.id;
     },
   }),
   watch: {
