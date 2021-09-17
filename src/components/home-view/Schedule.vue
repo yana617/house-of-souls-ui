@@ -29,7 +29,6 @@
 <script>
 import { daysOfWeek, parseDate } from '@/utils/date';
 import ScheduleTimeLine from './ScheduleTimeLine.vue';
-import { getToken } from '@/utils/sessionStorage';
 
 export default {
   name: 'Schedule',
@@ -38,11 +37,6 @@ export default {
     from: Number,
     to: Number,
     claims: Array,
-  },
-  created() {
-    if (!!getToken() && !this.user) {
-      this.$store.dispatch('users/getUser');
-    }
   },
   computed: {
     morningSchedule() {

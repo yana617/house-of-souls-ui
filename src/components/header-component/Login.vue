@@ -24,12 +24,13 @@ export default {
     };
   },
   methods: {
-    submitLogin() {
+    async submitLogin() {
       const body = {
         email: this.email,
         password: this.password,
       };
-      this.$store.dispatch('users/login', body);
+      await this.$store.dispatch('users/login', body);
+      this.$store.dispatch('permissions/getMyPermissions');
     },
     closeModal() {
       this.$store.dispatch('app/setModal', null);

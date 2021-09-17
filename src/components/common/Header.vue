@@ -2,9 +2,11 @@
   <div class="header">
     <Dropdown v-if="$matchMedia.mobile" :items="headerLinks" :selected="selected" />
     <div class="header__nav-menu">
-      <router-link to="/volunteers">Волонтеры</router-link>
+      <router-link v-if="havePermissions('VIEW_USERS')" to="/volunteers">Волонтеры</router-link>
       <router-link class="header__nav-menu__right-btn" to="/">График</router-link>
-      <router-link v-if="isAuthorized || user" class="header__nav-menu__right-btn" to="/profile">Профиль</router-link>
+      <router-link v-if="havePermissions('VIEW_PROFILE')" class="header__nav-menu__right-btn" to="/profile">
+        Профиль
+      </router-link>
     </div>
     <div class="header__auth">
       <Button v-if="!isAuthorized && !user" @click="setModal(MODAL.LOGIN)" title="Вход" />
@@ -65,6 +67,7 @@ export default {
       }
       return HEADER_LINKS;
     },
+    permissions: (state) => state.permissions.my,
   }),
   methods: {
     setModal(modalName) {
@@ -73,8 +76,12 @@ export default {
     logout() {
       clearStorage();
       this.$store.dispatch('users/clearUser');
+      this.$store.dispatch('permissions/resetPermissions');
       this.isAuthorized = false;
       this.$router.push('/');
+    },
+    havePermissions(permission) {
+      return this.permissions.includes(permission);
     },
   },
 };

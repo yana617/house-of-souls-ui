@@ -13,6 +13,7 @@ import { mapState } from 'vuex';
 import Footer from '@/components/common/Footer.vue';
 import Notice from '@/components/home-view/Notice.vue';
 import Schedule from '@/components/home-view/Schedule.vue';
+import { getToken } from '@/utils/sessionStorage';
 // import { getWeekDatesRange } from '@/utils/date';
 
 export default {
@@ -28,6 +29,9 @@ export default {
     nextWeekSchedule: (state) => state.claim.nextWeekSchedule,
   }),
   async created() {
+    if (!!getToken() && !this.user) {
+      this.$store.dispatch('users/getUser');
+    }
     this.$store.dispatch('app/setLoading', true);
     this.$store.dispatch('notices/getNotices');
 

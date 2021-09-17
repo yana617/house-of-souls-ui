@@ -71,7 +71,7 @@ export default {
     });
   },
   methods: {
-    submitRegistration() {
+    async submitRegistration() {
       const body = {
         name: this.name,
         surname: this.surname,
@@ -84,7 +84,8 @@ export default {
           value: this.selected[additionalFieldId],
         })),
       };
-      this.$store.dispatch('users/register', body);
+      await this.$store.dispatch('users/register', body);
+      this.$store.dispatch('users/getUser');
     },
     onChangePhone(updatedPhone) {
       const phone = updatedPhone.replace(/[-+()_\s]/g, '');

@@ -25,6 +25,7 @@ const interceptorsSetup = () => {
     if (err.response.status === 401) {
       clearStorage();
       store.dispatch('users/clearUser');
+      store.dispatch('permissions/resetPermissions');
       router.push('/');
     } else {
       checkResponseErrors(err.response.data);

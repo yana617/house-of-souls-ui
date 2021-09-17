@@ -22,6 +22,9 @@ export default {
   computed: mapState({
     loading: (state) => state.app.loading,
   }),
+  created() {
+    this.$store.dispatch('permissions/getMyPermissions');
+  },
 };
 </script>
 

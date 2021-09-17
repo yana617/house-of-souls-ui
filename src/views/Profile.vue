@@ -23,7 +23,7 @@
       <a-tab-pane v-if="!isAnotherUserProfile" key="2" tab="Личные данные">
         <ProfileForm :userId="userId" />
       </a-tab-pane>
-      <a-tab-pane v-if="isAnotherUserProfile" key="3" tab="Права">
+      <a-tab-pane v-if="isAnotherUserProfile && havePermissionsToEditPermissions" key="3" tab="Права">
         <PermissionsAndRoles :userId="userId" userRole="USER" />
       </a-tab-pane>
     </a-tabs>
@@ -53,18 +53,24 @@ export default {
     isAnotherUserProfile(state) {
       return !!this.$route.params.id && state.users.user && this.$route.params.id !== state.users.user.id;
     },
-    user(state) {
-      if (this.isAnotherUserProfile) {
-        return state.users.userProfile;
-      }
-      return state.users.user;
-    },
+    anotherUserProfile: (state) => state.users.userProfile,
+    user: (state) => state.users.user,
     personalClaims: (state) => state.claim.personal,
     userId() {
       if (!this.user) {
         return null;
       }
       return this.user.id;
+    },
+    userToDisplay(state) {
+      if (this.isAnotherUserProfile) {
+        return state.users.userProfile;
+      }
+      return state.users.user;
+    },
+    havePermissionsToEditPermissions: (state) => {
+      const permissions = state.permissions.my;
+      return permissions && permissions.includes('EDIT_PERMISSIONS');
     },
   }),
   watch: {
@@ -73,10 +79,12 @@ export default {
     },
   },
   methods: {
-    loadUserAndClaims() {
+    async loadUserAndClaims() {
       this.$store.dispatch('app/setLoading', true);
       if (this.isAnotherUserProfile) {
-        this.$store.dispatch('users/getUserProfile', { userId: this.userId });
+        await this.$store.dispatch('users/getUserProfile', { userId: this.userId });
+      } else if (!this.user) {
+        await this.$store.dispatch('users/getUser');
       }
       this.$store.dispatch('claim/getClaimsByUserId', { userId: this.userId }).then(() => {
         this.$store.dispatch('app/setLoading', false);
