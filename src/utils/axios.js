@@ -6,7 +6,7 @@ import router from '../router';
 import store from '../store';
 import notification from './notifications';
 
-const checkResponseErrors = ({ success, error }) => {
+const checkResponseErrors = ({ success = false, error = 'Неизвестная ошибочка' }) => {
   if (!success && error) {
     notification.error(error);
   }
