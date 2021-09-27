@@ -86,6 +86,7 @@ export default {
       };
       await this.$store.dispatch('users/register', body);
       this.$store.dispatch('users/getUser');
+      this.$store.dispatch('permissions/getMyPermissions');
     },
     onChangePhone(updatedPhone) {
       const phone = updatedPhone.replace(/[-+()_\s]/g, '');

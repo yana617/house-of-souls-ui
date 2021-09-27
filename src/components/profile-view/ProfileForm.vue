@@ -25,6 +25,7 @@
         <label>{{ uaf.label }}</label>
         <a-switch :disabled="!edit" v-model:checked="userAF[uaf._id].value" />
       </div>
+      <span v-if="noUaf">-</span>
     </div>
     <div class="profile-form__btns-container">
       <Button v-if="edit" class="profile-form__save-btn" title="сохранить" @click="save" />
@@ -67,7 +68,7 @@ export default {
   }),
   created() {
     this.$store.dispatch('additionalFields/getAdditionalFields');
-    this.$store.dispatch('userAdditionalFields/getUserAdditionalFields', { userId: this.userId });
+    this.$store.dispatch('userAdditionalFields/getUserAdditionalFields');
 
     this.profile = { ...this.$store.state.users.user };
     this.birthday = moment(this.profile.birthday);
@@ -93,6 +94,10 @@ export default {
       Object.values(this.userAF).forEach((uaf) => {
         this.$store.dispatch('userAdditionalFields/updateUserAdditionalField', { _id: uaf._id, value: uaf.value });
       });
+    },
+    noUaf() {
+      const uaf = this.getUserAdditionalFields;
+      return !uaf || uaf.length === 0;
     },
   },
 };

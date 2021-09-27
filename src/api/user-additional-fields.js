@@ -1,13 +1,16 @@
 import axios from 'axios';
 
-import { API_HOST } from '@/constants';
+const { VUE_APP_AUTH_SERVICE: AUTH_SERVICE_API } = process.env;
+
+const url = `${AUTH_SERVICE_API}/user-additional-fields`;
 
 export default {
-  getUserAdditionalFields: async ({ userId }) => {
-    const { data: { userAdditionalFields } } = await axios.get(`${API_HOST}/user-additional-fields?userId=${userId}`);
-    return userAdditionalFields;
+  getUserAdditionalFields: async () => {
+    const { data } = await axios.get(`${url}/me`);
+    return data;
   },
   updateUserAdditionalField: async ({ _id, value }) => {
-    await axios.patch(`${API_HOST}/user-additional-fields/${_id}?value=${value}`);
+    const { data } = await axios.put(`${url}/${_id}`, { value });
+    return data;
   },
 };
