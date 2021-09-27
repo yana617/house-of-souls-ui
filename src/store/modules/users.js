@@ -1,5 +1,4 @@
 import users from '../../api/users';
-import historyActions from '../../api/history-actions';
 
 const SET_USERS = 'SET_USERS';
 const LOAD_MORE_USERS = 'LOAD_MORE_USERS';
@@ -32,10 +31,6 @@ const actions = {
   },
   register: async ({ commit }, body = {}) => {
     const user = await users.register(body);
-    await historyActions.createHistoryAction({
-      action_type: 'NEW_USER',
-      user_from: user._id,
-    });
     commit(SET_USER, user);
     commit('app/SET_MODAL', null, { root: true });
   },

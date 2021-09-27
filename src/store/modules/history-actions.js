@@ -17,9 +17,6 @@ const actions = {
   addHistoryAction: async ({ commit }, action) => {
     commit(ADD_HISTORY_ACTION, action);
   },
-  createHistoryAction: async (_, body) => {
-    await historyActions.createHistoryAction(body);
-  },
 };
 
 const mutations = {

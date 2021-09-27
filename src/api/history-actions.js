@@ -7,7 +7,4 @@ export default {
     const { data: { data } } = await axios.get(`${API_HOST}/history-actions`);
     return data;
   },
-  createHistoryAction: async (body) => {
-    await axios.post(`${API_HOST}/history-actions`, body);
-  },
 };
