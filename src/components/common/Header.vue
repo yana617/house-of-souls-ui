@@ -9,20 +9,25 @@
       </router-link>
     </div>
     <div class="header__auth">
-      <Button v-if="!isAuthorized && !user" @click="setModal(MODAL.LOGIN)" title="Вход" />
+      <Button v-if="!havePermissions('VIEW_PROFILE')" @click="setModal(MODAL.LOGIN)" title="Вход" />
       <Button
-        v-if="!isAuthorized && !user"
+        v-if="!havePermissions('VIEW_PROFILE')"
         @click="setModal(MODAL.REGISTRATION)"
         class="header__auth__register-btn"
         title="Регистрация"
       />
       <Button
-        v-if="isAuthorized || user"
+        v-if="hasAdminPermissions()"
         @click="$router.push('/admin/volunteers-requests')"
         class="header__auth__admin-btn"
         title="Админка"
       />
-      <Button v-if="isAuthorized || user" class="header__auth__logout-btn" @click="logout()" title="Выход" />
+      <Button
+        v-if="havePermissions('VIEW_PROFILE')"
+        class="header__auth__logout-btn"
+        @click="logout()"
+        title="Выход"
+      />
       <AuthModal />
     </div>
   </div>
@@ -37,7 +42,7 @@ import Dropdown from './Dropdown.vue';
 import AuthModal from '../header-component/AuthModal.vue';
 import { PATHS, HEADER_LINKS, ADMIN_LINKS } from '../../router/constants';
 import { MODAL } from '../../utils/constants';
-import { getToken, clearStorage } from '@/utils/sessionStorage';
+import { clearStorage } from '@/utils/sessionStorage';
 
 export default {
   name: 'Header',
@@ -49,7 +54,6 @@ export default {
   data() {
     return {
       MODAL,
-      isAuthorized: !!getToken(),
     };
   },
   computed: mapState({
@@ -77,11 +81,21 @@ export default {
       clearStorage();
       this.$store.dispatch('users/clearUser');
       this.$store.dispatch('permissions/resetPermissions');
-      this.isAuthorized = false;
       this.$router.push('/');
     },
     havePermissions(permission) {
       return this.permissions.includes(permission);
+    },
+    hasAdminPermissions() {
+      const adminPermissions = [
+        'CREATE_NOTICE',
+        'EDIT_NOTICE',
+        'DELETE_NOTICE',
+        'CREATE_ADDITIONAL_FIELD_TEMPLATE',
+        'EDIT_ADDITIONAL_FIELD_TEMPLATE',
+        'DELETE_ADDITIONAL_FIELD_TEMPLATE',
+      ];
+      return adminPermissions.some((permission) => this.permissions.includes(permission));
     },
   },
 };

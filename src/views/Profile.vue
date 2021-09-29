@@ -55,7 +55,7 @@ export default {
     },
     anotherUserProfile: (state) => state.users.userProfile,
     user: (state) => state.users.user,
-    personalClaims: (state) => state.claim.personal,
+    personalClaims: (state) => state.claims.personal,
     userId() {
       if (!this.user) {
         return null;
@@ -86,7 +86,7 @@ export default {
       } else if (!this.user) {
         await this.$store.dispatch('users/getUser');
       }
-      this.$store.dispatch('claim/getClaimsByUserId', { userId: this.userId }).then(() => {
+      this.$store.dispatch('claims/getClaimsByUserId', { userId: this.userId }).then(() => {
         this.$store.dispatch('app/setLoading', false);
       });
     },
