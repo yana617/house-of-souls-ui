@@ -2,25 +2,32 @@
   <div class="header">
     <Dropdown v-if="$matchMedia.mobile" :items="headerLinks" :selected="selected" />
     <div class="header__nav-menu">
-      <router-link to="/volunteers">Волонтеры</router-link>
+      <router-link v-if="havePermissions('VIEW_USERS')" to="/volunteers">Волонтеры</router-link>
       <router-link class="header__nav-menu__right-btn" to="/">График</router-link>
-      <router-link v-if="user" class="header__nav-menu__right-btn" to="/profile">Профиль</router-link>
+      <router-link v-if="havePermissions('VIEW_PROFILE')" class="header__nav-menu__right-btn" to="/profile">
+        Профиль
+      </router-link>
     </div>
     <div class="header__auth">
-      <Button v-if="!user" @click="setModal(MODAL.LOGIN)" title="Вход" />
+      <Button v-if="!havePermissions('VIEW_PROFILE')" @click="setModal(MODAL.LOGIN)" title="Вход" />
       <Button
-        v-if="!user"
+        v-if="!havePermissions('VIEW_PROFILE')"
         @click="setModal(MODAL.REGISTRATION)"
         class="header__auth__register-btn"
         title="Регистрация"
       />
       <Button
-        v-if="user"
+        v-if="hasAdminPermissions()"
         @click="$router.push('/admin/volunteers-requests')"
         class="header__auth__admin-btn"
         title="Админка"
       />
-      <Button v-if="user" class="header__auth__logout-btn" @click="logout()" title="Выход" />
+      <Button
+        v-if="havePermissions('VIEW_PROFILE')"
+        class="header__auth__logout-btn"
+        @click="logout()"
+        title="Выход"
+      />
       <AuthModal />
     </div>
   </div>
@@ -28,11 +35,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import Button from './Button.vue';
 import Dropdown from './Dropdown.vue';
 import AuthModal from '../header-component/AuthModal.vue';
 import { PATHS, HEADER_LINKS, ADMIN_LINKS } from '../../router/constants';
 import { MODAL } from '../../utils/constants';
+import { clearStorage } from '@/utils/sessionStorage';
 
 export default {
   name: 'Header',
@@ -46,15 +56,14 @@ export default {
       MODAL,
     };
   },
-  computed: {
+  computed: mapState({
+    additionalFields: (state) => state.additionalFields.current,
+    user: (state) => state.users.user,
     path() {
       return this.$route.path;
     },
     selected() {
       return PATHS[this.path] || null;
-    },
-    user() {
-      return this.$store.state.users.user;
     },
     headerLinks() {
       if (this.user) {
@@ -62,13 +71,31 @@ export default {
       }
       return HEADER_LINKS;
     },
-  },
+    permissions: (state) => state.permissions.my,
+  }),
   methods: {
     setModal(modalName) {
       this.$store.dispatch('app/setModal', modalName);
     },
     logout() {
-      this.$store.dispatch('users/logout');
+      clearStorage();
+      this.$store.dispatch('users/clearUser');
+      this.$store.dispatch('permissions/resetPermissions');
+      this.$router.push('/');
+    },
+    havePermissions(permission) {
+      return this.permissions.includes(permission);
+    },
+    hasAdminPermissions() {
+      const adminPermissions = [
+        'CREATE_NOTICE',
+        'EDIT_NOTICE',
+        'DELETE_NOTICE',
+        'CREATE_ADDITIONAL_FIELD_TEMPLATE',
+        'EDIT_ADDITIONAL_FIELD_TEMPLATE',
+        'DELETE_ADDITIONAL_FIELD_TEMPLATE',
+      ];
+      return adminPermissions.some((permission) => this.permissions.includes(permission));
     },
   },
 };
@@ -113,7 +140,8 @@ $header-color: #1d1d1f;
     position: absolute;
     right: 30px;
 
-    &__register-btn, &__logout-btn {
+    &__register-btn,
+    &__logout-btn {
       margin-left: 8px;
     }
 

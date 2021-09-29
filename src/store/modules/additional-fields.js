@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import additionalFields from '../../api/additional-fields';
 
 const SET_ADDITIONAL_FIELDS = 'SET_ADDITIONAL_FIELDS';
@@ -17,20 +16,20 @@ const getters = {};
 
 const actions = {
   getAdditionalFields: async ({ commit }) => {
-    const fields = await additionalFields.getAdditionalFields();
-    commit(SET_ADDITIONAL_FIELDS, fields);
+    const response = await additionalFields.getAdditionalFields();
+    commit(SET_ADDITIONAL_FIELDS, response.data);
   },
-  updateAdditionalField: async ({ commit }, body = {}) => {
+  updateAdditionalField: async (_, body = {}) => {
     await additionalFields.updateAdditionalField(body);
   },
-  deleteAdditionalField: async ({ commit }, { _id } = {}) => {
+  deleteAdditionalField: async (_, { _id } = {}) => {
     await additionalFields.deleteAdditionalField({ _id });
   },
   uploadIcon: async ({ commit }, formData) => {
     const link = await additionalFields.uploadIcon(formData);
     commit(SET_NEW_ADDITIONAL_FIELD_ICON_LINK, link);
   },
-  saveAdditionalField: async ({ commit }, body) => {
+  saveAdditionalField: async (_, body) => {
     await additionalFields.saveAdditionalField(body);
   },
   localUpdateAdditionalField: async ({ commit }, { field, _id }) => {

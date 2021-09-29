@@ -57,7 +57,7 @@ const weekDayOfDate = (dateString) => {
   return new Intl.DateTimeFormat('ru-RU', { weekday: 'long' }).format(date);
 };
 
-module.exports = {
+export {
   MS_IN_DAY_AMOUNT,
   daysOfWeek,
   typeOfTime,

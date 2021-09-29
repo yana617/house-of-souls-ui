@@ -6,13 +6,14 @@
         Вам на почту придет ссылка, перейдя по которой можно будет поменять пароль
       </a-typography-text>
       <a-input type="email" size="large" v-model:value="email" placeholder="Почта" />
+      <span class="forgot-password__error">{{ getError('email') }}</span>
       <Button class="forgot-password__btn" title="Отправить запрос" />
     </form>
   </div>
 </template>
 
 <script>
-import { notification } from 'ant-design-vue';
+import { mapState } from 'vuex';
 
 import Button from '@/components/common/Button.vue';
 
@@ -24,19 +25,20 @@ export default {
       email: '',
     };
   },
+  computed: mapState({
+    errors: (state) => state.users.forgotPasswordValidationErrors,
+  }),
   methods: {
     forgotPassword() {
-      this.$store.dispatch('users/forgotPassword', { email: this.email }).then(() => {
-        this.openNotification();
-      });
+      this.$store.dispatch('users/forgotPassword', { email: this.email });
       return false;
     },
-    openNotification() {
-      notification.success({
-        message: 'Проверяйте почту :)',
-        description: 'Сообщение на почту успешно отправлено!',
-        placement: 'bottomRight',
-      });
+    getError(field) {
+      if (!this.errors || !this.errors.some((err) => err.param === field)) {
+        return '';
+      }
+      const error = this.errors.find((err) => err.param === field);
+      return error.msg;
     },
   },
 };
@@ -88,6 +90,12 @@ $blueGrey: rgb(235, 245, 255);
       color: $cyan;
       border-color: $cyan;
     }
+  }
+
+  &__error {
+    text-align: left;
+    color: rgba(255, 0, 0, 0.8);
+    font-size: 13px;
   }
 
   @media (max-width: 400px) {
