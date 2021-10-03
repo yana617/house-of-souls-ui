@@ -41,12 +41,14 @@ export default {
     handleChangeSortBy(sortBy) {
       this.sortBy = sortBy;
       this.getUsers();
+      this.$emit('reset-skip');
     },
     getUsers() {
       this.$store.dispatch('users/getUsers', {
         sortBy: this.sortBy,
         skip: 0,
         ...(this.searchText ? { search: this.searchText } : {}),
+        roles: 'VOLUNTEER,ADMIN',
       });
     },
   },

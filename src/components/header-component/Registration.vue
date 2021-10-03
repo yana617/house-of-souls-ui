@@ -65,12 +65,16 @@ export default {
   },
   created() {
     this.loading = true;
-    this.$store.dispatch('additionalFields/getAdditionalFields').then(() => {
-      this.loading = false;
-      this.additionalFields.forEach((field) => {
-        this.selected[field.id] = false;
+    this.$store
+      .dispatch('additionalFields/getAdditionalFields')
+      .then(() => {
+        this.additionalFields.forEach((field) => {
+          this.selected[field.id] = false;
+        });
+      })
+      .finally(() => {
+        this.loading = false;
       });
-    });
   },
   methods: {
     async submitRegistration() {

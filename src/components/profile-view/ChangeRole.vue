@@ -49,13 +49,17 @@ export default {
     },
   }),
   methods: {
-    async updateRole() {
+    updateRole() {
       this.loading = true;
-      await this.$store.dispatch('users/updateRole', { userId: this.userId, role: this.updatedRole }).then(() => {
-        this.$store.dispatch('users/getUserPermissions', this.userId);
-        this.$store.dispatch('users/getUserProfile', { userId: this.userId });
-      });
-      this.loading = false;
+      this.$store
+        .dispatch('users/updateRole', { userId: this.userId, role: this.updatedRole })
+        .then(() => {
+          this.$store.dispatch('users/getUserPermissions', this.userId);
+          this.$store.dispatch('users/getUserProfile', { userId: this.userId });
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
   },
 };

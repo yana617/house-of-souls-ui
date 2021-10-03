@@ -86,9 +86,8 @@ export default {
       } else if (!this.user) {
         await this.$store.dispatch('users/getUser');
       }
-      this.$store.dispatch('claims/getClaimsByUserId', { userId: this.userId }).then(() => {
-        this.$store.dispatch('app/setLoading', false);
-      });
+      await this.$store.dispatch('claims/getClaimsByUserId', { userId: this.userId });
+      this.$store.dispatch('app/setLoading', false);
     },
   },
   unmounted() {

@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-import { API_HOST } from '@/constants';
-
 const { VUE_APP_AUTH_SERVICE: AUTH_SERVICE_API } = process.env;
 
 export default {
@@ -16,6 +14,6 @@ export default {
     return permissions;
   },
   updatePermissions: async ({ userId, permissions }) => {
-    await axios.put(`${API_HOST}/permissions`, { userId, permissions });
+    await axios.put(`${AUTH_SERVICE_API}/permissions`, { userId, permissions });
   },
 };

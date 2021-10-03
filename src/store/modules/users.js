@@ -116,10 +116,12 @@ const actions = {
 const mutations = {
   [SET_USERS](state, result) {
     state.list = result;
+    // state.list = result.users;
     // state.total = result.total;
   },
   [LOAD_MORE_USERS](state, result) {
-    state.list = state.list.concat(result.users);
+    // result.users
+    state.list = state.list.concat(result);
   },
   [SET_USER](state, user) {
     state.user = user;

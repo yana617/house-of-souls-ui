@@ -26,7 +26,7 @@
       {{ perm.translate }}
     </a-checkbox>
     <br />
-    <Button class="change-permissions__save-btn" title="сохранить" @click="updatePermissions" />
+    <Button :loading="loading" class="change-permissions__save-btn" title="сохранить" @click="updatePermissions" />
   </div>
 </template>
 
@@ -41,6 +41,7 @@ export default {
   data() {
     return {
       updatedPermissions: {},
+      loading: false,
     };
   },
   computed: mapState({
@@ -65,6 +66,7 @@ export default {
   }),
   methods: {
     updatePermissions() {
+      this.loading = true;
       this.$store
         .dispatch('permissions/updatePermissions', {
           userId: this.userId,
@@ -72,6 +74,9 @@ export default {
         })
         .then(() => {
           this.$store.dispatch('users/getUserPermissions', this.userId);
+        })
+        .finally(() => {
+          this.loading = false;
         });
     },
     onChange(e, name) {

@@ -1,9 +1,9 @@
 <template>
   <div class="volunteers">
     <span id="title">Список волонтеров</span>
-    <SearchBar ref="searchBar" />
-    <div class="volunteers__list">
-      <a class="volunteers__item" v-for="volunteer in volunteers" :key="volunteer.id">
+    <SearchBar ref="searchBar" @reset-skip="resetSkip" />
+    <div class="volunteers__list" id="volunteers__list">
+      <div class="volunteers__item" v-for="volunteer in volunteers" :key="volunteer.id">
         <router-link :to="`/users/${volunteer.id}`">
           <span> {{ volunteer.name }} {{ volunteer.surname }} </span>
         </router-link>
@@ -11,12 +11,12 @@
           <img class="volunteers__phone-icon" src="@/assets/phone-icon.png" />
           +{{ prettifyPhone(volunteer.phone) }}
         </a>
-      </a>
-      <div v-if="loading" class="volunteers__loader-wrapper">
-        <Loader className="volunteers__loader" />
       </div>
-      <span v-if="!loading && noVolunteers">Волонтеры не найдены</span>
     </div>
+    <div v-if="loading" class="volunteers__loader-wrapper">
+      <Loader className="volunteers__loader" />
+    </div>
+    <span v-if="!loading && noVolunteers">Волонтеры не найдены</span>
   </div>
 </template>
 
@@ -45,26 +45,29 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch('users/getUsers', { sortBy: 'name', skip: 0, roles: 'VOLUNTEER,ADMIN' }).then(() => {
-      this.skip += limit;
-      this.loading = false;
-    });
+    this.$store
+      .dispatch('users/getUsers', { sortBy: 'name', skip: 0, roles: 'VOLUNTEER,ADMIN' })
+      .then(() => {
+        this.skip += limit;
+      })
+      .finally(() => {
+        this.loading = false;
+      });
 
-    window.addEventListener('scroll', () => {
-      const bottomOfWindow = document.documentElement.scrollTop
-        + window.innerHeight === document.documentElement.offsetHeight;
-      if (bottomOfWindow && this.volunteers.length < this.total) {
-        this.loadMore();
-      }
-    });
+    this.addHandler();
   },
   unmounted() {
-    window.removeEventListener('scroll', this.handleScroll);
+    this.removeHandler();
   },
   methods: {
+    addHandler() {
+      window.addEventListener('scroll', this.checkScroll);
+    },
+    removeHandler() {
+      window.removeEventListener('scroll', this.checkScroll);
+    },
     loadMore() {
       const searchValue = this.$refs.searchBar.searchText;
-      this.loading = true;
       this.$store
         .dispatch('users/loadMoreUsers', {
           sortBy: this.$refs.searchBar.sortBy,
@@ -74,11 +77,26 @@ export default {
         })
         .then(() => {
           this.skip += limit;
+        })
+        .finally(() => {
           this.loading = false;
         });
     },
     prettifyPhone(phone) {
       return `${phone.substr(0, 3)} ${phone.substring(3, 5)} ${phone.substring(5)}`;
+    },
+    checkScroll() {
+      if (this.loading) return;
+      const lastItem = document.querySelector('#volunteers__list > div:last-child');
+      const lastItemOffset = lastItem.offsetTop + lastItem.clientHeight;
+      const pageOffset = window.pageYOffset + window.innerHeight;
+      if (pageOffset > lastItemOffset - 20 && this.volunteers.length < this.total) {
+        this.loading = true;
+        this.loadMore();
+      }
+    },
+    resetSkip() {
+      this.skip = limit;
     },
   },
 };
