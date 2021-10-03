@@ -15,7 +15,7 @@
     >
     </a-select>
     <br />
-    <Button class="change-role__save-btn" title="сохранить" @click="updateRole" />
+    <Button :loading="loading" class="change-role__save-btn" title="сохранить" @click="updateRole" />
   </div>
 </template>
 
@@ -27,16 +27,16 @@ import Button from '../common/Button.vue';
 export default {
   name: 'ChangeRole',
   components: { Button },
-  props: {
-    userRole: String,
-  },
   data() {
     return {
       updatedRole: null,
+      loading: false,
     };
   },
   computed: mapState({
     allRoles: (state) => state.roles.list || [],
+    userRole: (state) => state.users.userProfile.role,
+    userId: (state) => state.users.userProfile.id,
     roles() {
       return this.allRoles.map((role) => ({
         label: role.translate,
@@ -49,10 +49,13 @@ export default {
     },
   }),
   methods: {
-    updateRole() {
-      this.$store.dispatch('users/updateRole', { userId: this.userId, role: this.updatedRole }).then(() => {
-        this.loadAllPermissions();
+    async updateRole() {
+      this.loading = true;
+      await this.$store.dispatch('users/updateRole', { userId: this.userId, role: this.updatedRole }).then(() => {
+        this.$store.dispatch('users/getUserPermissions', this.userId);
+        this.$store.dispatch('users/getUserProfile', { userId: this.userId });
       });
+      this.loading = false;
     },
   },
 };

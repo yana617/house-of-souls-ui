@@ -9,6 +9,7 @@ const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_REGISTER_ERRORS = 'SET_REGISTER_ERRORS';
 const SET_FORGOT_PASSWORD_ERRORS = 'SET_FORGOT_PASSWORD_ERRORS';
 const SET_RESET_PASSWORD_ERRORS = 'SET_RESET_PASSWORD_ERRORS';
+const SET_USER_UPDATE_ERRORS = 'SET_USER_UPDATE_ERRORS';
 
 const state = () => ({
   list: [],
@@ -21,6 +22,7 @@ const state = () => ({
   registerErrors: [],
   forgotPasswordValidationErrors: [],
   resetPasswordValidationErrors: [],
+  userUpdateErrors: [],
 });
 
 const getters = {};
@@ -42,16 +44,15 @@ const actions = {
     }
   },
   getUser: async ({ commit }) => {
-    const response = await users.getUser();
-    if (response.success) {
-      commit(SET_USER, response.data);
-    }
+    const user = await users.getUser();
+    commit(SET_USER, user);
   },
   logout: async ({ commit }) => {
     await users.logout();
     commit(SET_USER, null);
   },
   register: async ({ commit }, body = {}) => {
+    commit(SET_REGISTER_ERRORS, []);
     const response = await users.register(body);
     if (response.success) {
       commit(SET_USER, response.data);
@@ -61,8 +62,13 @@ const actions = {
     }
   },
   updateUser: async ({ commit }, body = {}) => {
-    const user = await users.updateUser(body);
-    commit(SET_USER, user);
+    commit(SET_USER_UPDATE_ERRORS, []);
+    const response = await users.updateUser(body);
+    if (response.success) {
+      commit(SET_USER, response.data);
+    } else if (response.errors) {
+      commit(SET_USER_UPDATE_ERRORS, response.errors);
+    }
   },
   forgotPassword: async ({ commit }, body = {}) => {
     const response = await users.forgotPassword(body);
@@ -88,8 +94,8 @@ const actions = {
       commit(SET_RESET_PASSWORD_ERRORS, []);
     }
   },
-  getUserPermissions: async ({ commit }) => {
-    const result = await users.getUserPermissions();
+  getUserPermissions: async ({ commit }, userId) => {
+    const result = await users.getUserPermissions(userId);
     commit(SET_PERMISSIONS, result);
   },
   updateRole: async (_, { userId, role } = {}) => {
@@ -109,8 +115,8 @@ const actions = {
 
 const mutations = {
   [SET_USERS](state, result) {
-    state.list = result.users;
-    state.total = result.total;
+    state.list = result;
+    // state.total = result.total;
   },
   [LOAD_MORE_USERS](state, result) {
     state.list = state.list.concat(result.users);
@@ -132,6 +138,9 @@ const mutations = {
   },
   [SET_RESET_PASSWORD_ERRORS](state, errors) {
     state.resetPasswordValidationErrors = errors;
+  },
+  [SET_USER_UPDATE_ERRORS](state, errors) {
+    state.userUpdateErrors = errors;
   },
 };
 

@@ -38,15 +38,13 @@ import Button from '../common/Button.vue';
 export default {
   name: 'ChangePermissions',
   components: { Button },
-  props: {
-    userId: String,
-  },
   data() {
     return {
       updatedPermissions: {},
     };
   },
   computed: mapState({
+    userId: (state) => state.users.userProfile.id,
     allPermissions: (state) => state.permissions.list || [],
     userRolePermissions: (state) => state.users.permissions.rolePermissions || [],
     userAdditionalPermissions: (state) => state.users.permissions.userPermissions || [],
@@ -67,10 +65,14 @@ export default {
   }),
   methods: {
     updatePermissions() {
-      this.$store.dispatch('permissions/updatePermissions', {
-        userId: this.userId,
-        permissions: this.updatedPermissions,
-      });
+      this.$store
+        .dispatch('permissions/updatePermissions', {
+          userId: this.userId,
+          permissions: this.updatedPermissions,
+        })
+        .then(() => {
+          this.$store.dispatch('users/getUserPermissions', this.userId);
+        });
     },
     onChange(e, name) {
       const { checked } = e.target;

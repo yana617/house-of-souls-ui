@@ -3,24 +3,14 @@
     <div class="sort-bar">
       <span>Сортировать по:</span>
       <div class="btn-group">
-        <SortButton
-          title="Имени"
-          name="name"
-          @change-sort="handleChangeAttribute"
-          :isSortParam="attribute === 'name'"
-        />
+        <SortButton title="Имени" name="name" @change-sort="handleChangeSortBy" :isSortParam="sortBy === 'name'" />
         <SortButton
           title="Фамилии"
           name="surname"
-          @change-sort="handleChangeAttribute"
-          :isSortParam="attribute === 'surname'"
+          @change-sort="handleChangeSortBy"
+          :isSortParam="sortBy === 'surname'"
         />
-        <SortButton
-          title="Телефону"
-          name="phone"
-          @change-sort="handleChangeAttribute"
-          :isSortParam="attribute === 'phone'"
-        />
+        <SortButton title="Телефону" name="phone" @change-sort="handleChangeSortBy" :isSortParam="sortBy === 'phone'" />
       </div>
     </div>
     <div class="input-container">
@@ -38,23 +28,26 @@ export default {
   components: { SortButton },
   data() {
     return {
-      attribute: 'name',
+      sortBy: 'name',
       searchText: '',
     };
   },
   watch: {
-    searchText(inputValue) {
-      this.$store.dispatch('users/getUsers', {
-        attribute: this.attribute,
-        search: inputValue,
-        offset: 0,
-      });
+    searchText() {
+      this.getUsers();
     },
   },
   methods: {
-    handleChangeAttribute(attribute) {
-      this.attribute = attribute;
-      this.$store.dispatch('users/getUsers', { attribute, offset: 0 });
+    handleChangeSortBy(sortBy) {
+      this.sortBy = sortBy;
+      this.getUsers();
+    },
+    getUsers() {
+      this.$store.dispatch('users/getUsers', {
+        sortBy: this.sortBy,
+        skip: 0,
+        ...(this.searchText ? { search: this.searchText } : {}),
+      });
     },
   },
 };

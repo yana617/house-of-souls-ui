@@ -9,9 +9,9 @@
       </router-link>
     </div>
     <div class="header__auth">
-      <Button v-if="!havePermissions('VIEW_PROFILE')" @click="setModal(MODAL.LOGIN)" title="Вход" />
+      <Button v-if="permissionsLoaded & !havePermissions('VIEW_PROFILE')" @click="setModal(MODAL.LOGIN)" title="Вход" />
       <Button
-        v-if="!havePermissions('VIEW_PROFILE')"
+        v-if="permissionsLoaded && !havePermissions('VIEW_PROFILE')"
         @click="setModal(MODAL.REGISTRATION)"
         class="header__auth__register-btn"
         title="Регистрация"
@@ -22,12 +22,7 @@
         class="header__auth__admin-btn"
         title="Админка"
       />
-      <Button
-        v-if="havePermissions('VIEW_PROFILE')"
-        class="header__auth__logout-btn"
-        @click="logout()"
-        title="Выход"
-      />
+      <Button v-if="havePermissions('VIEW_PROFILE')" class="header__auth__logout-btn" @click="logout()" title="Выход" />
       <AuthModal />
     </div>
   </div>
@@ -72,6 +67,7 @@ export default {
       return HEADER_LINKS;
     },
     permissions: (state) => state.permissions.my,
+    permissionsLoaded: (state) => state.permissions.loaded,
   }),
   methods: {
     setModal(modalName) {

@@ -1,14 +1,14 @@
 <template>
-  <div v-if="user" class="profile">
+  <div v-if="userToDisplay" class="profile">
     <div class="profile__header">
       <div class="profile__main-data-container">
         <div class="profile__img-container">
           <img class="profile__img" src="@/assets/cat_infos.jpeg" />
         </div>
         <div class="profile__name-phone-container">
-          <span class="profile__name">{{ user.name }} {{ user.surname }}</span>
-          <a :href="`tel:${user.phone}`">
-            <span class="profile__phone">+{{ user.phone }}</span>
+          <span class="profile__name">{{ userToDisplay.name }} {{ userToDisplay.surname }}</span>
+          <a :href="`tel:${userToDisplay.phone}`">
+            <span class="profile__phone">+{{ userToDisplay.phone }}</span>
           </a>
           <span class="profile__visits">
             <b>{{ personalClaims.total || '..' }}</b> посещений
@@ -24,7 +24,7 @@
         <ProfileForm :userId="userId" />
       </a-tab-pane>
       <a-tab-pane v-if="isAnotherUserProfile && havePermissionsToEditPermissions" key="3" tab="Права">
-        <PermissionsAndRoles :userId="userId" userRole="USER" />
+        <PermissionsAndRoles :userId="userId" />
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -57,8 +57,8 @@ export default {
     user: (state) => state.users.user,
     personalClaims: (state) => state.claims.personal,
     userId() {
-      if (!this.user) {
-        return null;
+      if (this.isAnotherUserProfile) {
+        return this.$route.params.id;
       }
       return this.user.id;
     },

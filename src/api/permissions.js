@@ -12,7 +12,7 @@ export default {
     })
     .catch(() => []),
   getPermissions: async () => {
-    const { data: { permissions } } = await axios.get(`${API_HOST}/permissions`);
+    const { data: { data: permissions } } = await axios.get(`${AUTH_SERVICE_API}/permissions`);
     return permissions;
   },
   updatePermissions: async ({ userId, permissions }) => {

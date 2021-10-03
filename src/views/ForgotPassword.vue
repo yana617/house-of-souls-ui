@@ -16,6 +16,7 @@
 import { mapState } from 'vuex';
 
 import Button from '@/components/common/Button.vue';
+import { findError } from '@/utils/validation';
 
 export default {
   name: 'ForgotPassword',
@@ -23,6 +24,7 @@ export default {
   data() {
     return {
       email: '',
+      findError,
     };
   },
   computed: mapState({
@@ -34,11 +36,7 @@ export default {
       return false;
     },
     getError(field) {
-      if (!this.errors || !this.errors.some((err) => err.param === field)) {
-        return '';
-      }
-      const error = this.errors.find((err) => err.param === field);
-      return error.msg;
+      return this.findError(this.errors, field);
     },
   },
 };

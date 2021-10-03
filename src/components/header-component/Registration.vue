@@ -36,6 +36,7 @@ import Loader from '../common/Loader.vue';
 import Checkbox from '../common/Checkbox.vue';
 import Button from '../common/Button.vue';
 import PhoneInput from '../common/PhoneInput.vue';
+import { findError } from '@/utils/validation';
 
 export default {
   name: 'Registration',
@@ -59,6 +60,7 @@ export default {
       selected: {},
       birthday: ref(),
       loading: false,
+      findError,
     };
   },
   created() {
@@ -93,11 +95,7 @@ export default {
       this.phone = phone;
     },
     getError(field) {
-      if (!this.registerErrors || !this.registerErrors.some((err) => err.param === field)) {
-        return '';
-      }
-      const error = this.registerErrors.find((err) => err.param === field);
-      return error.msg;
+      return this.findError(this.registerErrors, field);
     },
   },
 };

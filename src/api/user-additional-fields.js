@@ -6,8 +6,8 @@ const url = `${AUTH_SERVICE_API}/user-additional-fields`;
 
 export default {
   getUserAdditionalFields: async () => {
-    const { data } = await axios.get(`${url}/me`);
-    return data;
+    const { data: { data: userAdditionalFields } } = await axios.get(`${url}/me`);
+    return userAdditionalFields;
   },
   updateUserAdditionalField: async ({ _id, value }) => {
     const { data } = await axios.put(`${url}/${_id}`, { value });
