@@ -24,7 +24,6 @@ const actions = {
     }
   },
   register: async ({ commit }, body = {}) => {
-    commit(SET_REGISTER_ERRORS, []);
     const response = await auth.register(body);
     if (response.success) {
       commit(SET_USER, response.data);
@@ -32,6 +31,9 @@ const actions = {
     } else if (response.errors) {
       commit(SET_REGISTER_ERRORS, response.errors);
     }
+  },
+  clearRegisterErrors: ({ commit }) => {
+    commit(SET_REGISTER_ERRORS, []);
   },
   forgotPassword: async ({ commit }, body = {}) => {
     const response = await auth.forgotPassword(body);

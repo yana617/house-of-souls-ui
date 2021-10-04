@@ -48,7 +48,7 @@ export default {
   },
   computed: mapState({
     additionalFields: (state) => state.additionalFields.current,
-    errors: (state) => state.users.registerErrors,
+    errors: (state) => state.auth.registerErrors,
   }),
   data() {
     return {
@@ -76,6 +76,9 @@ export default {
         this.loading = false;
       });
   },
+  unmounted() {
+    this.$store.dispatch('auth/clearRegisterErrors');
+  },
   methods: {
     async submitRegistration() {
       const body = {
@@ -95,9 +98,6 @@ export default {
         this.$store.dispatch('users/getUser');
         this.$store.dispatch('permissions/getMyPermissions');
       }
-    },
-    unmounted() {
-
     },
     onChangePhone(updatedPhone) {
       const phone = updatedPhone.replace(/[-+()_\s]/g, '');
