@@ -46,7 +46,12 @@ export default {
   },
   created() {
     this.$store
-      .dispatch('users/getUsers', { sortBy: 'name', skip: 0, roles: 'VOLUNTEER,ADMIN' })
+      .dispatch('users/getUsers', {
+        sortBy: 'name',
+        skip: 0,
+        roles: 'VOLUNTEER,ADMIN',
+        order: 'asc',
+      })
       .then(() => {
         this.skip += limit;
       })
@@ -71,6 +76,7 @@ export default {
       this.$store
         .dispatch('users/loadMoreUsers', {
           sortBy: this.$refs.searchBar.sortBy,
+          order: this.$refs.searchBar.order,
           skip: this.skip,
           roles: 'VOLUNTEER,ADMIN',
           ...(searchValue !== '' ? { search: searchValue } : {}),
