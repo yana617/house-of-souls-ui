@@ -65,7 +65,7 @@ export default {
     };
   },
   computed: mapState({
-    user: (state) => state.users.user,
+    user: (state) => state.auth.user,
     additionalFieldsTemplates: (state) => state.additionalFields.current,
     userAdditionalFields: (state) => state.userAdditionalFields.current,
     getUserAdditionalFields() {

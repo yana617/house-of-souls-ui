@@ -48,7 +48,7 @@ export default {
   },
   computed: mapState({
     additionalFields: (state) => state.additionalFields.current,
-    registerErrors: (state) => state.users.registerErrors,
+    errors: (state) => state.users.registerErrors,
   }),
   data() {
     return {
@@ -90,16 +90,21 @@ export default {
           value: this.selected[additionalFieldId],
         })),
       };
-      await this.$store.dispatch('users/register', body);
-      this.$store.dispatch('users/getUser');
-      this.$store.dispatch('permissions/getMyPermissions');
+      await this.$store.dispatch('auth/register', body);
+      if (this.errors.length === 0) {
+        this.$store.dispatch('users/getUser');
+        this.$store.dispatch('permissions/getMyPermissions');
+      }
+    },
+    unmounted() {
+
     },
     onChangePhone(updatedPhone) {
       const phone = updatedPhone.replace(/[-+()_\s]/g, '');
       this.phone = phone;
     },
     getError(field) {
-      return this.findError(this.registerErrors, field);
+      return this.findError(this.errors, field);
     },
   },
 };

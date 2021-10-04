@@ -28,11 +28,11 @@ export default {
     };
   },
   computed: mapState({
-    errors: (state) => state.users.forgotPasswordValidationErrors,
+    errors: (state) => state.auth.forgotPasswordErrors,
   }),
   methods: {
     forgotPassword() {
-      this.$store.dispatch('users/forgotPassword', { email: this.email });
+      this.$store.dispatch('auth/forgotPassword', { email: this.email });
       return false;
     },
     getError(field) {

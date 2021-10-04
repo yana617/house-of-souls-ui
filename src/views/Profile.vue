@@ -51,10 +51,10 @@ export default {
   },
   computed: mapState({
     isAnotherUserProfile(state) {
-      return !!this.$route.params.id && state.users.user && this.$route.params.id !== state.users.user.id;
+      return !!this.$route.params.id && state.auth.user && this.$route.params.id !== state.auth.user.id;
     },
     anotherUserProfile: (state) => state.users.userProfile,
-    user: (state) => state.users.user,
+    user: (state) => state.auth.user,
     personalClaims: (state) => state.claims.personal,
     userId() {
       if (this.isAnotherUserProfile) {
@@ -62,11 +62,11 @@ export default {
       }
       return this.user.id;
     },
-    userToDisplay(state) {
+    userToDisplay() {
       if (this.isAnotherUserProfile) {
-        return state.users.userProfile;
+        return this.anotherUserProfile;
       }
-      return state.users.user;
+      return this.user;
     },
     havePermissionsToEditPermissions: (state) => {
       const permissions = state.permissions.my;

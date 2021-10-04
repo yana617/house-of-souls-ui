@@ -65,7 +65,7 @@ export default {
     };
   },
   computed: mapState({
-    user: (state) => state.users.user,
+    user: (state) => state.auth.user,
     havePermissionsToAssign: (state) => {
       const permissions = state.permissions.my;
       return permissions && permissions.includes('CREATE_CLAIM');

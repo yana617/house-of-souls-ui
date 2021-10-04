@@ -26,7 +26,7 @@ export default {
       return (this.authorized && this.user) || (!this.authorized && !this.user);
     },
     user() {
-      return this.$store.state.users?.user;
+      return this.$store.state.auth?.user;
     },
   },
 };

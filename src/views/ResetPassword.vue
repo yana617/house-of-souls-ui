@@ -30,7 +30,7 @@ export default {
     };
   },
   computed: mapState({
-    errors: (state) => state.users.resetPasswordValidationErrors,
+    errors: (state) => state.auth.resetPasswordErrors,
   }),
   methods: {
     resetPassword() {
@@ -39,7 +39,7 @@ export default {
         return false;
       }
       const { token, userId } = this.$route.query;
-      this.$store.dispatch('users/resetPassword', { password: this.password, token, userId });
+      this.$store.dispatch('auth/resetPassword', { password: this.password, token, userId });
       return false;
     },
     getError(field) {
