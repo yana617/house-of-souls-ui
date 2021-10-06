@@ -61,13 +61,11 @@ const actions = {
 
 const mutations = {
   [SET_USERS](state, result) {
-    state.list = result;
-    // state.list = result.users;
-    // state.total = result.total;
+    state.list = result.users;
+    state.total = result.total;
   },
   [LOAD_MORE_USERS](state, result) {
-    // result.users
-    state.list = state.list.concat(result);
+    state.list = state.list.concat(result.users);
   },
   [SET_PERMISSIONS](state, result) {
     state.permissions = result;
