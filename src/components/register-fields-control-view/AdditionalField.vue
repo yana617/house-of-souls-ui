@@ -61,11 +61,15 @@ export default {
         description: this.descriptionModel,
       };
       this.$store.dispatch('app/setLoading', true);
-      this.$store.dispatch('additionalFields/updateAdditionalField', body).then(() => {
-        this.$store.dispatch('app/setLoading', false);
-        this.$store.dispatch('additionalFields/getAdditionalFields');
-        this.edit = false;
-      });
+      this.$store
+        .dispatch('additionalFields/updateAdditionalField', body)
+        .then(() => {
+          this.$store.dispatch('additionalFields/getAdditionalFields');
+          this.edit = false;
+        })
+        .finally(() => {
+          this.$store.dispatch('app/setLoading', false);
+        });
     },
     cancel() {
       this.labelModel = this.label;
@@ -75,7 +79,7 @@ export default {
     },
     deleteField() {
       this.$store.dispatch('app/setLoading', true);
-      this.$store.dispatch('additionalFields/deleteAdditionalField', { _id: this._id }).then(() => {
+      this.$store.dispatch('additionalFields/deleteAdditionalField', { _id: this._id }).finally(() => {
         this.$store.dispatch('app/setLoading', false);
       });
     },

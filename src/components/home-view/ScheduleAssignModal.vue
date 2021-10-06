@@ -120,10 +120,14 @@ export default defineComponent({
         body.user_id = this.user._id;
       }
       this.$store.dispatch('app/setLoading', true);
-      this.$store.dispatch('claims/createClaim', body).then(() => {
-        this.$store.dispatch('app/setLoading', false);
-        this.$emit('onclose');
-      });
+      this.$store
+        .dispatch('claims/createClaim', body)
+        .then(() => {
+          this.$emit('onclose');
+        })
+        .finally(() => {
+          this.$store.dispatch('app/setLoading', false);
+        });
     },
   },
 });

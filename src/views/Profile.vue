@@ -1,14 +1,14 @@
 <template>
-  <div v-if="user" class="profile">
+  <div v-if="userToDisplay" class="profile">
     <div class="profile__header">
       <div class="profile__main-data-container">
         <div class="profile__img-container">
           <img class="profile__img" src="@/assets/cat_infos.jpeg" />
         </div>
         <div class="profile__name-phone-container">
-          <span class="profile__name">{{ user.name }} {{ user.surname }}</span>
-          <a :href="`tel:${user.phone}`">
-            <span class="profile__phone">+{{ user.phone }}</span>
+          <span class="profile__name">{{ userToDisplay.name }} {{ userToDisplay.surname }}</span>
+          <a :href="`tel:${userToDisplay.phone}`">
+            <span class="profile__phone">+{{ userToDisplay.phone }}</span>
           </a>
           <span class="profile__visits">
             <b>{{ personalClaims.total || '..' }}</b> посещений
@@ -24,7 +24,7 @@
         <ProfileForm :userId="userId" />
       </a-tab-pane>
       <a-tab-pane v-if="isAnotherUserProfile && havePermissionsToEditPermissions" key="3" tab="Права">
-        <PermissionsAndRoles :userId="userId" userRole="USER" />
+        <PermissionsAndRoles :userId="userId" />
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -51,22 +51,22 @@ export default {
   },
   computed: mapState({
     isAnotherUserProfile(state) {
-      return !!this.$route.params.id && state.users.user && this.$route.params.id !== state.users.user.id;
+      return !!this.$route.params.id && state.auth.user && this.$route.params.id !== state.auth.user.id;
     },
     anotherUserProfile: (state) => state.users.userProfile,
-    user: (state) => state.users.user,
+    user: (state) => state.auth.user,
     personalClaims: (state) => state.claims.personal,
     userId() {
-      if (!this.user) {
-        return null;
+      if (this.isAnotherUserProfile) {
+        return this.$route.params.id;
       }
       return this.user.id;
     },
-    userToDisplay(state) {
+    userToDisplay() {
       if (this.isAnotherUserProfile) {
-        return state.users.userProfile;
+        return this.anotherUserProfile;
       }
-      return state.users.user;
+      return this.user;
     },
     havePermissionsToEditPermissions: (state) => {
       const permissions = state.permissions.my;
@@ -86,9 +86,8 @@ export default {
       } else if (!this.user) {
         await this.$store.dispatch('users/getUser');
       }
-      this.$store.dispatch('claims/getClaimsByUserId', { userId: this.userId }).then(() => {
-        this.$store.dispatch('app/setLoading', false);
-      });
+      await this.$store.dispatch('claims/getClaimsByUserId', { userId: this.userId });
+      this.$store.dispatch('app/setLoading', false);
     },
   },
   unmounted() {

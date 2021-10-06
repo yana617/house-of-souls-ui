@@ -6,6 +6,7 @@ const SET_MY_PERMISSIONS = 'SET_MY_PERMISSIONS';
 const state = () => ({
   list: [],
   my: [],
+  loaded: false,
 });
 
 const getters = {};
@@ -33,6 +34,7 @@ const mutations = {
   },
   [SET_MY_PERMISSIONS](state, result) {
     state.my = result;
+    state.loaded = true;
   },
 };
 

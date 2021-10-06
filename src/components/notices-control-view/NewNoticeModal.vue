@@ -40,11 +40,15 @@ export default defineComponent({
         authorized: this.authorized,
       };
       this.$store.dispatch('app/setLoading', true);
-      this.$store.dispatch('notices/createNotice', body).then(() => {
-        this.$store.dispatch('app/setLoading', false);
-        this.$store.dispatch('notices/getNotices');
-        this.$store.dispatch('app/setModal', null);
-      });
+      this.$store
+        .dispatch('notices/createNotice', body)
+        .then(() => {
+          this.$store.dispatch('notices/getNotices');
+          this.$store.dispatch('app/setModal', null);
+        })
+        .finally(() => {
+          this.$store.dispatch('app/setLoading', false);
+        });
     },
   },
 });

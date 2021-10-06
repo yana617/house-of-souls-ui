@@ -8,7 +8,7 @@ import notification from './notifications';
 
 const UNAUTHORIZED_STATUS = 401;
 
-const checkResponseErrors = ({ success = false, error = 'Неизвестная ошибочка' }) => {
+const checkResponseErrors = ({ success, error }) => {
   if (!success && error) {
     notification.error(error);
   }

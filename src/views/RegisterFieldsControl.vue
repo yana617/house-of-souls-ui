@@ -58,7 +58,7 @@ export default {
   }),
   created() {
     this.$store.dispatch('app/setLoading', true);
-    this.$store.dispatch('additionalFields/getAdditionalFields').then(() => {
+    this.$store.dispatch('additionalFields/getAdditionalFields').finally(() => {
       this.$store.dispatch('app/setLoading', false);
     });
   },

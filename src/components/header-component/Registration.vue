@@ -36,6 +36,7 @@ import Loader from '../common/Loader.vue';
 import Checkbox from '../common/Checkbox.vue';
 import Button from '../common/Button.vue';
 import PhoneInput from '../common/PhoneInput.vue';
+import { findError } from '@/utils/validation';
 
 export default {
   name: 'Registration',
@@ -47,7 +48,7 @@ export default {
   },
   computed: mapState({
     additionalFields: (state) => state.additionalFields.current,
-    registerErrors: (state) => state.users.registerErrors,
+    errors: (state) => state.auth.registerErrors,
   }),
   data() {
     return {
@@ -59,16 +60,24 @@ export default {
       selected: {},
       birthday: ref(),
       loading: false,
+      findError,
     };
   },
   created() {
     this.loading = true;
-    this.$store.dispatch('additionalFields/getAdditionalFields').then(() => {
-      this.loading = false;
-      this.additionalFields.forEach((field) => {
-        this.selected[field.id] = false;
+    this.$store
+      .dispatch('additionalFields/getAdditionalFields')
+      .then(() => {
+        this.additionalFields.forEach((field) => {
+          this.selected[field.id] = false;
+        });
+      })
+      .finally(() => {
+        this.loading = false;
       });
-    });
+  },
+  unmounted() {
+    this.$store.dispatch('auth/clearRegisterErrors');
   },
   methods: {
     async submitRegistration() {
@@ -84,20 +93,18 @@ export default {
           value: this.selected[additionalFieldId],
         })),
       };
-      await this.$store.dispatch('users/register', body);
-      this.$store.dispatch('users/getUser');
-      this.$store.dispatch('permissions/getMyPermissions');
+      await this.$store.dispatch('auth/register', body);
+      if (this.errors.length === 0) {
+        this.$store.dispatch('users/getUser');
+        this.$store.dispatch('permissions/getMyPermissions');
+      }
     },
     onChangePhone(updatedPhone) {
       const phone = updatedPhone.replace(/[-+()_\s]/g, '');
       this.phone = phone;
     },
     getError(field) {
-      if (!this.registerErrors || !this.registerErrors.some((err) => err.param === field)) {
-        return '';
-      }
-      const error = this.registerErrors.find((err) => err.param === field);
-      return error.msg;
+      return this.findError(this.errors, field);
     },
   },
 };

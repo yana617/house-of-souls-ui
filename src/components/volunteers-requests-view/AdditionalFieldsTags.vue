@@ -11,12 +11,16 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'AdditionalFieldsTags',
   props: {
     userAdditionalFields: Array,
-    additionalFieldsTemplates: Array,
   },
+  computed: mapState({
+    additionalFieldsTemplates: (state) => state.additionalFields.current,
+  }),
   methods: {
     getUserAdditionalField(id) {
       if (!this.additionalFieldsTemplates) return '..';

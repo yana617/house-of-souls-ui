@@ -55,6 +55,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #ccc;
+  min-height: 100%;
 
   &__table {
     width: 100%;

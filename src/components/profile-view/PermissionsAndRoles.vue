@@ -1,9 +1,9 @@
 <template>
   <div class="permissions_and_roles">
     <div class="permissions_and_roles__form">
-      <ChangePermissions :userId="userId" />
+      <ChangePermissions />
       <hr class="permissions_and_roles__line" />
-      <ChangeRole :userRole="userRole" />
+      <ChangeRole />
     </div>
   </div>
 </template>
@@ -17,7 +17,6 @@ export default {
   components: { ChangeRole, ChangePermissions },
   props: {
     userId: String,
-    userRole: String,
   },
   async created() {
     this.$store.dispatch('app/setLoading', true);
@@ -26,7 +25,7 @@ export default {
   },
   methods: {
     async loadAll() {
-      await this.$store.dispatch('users/getUserPermissions');
+      await this.$store.dispatch('users/getUserPermissions', this.userId);
       await this.$store.dispatch('permissions/getPermissions');
       await this.$store.dispatch('roles/getRoles');
     },

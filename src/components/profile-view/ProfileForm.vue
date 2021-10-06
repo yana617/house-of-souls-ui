@@ -4,12 +4,16 @@
     <div class="profile-form__main-info-container">
       <label>Имя</label>
       <input :disabled="!edit" class="profile-form__input" placeholder="Имя" v-model="profile.name" />
+      <span class="profile-form__error">{{ getError('name') }}</span>
       <label>Фамилия</label>
       <input :disabled="!edit" class="profile-form__input" placeholder="Фамилия" v-model="profile.surname" />
+      <span class="profile-form__error">{{ getError('surname') }}</span>
       <label>Телефон</label>
       <input :disabled="!edit" class="profile-form__input" placeholder="Телефон" v-model="profile.phone" />
+      <span class="profile-form__error">{{ getError('phone') }}</span>
       <label>Почта</label>
       <input :disabled="!edit" class="profile-form__input" placeholder="Почта" v-model="profile.email" />
+      <span class="profile-form__error">{{ getError('email') }}</span>
       <label>День рождения</label>
       <a-date-picker
         size="large"
@@ -18,6 +22,7 @@
         :disabled="!edit"
         v-model:value="birthday"
       />
+      <span class="profile-form__error">{{ getError('birthday') }}</span>
     </div>
     <h3>Дополнительные данные</h3>
     <div class="profile-form__additional-fields-container">
@@ -28,9 +33,9 @@
       <span v-if="noUaf">-</span>
     </div>
     <div class="profile-form__btns-container">
-      <Button v-if="edit" class="profile-form__save-btn" title="сохранить" @click="save" />
+      <Button v-if="edit" :loading="loading" class="profile-form__save-btn" title="сохранить" @click="save" />
       <Button v-if="!edit" class="profile-form__edit-btn" title="редактировать" @click="edit = true" />
-      <Button v-if="edit" class="profile-form__cancel-btn" title="отменить" @click="cancel" />
+      <Button v-if="edit" :disabled="loading" class="profile-form__cancel-btn" title="отменить" @click="cancel" />
     </div>
   </div>
 </template>
@@ -41,6 +46,7 @@ import { mapState } from 'vuex';
 import moment from 'moment';
 
 import Button from '../common/Button.vue';
+import { findError } from '@/utils/validation';
 
 export default {
   name: 'ProfileForm',
@@ -54,10 +60,12 @@ export default {
       edit: false,
       userAF: [],
       profile: {},
+      findError,
+      loading: false,
     };
   },
   computed: mapState({
-    user: (state) => state.users.user,
+    user: (state) => state.auth.user,
     additionalFieldsTemplates: (state) => state.additionalFields.current,
     userAdditionalFields: (state) => state.userAdditionalFields.current,
     getUserAdditionalFields() {
@@ -65,13 +73,12 @@ export default {
       this.setFields();
       return Object.values(this.userAF);
     },
+    updateErrors: (state) => state.users.userUpdateErrors,
   }),
   created() {
     this.$store.dispatch('additionalFields/getAdditionalFields');
     this.$store.dispatch('userAdditionalFields/getUserAdditionalFields');
-
-    this.profile = { ...this.$store.state.users.user };
-    this.birthday = moment(this.profile.birthday);
+    this.loadProfile();
   },
   methods: {
     setFields() {
@@ -81,23 +88,39 @@ export default {
       });
     },
     cancel() {
-      this.profile = { ...this.$store.state.users.user };
+      this.loadProfile();
       this.setFields();
       this.edit = false;
     },
-    save() {
+    async save() {
       const body = {
         ...this.profile,
         birthday: this.birthday.toISOString(),
       };
-      this.$store.dispatch('users/updateUser', body);
-      Object.values(this.userAF).forEach((uaf) => {
-        this.$store.dispatch('userAdditionalFields/updateUserAdditionalField', { _id: uaf._id, value: uaf.value });
-      });
+      this.loading = true;
+      await this.$store.dispatch('users/updateUser', body);
+      const updatingUaf = Object.values(this.userAF).map((uaf) => this.$store
+        .dispatch('userAdditionalFields/updateUserAdditionalField', {
+          _id: uaf._id,
+          value: uaf.value,
+        }));
+      await Promise.all(updatingUaf);
+      if (this.updateErrors.length === 0) {
+        this.edit = false;
+        this.loadProfile();
+      }
+      this.loading = false;
     },
     noUaf() {
       const uaf = this.getUserAdditionalFields;
       return !uaf || uaf.length === 0;
+    },
+    getError(field) {
+      return this.findError(this.updateErrors, field);
+    },
+    loadProfile() {
+      this.profile = { ...this.user };
+      this.birthday = moment(this.user.birthday);
     },
   },
 };
@@ -113,6 +136,13 @@ $blue: #1890ff;
   display: flex;
   flex-direction: column;
   padding: 8px 35% 16px 35%;
+
+  &__error {
+    text-align: left;
+    color: rgba(255, 0, 0, 0.8);
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
 
   h3 {
     text-align: left;
