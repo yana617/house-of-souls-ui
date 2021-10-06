@@ -10,8 +10,8 @@
       <input class="claim-form__another-prs-input" v-model="surname" type="text" placeholder="Фамилия" />
       <input class="claim-form__another-prs-input" v-model="phone" type="text" placeholder="Телефон" />
     </div>
-    <span v-if="!anotherPerson" class="claim-form__claim-base-info"> <b>Имя</b> {{ userData }} </span>
-    <span v-if="!anotherPerson" class="claim-form__claim-base-info"> <b>Телефон</b> +{{ phone }} </span>
+    <span v-if="!anotherPerson" class="claim-form__claim-base-info"> <b>Имя</b> {{ username }} </span>
+    <span v-if="!anotherPerson" class="claim-form__claim-base-info"> <b>Телефон</b> +{{ userPhone }} </span>
     <span class="claim-form__claim-base-info"> <b>Дата</b> {{ parsedDate }} ({{ dayOfWeek }}) </span>
     <span class="claim-form__claim-base-info"> <b>Время</b> {{ typeOfTime }} </span>
     <Button
@@ -80,14 +80,14 @@ export default defineComponent({
   computed: mapState({
     user: (state) => state.users.user,
     permissions: (state) => state.permissions.my,
-    userData() {
+    username() {
       if (this.claim.guest_id) {
         const { name, surname } = this.claim.guest;
         return `${name} ${surname}`;
       }
       return `${this.user.name} ${this.user.surname}`;
     },
-    phone() {
+    userPhone() {
       if (this.claim.guest_id) {
         return this.claim.guest?.phone;
       }
