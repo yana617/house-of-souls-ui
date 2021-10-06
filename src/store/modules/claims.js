@@ -4,11 +4,12 @@ const SET_CURRENT_SCHEDULE = 'SET_CURRENT_SCHEDULE';
 const SET_NEXT_WEEK_SCHEDULE = 'SET_NEXT_WEEK_SCHEDULE';
 const SET_PERSONAL_CLAIMS = 'SET_PERSONAL_CLAIMS';
 
-// initial state
 const state = () => ({
   currentSchedule: null,
   nextWeekSchedule: null,
   personal: {},
+  createErrors: [],
+  updateErrors: [],
 });
 
 const getters = {};
@@ -28,6 +29,9 @@ const actions = {
   },
   createClaim: async (_, body = {}) => {
     await claim.createClaim(body);
+  },
+  updateClaim: async (_, body = {}) => {
+    await claim.updateClaim(body);
   },
   deleteClaim: async (_, { _id } = {}) => {
     await claim.deleteClaim({ _id });

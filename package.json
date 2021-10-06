@@ -12,6 +12,7 @@
     "deploy-with-setup": "npm run deploy-setup && npm run deploy"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^6.0.1",
     "@cwist/vue-match-media": "^3.0.1",
     "ant-design-vue": "^2.2.6",
     "axios": "^0.21.1",
