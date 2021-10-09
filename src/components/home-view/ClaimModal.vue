@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
 import { mapState } from 'vuex';
 
 import ClaimForm from './ClaimForm.vue';
@@ -33,7 +32,7 @@ const action = {
   create: 'createClaim',
 };
 
-export default defineComponent({
+export default {
   name: 'ClaimModal',
   components: { ClaimForm },
   props: {
@@ -52,9 +51,6 @@ export default defineComponent({
     isUpdateMode() {
       return this.mode === 'update';
     },
-    isCreateMode() {
-      return this.mode === 'create';
-    },
   }),
   methods: {
     submit(body) {
@@ -63,7 +59,7 @@ export default defineComponent({
         .dispatch(`claims/${action[this.mode]}`, body)
         .then(() => {
           if ((this.isUpdateMode && this.updateErrors.length === 0)
-            || (this.isCreateMode && this.createErrors.length === 0)) {
+            || (!this.isUpdateMode && this.createErrors.length === 0)) {
             this.$emit('onclose');
           }
         })
@@ -72,7 +68,7 @@ export default defineComponent({
         });
     },
   },
-});
+};
 </script>
 
 <style scoped lang="scss">
