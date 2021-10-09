@@ -1,29 +1,24 @@
 import axios from 'axios';
 
-import { API_HOST } from '@/constants';
+const { VUE_APP_HOS_SERVICE: HOS_SERVICE_API } = process.env;
 
 export default {
   getNotices: async () => {
-    const { data: { notices } } = await axios.get(`${API_HOST}/notices`);
+    const { data: { data: notices } } = await axios.get(`${HOS_SERVICE_API}/notices`);
     return notices;
   },
   getNoticeById: async ({ _id }) => {
-    const { data: { notice } } = await axios.get(`${API_HOST}/notices/${_id}`);
+    const { data: { data: notice } } = await axios.get(`${HOS_SERVICE_API}/notices/${_id}`);
     return notice;
   },
-  updateNotice: async ({ _id, ...body }) => {
-    const { data: { notice } } = await axios.patch(
-      `${API_HOST}/notices/${_id}`,
-      { notice: body },
-    );
-    return notice;
-  },
-  createNotice: async (body) => {
-    const { data: { notice } } = await axios.post(`${API_HOST}/notices`, { notice: body });
-    return notice;
-  },
+  updateNotice: async ({ _id, ...body }) => axios.put(`${HOS_SERVICE_API}/notices/${_id}`, body)
+    .then((response) => response.data)
+    .catch((error) => error.response.data),
+  createNotice: async (body) => axios.post(`${HOS_SERVICE_API}/notices`, body)
+    .then((response) => response.data)
+    .catch((error) => error.response.data),
   deleteNotice: async ({ _id }) => {
-    await axios.delete(`${API_HOST}/notices/${_id}`);
+    await axios.delete(`${HOS_SERVICE_API}/notices/${_id}`);
     return true;
   },
 };

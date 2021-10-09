@@ -2,16 +2,20 @@
   <div class="header">
     <Dropdown v-if="$matchMedia.mobile" :items="headerLinks" :selected="selected" />
     <div class="header__nav-menu">
-      <router-link v-if="havePermissions('VIEW_USERS')" to="/volunteers">Волонтеры</router-link>
+      <router-link v-if="hasPermissions('VIEW_USERS')" to="/volunteers">Волонтеры</router-link>
       <router-link class="header__nav-menu__right-btn" to="/">График</router-link>
-      <router-link v-if="havePermissions('VIEW_PROFILE')" class="header__nav-menu__right-btn" to="/profile">
+      <router-link v-if="hasPermissions('VIEW_PROFILE')" class="header__nav-menu__right-btn" to="/profile">
         Профиль
       </router-link>
     </div>
     <div class="header__auth">
-      <Button v-if="permissionsLoaded & !havePermissions('VIEW_PROFILE')" @click="setModal(MODAL.LOGIN)" title="Вход" />
       <Button
-        v-if="permissionsLoaded && !havePermissions('VIEW_PROFILE')"
+        v-if="permissionsLoaded && !hasPermissions('VIEW_PROFILE')"
+        @click="setModal(MODAL.LOGIN)"
+        title="Вход"
+      />
+      <Button
+        v-if="permissionsLoaded && !hasPermissions('VIEW_PROFILE')"
         @click="setModal(MODAL.REGISTRATION)"
         class="header__auth__register-btn"
         title="Регистрация"
@@ -22,7 +26,7 @@
         class="header__auth__admin-btn"
         title="Админка"
       />
-      <Button v-if="havePermissions('VIEW_PROFILE')" class="header__auth__logout-btn" @click="logout()" title="Выход" />
+      <Button v-if="hasPermissions('VIEW_PROFILE')" class="header__auth__logout-btn" @click="logout()" title="Выход" />
       <AuthModal />
     </div>
   </div>
@@ -77,9 +81,10 @@ export default {
       clearStorage();
       this.$store.dispatch('users/clearUser');
       this.$store.dispatch('permissions/resetPermissions');
+      this.$store.dispatch('notices/getNotices');
       this.$router.push('/');
     },
-    havePermissions(permission) {
+    hasPermissions(permission) {
       return this.permissions.includes(permission);
     },
     hasAdminPermissions() {

@@ -63,6 +63,7 @@ export default {
   },
   unmounted() {
     this.removeHandler();
+    this.$store.dispatch('users/clearUsersList');
   },
   methods: {
     addHandler() {

@@ -12,12 +12,12 @@
             v-if="field.value"
             :key="field.id"
             class="claim-info-modal__icon"
-            :src="additionalFieldsById[field.additional_field_template_id].icon"
+            :src="additionalFieldsById[field.additional_field_template_id]?.icon"
           />
           <Tooltip
             class="claim-info-modal__tooltip"
             v-if="field.value"
-            :helpText="additionalFieldsById[field.additional_field_template_id].label"
+            :helpText="additionalFieldsById[field.additional_field_template_id]?.label"
           />
         </div>
       </span>

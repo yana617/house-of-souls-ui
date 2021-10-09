@@ -7,6 +7,7 @@
       :class="{ notice__title__background: !title }"
       v-model="titleModel"
     />
+    <span v-if="edit" class="notice__error">{{ getError('title') }}</span>
     <label>Подробности</label>
     <textarea
       :disabled="!edit"
@@ -14,23 +15,43 @@
       :class="{ notice__description__background: !description }"
       v-model="descriptionModel"
     />
+    <span v-if="edit" class="notice__error">{{ getError('description') }}</span>
     <div class="notice__checkbox-container">
       <div class="notice__authorized-label">Видно только волонтерам:</div>
       <a-switch v-model:checked="authorizedModel" :disabled="!edit" />
     </div>
     <div class="notice__btn-container">
-      <Button v-if="!edit" @click="onEdit" class="notice__edit-btn" title="редактировать" />
-      <Button v-if="edit" @click="onUpdate" class="notice__update-btn" title="сохранить" />
-      <Button v-if="edit" @click="onCancel" class="notice__cancel-btn" title="отменить" />
-      <Button @click="onDelete" class="notice__delete-btn" title="удалить" />
+      <Button
+        v-if="!edit && hasPermissions('EDIT_NOTICE')"
+        @click="onEdit"
+        class="notice__edit-btn"
+        title="редактировать"
+      />
+      <Button
+        v-if="edit && hasPermissions('EDIT_NOTICE')"
+        :loading="loading"
+        @click="onUpdate"
+        class="notice__update-btn"
+        title="сохранить"
+      />
+      <Button v-if="edit" :disabled="loading" @click="onCancel" class="notice__cancel-btn" title="отменить" />
+      <Button
+        v-if="hasPermissions('DELETE_NOTICE')"
+        :disabled="loading"
+        @click="onDelete"
+        class="notice__delete-btn"
+        title="удалить"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import { defineComponent, ref } from 'vue';
+import { mapState } from 'vuex';
 
 import Button from '@/components/common/Button.vue';
+import { findError } from '@/utils/validation';
 
 export default defineComponent({
   name: 'Notice',
@@ -38,7 +59,7 @@ export default defineComponent({
     noticeId: String,
     title: String,
     description: String,
-    authorized: Boolean,
+    internalOnly: Boolean,
   },
   components: { Button },
   created() {
@@ -49,9 +70,15 @@ export default defineComponent({
       edit: false,
       titleModel: this.title,
       descriptionModel: this.description,
-      authorizedModel: ref(this.authorized),
+      authorizedModel: ref(this.internalOnly),
+      loading: false,
+      findError,
     };
   },
+  computed: mapState({
+    errors: (state) => state.notices.updateErrors,
+    permissions: (state) => state.permissions.my,
+  }),
   methods: {
     onEdit() {
       this.edit = true;
@@ -61,28 +88,42 @@ export default defineComponent({
         _id: this.noticeId,
         title: this.titleModel,
         description: this.descriptionModel,
-        authorized: this.authorizedModel,
+        internalOnly: this.authorizedModel,
       };
-      this.$store.dispatch('notices/updateNotice', body).then(() => {
-        this.edit = false;
-      });
+      this.loading = true;
+      this.$store
+        .dispatch('notices/updateNotice', body)
+        .then(() => {
+          if (this.errors.length === 0) {
+            this.edit = false;
+          }
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     onCancel() {
       this.titleModel = this.title;
       this.descriptionModel = this.description;
-      this.authorizedModel = this.authorized;
+      this.authorizedModel = this.internalOnly;
       this.edit = false;
     },
     onDelete() {
-      this.$store.dispatch('app/setLoading', true);
+      this.loading = true;
       this.$store
         .dispatch('notices/deleteNotice', { _id: this.noticeId })
         .then(() => {
           this.$store.dispatch('notices/getNotices');
         })
         .finally(() => {
-          this.$store.dispatch('app/setLoading', false);
+          this.loading = false;
         });
+    },
+    getError(field) {
+      return this.findError(this.errors, field);
+    },
+    hasPermissions(permission) {
+      return this.permissions.includes(permission);
     },
   },
   watch: {
@@ -92,7 +133,7 @@ export default defineComponent({
     description(newValue) {
       this.descriptionModel = newValue;
     },
-    authorized(newValue) {
+    internalOnly(newValue) {
       this.authorizedModel = ref(newValue);
     },
   },
@@ -213,6 +254,14 @@ $lightestGrey: #f0f0f0;
   &__authorized-label {
     margin: 4px 8px 4px 0;
     font-weight: bold;
+  }
+
+  &__error {
+    text-align: left;
+    color: rgba(255, 0, 0, 0.8);
+    font-size: 13px;
+    margin-top: 0px;
+    margin-bottom: 4px;
   }
 
   @media (max-width: 768px) {

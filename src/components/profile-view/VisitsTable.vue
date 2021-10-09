@@ -6,6 +6,7 @@
       :row-key="(record) => record._id"
       :pagination="paginationOpt"
       :defaultExpandAllRows="true"
+      :locale="{ emptyText: 'Нет данных' }"
       class="visit__table"
     >
       <template #date="{ text: date }">

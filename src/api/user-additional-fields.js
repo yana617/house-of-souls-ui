@@ -9,8 +9,8 @@ export default {
     const { data: { data: userAdditionalFields } } = await axios.get(`${url}/me`);
     return userAdditionalFields;
   },
-  updateUserAdditionalField: async ({ _id, value }) => {
-    const { data } = await axios.put(`${url}/${_id}`, { value });
+  updateUserAdditionalField: async ({ id, value }) => {
+    const { data } = await axios.put(`${url}/${id}`, { value });
     return data;
   },
 };

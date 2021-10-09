@@ -23,7 +23,7 @@
       <a-tab-pane v-if="!isAnotherUserProfile" key="2" tab="Личные данные">
         <ProfileForm :userId="userId" />
       </a-tab-pane>
-      <a-tab-pane v-if="isAnotherUserProfile && havePermissionsToEditPermissions" key="3" tab="Права">
+      <a-tab-pane v-if="isAnotherUserProfile && hasPermissionsToEditPermissions" key="3" tab="Права">
         <PermissionsAndRoles :userId="userId" />
       </a-tab-pane>
     </a-tabs>
@@ -68,7 +68,7 @@ export default {
       }
       return this.user;
     },
-    havePermissionsToEditPermissions: (state) => {
+    hasPermissionsToEditPermissions: (state) => {
       const permissions = state.permissions.my;
       return permissions && permissions.includes('EDIT_PERMISSIONS');
     },

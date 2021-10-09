@@ -1,5 +1,5 @@
 <template>
-  <div class="volunteers-requests">
+  <div class="volunteers-requests" v-if="hasPermissions('EDIT_PERMISSIONS')">
     <span id="title">Неверифицированные пользователи</span>
     <a-table
       v-if="!$matchMedia.mobile"
@@ -22,12 +22,12 @@
       </template>
       <template #action="{ record }">
         <span>
-          <a @click="changeRole(record._id)">Сделать волонтером</a>
+          <a @click="changeRole(record.id)">Сделать волонтером</a>
         </span>
       </template>
     </a-table>
     <div v-if="$matchMedia.mobile">
-      <div v-for="user in users" :key="user._id" class="volunteers-requests__mobile">
+      <div v-for="user in users" :key="user.id" class="volunteers-requests__mobile">
         <div class="volunteers-requests__mobile__container top">
           <h4 class="volunteers-requests__mobile__createdAt">{{ getDate(user.createdAt) }}</h4>
           <h3 class="volunteers-requests__mobile__name">{{ userInfo(user) }}</h3>
@@ -38,7 +38,7 @@
           <AdditionalFieldsTags v-if="!noAtf" :userAdditionalFields="user.user_additional_fields" />
         </div>
         <Button
-          @click="changeRole(user._id)"
+          @click="changeRole(user.id)"
           class="volunteers-requests__mobile__submit-btn"
           title="Сделать волонтером"
         />
@@ -62,7 +62,11 @@ export default {
     this.loadUsers();
     this.$store.dispatch('additionalFields/getAdditionalFields');
   },
+  unmounted() {
+    this.$store.dispatch('users/clearUsersList');
+  },
   computed: mapState({
+    permissions: (state) => state.permissions.my,
     users: (state) => state.users.list,
     noAtf: (state) => !state.additionalFields.current || state.additionalFields.current.length === 0,
   }),
@@ -91,6 +95,9 @@ export default {
       this.$store.dispatch('users/getUsers', { roles: 'USER' }).finally(() => {
         this.$store.dispatch('app/setLoading', false);
       });
+    },
+    hasPermissions(permission) {
+      return this.permissions.includes(permission);
     },
   },
 };

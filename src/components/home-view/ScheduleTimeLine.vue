@@ -15,7 +15,7 @@
         @on-claim-click="openApply"
       />
       <Button
-        v-if="havePermissionsToAssign && user && !canUnsubscribe(day.claims)"
+        v-if="hasPermissionsToAssign && user && !canUnsubscribe(day.claims)"
         class="schedule-time-line__claim-btn"
         title="Записаться"
         @click="openAssignModal(day.date)"
@@ -66,7 +66,7 @@ export default {
   },
   computed: mapState({
     user: (state) => state.auth.user,
-    havePermissionsToAssign: (state) => {
+    hasPermissionsToAssign: (state) => {
       const permissions = state.permissions.my;
       return permissions && permissions.includes('CREATE_CLAIM');
     },
@@ -81,10 +81,10 @@ export default {
       this.scheduleAssignModalOpen = true;
     },
     canUnsubscribe(claims) {
-      return this.user && claims.some((claim) => claim.user._id === this.user._id);
+      return this.user && claims.some((claim) => claim.user.id === this.user.id);
     },
     unsubscribe(claims) {
-      const userClaim = claims.find((claim) => claim.user._id === this.user._id);
+      const userClaim = claims.find((claim) => claim.user.id === this.user.id);
       this.$store.dispatch('app/setLoading', true);
       this.$store
         .dispatch('claims/deleteClaim', { _id: userClaim._id })
@@ -100,7 +100,7 @@ export default {
       this.$emit('refreshSchedule');
     },
     showNoClaims(claimsCount) {
-      return !claimsCount && (!this.user || !this.havePermissionsToAssign);
+      return !claimsCount && (!this.user || !this.hasPermissionsToAssign);
     },
   },
 };
