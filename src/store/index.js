@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 
+import auth from './modules/auth';
 import users from './modules/users';
 import additionalFields from './modules/additional-fields';
 import userAdditionalFields from './modules/user-additional-fields';
@@ -20,6 +21,7 @@ export default createStore({
   },
   modules: {
     app,
+    auth,
     users,
     notices,
     claims,

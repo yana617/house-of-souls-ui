@@ -39,6 +39,7 @@ const routes = [
     path: '/admin',
     name: 'AdminPanel',
     redirect: '/admin/volunteers-requests',
+    component: () => import(/* webpackChunkName: "admin" */ '../views/AdminPanel.vue'),
     children: [{
       path: '/admin/volunteers-requests',
       meta: { authRequired: true },

@@ -29,7 +29,7 @@ export default {
         email: this.email,
         password: this.password,
       };
-      await this.$store.dispatch('users/login', body);
+      await this.$store.dispatch('auth/login', body);
       this.$store.dispatch('permissions/getMyPermissions');
     },
     closeModal() {

@@ -5,7 +5,7 @@
       v-if="!$matchMedia.mobile"
       :columns="volunteersColumns"
       :data-source="users"
-      :row-key="(record) => record._id"
+      :row-key="(record) => record.id"
       class="volunteers-requests__table"
     >
       <template #createdAt="{ text: date }">
@@ -16,10 +16,8 @@
       </template>
       <template #userAdditionalFields="{ record }">
         <span>
-          <AdditionalFieldsTags
-            :userAdditionalFields="record.user_additional_fields"
-            :additionalFieldsTemplates="additionalFieldsTemplates"
-          />
+          <AdditionalFieldsTags v-if="!noAtf" :userAdditionalFields="record.user_additional_fields" />
+          <span v-if="noAtf">-</span>
         </span>
       </template>
       <template #action="{ record }">
@@ -36,11 +34,8 @@
         </div>
         <div class="volunteers-requests__mobile__container bottom">
           <h4>{{ user.phone }}</h4>
-          <div class="volunteers-requests__mobile__line" />
-          <AdditionalFieldsTags
-            :userAdditionalFields="user.user_additional_fields"
-            :additionalFieldsTemplates="additionalFieldsTemplates"
-          />
+          <div v-if="!noAtf" class="volunteers-requests__mobile__line" />
+          <AdditionalFieldsTags v-if="!noAtf" :userAdditionalFields="user.user_additional_fields" />
         </div>
         <Button
           @click="changeRole(user._id)"
@@ -64,15 +59,12 @@ export default {
   name: 'VolunteersRequests',
   components: { Button, AdditionalFieldsTags },
   created() {
-    this.$store.dispatch('app/setLoading', true);
-    this.$store.dispatch('users/getUsers', { isVerified: false }).then(() => {
-      this.$store.dispatch('app/setLoading', false);
-    });
+    this.loadUsers();
     this.$store.dispatch('additionalFields/getAdditionalFields');
   },
   computed: mapState({
     users: (state) => state.users.list,
-    additionalFieldsTemplates: (state) => state.additionalFields.current,
+    noAtf: (state) => !state.additionalFields.current || state.additionalFields.current.length === 0,
   }),
   setup() {
     return {
@@ -91,7 +83,13 @@ export default {
     },
     changeRole(userId) {
       this.$store.dispatch('users/updateRole', { userId, role: 'VOLUNTEER' }).then(() => {
-        this.$store.dispatch('users/getUsers', { isVerified: false });
+        this.loadUsers();
+      });
+    },
+    loadUsers() {
+      this.$store.dispatch('app/setLoading', true);
+      this.$store.dispatch('users/getUsers', { roles: 'USER' }).finally(() => {
+        this.$store.dispatch('app/setLoading', false);
       });
     },
   },

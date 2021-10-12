@@ -73,7 +73,7 @@ export default {
     };
   },
   computed: mapState({
-    user: (state) => state.users.user,
+    user: (state) => state.auth.user,
     havePermissionsToAssign: (state) => {
       const permissions = state.permissions.my;
       return permissions && permissions.includes('CREATE_CLAIM');
@@ -106,10 +106,14 @@ export default {
     unsubscribe(claims) {
       const userClaim = claims.find((claim) => claim.user._id === this.user._id);
       this.$store.dispatch('app/setLoading', true);
-      this.$store.dispatch('claims/deleteClaim', { _id: userClaim._id }).then(() => {
-        this.$store.dispatch('app/setLoading', false);
-        this.$emit('refreshSchedule');
-      });
+      this.$store
+        .dispatch('claims/deleteClaim', { _id: userClaim._id })
+        .then(() => {
+          this.$emit('refreshSchedule');
+        })
+        .finally(() => {
+          this.$store.dispatch('app/setLoading', false);
+        });
     },
     onClaimModalClose() {
       this.updateOrCreateModalOpen = false;

@@ -75,10 +75,14 @@ export default {
     },
     onDelete() {
       this.$store.dispatch('app/setLoading', true);
-      this.$store.dispatch('notices/deleteNotice', { _id: this.noticeId }).then(() => {
-        this.$store.dispatch('app/setLoading', false);
-        this.$store.dispatch('notices/getNotices');
-      });
+      this.$store
+        .dispatch('notices/deleteNotice', { _id: this.noticeId })
+        .then(() => {
+          this.$store.dispatch('notices/getNotices');
+        })
+        .finally(() => {
+          this.$store.dispatch('app/setLoading', false);
+        });
     },
   },
   watch: {
@@ -125,7 +129,7 @@ $lightestGrey: #f0f0f0;
 
     &:disabled {
       background-color: transparent;
-      border-color: $lightestGrey
+      border-color: $lightestGrey;
     }
 
     &__background {
@@ -184,7 +188,8 @@ $lightestGrey: #f0f0f0;
       color: white;
     }
   }
-  &__cancel-btn, &__delete-btn {
+  &__cancel-btn,
+  &__delete-btn {
     color: red;
     border-color: red;
     margin: 8px 4px;

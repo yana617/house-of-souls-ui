@@ -26,7 +26,7 @@
       {{ perm.translate }}
     </a-checkbox>
     <br />
-    <Button class="change-permissions__save-btn" title="сохранить" @click="updatePermissions" />
+    <Button :loading="loading" class="change-permissions__save-btn" title="сохранить" @click="updatePermissions" />
   </div>
 </template>
 
@@ -38,15 +38,14 @@ import Button from '../common/Button.vue';
 export default {
   name: 'ChangePermissions',
   components: { Button },
-  props: {
-    userId: String,
-  },
   data() {
     return {
       updatedPermissions: {},
+      loading: false,
     };
   },
   computed: mapState({
+    userId: (state) => state.users.userProfile.id,
     allPermissions: (state) => state.permissions.list || [],
     userRolePermissions: (state) => state.users.permissions.rolePermissions || [],
     userAdditionalPermissions: (state) => state.users.permissions.userPermissions || [],
@@ -67,10 +66,18 @@ export default {
   }),
   methods: {
     updatePermissions() {
-      this.$store.dispatch('permissions/updatePermissions', {
-        userId: this.userId,
-        permissions: this.updatedPermissions,
-      });
+      this.loading = true;
+      this.$store
+        .dispatch('permissions/updatePermissions', {
+          userId: this.userId,
+          permissions: this.updatedPermissions,
+        })
+        .then(() => {
+          this.$store.dispatch('users/getUserPermissions', this.userId);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     onChange(e, name) {
       const { checked } = e.target;
