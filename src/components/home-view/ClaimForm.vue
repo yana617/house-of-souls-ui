@@ -13,14 +13,15 @@
     ></a-time-picker>
     <BaseInput :label="labels.additionalPeople" v-model="claimModel.additional_people" />
     <BaseTextarea :label="labels.comment" :description="description" v-model="claimModel.comment" />
-    <a-checkbox class="claim-form__checkbox" v-model:checked="claimModel.questionable">Под вопросом</a-checkbox>
+    <a-checkbox class="claim-form__checkbox" v-model:checked="claimModel.questionable">
+      {{ labels.questionable }}
+    </a-checkbox>
     <span>{{ descriptions.questionable }} </span>
     <Button class="claim-form__submit-btn" :title="submitButton" @click="submit()" />
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
 import { mapState } from 'vuex';
 import moment from 'moment';
 
@@ -39,13 +40,14 @@ const labels = {
   arrivalTime: 'Примерное прибытие на смену (если известно)',
   additionalPeople: 'С вами будут еще люди? Укажите, пожалуйста, сколько.',
   comment: 'Комментарий',
+  questionable: 'Под вопросом',
 };
 const descriptions = {
   questionable: 'Если вы не уверены что у вас получится приехать, отметьте пожалуйста',
 };
 
-export default defineComponent({
-  name: 'ScheduleAssignModal',
+export default {
+  name: 'ClaimForm',
   components: {
     Button,
     BaseInput,
@@ -98,7 +100,7 @@ export default defineComponent({
       this.$emit('on-submit', body);
     },
   },
-});
+};
 </script>
 
 <style scoped lang="scss">

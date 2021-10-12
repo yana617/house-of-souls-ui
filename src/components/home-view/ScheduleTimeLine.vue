@@ -30,7 +30,12 @@
       <span v-if="showNoClaims(day.claims.length)" class="schedule-time-line__no-assigned"> Никто не записан </span>
     </div>
     <ClaimInfoModal v-if="claimInfoModalOpen" v-bind="selectedClaim" @onclose="claimInfoModalOpen = false" />
-    <ClaimModal v-if="claimModalOpen" :claim="claimForCreateOrUpdate" :mode="mode" @onclose="onClaimModalClose" />
+    <ClaimModal
+      v-if="updateOrCreateModalOpen"
+      :claim="claimForCreateOrUpdate"
+      :mode="mode"
+      @onclose="onClaimModalClose"
+    />
   </div>
 </template>
 
@@ -60,7 +65,7 @@ export default {
   data() {
     return {
       claimInfoModalOpen: false,
-      claimModalOpen: false,
+      updateOrCreateModalOpen: false,
       selectedClaim: null,
       assignDate: null,
       mode: null,
@@ -88,12 +93,12 @@ export default {
     openAssignModal(date) {
       this.assignDate = date;
       this.mode = 'create';
-      this.claimModalOpen = true;
+      this.updateOrCreateModalOpen = true;
     },
     openUpdateClaimModal(claim) {
       this.claim = claim;
       this.mode = 'update';
-      this.claimModalOpen = true;
+      this.updateOrCreateModalOpen = true;
     },
     canUnsubscribe(claims) {
       return this.user && claims.some((claim) => claim.user._id === this.user._id);
@@ -107,7 +112,7 @@ export default {
       });
     },
     onClaimModalClose() {
-      this.claimModalOpen = false;
+      this.updateOrCreateModalOpen = false;
       this.$emit('refreshSchedule');
     },
     showNoClaims(claimsCount) {

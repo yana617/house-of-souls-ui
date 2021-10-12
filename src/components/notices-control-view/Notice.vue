@@ -28,11 +28,11 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { ref } from 'vue';
 
 import Button from '@/components/common/Button.vue';
 
-export default defineComponent({
+export default {
   name: 'Notice',
   props: {
     noticeId: String,
@@ -92,7 +92,7 @@ export default defineComponent({
       this.authorizedModel = ref(newValue);
     },
   },
-});
+};
 </script>
 
 <style lang="scss" scoped>
