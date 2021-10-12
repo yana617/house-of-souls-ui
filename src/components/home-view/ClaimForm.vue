@@ -12,7 +12,7 @@
       :minute-step="15"
     ></a-time-picker>
     <BaseInput :label="labels.additionalPeople" v-model="claimModel.additional_people" />
-    <BaseTextarea :label="labels.comment" :description="description" v-model="claimModel.comment" />
+    <BaseInput is-textarea :label="labels.comment" :description="description" v-model="claimModel.comment" />
     <a-checkbox class="claim-form__checkbox" v-model:checked="claimModel.questionable">
       {{ labels.questionable }}
     </a-checkbox>
@@ -27,7 +27,6 @@ import moment from 'moment';
 
 import Button from '@/components/common/Button.vue';
 import BaseInput from '@/components/common/BaseInput.vue';
-import BaseTextarea from '@/components/common/BaseTextarea.vue';
 import ClaimBaseInfo from './ClaimBaseInfo.vue';
 
 const typeDescription = {
@@ -52,7 +51,6 @@ export default {
     Button,
     BaseInput,
     ClaimBaseInfo,
-    BaseTextarea,
   },
   props: {
     title: String,
