@@ -12,7 +12,7 @@
       :minute-step="15"
     ></a-time-picker>
     <BaseInput :label="labels.additionalPeople" v-model="claimModel.additional_people" />
-    <BaseInput is-textarea :label="labels.comment" :description="description" v-model="claimModel.comment" />
+    <BaseInput is-textarea :label="labels.comment" :description="commentDescription" v-model="claimModel.comment" />
     <a-checkbox class="claim-form__checkbox" v-model:checked="claimModel.questionable">
       {{ labels.questionable }}
     </a-checkbox>
@@ -28,22 +28,7 @@ import moment from 'moment';
 import Button from '@/components/common/Button.vue';
 import BaseInput from '@/components/common/BaseInput.vue';
 import ClaimBaseInfo from './ClaimBaseInfo.vue';
-
-const typeDescription = {
-  morning: 'Смена обычно проходит с 09.00 до 13.00.',
-  evening: 'Смена обычно проходит с 17.00 до 21-22.00.',
-};
-const subDescription = 'Если вы отклоняетесь от этого времени - предупредите в комментарии пожалуйста!';
-
-const labels = {
-  arrivalTime: 'Примерное прибытие на смену (если известно)',
-  additionalPeople: 'С вами будут еще люди? Укажите, пожалуйста, сколько.',
-  comment: 'Комментарий',
-  questionable: 'Под вопросом',
-};
-const descriptions = {
-  questionable: 'Если вы не уверены что у вас получится приехать, отметьте пожалуйста',
-};
+import { claimTimeDescription, claimFormLabels, claimFormDescriptions } from '@/utils/constants';
 
 export default {
   name: 'ClaimForm',
@@ -74,14 +59,14 @@ export default {
         },
       },
       isGuest: false,
-      labels,
-      descriptions,
+      labels: claimFormLabels,
+      descriptions: claimFormDescriptions,
     };
   },
   computed: mapState({
     user: (state) => state.users.user,
-    description() {
-      return `${typeDescription[this.claim.type]} ${subDescription}`;
+    commentDescription() {
+      return `${claimTimeDescription[this.claim.type]} ${this.descriptions.comment}`;
     },
   }),
   methods: {
