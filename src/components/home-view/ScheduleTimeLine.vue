@@ -13,6 +13,7 @@
         class="schedule-time-line__claim"
         :claim="claim"
         @on-claim-click="openApply"
+        @on-update-click="openUpdateClaimModal(claim)"
       />
       <Button
         v-if="havePermissionsToAssign && user && !canUnsubscribe(day.claims)"
@@ -29,7 +30,12 @@
       <span v-if="showNoClaims(day.claims.length)" class="schedule-time-line__no-assigned"> Никто не записан </span>
     </div>
     <ClaimInfoModal v-if="claimInfoModalOpen" v-bind="selectedClaim" @onclose="claimInfoModalOpen = false" />
-    <ScheduleAssignModal v-if="scheduleAssignModalOpen" :type="type" :date="assignDate" @onclose="onAssignModalClose" />
+    <ClaimModal
+      v-if="updateOrCreateModalOpen"
+      :claim="claimForCreateOrUpdate"
+      :mode="mode"
+      @onclose="onClaimModalClose"
+    />
   </div>
 </template>
 
@@ -39,7 +45,7 @@ import { mapState } from 'vuex';
 import Button from '../common/Button.vue';
 import ScheduleClaim from './ScheduleClaim.vue';
 import ClaimInfoModal from './ClaimInfoModal.vue';
-import ScheduleAssignModal from './ScheduleAssignModal.vue';
+import ClaimModal from './ClaimModal.vue';
 
 export default {
   name: 'ScheduleTimeLine',
@@ -47,7 +53,7 @@ export default {
     Button,
     ScheduleClaim,
     ClaimInfoModal,
-    ScheduleAssignModal,
+    ClaimModal,
   },
   props: {
     schedule: Array,
@@ -59,9 +65,11 @@ export default {
   data() {
     return {
       claimInfoModalOpen: false,
-      scheduleAssignModalOpen: false,
+      updateOrCreateModalOpen: false,
       selectedClaim: null,
       assignDate: null,
+      mode: null,
+      claim: {},
     };
   },
   computed: mapState({
@@ -69,6 +77,12 @@ export default {
     havePermissionsToAssign: (state) => {
       const permissions = state.permissions.my;
       return permissions && permissions.includes('CREATE_CLAIM');
+    },
+    claimForCreateOrUpdate() {
+      if (this.mode === 'create') {
+        return { type: this.type, date: this.assignDate };
+      }
+      return this.claim;
     },
   }),
   methods: {
@@ -78,7 +92,13 @@ export default {
     },
     openAssignModal(date) {
       this.assignDate = date;
-      this.scheduleAssignModalOpen = true;
+      this.mode = 'create';
+      this.updateOrCreateModalOpen = true;
+    },
+    openUpdateClaimModal(claim) {
+      this.claim = claim;
+      this.mode = 'update';
+      this.updateOrCreateModalOpen = true;
     },
     canUnsubscribe(claims) {
       return this.user && claims.some((claim) => claim.user._id === this.user._id);
@@ -95,8 +115,8 @@ export default {
           this.$store.dispatch('app/setLoading', false);
         });
     },
-    onAssignModalClose() {
-      this.scheduleAssignModalOpen = false;
+    onClaimModalClose() {
+      this.updateOrCreateModalOpen = false;
       this.$emit('refreshSchedule');
     },
     showNoClaims(claimsCount) {

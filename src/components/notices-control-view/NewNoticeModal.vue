@@ -15,11 +15,11 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { ref } from 'vue';
 
 import Button from '../common/Button.vue';
 
-export default defineComponent({
+export default {
   name: 'NewNoticeModal',
   components: { Button },
   data() {
@@ -51,7 +51,7 @@ export default defineComponent({
         });
     },
   },
-});
+};
 </script>
 
 <style lang="scss" scoped>
