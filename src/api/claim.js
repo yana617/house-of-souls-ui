@@ -66,6 +66,9 @@ export default {
   createClaim: async (body) => {
     await axios.post(`${API_HOST}/claims`, { claim: body });
   },
+  updateClaim: async (body) => {
+    await axios.patch(`${API_HOST}/claims`, { claim: body });
+  },
   deleteClaim: async ({ _id } = {}) => {
     await axios.delete(`${API_HOST}/claims/${_id}`);
   },

@@ -1,5 +1,5 @@
 <template>
-  <div @click="$emit('on-claim-click', claim)" class="schedule-claim" :class="{ 'is-my-claim': isMyClaim }">
+  <div class="schedule-claim" :class="{ 'is-my-claim': isMyClaim }">
     <div v-if="haveTruthyAdditionFields()" class="schedule-claim__additional-fields">
       <div
         class="schedule-claim__additional-fields__wrapper"
@@ -10,24 +10,25 @@
         <SmileOutlined v-if="field.value" class="schedule-claim__icon" />
       </div>
     </div>
-    <span
-      ><b class="schedule-claim__questionable">{{ claim.questionable ? '?' : '' }}</b> {{ username }}</span
-    >
-    <b class="schedule-claim__additional-people" v-if="claim.additional_people"> +{{ claim.additional_people }} </b>
+    <span @click="$emit('on-claim-click', claim)" class="schedule-claim__main-container">
+      <b v-if="claim.questionable" class="schedule-claim__questionable">?</b>
+      {{ username }}
+      <b class="schedule-claim__additional-people" v-if="claim.additional_people"> +{{ claim.additional_people }} </b>
+    </span>
+    <EditOutlined v-if="isMyClaim" @click="this.$emit('on-update-click')" style="margin-left: auto" />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-
-import { SmileOutlined } from '@ant-design/icons-vue';
+import { EditOutlined, SmileOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'Schedule',
+  components: { EditOutlined, SmileOutlined },
   props: {
     claim: Object,
   },
-  components: { SmileOutlined },
   computed: mapState({
     additionalFields: (state) => state.additionalFields.current,
     user: (state) => state.auth.user,
@@ -78,6 +79,10 @@ export default {
     background-color: rgba(151, 251, 151, 0.2);
   }
 
+  &__main-container {
+    display: flex;
+  }
+
   &__additional-fields {
     position: absolute;
     display: none;
@@ -109,6 +114,7 @@ export default {
 
   &__questionable {
     color: red;
+    margin-right: 2px;
   }
 }
 </style>

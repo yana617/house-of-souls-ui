@@ -47,13 +47,13 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { ref } from 'vue';
 import { mapState } from 'vuex';
 
 import Button from '@/components/common/Button.vue';
 import { findError } from '@/utils/validation';
 
-export default defineComponent({
+export default {
   name: 'Notice',
   props: {
     noticeId: String,
@@ -137,7 +137,7 @@ export default defineComponent({
       this.authorizedModel = ref(newValue);
     },
   },
-});
+};
 </script>
 
 <style lang="scss" scoped>

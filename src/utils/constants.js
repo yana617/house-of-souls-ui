@@ -1,11 +1,11 @@
-exports.MODAL = {
+const MODAL = {
   LOGIN: 'login',
   REGISTRATION: 'registration',
   ADDITIONAL_FIELD: 'additional-field',
   NOTICE: 'notice',
 };
 
-exports.volunteersColumns = [
+const volunteersColumns = [
   {
     title: 'Создано',
     dataIndex: 'createdAt',
@@ -36,7 +36,7 @@ exports.volunteersColumns = [
   },
 ];
 
-exports.claimsColumns = [
+const claimsColumns = [
   {
     title: 'Дата',
     dataIndex: 'date',
@@ -56,3 +56,27 @@ exports.claimsColumns = [
     slots: { customRender: 'typeOfTime' },
   },
 ];
+
+const claimTimeDescription = {
+  morning: 'Смена обычно проходит с 09.00 до 13.00.',
+  evening: 'Смена обычно проходит с 17.00 до 21-22.00.',
+};
+const claimFormLabels = {
+  arrivalTime: 'Примерное прибытие на смену (если известно)',
+  additionalPeople: 'С вами будут еще люди? Укажите, пожалуйста, сколько.',
+  comment: 'Комментарий',
+  questionable: 'Под вопросом',
+};
+const claimFormDescriptions = {
+  questionable: 'Если вы не уверены что у вас получится приехать, отметьте пожалуйста',
+  comment: 'Если вы отклоняетесь от этого времени - предупредите в комментарии пожалуйста!',
+};
+
+export {
+  MODAL,
+  volunteersColumns,
+  claimsColumns,
+  claimTimeDescription,
+  claimFormLabels,
+  claimFormDescriptions,
+};

@@ -17,13 +17,13 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { ref } from 'vue';
 import { mapState } from 'vuex';
 
 import Button from '../common/Button.vue';
 import { findError } from '@/utils/validation';
 
-export default defineComponent({
+export default {
   name: 'NewNoticeModal',
   components: { Button },
   data() {
@@ -68,7 +68,7 @@ export default defineComponent({
       return this.findError(this.errors, field);
     },
   },
-});
+};
 </script>
 
 <style lang="scss" scoped>
