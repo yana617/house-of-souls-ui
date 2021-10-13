@@ -1,5 +1,5 @@
 <template>
-  <label>{{ label }}</label>
+  <label v-show="label">{{ label }}</label>
   <span v-show="description">{{ description }}</span>
   <input
     v-if="!isTextarea"
@@ -33,7 +33,7 @@ export default {
 $lightGrey: #ccc;
 
 label {
-  margin: 16px 0 8px;
+  margin: 12px 0 8px;
   font-weight: bold;
 }
 
@@ -48,5 +48,6 @@ textarea {
   padding: 4px 8px;
   border-radius: 4px;
   resize: none;
+  margin-bottom: 4px;
 }
 </style>

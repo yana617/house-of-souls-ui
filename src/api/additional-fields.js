@@ -1,24 +1,25 @@
 import axios from 'axios';
-import { API_HOST } from '@/constants';
 
 const { VUE_APP_AUTH_SERVICE: AUTH_SERVICE_API } = process.env;
 
+const aftApi = `${AUTH_SERVICE_API}/additional-field-templates`;
+
 export default {
   getAdditionalFields: async () => {
-    const { data } = await axios.get(`${AUTH_SERVICE_API}/additional-field-templates`);
-    return data;
+    const { data: { data: result } } = await axios.get(aftApi);
+    return result;
   },
-  updateAdditionalField: async (updatedAdditionalField) => {
-    // TO-DO: Remove mocks
-    await axios.post('https://jsonplaceholder.typicode.com/posts', updatedAdditionalField);
+  updateAdditionalField: async (updatedAdditionalField) => axios.put(`${aftApi}/${updatedAdditionalField.id}`,
+    updatedAdditionalField)
+    .then((response) => response.data)
+    .catch((error) => error.response.data),
+  deleteAdditionalField: async ({ id } = {}) => {
+    await axios.delete(`${aftApi}/${id}`);
   },
-  deleteAdditionalField: async ({ _id } = {}) => {
-    // TO-DO: Remove mocks
-    await axios.delete(`https://jsonplaceholder.typicode.com/todos/${_id}`);
-  },
-  saveAdditionalField: async (body = {}) => {
-    await axios.post(`${API_HOST}/additional-field-templates`, body);
-  },
+  createAdditionalField: async (body = {}) => axios.post(aftApi, body)
+    .then((response) => response.data)
+    .catch((error) => error.response.data),
+
   // eslint-disable-next-line no-unused-vars
   uploadIcon: async (formData) => {
     await axios.get('https://jsonplaceholder.typicode.com/todos/1');

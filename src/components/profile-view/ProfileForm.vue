@@ -26,11 +26,11 @@
     </div>
     <h3>Дополнительные данные</h3>
     <div class="profile-form__additional-fields-container">
-      <div v-for="uaf in getUserAdditionalFields" :key="uaf._id" class="profile-form__additional-field__container">
+      <div v-for="uaf in getUserAdditionalFields" :key="uaf.id" class="profile-form__additional-field__container">
         <label>{{ uaf.label }}</label>
-        <a-switch :disabled="!edit" v-model:checked="userAF[uaf._id].value" />
+        <a-switch style="width: 44px" :disabled="!edit" v-model:checked="userAF[uaf.id].value" />
       </div>
-      <span v-if="noUaf">-</span>
+      <span v-if="noUaf()">-</span>
     </div>
     <div class="profile-form__btns-container">
       <Button v-if="edit" :loading="loading" class="profile-form__save-btn" title="сохранить" @click="save" />
@@ -84,7 +84,7 @@ export default {
     setFields() {
       this.userAdditionalFields.forEach((userAF) => {
         const field = this.additionalFieldsTemplates.find((aft) => aft.id === userAF.additional_field_template_id);
-        this.userAF[userAF._id] = { ...field, ...userAF };
+        this.userAF[userAF.id] = { ...field, ...userAF };
       });
     },
     cancel() {
@@ -101,7 +101,7 @@ export default {
       await this.$store.dispatch('users/updateUser', body);
       const updatingUaf = Object.values(this.userAF).map((uaf) => this.$store
         .dispatch('userAdditionalFields/updateUserAdditionalField', {
-          _id: uaf._id,
+          id: uaf.id,
           value: uaf.value,
         }));
       await Promise.all(updatingUaf);

@@ -6,7 +6,7 @@
     </div>
     <div :class="['dropdown__options', { open }]">
       <div v-for="option in items" :key="option.slug">
-        <div v-if="!option.permissions || havePermissions(option.permissions)" class="dropdown__option">
+        <div v-if="!option.permissions || hasPermissions(option.permissions)" class="dropdown__option">
           <a :class="{ selected: option.slug === selected }" @click="handleRouteClick(option.url)">
             {{ option.label }}
           </a>
@@ -52,7 +52,7 @@ export default {
       this.open = false;
       this.$router.push(url);
     },
-    havePermissions(permissionsToCheck) {
+    hasPermissions(permissionsToCheck) {
       return permissionsToCheck.every((p) => this.permissions.includes(p));
     },
   },

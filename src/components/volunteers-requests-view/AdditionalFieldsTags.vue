@@ -1,7 +1,7 @@
 <template>
   <a-tag
     v-for="uaf in userAdditionalFields"
-    :key="uaf._id"
+    :key="uaf.id"
     class="additional-fields-tags__tag"
     :class="uaf.value ? 'enabled' : 'disabled'"
     :color="uaf.value ? 'green' : 'default'"
@@ -24,7 +24,7 @@ export default {
   methods: {
     getUserAdditionalField(id) {
       if (!this.additionalFieldsTemplates) return '..';
-      const additionalFieldsTemplate = this.additionalFieldsTemplates.find((f) => f._id === id);
+      const additionalFieldsTemplate = this.additionalFieldsTemplates.find((f) => f.id === id);
       return additionalFieldsTemplate ? additionalFieldsTemplate.label : '..';
     },
   },

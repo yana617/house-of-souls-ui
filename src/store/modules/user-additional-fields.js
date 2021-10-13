@@ -15,8 +15,8 @@ const actions = {
     const fields = await userAdditionalFields.getUserAdditionalFields();
     commit(SET_USER_ADDITIONAL_FIELDS, fields);
   },
-  updateUserAdditionalField: async ({ commit }, { _id, value } = {}) => {
-    await userAdditionalFields.updateUserAdditionalField({ _id, value });
+  updateUserAdditionalField: async ({ commit }, { id, value } = {}) => {
+    await userAdditionalFields.updateUserAdditionalField({ id, value });
   },
 };
 

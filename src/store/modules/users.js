@@ -57,6 +57,9 @@ const actions = {
   clearUserProfile: ({ commit }) => {
     commit(SET_USER_PROFILE, null);
   },
+  clearUsersList: ({ commit }) => {
+    commit(SET_USERS, []);
+  },
 };
 
 const mutations = {

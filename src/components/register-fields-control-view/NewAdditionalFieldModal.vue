@@ -3,7 +3,7 @@
     <div class="new-additional-field-modal" @click.stop>
       <img @click="closeModal()" class="new-additional-field-modal__close-icon" src="@/assets/close.png" />
       <h2>Новое дополнительное поле</h2>
-      <div class="new-additional-field-modal__icon-container">
+      <div class="new-additional-field-modal__icon-container" v-if="false">
         <input
           id="new-additional-field-icon-input"
           type="file"
@@ -19,13 +19,16 @@
         </div>
         <Button class="new-additional-field-modal__btn__upload-icon" @click="uploadIcon()" title="Загрузить иконку" />
       </div>
+      <span class="new-additional-field-modal__error">{{ getError('icon') }}</span>
       <input
         class="new-additional-field-modal__label"
         placeholder="Короткое название (желательно одно слово)"
         v-model="label"
       />
+      <span class="new-additional-field-modal__error">{{ getError('label') }}</span>
       <textarea class="new-additional-field-modal__description" v-model="description" placeholder="Описание" />
-      <Button class="new-additional-field-modal__btn__save" @click="save()" title="Добавить" />
+      <span class="new-additional-field-modal__error">{{ getError('description') }}</span>
+      <Button :loading="loading" class="new-additional-field-modal__btn__save" @click="create()" title="Добавить" />
     </div>
   </div>
 </template>
@@ -34,18 +37,25 @@
 import { mapState } from 'vuex';
 
 import Button from '../common/Button.vue';
+import { findError } from '@/utils/validation';
 
 export default {
   name: 'NewAdditionalFieldModal',
   components: { Button },
   computed: mapState({
     icon: (state) => state.additionalFields.new.icon,
+    errors: (state) => state.additionalFields.createErrors,
   }),
   data() {
     return {
       label: null,
       description: null,
+      findError,
+      loading: false,
     };
+  },
+  unmounted() {
+    this.$store.dispatch('additionalFields/clearCreateErrors');
   },
   methods: {
     closeModal() {
@@ -62,34 +72,38 @@ export default {
       formData.append('icon', icon);
       this.$store.dispatch('additionalFields/uploadIcon', formData);
     },
-    save() {
+    create() {
       const body = {
         icon: this.icon,
         label: this.label,
         description: this.description,
       };
-      this.$store.dispatch('app/setLoading', true);
+      this.loading = true;
       this.$store
-        .dispatch('additionalFields/saveAdditionalField', body)
+        .dispatch('additionalFields/createAdditionalField', body)
         .then(() => {
-          this.$store.dispatch('additionalFields/getAdditionalFields');
-          this.$store.dispatch('app/setModal', null);
+          if (this.errors.length === 0) {
+            this.$store.dispatch('additionalFields/getAdditionalFields');
+            this.$store.dispatch('app/setModal', null);
+          }
         })
         .finally(() => {
-          this.$store.dispatch('app/setLoading', false);
+          this.loading = false;
         });
+    },
+    getError(field) {
+      return this.findError(this.errors, field);
     },
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $green: #42b983;
 $lightGrey: #ccc;
 
 .new-additional-field-modal {
   width: 700px;
-  height: 300px;
   position: relative;
   border-radius: 4px;
   overflow: hidden;
@@ -128,6 +142,7 @@ $lightGrey: #ccc;
       border-color: black !important;
     }
     &__save {
+      margin-top: 12px;
       color: $green !important;
       border-color: $green !important;
     }
@@ -160,6 +175,15 @@ $lightGrey: #ccc;
 
   &__unvisible-input {
     display: none;
+  }
+
+  &__error {
+    width: 80%;
+    text-align: left;
+    color: rgba(255, 0, 0, 0.8);
+    font-size: 13px;
+    margin-top: -4px;
+    margin-bottom: 4px;
   }
 
   @media (max-width: 768px) {

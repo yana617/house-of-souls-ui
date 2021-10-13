@@ -42,7 +42,7 @@ export default {
   computed: mapState({
     permissions: (state) => state.permissions.my,
     user(state) {
-      const { user } = state.users;
+      const { user } = state.auth;
       if (this.claim.guest_id) {
         const { name, surname, phone } = this.claim.guest;
         return { name, surname, phone };

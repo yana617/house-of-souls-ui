@@ -1,12 +1,13 @@
 <template>
   <div class="schedule-claim" :class="{ 'is-my-claim': isMyClaim }">
-    <div v-if="haveAdditionFields" class="schedule-claim__additional-fields">
+    <div v-if="haveTruthyAdditionFields()" class="schedule-claim__additional-fields">
       <div
         class="schedule-claim__additional-fields__wrapper"
         v-for="field in claim.user.user_additional_fields"
-        :key="field._id"
+        :key="field.id"
       >
-        <img v-if="field.value" class="schedule-claim__icon" :src="getIcon(field.additional_field_template_id)" />
+        <img v-if="false" class="schedule-claim__icon" :src="getIcon(field.additional_field_template_d)" />
+        <SmileOutlined v-if="field.value" class="schedule-claim__icon" />
       </div>
     </div>
     <span @click="$emit('on-claim-click', claim)" class="schedule-claim__main-container">
@@ -20,11 +21,11 @@
 
 <script>
 import { mapState } from 'vuex';
-import { EditOutlined } from '@ant-design/icons-vue';
+import { EditOutlined, SmileOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'Schedule',
-  components: { EditOutlined },
+  components: { EditOutlined, SmileOutlined },
   props: {
     claim: Object,
   },
@@ -41,11 +42,8 @@ export default {
       const { name, surname } = this.claimUser;
       return `${name} ${surname}`;
     },
-    haveAdditionFields() {
-      return this.userAdditionalFields.some((field) => !!field.value);
-    },
     isMyClaim() {
-      return this.user && this.user._id === this.claimUser._id;
+      return this.user && this.user.id === this.claimUser.id;
     },
   }),
   methods: {
@@ -56,6 +54,15 @@ export default {
         return '';
       }
       return fieldObj.icon;
+    },
+    additionalFieldTemplateExist(aftId) {
+      if (!this.additionalFields || this.additionalFields.length === 0) return false;
+      return this.additionalFields.find((field) => field.id === aftId);
+    },
+    haveTruthyAdditionFields() {
+      return this.userAdditionalFields.some(
+        (field) => field.value && this.additionalFieldTemplateExist(field.additional_field_template_id),
+      );
     },
   },
 };
@@ -83,12 +90,12 @@ export default {
     top: -1px;
     right: 104%;
     background-color: white;
-    height: 27px;
+    height: 22px;
     border-radius: 2px;
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.3);
 
     &__wrapper {
-      margin: 0px 2px;
+      margin: 2px;
     }
   }
 
@@ -101,15 +108,8 @@ export default {
     font-size: 12px;
   }
 
-  &__icons {
-    display: flex;
-    flex-wrap: nowrap;
-    margin-left: auto;
-  }
-
   &__icon {
-    width: 16px;
-    height: 16px;
+    margin: 0 2px;
   }
 
   &__questionable {
