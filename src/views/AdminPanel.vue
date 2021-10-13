@@ -31,7 +31,7 @@ export default {
   }),
   methods: {
     hasPermissions(permissions) {
-      return permissions.some((permisson) => this.permissions.includes(permisson));
+      return permissions.some((permission) => this.permissions.includes(permission));
     },
   },
 };

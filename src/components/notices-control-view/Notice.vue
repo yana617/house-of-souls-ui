@@ -5,7 +5,7 @@
       :disabled="!edit"
       class="notice__title"
       :class="{ notice__title__background: !title }"
-      v-model="titleModel"
+      v-model="notice.title"
     />
     <span v-if="edit" class="notice__error">{{ getError('title') }}</span>
     <label>Подробности</label>
@@ -13,12 +13,12 @@
       :disabled="!edit"
       class="notice__description"
       :class="{ notice__description__background: !description }"
-      v-model="descriptionModel"
+      v-model="notice.description"
     />
     <span v-if="edit" class="notice__error">{{ getError('description') }}</span>
     <div class="notice__checkbox-container">
       <div class="notice__authorized-label">Видно только волонтерам:</div>
-      <a-switch v-model:checked="authorizedModel" :disabled="!edit" />
+      <a-switch v-model:checked="notice.internalOnly" :disabled="!edit" />
     </div>
     <div class="notice__btn-container">
       <Button
@@ -67,10 +67,13 @@ export default {
   },
   data() {
     return {
+      notice: {
+        _id: this.noticeId,
+        title: this.title,
+        description: this.description,
+        internalOnly: ref(this.internalOnly),
+      },
       edit: false,
-      titleModel: this.title,
-      descriptionModel: this.description,
-      authorizedModel: ref(this.internalOnly),
       loading: false,
       findError,
     };
@@ -84,15 +87,9 @@ export default {
       this.edit = true;
     },
     onUpdate() {
-      const body = {
-        _id: this.noticeId,
-        title: this.titleModel,
-        description: this.descriptionModel,
-        internalOnly: this.authorizedModel,
-      };
       this.loading = true;
       this.$store
-        .dispatch('notices/updateNotice', body)
+        .dispatch('notices/updateNotice', this.notice)
         .then(() => {
           if (this.errors.length === 0) {
             this.edit = false;
@@ -103,9 +100,12 @@ export default {
         });
     },
     onCancel() {
-      this.titleModel = this.title;
-      this.descriptionModel = this.description;
-      this.authorizedModel = this.internalOnly;
+      this.notice = {
+        _id: this.noticeId,
+        title: this.title,
+        description: this.description,
+        internalOnly: ref(this.internalOnly),
+      };
       this.edit = false;
     },
     onDelete() {
@@ -128,13 +128,13 @@ export default {
   },
   watch: {
     title(newValue) {
-      this.titleModel = newValue;
+      this.notice.title = newValue;
     },
     description(newValue) {
-      this.descriptionModel = newValue;
+      this.notice.description = newValue;
     },
     internalOnly(newValue) {
-      this.authorizedModel = ref(newValue);
+      this.notice.internalOnly = ref(newValue);
     },
   },
 };

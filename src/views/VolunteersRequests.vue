@@ -17,7 +17,7 @@
       <template #userAdditionalFields="{ record }">
         <span>
           <AdditionalFieldsTags v-if="!noAtf" :userAdditionalFields="record.user_additional_fields" />
-          <span v-if="noAtf">-</span>
+          <span v-if="noAtf || !record.user_additional_fields">-</span>
         </span>
       </template>
       <template #action="{ record }">
@@ -43,6 +43,7 @@
           title="Сделать волонтером"
         />
       </div>
+      <span class="volunteers-requests__mobile__no-users" v-if="users.length === 0">Пока нет заявок</span>
     </div>
   </div>
 </template>
@@ -154,6 +155,11 @@ $lightestGrey: #f0f0f0;
       color: $green;
       border-color: $green;
       margin-top: 8px;
+    }
+
+    &__no-users {
+      display: flex;
+      padding: 0 22px;
     }
   }
 }

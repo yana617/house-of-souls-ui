@@ -8,14 +8,14 @@
     <div class="additional-field__control-btns">
       <Button
         class="additional-field__edit-btn"
-        v-if="!edit"
+        v-if="!edit && hasPermissions('EDIT_ADDITIONAL_FIELD_TEMPLATE')"
         :loading="loading"
         @click="edit = true"
         title="редактировать"
       />
       <Button v-if="edit" :loading="loading" class="additional-field__save-btn" @click="update()" title="сохранить" />
       <Button
-        v-if="!edit"
+        v-if="!edit && hasPermissions('DELETE_ADDITIONAL_FIELD_TEMPLATE')"
         class="additional-field__delete-btn"
         :loading="loading"
         @click="deleteField()"
@@ -53,6 +53,7 @@ export default {
     };
   },
   computed: mapState({
+    permissions: (state) => state.permissions.my,
     uploadedIcon: (state) => state.additionalFields.icon,
     errors: (state) => state.additionalFields.updateErrors,
   }),
@@ -98,6 +99,9 @@ export default {
     },
     getError(field) {
       return this.findError(this.errors, field);
+    },
+    hasPermissions(permission) {
+      return this.permissions.includes(permission);
     },
   },
 };
