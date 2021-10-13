@@ -1,16 +1,14 @@
 import additionalFields from '../../api/additional-fields';
 
 const SET_ADDITIONAL_FIELDS = 'SET_ADDITIONAL_FIELDS';
-const SET_NEW_ADDITIONAL_FIELD_ICON_LINK = 'SET_NEW_ADDITIONAL_FIELD_ICON_LINK';
-const UPDATE_ADDITIONAL_FIELD = 'UPDATE_ADDITIONAL_FIELD';
+const SET_ADDITIONAL_FIELD_ICON_LINK = 'SET_NEW_ADDITIONAL_FIELD_ICON_LINK';
 const SET_CREATE_ERRORS = 'SET_CREATE_ERRORS';
 const SET_UPDATE_ERRORS = 'SET_UPDATE_ERRORS';
+const CLEAR_ICON = 'CLEAR_ICON';
 
 const state = () => ({
   current: null,
-  new: {
-    icon: null,
-  },
+  icon: null,
   createErrors: [],
   updateErrors: [],
 });
@@ -35,7 +33,7 @@ const actions = {
   },
   uploadIcon: async ({ commit }, formData) => {
     const link = await additionalFields.uploadIcon(formData);
-    commit(SET_NEW_ADDITIONAL_FIELD_ICON_LINK, link);
+    commit(SET_ADDITIONAL_FIELD_ICON_LINK, link);
   },
   createAdditionalField: async ({ commit }, body) => {
     commit(SET_CREATE_ERRORS, []);
@@ -47,8 +45,8 @@ const actions = {
   clearCreateErrors: async ({ commit }) => {
     commit(SET_CREATE_ERRORS, []);
   },
-  localUpdateAdditionalField: async ({ commit }, { field, id }) => {
-    commit(UPDATE_ADDITIONAL_FIELD, { field, id });
+  clearIcon: async ({ commit }) => {
+    commit(CLEAR_ICON);
   },
 };
 
@@ -56,20 +54,17 @@ const mutations = {
   [SET_ADDITIONAL_FIELDS](state, fields) {
     state.current = fields;
   },
-  [SET_NEW_ADDITIONAL_FIELD_ICON_LINK](state, link) {
-    state.new = { ...state.new, icon: link };
-  },
-  [UPDATE_ADDITIONAL_FIELD](state, { field = {}, id }) {
-    const fields = state.current;
-    const foundIndex = fields.findIndex((f) => f.id === id);
-    fields[foundIndex] = field;
-    state.current = fields;
+  [SET_ADDITIONAL_FIELD_ICON_LINK](state, link) {
+    state.icon = link;
   },
   [SET_UPDATE_ERRORS](state, errors) {
     state.updateErrors = errors;
   },
   [SET_CREATE_ERRORS](state, errors) {
     state.createErrors = errors;
+  },
+  [CLEAR_ICON](state) {
+    state.icon = null;
   },
 };
 
