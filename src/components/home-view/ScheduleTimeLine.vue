@@ -150,7 +150,7 @@ $redBlack: rgb(50, 0, 0);
     display: flex;
     width: $dayWidth;
     font-size: 14px;
-    padding: 4px;
+    padding: 4px 8px;
     text-align: left;
     border-left: 1px solid $lightGrey;
     border-right: 1px solid $lightGrey;

@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="login__wrapper">
-      <input id="email" v-model="email" type="text" name="email" placeholder="Почта" />
+      <input id="email" v-model="email" type="text" name="email" placeholder="E-mail" />
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
       <Button @click="submitLogin" class="login__submit-btn" title="Войти" />
       <router-link @click="closeModal" class="login__forgot-password-label" to="/forgot-password">

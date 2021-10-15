@@ -11,13 +11,13 @@
       <label>Телефон</label>
       <input :disabled="!edit" class="profile-form__input" placeholder="Телефон" v-model="profile.phone" />
       <span class="profile-form__error">{{ getError('phone') }}</span>
-      <label>Почта</label>
-      <input :disabled="!edit" class="profile-form__input" placeholder="Почта" v-model="profile.email" />
+      <label>E-mail</label>
+      <input :disabled="!edit" class="profile-form__input" placeholder="E-mail" v-model="profile.email" />
       <span class="profile-form__error">{{ getError('email') }}</span>
-      <label>День рождения</label>
+      <label>Дата рождения</label>
       <a-date-picker
         size="large"
-        placeholder="День рождения"
+        placeholder="Дата рождения"
         class="profile-form__date-picker"
         :disabled="!edit"
         v-model:value="birthday"

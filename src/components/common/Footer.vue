@@ -32,7 +32,7 @@ footer {
   justify-content: center;
   width: 100%;
   padding: 12px 16px;
-  height: 60px;
+  height: 70px;
   line-height: 1.25;
 }
 .footer {
@@ -64,7 +64,7 @@ footer {
 
 @media (max-width: 500px) {
   footer {
-    height: 90px;
+    height: 120px;
   }
 }
 </style>

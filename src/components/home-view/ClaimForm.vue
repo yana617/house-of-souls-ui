@@ -2,6 +2,9 @@
   <div class="claim-form" @click.stop>
     <img @click="$emit('onclose')" class="claim-form__close-icon" src="@/assets/close.png" />
     <span class="claim-form__header">{{ title }}</span>
+    <span class="claim-form__error">{{ getError('guest.name') }}</span>
+    <span class="claim-form__error">{{ getError('guest.surname') }}</span>
+    <span class="claim-form__error">{{ getError('guest.phone') }}</span>
     <ClaimBaseInfo :claim="claimModel" :isUpdateMode="isUpdateMode" v-model:isGuest="isGuest" />
     <label class="claim-form__title">{{ labels.arrivalTime }}</label>
     <a-time-picker
@@ -11,13 +14,16 @@
       v-model:value="claimModel.arrival_time"
       :minute-step="15"
     ></a-time-picker>
+    <span class="claim-form__error">{{ getError('arrival_time') }}</span>
     <BaseInput :label="labels.additionalPeople" v-model="claimModel.additional_people" />
+    <span class="claim-form__error">{{ getError('additional_people') }}</span>
     <BaseInput is-textarea :label="labels.comment" :description="commentDescription" v-model="claimModel.comment" />
+    <span class="claim-form__error">{{ getError('comment') }}</span>
     <a-checkbox class="claim-form__checkbox" v-model:checked="claimModel.questionable">
       {{ labels.questionable }}
     </a-checkbox>
     <span>{{ descriptions.questionable }} </span>
-    <Button class="claim-form__submit-btn" :title="submitButton" @click="submit()" />
+    <Button :loading="loading" class="claim-form__submit-btn" :title="submitButton" @click="submit()" />
   </div>
 </template>
 
@@ -29,6 +35,7 @@ import Button from '@/components/common/Button.vue';
 import BaseInput from '@/components/common/BaseInput.vue';
 import ClaimBaseInfo from './ClaimBaseInfo.vue';
 import { claimTimeDescription, claimFormLabels, claimFormDescriptions } from '@/utils/constants';
+import { findError } from '@/utils/validation';
 
 export default {
   name: 'ClaimForm',
@@ -42,6 +49,8 @@ export default {
     claim: Object,
     submitButton: String,
     isUpdateMode: Boolean,
+    loading: Boolean,
+    errors: Array,
   },
   data() {
     return {
@@ -52,6 +61,7 @@ export default {
         comment: this.claim.comment || '',
         questionable: this.claim.questionable || false,
         arrival_time: this.claim.arrival_time ? moment(this.claim.arrival_time, 'HH:mm') : null,
+        guest_id: this.claim.guest_id,
         guest: {
           name: this.claim.guest?.name || '',
           surname: this.claim.guest?.surname || '',
@@ -61,10 +71,11 @@ export default {
       isGuest: false,
       labels: claimFormLabels,
       descriptions: claimFormDescriptions,
+      findError,
     };
   },
   computed: mapState({
-    user: (state) => state.users.user,
+    user: (state) => state.auth.user,
     commentDescription() {
       return `${claimTimeDescription[this.claim.type]} ${this.descriptions.comment}`;
     },
@@ -72,15 +83,20 @@ export default {
   methods: {
     submit() {
       const body = {
+        _id: this.claim._id,
         ...this.claimModel,
-        arrival_time: this.claimModel.arrival_time ? this.arrival_time.format('HH:mm') : null,
+        comment: this.claimModel.comment.length !== 0 ? this.claimModel.comment : null,
+        arrival_time: this.claimModel.arrival_time ? this.claimModel.arrival_time.format('HH:mm') : null,
         additional_people: parseInt(this.claimModel.additional_people, 10) || null,
       };
+      body.user_id = this.user.id;
       if (!this.isGuest) {
         delete body.guest;
-        body.user_id = this.user.id;
       }
       this.$emit('on-submit', body);
+    },
+    getError(field) {
+      return this.findError(this.errors, field);
     },
   },
 };
@@ -140,6 +156,10 @@ $greyBlue: #2c3e50;
       background-color: $green;
       color: white;
     }
+  }
+  &__error {
+    color: rgba(255, 0, 0, 0.8);
+    font-size: 13px;
   }
 
   @media (max-width: 450px) {

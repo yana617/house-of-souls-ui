@@ -14,7 +14,7 @@ import Footer from '@/components/common/Footer.vue';
 import Notice from '@/components/home-view/Notice.vue';
 import Schedule from '@/components/home-view/Schedule.vue';
 import { getToken } from '@/utils/sessionStorage';
-// import { getWeekDatesRange } from '@/utils/date';
+import { getWeekDatesRange } from '@/utils/date';
 
 export default {
   name: 'Home',
@@ -44,17 +44,10 @@ export default {
   },
   methods: {
     async loadCurrentSchedule() {
-      // TO-DO remove when backend will work
-      // this.$store.dispatch('claims/getSchedule', getWeekDatesRange());
-      const fromTimeStamp = new Date('2021-05-03').setHours(0, 0, 0);
-      const toTimeStamp = new Date('2021-05-09').setHours(23, 59, 59);
-      await this.$store.dispatch('claims/getSchedule', { from: fromTimeStamp, to: toTimeStamp });
+      await this.$store.dispatch('claims/getSchedule', getWeekDatesRange());
     },
     async loadNextWeekSchedule() {
-      // this.$store.dispatch('claims/getNextWeekSchedule', getWeekDatesRange(+1));
-      const fromTimeStamp = new Date('2021-05-10').setHours(0, 0, 0);
-      const toTimeStamp = new Date('2021-05-16').setHours(23, 59, 59);
-      await this.$store.dispatch('claims/getNextWeekSchedule', { from: fromTimeStamp, to: toTimeStamp });
+      await this.$store.dispatch('claims/getNextWeekSchedule', getWeekDatesRange(+1));
     },
   },
 };

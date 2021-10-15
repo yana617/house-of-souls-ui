@@ -11,7 +11,7 @@
             <span class="profile__phone">+{{ userToDisplay.phone }}</span>
           </a>
           <span class="profile__visits">
-            <b>{{ personalClaims.total || '..' }}</b> посещений
+            <b>{{ personalClaims.claims?.length || '..' }}</b> посещений
           </span>
         </div>
       </div>
@@ -51,7 +51,7 @@ export default {
   },
   computed: mapState({
     isAnotherUserProfile(state) {
-      return !!this.$route.params.id && state.auth.user && this.$route.params.id !== state.auth.user.id;
+      return !!this.$route.params.id && this.$route.params.id !== state.auth.user?.id;
     },
     anotherUserProfile: (state) => state.users.userProfile,
     user: (state) => state.auth.user,
@@ -81,13 +81,21 @@ export default {
   methods: {
     async loadUserAndClaims() {
       this.$store.dispatch('app/setLoading', true);
+      let loadUser = Promise.resolve();
       if (this.isAnotherUserProfile) {
-        await this.$store.dispatch('users/getUserProfile', { userId: this.userId });
+        loadUser = this.$store.dispatch('users/getUserProfile', { userId: this.userId });
       } else if (!this.user) {
-        await this.$store.dispatch('users/getUser');
+        loadUser = this.$store.dispatch('users/getUser');
       }
-      await this.$store.dispatch('claims/getClaimsByUserId', { userId: this.userId });
-      this.$store.dispatch('app/setLoading', false);
+      loadUser
+        .then(() => {
+          this.$store.dispatch('claims/getClaimsByUserId', { userId: this.userId }).finally(() => {
+            this.$store.dispatch('app/setLoading', false);
+          });
+        })
+        .catch(() => {
+          this.$store.dispatch('app/setLoading', false);
+        });
     },
   },
   unmounted() {

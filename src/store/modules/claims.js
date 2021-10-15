@@ -1,8 +1,10 @@
-import claim from '../../api/claim';
+import claims from '../../api/claims';
 
 const SET_CURRENT_SCHEDULE = 'SET_CURRENT_SCHEDULE';
 const SET_NEXT_WEEK_SCHEDULE = 'SET_NEXT_WEEK_SCHEDULE';
 const SET_PERSONAL_CLAIMS = 'SET_PERSONAL_CLAIMS';
+const SET_CREATE_ERRORS = 'SET_CREATE_ERRORS';
+const SET_UPDATE_ERRORS = 'SET_UPDATE_ERRORS';
 
 const state = () => ({
   currentSchedule: null,
@@ -16,25 +18,35 @@ const getters = {};
 
 const actions = {
   getSchedule: async ({ commit }, params = {}) => {
-    const result = await claim.getClaims(params);
+    const result = await claims.getClaims(params);
     commit(SET_CURRENT_SCHEDULE, result);
   },
   getNextWeekSchedule: async ({ commit }, params = {}) => {
-    const result = await claim.getClaims(params);
+    const result = await claims.getClaims(params);
     commit(SET_NEXT_WEEK_SCHEDULE, result);
   },
   getClaimsByUserId: async ({ commit }, params = {}) => {
-    const result = await claim.getClaimsByUserId(params);
+    const result = await claims.getClaimsByUserId(params);
     commit(SET_PERSONAL_CLAIMS, result);
   },
-  createClaim: async (_, body = {}) => {
-    await claim.createClaim(body);
+  createClaim: async ({ commit }, body = {}) => {
+    const response = await claims.createClaim(body);
+    if (response.success) {
+      commit(SET_CREATE_ERRORS, []);
+    } else if (response.errors) {
+      commit(SET_CREATE_ERRORS, response.errors);
+    }
   },
-  updateClaim: async (_, body = {}) => {
-    await claim.updateClaim(body);
+  updateClaim: async ({ commit }, body = {}) => {
+    const response = await claims.updateClaim(body);
+    if (response.success) {
+      commit(SET_UPDATE_ERRORS, []);
+    } else if (response.errors) {
+      commit(SET_UPDATE_ERRORS, response.errors);
+    }
   },
   deleteClaim: async (_, { _id } = {}) => {
-    await claim.deleteClaim({ _id });
+    await claims.deleteClaim({ _id });
   },
 };
 
@@ -47,6 +59,12 @@ const mutations = {
   },
   [SET_PERSONAL_CLAIMS](state, result) {
     state.personal = result;
+  },
+  [SET_UPDATE_ERRORS](state, errors) {
+    state.updateErrors = errors;
+  },
+  [SET_CREATE_ERRORS](state, errors) {
+    state.createErrors = errors;
   },
 };
 

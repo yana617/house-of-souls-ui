@@ -6,6 +6,7 @@
       :title="title"
       :errors="isUpdateMode ? updateErrors : createErrors"
       :isUpdateMode="isUpdateMode"
+      :loading="loading"
       @on-submit="submit"
       @onclose="this.$emit('onclose')"
     />
@@ -52,9 +53,14 @@ export default {
       return this.mode === 'update';
     },
   }),
+  data() {
+    return {
+      loading: false,
+    };
+  },
   methods: {
     submit(body) {
-      this.$store.dispatch('app/setLoading', true);
+      this.loading = true;
       this.$store
         .dispatch(`claims/${action[this.mode]}`, body)
         .then(() => {
@@ -64,7 +70,7 @@ export default {
           }
         })
         .finally(() => {
-          this.$store.dispatch('app/setLoading', false);
+          this.loading = false;
         });
     },
   },

@@ -33,6 +33,9 @@ export default {
     additionalFields: (state) => state.additionalFields.current,
     user: (state) => state.auth.user,
     claimUser() {
+      if (this.claim.guest_id) {
+        return this.claim.guest;
+      }
       return this.claim.user;
     },
     userAdditionalFields() {
@@ -43,7 +46,7 @@ export default {
       return `${name} ${surname}`;
     },
     isMyClaim() {
-      return this.user && this.user.id === this.claimUser.id;
+      return this.user && this.user.id === this.claim.user.id;
     },
   }),
   methods: {
@@ -60,7 +63,7 @@ export default {
       return this.additionalFields.find((field) => field.id === aftId);
     },
     haveTruthyAdditionFields() {
-      return this.userAdditionalFields.some(
+      return this.userAdditionalFields && this.userAdditionalFields.some(
         (field) => field.value && this.additionalFieldTemplateExist(field.additional_field_template_id),
       );
     },

@@ -4,8 +4,8 @@
       <img @click="$emit('onclose')" class="claim-info-modal__close-icon" src="@/assets/close.png" />
       <div class="claim-info-modal__header"></div>
       <span class="claim-info-modal__info-title">Данные о волонтёре</span>
-      <span class="claim-info-modal__info-description"> {{ user.name }} {{ user.surname }} </span>
-      <a class="claim-info-modal__info-description" :href="`tel:${user.phone}`">{{ user.phone }}</a>
+      <span class="claim-info-modal__info-description"> {{ userToShow.name }} {{ userToShow.surname }} </span>
+      <a class="claim-info-modal__info-description" :href="`tel:${userToShow.phone}`">{{ userToShow.phone }}</a>
       <span v-if="haveAdditionFields" class="claim-info-modal__info-description">
         <div class="claim-info-modal__additional-fields" v-for="field in user.user_additional_fields" :key="field._id">
           <img
@@ -45,7 +45,11 @@ export default {
   computed: mapState({
     additionalFields: (state) => state.additionalFields.current,
     haveAdditionFields() {
-      return this.user.user_additional_fields.some((field) => !!field.value);
+      return (
+        !this.guest_id
+        && this.user.user_additional_fields
+        && this.user.user_additional_fields.some((field) => !!field.value)
+      );
     },
     additionalFieldsById() {
       const additionalFieldsById = {};
@@ -54,12 +58,24 @@ export default {
       });
       return additionalFieldsById;
     },
+    userToShow() {
+      if (this.guest_id) {
+        return this.guest;
+      }
+      return this.user;
+    },
   }),
   props: {
     additional_people: Number,
     arrival_time: String,
     comment: String,
     user: Object,
+    guest: {
+      type: [Object, null],
+    },
+    guest_id: {
+      type: [String, null],
+    },
   },
 };
 </script>
