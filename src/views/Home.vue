@@ -25,6 +25,7 @@ export default {
   },
   computed: mapState({
     notices: (state) => state.notices,
+    user: (state) => state.auth.user,
     currentSchedule: (state) => state.claims.currentSchedule,
     nextWeekSchedule: (state) => state.claims.nextWeekSchedule,
   }),
@@ -48,6 +49,14 @@ export default {
     },
     async loadNextWeekSchedule() {
       await this.$store.dispatch('claims/getNextWeekSchedule', getWeekDatesRange(+1));
+    },
+  },
+  watch: {
+    user() {
+      if (this.user) {
+        this.loadCurrentSchedule();
+        this.loadNextWeekSchedule();
+      }
     },
   },
 };
