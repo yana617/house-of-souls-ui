@@ -80,6 +80,9 @@ export default {
       return `${claimTimeDescription[this.claim.type]} ${this.descriptions.comment}`;
     },
   }),
+  unmounted() {
+    this.$store.dispatch('claims/clearErrors');
+  },
   methods: {
     submit() {
       const body = {
@@ -88,8 +91,8 @@ export default {
         comment: this.claimModel.comment.length !== 0 ? this.claimModel.comment : null,
         arrival_time: this.claimModel.arrival_time ? this.claimModel.arrival_time.format('HH:mm') : null,
         additional_people: parseInt(this.claimModel.additional_people, 10) || null,
+        user_id: this.user.id,
       };
-      body.user_id = this.user.id;
       if (!this.isGuest) {
         delete body.guest;
       }

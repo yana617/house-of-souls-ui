@@ -45,6 +45,10 @@ const actions = {
       commit(SET_UPDATE_ERRORS, response.errors);
     }
   },
+  clearErrors: async ({ commit }) => {
+    commit(SET_CREATE_ERRORS, []);
+    commit(SET_UPDATE_ERRORS, []);
+  },
   deleteClaim: async (_, { _id } = {}) => {
     await claims.deleteClaim({ _id });
   },

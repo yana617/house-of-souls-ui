@@ -16,6 +16,7 @@
 <script>
 import { mapState } from 'vuex';
 
+import notifications from '@/utils/notifications';
 import ClaimForm from './ClaimForm.vue';
 
 const submitButton = {
@@ -39,6 +40,7 @@ export default {
   props: {
     claim: Object,
     mode: String,
+    canSubscribeYourself: Boolean,
   },
   computed: mapState({
     createErrors: (state) => state.claims.createErrors,
@@ -60,6 +62,10 @@ export default {
   },
   methods: {
     submit(body) {
+      if (this.mode === 'create' && !this.canSubscribeYourself && !body.guest) {
+        notifications.error('Вы уже записаны в график. Вы можете записать только незарегистрированных пользователей!');
+        return;
+      }
       this.loading = true;
       this.$store
         .dispatch(`claims/${action[this.mode]}`, body)
