@@ -6,18 +6,26 @@
       <span class="claim-info-modal__info-title">Данные о волонтёре</span>
       <span class="claim-info-modal__info-description"> {{ userToShow.name }} {{ userToShow.surname }} </span>
       <a class="claim-info-modal__info-description" :href="`tel:${userToShow.phone}`">{{ userToShow.phone }}</a>
-      <span v-if="haveAdditionFields" class="claim-info-modal__info-description">
-        <div class="claim-info-modal__additional-fields" v-for="field in user.user_additional_fields" :key="field._id">
+      <span v-if="haveTruthyAdditionFields" class="claim-info-modal__additional-fields">
+        <div
+          class="claim-info-modal__additional-fields__item"
+          v-for="field in user.user_additional_fields"
+          :key="field._id"
+        >
           <img
-            v-if="field.value"
+            v-if="false"
             :key="field.id"
             class="claim-info-modal__icon"
             :src="additionalFieldsById[field.additional_field_template_id]?.icon"
           />
+          <CheckCircleTwoTone v-if="field.value" twoToneColor="#52c41a" />
+          <span class="claim-info-modal__additional-fields__label" v-if="field.value">
+            {{ additionalFieldsById[field.additional_field_template_id]?.label }}
+          </span>
           <Tooltip
             class="claim-info-modal__tooltip"
             v-if="field.value"
-            :helpText="additionalFieldsById[field.additional_field_template_id]?.label"
+            :helpText="additionalFieldsById[field.additional_field_template_id]?.description"
           />
         </div>
       </span>
@@ -36,15 +44,16 @@
 
 <script>
 import { mapState } from 'vuex';
+import { CheckCircleTwoTone } from '@ant-design/icons-vue';
 
 import Tooltip from '../common/CustomTooltip.vue';
 
 export default {
   name: 'ClaimInfoModal',
-  components: { Tooltip },
+  components: { Tooltip, CheckCircleTwoTone },
   computed: mapState({
     additionalFields: (state) => state.additionalFields.current,
-    haveAdditionFields() {
+    haveTruthyAdditionFields() {
       return (
         !this.guest_id
         && this.user.user_additional_fields
@@ -54,7 +63,7 @@ export default {
     additionalFieldsById() {
       const additionalFieldsById = {};
       this.additionalFields.forEach((field) => {
-        additionalFieldsById[field._id] = field;
+        additionalFieldsById[field.id] = field;
       });
       return additionalFieldsById;
     },
@@ -100,6 +109,21 @@ $lightGrey: #ccc;
   &__wrapper {
     background-color: rgba(0, 0, 50, 0.3);
     backdrop-filter: blur(1px);
+  }
+
+  &__additional-fields {
+    margin: 2px 0;
+    display: flex;
+    flex-direction: column;
+
+    &__item {
+      display: flex;
+      align-items: center;
+    }
+
+    &__label {
+      margin: 0 8px;
+    }
   }
 
   &__info-title {
