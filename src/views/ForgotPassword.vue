@@ -5,7 +5,7 @@
       <a-typography-text type="secondary" class="forgot-password__description">
         Вам на почту придет ссылка, перейдя по которой можно будет поменять пароль
       </a-typography-text>
-      <a-input type="email" size="large" v-model:value="email" placeholder="Почта" />
+      <a-input type="email" size="large" v-model:value="email" placeholder="E-mail" />
       <span class="forgot-password__error">{{ getError('email') }}</span>
       <Button class="forgot-password__btn" title="Отправить запрос" />
     </form>

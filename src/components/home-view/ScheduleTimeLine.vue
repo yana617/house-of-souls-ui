@@ -16,10 +16,10 @@
         @on-update-click="openUpdateClaimModal(claim)"
       />
       <Button
-        v-if="hasPermissionsToAssign && user && !canUnsubscribe(day.claims)"
+        v-if="hasPermissionsToAssign && user && canSubscribe(day.claims)"
         class="schedule-time-line__claim-btn"
         title="Записаться"
-        @click="openAssignModal(day.date)"
+        @click="openAssignModal(day.date, day.claims)"
       />
       <Button
         v-if="canUnsubscribe(day.claims)"
@@ -34,6 +34,7 @@
       v-if="updateOrCreateModalOpen"
       :claim="claimForCreateOrUpdate"
       :mode="mode"
+      :canSubscribeYourself="canSubscribeYourself"
       @onclose="onClaimModalClose"
     />
   </div>
@@ -74,9 +75,13 @@ export default {
   },
   computed: mapState({
     user: (state) => state.auth.user,
-    hasPermissionsToAssign: (state) => {
-      const permissions = state.permissions.my;
-      return permissions && permissions.includes('CREATE_CLAIM');
+    permissions: (state) => state.permissions.my,
+    hasPermissionToAssignUnregisteredUsers() {
+      return this.permissions.includes('CREATE_CLAIM_FOR_UNREGISTERED_USERS');
+    },
+    hasPermissionsToAssign() {
+      const permissions = ['CREATE_CLAIM', 'CREATE_CLAIM_FOR_UNREGISTERED_USERS'];
+      return permissions.some((p) => this.permissions.includes(p));
     },
     claimForCreateOrUpdate() {
       if (this.mode === 'create') {
@@ -90,15 +95,22 @@ export default {
       this.claimInfoModalOpen = true;
       this.selectedClaim = claim;
     },
-    openAssignModal(date) {
+    openAssignModal(date, claims) {
       this.assignDate = date;
       this.mode = 'create';
+      if (this.hasPermissionToAssignUnregisteredUsers) {
+        const hasOwnClaims = this.user && claims.some((claim) => (claim.user.id === this.user.id) && !claim.quest_id);
+        this.canSubscribeYourself = !hasOwnClaims;
+      }
       this.updateOrCreateModalOpen = true;
     },
     openUpdateClaimModal(claim) {
       this.claim = claim;
       this.mode = 'update';
       this.updateOrCreateModalOpen = true;
+    },
+    canSubscribe(claims) {
+      return this.hasPermissionToAssignUnregisteredUsers || !this.canUnsubscribe(claims);
     },
     canUnsubscribe(claims) {
       return this.user && claims.some((claim) => claim.user.id === this.user.id);
@@ -150,7 +162,7 @@ $redBlack: rgb(50, 0, 0);
     display: flex;
     width: $dayWidth;
     font-size: 14px;
-    padding: 4px;
+    padding: 4px 8px;
     text-align: left;
     border-left: 1px solid $lightGrey;
     border-right: 1px solid $lightGrey;

@@ -47,7 +47,7 @@ const getWeekDatesRange = (diffFromCurrent = 0) => {
   const from = target.setDate(target.getDate() - (target.getDay() || WEEK_LENGTH) + 1);
   const to = target.setDate(target.getDate() + WEEK_LENGTH - 1);
 
-  return { from, to };
+  return { from: new Date(from).toISOString(), to: new Date(to).toISOString() };
 };
 
 const randomDate = (start, end) => new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));

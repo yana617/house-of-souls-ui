@@ -98,6 +98,7 @@ $green: #42b983;
 
   &__item {
     margin-left: 0 !important;
+    text-align: left;
   }
 
   &__save-btn {

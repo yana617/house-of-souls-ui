@@ -52,6 +52,9 @@ $green: #42b983;
   }
 
   @media (max-width: 768px) {
+    padding-left: 16px;
+    padding-right: 16px;
+
     &__form {
       flex-direction: column;
     }

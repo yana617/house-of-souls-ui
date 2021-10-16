@@ -34,8 +34,8 @@ export default {
   name: 'Schedule',
   components: { ScheduleTimeLine },
   props: {
-    from: Number,
-    to: Number,
+    from: String,
+    to: String,
     claims: Array,
   },
   computed: {

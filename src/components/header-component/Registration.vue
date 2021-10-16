@@ -7,9 +7,9 @@
       <span class="registration__error">{{ getError('surname') }}</span>
       <PhoneInput @onchange="onChangePhone" id="phone" placeholder="Телефон" />
       <span class="registration__error">{{ getError('phone') }}</span>
-      <input id="email" v-model="email" type="text" name="email" placeholder="Почта" />
+      <input id="email" v-model="email" type="text" name="email" placeholder="E-mail" />
       <span class="registration__error">{{ getError('email') }}</span>
-      <a-date-picker size="large" placeholder="День рождения" class="registration__birthday" v-model:value="birthday" />
+      <a-date-picker size="large" placeholder="Дата рождения" class="registration__birthday" v-model:value="birthday" />
       <span class="registration__error">{{ getError('birthday') }}</span>
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
       <span class="registration__error">{{ getError('password') }}</span>

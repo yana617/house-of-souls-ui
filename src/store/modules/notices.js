@@ -1,4 +1,4 @@
-import notices from '../../api/notice';
+import notices from '../../api/notices';
 
 const SET_NOTICES_LIST = 'SET_NOTICES_LIST';
 const SET_NOTICE_DATA = 'SET_NOTICE_DATA';

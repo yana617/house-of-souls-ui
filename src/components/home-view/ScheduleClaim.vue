@@ -33,6 +33,9 @@ export default {
     additionalFields: (state) => state.additionalFields.current,
     user: (state) => state.auth.user,
     claimUser() {
+      if (this.claim.guest_id) {
+        return this.claim.guest;
+      }
       return this.claim.user;
     },
     userAdditionalFields() {
@@ -43,7 +46,7 @@ export default {
       return `${name} ${surname}`;
     },
     isMyClaim() {
-      return this.user && this.user.id === this.claimUser.id;
+      return this.user && this.user.id === this.claim.user.id;
     },
   }),
   methods: {
@@ -60,7 +63,7 @@ export default {
       return this.additionalFields.find((field) => field.id === aftId);
     },
     haveTruthyAdditionFields() {
-      return this.userAdditionalFields.some(
+      return this.userAdditionalFields && this.userAdditionalFields.some(
         (field) => field.value && this.additionalFieldTemplateExist(field.additional_field_template_id),
       );
     },
@@ -93,10 +96,7 @@ export default {
     height: 22px;
     border-radius: 2px;
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.3);
-
-    &__wrapper {
-      margin: 2px;
-    }
+    padding: 0 4px;
   }
 
   &:hover &__additional-fields {

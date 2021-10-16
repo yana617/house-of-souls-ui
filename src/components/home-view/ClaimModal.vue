@@ -6,6 +6,7 @@
       :title="title"
       :errors="isUpdateMode ? updateErrors : createErrors"
       :isUpdateMode="isUpdateMode"
+      :loading="loading"
       @on-submit="submit"
       @onclose="this.$emit('onclose')"
     />
@@ -15,6 +16,7 @@
 <script>
 import { mapState } from 'vuex';
 
+import notifications from '@/utils/notifications';
 import ClaimForm from './ClaimForm.vue';
 
 const submitButton = {
@@ -38,6 +40,7 @@ export default {
   props: {
     claim: Object,
     mode: String,
+    canSubscribeYourself: Boolean,
   },
   computed: mapState({
     createErrors: (state) => state.claims.createErrors,
@@ -52,9 +55,18 @@ export default {
       return this.mode === 'update';
     },
   }),
+  data() {
+    return {
+      loading: false,
+    };
+  },
   methods: {
     submit(body) {
-      this.$store.dispatch('app/setLoading', true);
+      if (this.mode === 'create' && !this.canSubscribeYourself && !body.guest) {
+        notifications.error('Вы уже записаны в график. Вы можете записать только незарегистрированных пользователей!');
+        return;
+      }
+      this.loading = true;
       this.$store
         .dispatch(`claims/${action[this.mode]}`, body)
         .then(() => {
@@ -64,7 +76,7 @@ export default {
           }
         })
         .finally(() => {
-          this.$store.dispatch('app/setLoading', false);
+          this.loading = false;
         });
     },
   },

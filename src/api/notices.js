@@ -20,6 +20,5 @@ export default {
     .catch((error) => error.response.data),
   deleteNotice: async ({ _id }) => {
     await axios.delete(`${noticesApi}/${_id}`);
-    return true;
   },
 };
