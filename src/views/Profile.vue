@@ -10,9 +10,7 @@
           <a :href="`tel:${userToDisplay.phone}`">
             <span class="profile__phone">+{{ userToDisplay.phone }}</span>
           </a>
-          <span class="profile__visits">
-            <b>{{ personalClaims.claims?.length || '..' }}</b> посещений
-          </span>
+          <span class="profile__visits"><b>{{ claimsCount }}</b> посещений</span>
         </div>
       </div>
     </div>
@@ -71,6 +69,13 @@ export default {
     hasPermissionsToEditPermissions: (state) => {
       const permissions = state.permissions.my;
       return permissions && permissions.includes('EDIT_PERMISSIONS');
+    },
+    claimsCount() {
+      const { claims } = this.personalClaims;
+      if (!claims || (!claims.length && typeof claims.length !== 'number')) {
+        return '..';
+      }
+      return claims.length;
     },
   }),
   watch: {
