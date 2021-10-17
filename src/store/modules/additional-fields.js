@@ -1,40 +1,52 @@
-/* eslint-disable no-unused-vars */
 import additionalFields from '../../api/additional-fields';
 
 const SET_ADDITIONAL_FIELDS = 'SET_ADDITIONAL_FIELDS';
-const SET_NEW_ADDITIONAL_FIELD_ICON_LINK = 'SET_NEW_ADDITIONAL_FIELD_ICON_LINK';
-const UPDATE_ADDITIONAL_FIELD = 'UPDATE_ADDITIONAL_FIELD';
+const SET_ADDITIONAL_FIELD_ICON_LINK = 'SET_NEW_ADDITIONAL_FIELD_ICON_LINK';
+const SET_CREATE_ERRORS = 'SET_CREATE_ERRORS';
+const SET_UPDATE_ERRORS = 'SET_UPDATE_ERRORS';
+const CLEAR_ICON = 'CLEAR_ICON';
 
-// initial state
 const state = () => ({
   current: null,
-  new: {
-    icon: null,
-  },
+  icon: null,
+  createErrors: [],
+  updateErrors: [],
 });
 
 const getters = {};
 
 const actions = {
   getAdditionalFields: async ({ commit }) => {
-    const fields = await additionalFields.getAdditionalFields();
-    commit(SET_ADDITIONAL_FIELDS, fields);
+    const additionalFieldTemplates = await additionalFields.getAdditionalFields();
+    commit(SET_ADDITIONAL_FIELDS, additionalFieldTemplates);
   },
   updateAdditionalField: async ({ commit }, body = {}) => {
-    await additionalFields.updateAdditionalField(body);
+    const response = await additionalFields.updateAdditionalField(body);
+    if (response.success) {
+      commit(SET_UPDATE_ERRORS, []);
+    } else if (response.errors) {
+      commit(SET_UPDATE_ERRORS, response.errors);
+    }
   },
-  deleteAdditionalField: async ({ commit }, { _id } = {}) => {
-    await additionalFields.deleteAdditionalField({ _id });
+  deleteAdditionalField: async (_, { id } = {}) => {
+    await additionalFields.deleteAdditionalField({ id });
   },
   uploadIcon: async ({ commit }, formData) => {
     const link = await additionalFields.uploadIcon(formData);
-    commit(SET_NEW_ADDITIONAL_FIELD_ICON_LINK, link);
+    commit(SET_ADDITIONAL_FIELD_ICON_LINK, link);
   },
-  saveAdditionalField: async ({ commit }, body) => {
-    await additionalFields.saveAdditionalField(body);
+  createAdditionalField: async ({ commit }, body) => {
+    commit(SET_CREATE_ERRORS, []);
+    const response = await additionalFields.createAdditionalField(body);
+    if (response.errors) {
+      commit(SET_CREATE_ERRORS, response.errors);
+    }
   },
-  localUpdateAdditionalField: async ({ commit }, { field, _id }) => {
-    commit(UPDATE_ADDITIONAL_FIELD, { field, _id });
+  clearCreateErrors: async ({ commit }) => {
+    commit(SET_CREATE_ERRORS, []);
+  },
+  clearIcon: async ({ commit }) => {
+    commit(CLEAR_ICON);
   },
 };
 
@@ -42,14 +54,17 @@ const mutations = {
   [SET_ADDITIONAL_FIELDS](state, fields) {
     state.current = fields;
   },
-  [SET_NEW_ADDITIONAL_FIELD_ICON_LINK](state, link) {
-    state.new = { ...state.new, icon: link };
+  [SET_ADDITIONAL_FIELD_ICON_LINK](state, link) {
+    state.icon = link;
   },
-  [UPDATE_ADDITIONAL_FIELD](state, { field = {}, _id }) {
-    const fields = state.current;
-    const foundIndex = fields.findIndex((f) => f._id === _id);
-    fields[foundIndex] = field;
-    state.current = fields;
+  [SET_UPDATE_ERRORS](state, errors) {
+    state.updateErrors = errors;
+  },
+  [SET_CREATE_ERRORS](state, errors) {
+    state.createErrors = errors;
+  },
+  [CLEAR_ICON](state) {
+    state.icon = null;
   },
 };
 

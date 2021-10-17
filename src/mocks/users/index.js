@@ -11,24 +11,24 @@ import { userAdditionalFields as userAdditionalFieldsMocks } from '../userAdditi
 
 export default [
   rest.post(`${API_HOST}/login`, (req, res, ctx) => {
-    const { phone } = req.body.user;
+    const { email } = req.body.user;
 
-    if (!phone) {
+    if (!email) {
       return res(
         ctx.status(401),
         ctx.json({
-          errorMessage: 'Please provide a phone number to log in',
+          errorMessage: 'Please provide a email to log in',
         }),
       );
     }
 
-    const userFromDB = data.users.find((user) => user.phone === phone);
+    const userFromDB = data.users.find((user) => user.email === email);
 
     if (!userFromDB) {
       return res(
         ctx.status(401),
         ctx.json({
-          errorMessage: `There is no registered users with phone ${phone}. Please, register`,
+          errorMessage: `There is no registered users with email ${email}. Please, register`,
         }),
       );
     }
@@ -118,7 +118,11 @@ export default [
     );
   }),
 
-  rest.post(`${API_HOST}/restore-password`, (_, res, ctx) => res(
+  rest.post(`${API_HOST}/forgot-password`, (_, res, ctx) => res(
+    ctx.status(200),
+  )),
+
+  rest.post(`${API_HOST}/reset-password`, (_, res, ctx) => res(
     ctx.status(200),
   )),
 
@@ -148,6 +152,49 @@ export default [
           users,
           total: users.length,
         },
+      }),
+    );
+  }),
+
+  rest.get(`${API_HOST}/users/permissions`, (req, res, ctx) => res(
+    ctx.status(200),
+    ctx.json({
+      success: true,
+      permissions: {
+        userPermissions: [
+          'EDIT_NOTICE',
+        ],
+        rolePermissions: [
+          'VIEW_PROFILE',
+          'EDIT_PROFILE',
+          'CREATE_CLAIM',
+          'EDIT_CLAIM',
+          'DELETE_CLAIM',
+          'VIEW_USERS',
+        ],
+      },
+    }),
+  )),
+
+  rest.get(`${API_HOST}/users/:id`, (req, res, ctx) => {
+    const isAuth = sessionStorage.getItem(IS_AUTH);
+
+    if (!isAuth) {
+      return res(
+        ctx.status(401),
+        ctx.json({ errorMessage: 'Please, authorize to change a user' }),
+      );
+    }
+
+    const { id } = req.params;
+
+    const userFromDb = data.users.find((user) => user._id === id);
+
+    return res(
+      ctx.status(200),
+      ctx.json({
+        success: true,
+        user: userFromDb,
       }),
     );
   }),

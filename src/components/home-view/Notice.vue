@@ -1,5 +1,5 @@
 <template>
-  <div v-if="show" class="notice">
+  <div class="notice">
     <h4 class="notice__title">{{ title }}</h4>
     <div class="notice__line" />
     <h5 class="notice__description">{{ description }}</h5>
@@ -13,21 +13,10 @@ export default {
     noticeId: String,
     title: String,
     description: String,
-    authorized: Boolean,
+    internalOnly: Boolean,
   },
   created() {
     this.$store.dispatch('notices/getNoticeById', { _id: this.noticeId });
-  },
-  computed: {
-    show() {
-      if (typeof this.authorized !== 'boolean') {
-        return true;
-      }
-      return (this.authorized && this.user) || (!this.authorized && !this.user);
-    },
-    user() {
-      return this.$store.state.users?.user;
-    },
   },
 };
 </script>

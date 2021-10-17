@@ -2,16 +2,26 @@
   <div class="registration">
     <div class="registration__wrapper">
       <input id="name" v-model="name" type="text" name="name" placeholder="Имя" />
+      <span class="registration__error">{{ getError('name') }}</span>
       <input id="surname" v-model="surname" type="text" name="surname" placeholder="Фамилия" />
+      <span class="registration__error">{{ getError('surname') }}</span>
       <PhoneInput @onchange="onChangePhone" id="phone" placeholder="Телефон" />
-      <a-date-picker v-model:value="birthday" placeholder="День рождения" />
+      <span class="registration__error">{{ getError('phone') }}</span>
+      <input id="email" v-model="email" type="text" name="email" placeholder="E-mail" />
+      <span class="registration__error">{{ getError('email') }}</span>
+      <a-date-picker size="large" placeholder="Дата рождения" class="registration__birthday" v-model:value="birthday" />
+      <span class="registration__error">{{ getError('birthday') }}</span>
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
+      <span class="registration__error">{{ getError('password') }}</span>
+      <div v-if="loading && !additionalFields" class="registration__loader-wrapper">
+        <Loader className="registration__loader" />
+      </div>
       <Checkbox
         v-for="field in additionalFields"
-        :key="field._id"
+        :key="field.id"
         v-bind="field"
-        :value="selected[field._id]"
-        @input="(value) => (selected[field._id] = value)"
+        :value="selected[field.id]"
+        @input="(value) => (selected[field.id] = value)"
       />
       <Button @click="submitRegistration" class="registration__submit-btn" title="Зарегистрироваться" />
     </div>
@@ -20,52 +30,81 @@
 
 <script>
 import { mapState } from 'vuex';
+import { ref } from 'vue';
 
+import Loader from '../common/Loader.vue';
 import Checkbox from '../common/Checkbox.vue';
 import Button from '../common/Button.vue';
 import PhoneInput from '../common/PhoneInput.vue';
+import { findError } from '@/utils/validation';
 
 export default {
   name: 'Registration',
-  components: { Checkbox, PhoneInput, Button },
+  components: {
+    Checkbox,
+    PhoneInput,
+    Button,
+    Loader,
+  },
   computed: mapState({
     additionalFields: (state) => state.additionalFields.current,
+    errors: (state) => state.auth.registerErrors,
   }),
   data() {
     return {
       name: null,
       surname: null,
       phone: null,
-      birthday: null,
+      email: null,
       password: null,
       selected: {},
+      birthday: ref(),
+      loading: false,
+      findError,
     };
   },
   created() {
-    this.$store.dispatch('additionalFields/getAdditionalFields').then(() => {
-      this.additionalFields.forEach((field) => {
-        this.selected[field._id] = false;
+    this.loading = true;
+    this.$store
+      .dispatch('additionalFields/getAdditionalFields')
+      .then(() => {
+        this.additionalFields.forEach((field) => {
+          this.selected[field.id] = false;
+        });
+      })
+      .finally(() => {
+        this.loading = false;
       });
-    });
+  },
+  unmounted() {
+    this.$store.dispatch('auth/clearRegisterErrors');
   },
   methods: {
-    submitRegistration() {
+    async submitRegistration() {
       const body = {
         name: this.name,
         surname: this.surname,
         phone: this.phone,
+        email: this.email,
         birthday: this.birthday,
         password: this.password,
         additionalFields: Object.keys(this.selected).map((additionalFieldId) => ({
-          _id: additionalFieldId,
+          additionalFieldTemplateId: additionalFieldId,
           value: this.selected[additionalFieldId],
         })),
       };
-      this.$store.dispatch('users/register', body);
+      await this.$store.dispatch('auth/register', body);
+      if (this.errors.length === 0) {
+        this.$store.dispatch('users/getUser');
+        this.$store.dispatch('permissions/getMyPermissions');
+      }
     },
     onChangePhone(updatedPhone) {
       const phone = updatedPhone.replace(/[-+()_\s]/g, '');
       this.phone = phone;
+    },
+    getError(field) {
+      return this.findError(this.errors, field);
     },
   },
 };
@@ -97,6 +136,16 @@ $lightGrey: #ccc;
     }
   }
 
+  &__birthday {
+    input {
+      &::placeholder {
+        font-size: 13.3px;
+      }
+      margin: 4px 0px;
+      line-height: 1 !important;
+    }
+  }
+
   &__wrapper {
     display: flex;
     flex-direction: column;
@@ -107,6 +156,18 @@ $lightGrey: #ccc;
 
   &__submit-btn {
     margin-top: 16px;
+  }
+
+  &__loader-wrapper {
+    width: 100%;
+    padding: 16px;
+  }
+
+  &__error {
+    padding-left: 8px;
+    text-align: left;
+    color: rgba(255, 0, 0, 0.8);
+    font-size: 13px;
   }
 }
 </style>

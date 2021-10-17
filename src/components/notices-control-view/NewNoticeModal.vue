@@ -4,30 +4,42 @@
       <img @click="closeModal()" class="new-notice-modal__close-icon" src="@/assets/close.png" />
       <h2>Добавление новости</h2>
       <input class="new-notice-modal__title" placeholder="Заголовок" v-model="title" />
+      <span class="new-notice-modal__error">{{ getError('title') }}</span>
       <textarea class="new-notice-modal__description" v-model="description" placeholder="Подробности" />
+      <span class="new-notice-modal__error">{{ getError('description') }}</span>
       <label class="new-notice-modal__authorized">
         Только для волонторов
-        <a-switch v-model:checked="authorized" />
+        <a-switch v-model:checked="internalOnly" />
       </label>
-      <Button class="new-notice-modal__create-btn" @click="create()" title="Добавить" />
+      <Button :loading="loading" class="new-notice-modal__create-btn" @click="create()" title="Добавить" />
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { ref } from 'vue';
+import { mapState } from 'vuex';
 
 import Button from '../common/Button.vue';
+import { findError } from '@/utils/validation';
 
-export default defineComponent({
+export default {
   name: 'NewNoticeModal',
   components: { Button },
   data() {
     return {
       title: null,
       description: null,
-      authorized: ref(false),
+      internalOnly: ref(false),
+      findError,
+      loading: false,
     };
+  },
+  computed: mapState({
+    errors: (state) => state.notices.createErrors,
+  }),
+  unmounted() {
+    this.$store.dispatch('notices/clearCreateErrors');
   },
   methods: {
     closeModal() {
@@ -37,15 +49,26 @@ export default defineComponent({
       const body = {
         title: this.title,
         description: this.description,
-        authorized: this.authorized,
+        internalOnly: this.internalOnly,
       };
-      this.$store.dispatch('notices/createNotice', body).then(() => {
-        this.$store.dispatch('notices/getNotices');
-        this.$store.dispatch('app/setModal', null);
-      });
+      this.loading = true;
+      this.$store
+        .dispatch('notices/createNotice', body)
+        .then(() => {
+          if (this.errors.length === 0) {
+            this.$store.dispatch('notices/getNotices');
+            this.$store.dispatch('app/setModal', null);
+          }
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    getError(field) {
+      return this.findError(this.errors, field);
     },
   },
-});
+};
 </script>
 
 <style lang="scss" scoped>
@@ -103,6 +126,15 @@ $lightGrey: #ccc;
       background-color: $green;
       color: white;
     }
+  }
+
+  &__error {
+    width: 80%;
+    text-align: left;
+    color: rgba(255, 0, 0, 0.8);
+    font-size: 13px;
+    margin-top: -6px;
+    margin-bottom: 4px;
   }
 }
 </style>

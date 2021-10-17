@@ -1,16 +1,29 @@
 <template>
   <div id="app-sub-container">
     <Header />
+    <div v-if="loading" class="loader__wrapper">
+      <Loader />
+    </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import Header from '@/components/common/Header.vue';
+import Loader from '@/components/common/Loader.vue';
 
 export default {
   name: 'App',
   components: {
     Header,
+    Loader,
+  },
+  computed: mapState({
+    loading: (state) => state.app.loading,
+  }),
+  created() {
+    this.$store.dispatch('permissions/getMyPermissions');
   },
 };
 </script>

@@ -1,11 +1,11 @@
 <template>
-  <div class="volunteers-requests">
+  <div class="volunteers-requests" v-if="hasPermissions('EDIT_PERMISSIONS')">
     <span id="title">Неверифицированные пользователи</span>
     <a-table
       v-if="!$matchMedia.mobile"
       :columns="volunteersColumns"
       :data-source="users"
-      :row-key="(record) => record._id"
+      :row-key="(record) => record.id"
       class="volunteers-requests__table"
     >
       <template #createdAt="{ text: date }">
@@ -16,34 +16,34 @@
       </template>
       <template #userAdditionalFields="{ record }">
         <span>
-          <AdditionalFieldsTags
-            :userAdditionalFields="record.user_additional_fields"
-            :additionalFieldsTemplates="additionalFieldsTemplates"
-          />
+          <AdditionalFieldsTags v-if="!noAtf" :userAdditionalFields="record.user_additional_fields" />
+          <span v-if="noAtf || !record.user_additional_fields">-</span>
         </span>
       </template>
-      <template #action="{}">
+      <template #action="{ record }">
         <span>
-          <a>Верифицировать</a>
+          <a @click="changeRole(record.id)">Сделать волонтером</a>
         </span>
       </template>
     </a-table>
     <div v-if="$matchMedia.mobile">
-      <div v-for="user in users" :key="user._id" class="volunteers-requests__mobile">
+      <div v-for="user in users" :key="user.id" class="volunteers-requests__mobile">
         <div class="volunteers-requests__mobile__container top">
           <h4 class="volunteers-requests__mobile__createdAt">{{ getDate(user.createdAt) }}</h4>
           <h3 class="volunteers-requests__mobile__name">{{ userInfo(user) }}</h3>
         </div>
         <div class="volunteers-requests__mobile__container bottom">
           <h4>{{ user.phone }}</h4>
-          <div class="volunteers-requests__mobile__line" />
-          <AdditionalFieldsTags
-            :userAdditionalFields="user.user_additional_fields"
-            :additionalFieldsTemplates="additionalFieldsTemplates"
-          />
+          <div v-if="!noAtf" class="volunteers-requests__mobile__line" />
+          <AdditionalFieldsTags v-if="!noAtf" :userAdditionalFields="user.user_additional_fields" />
         </div>
-        <Button class="volunteers-requests__mobile__submit-btn" title="Верифицировать" />
+        <Button
+          @click="changeRole(user.id)"
+          class="volunteers-requests__mobile__submit-btn"
+          title="Сделать волонтером"
+        />
       </div>
+      <span class="volunteers-requests__mobile__no-users" v-if="users.length === 0">Пока нет заявок</span>
     </div>
   </div>
 </template>
@@ -60,12 +60,16 @@ export default {
   name: 'VolunteersRequests',
   components: { Button, AdditionalFieldsTags },
   created() {
-    this.$store.dispatch('users/getUsers', { isVerified: false });
+    this.loadUsers();
     this.$store.dispatch('additionalFields/getAdditionalFields');
   },
+  unmounted() {
+    this.$store.dispatch('users/clearUsersList');
+  },
   computed: mapState({
+    permissions: (state) => state.permissions.my,
     users: (state) => state.users.list,
-    additionalFieldsTemplates: (state) => state.additionalFields.current,
+    noAtf: (state) => !state.additionalFields.current || state.additionalFields.current.length === 0,
   }),
   setup() {
     return {
@@ -81,6 +85,20 @@ export default {
     },
     userInfo(user) {
       return `${user.name} ${user.surname} (${this.getAge(user.birthday)})`;
+    },
+    changeRole(userId) {
+      this.$store.dispatch('users/updateRole', { userId, role: 'VOLUNTEER' }).then(() => {
+        this.loadUsers();
+      });
+    },
+    loadUsers() {
+      this.$store.dispatch('app/setLoading', true);
+      this.$store.dispatch('users/getUsers', { roles: 'USER' }).finally(() => {
+        this.$store.dispatch('app/setLoading', false);
+      });
+    },
+    hasPermissions(permission) {
+      return this.permissions.includes(permission);
     },
   },
 };
@@ -137,6 +155,11 @@ $lightestGrey: #f0f0f0;
       color: $green;
       border-color: $green;
       margin-top: 8px;
+    }
+
+    &__no-users {
+      display: flex;
+      padding: 0 22px;
     }
   }
 }

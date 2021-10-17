@@ -1,15 +1,16 @@
 <template>
-  <div v-if="user" class="profile">
+  <div v-if="userToDisplay" class="profile">
     <div class="profile__header">
-      <a :href="`tel:${user.phone}`"><Button class="profile__call-btn" title="позвонить" /></a>
       <div class="profile__main-data-container">
         <div class="profile__img-container">
           <img class="profile__img" src="@/assets/cat_infos.jpeg" />
         </div>
         <div class="profile__name-phone-container">
-          <span class="profile__name">{{ user.name }} {{ user.surname }}</span>
-          <span class="profile__phone">+{{ user.phone }}</span>
-          <span class="profile__visits"><b>{{ personalClaims.total || '..' }}</b> посещений</span>
+          <span class="profile__name">{{ userToDisplay.name }} {{ userToDisplay.surname }}</span>
+          <a :href="`tel:${userToDisplay.phone}`">
+            <span class="profile__phone">+{{ userToDisplay.phone }}</span>
+          </a>
+          <span class="profile__visits"><b>{{ claimsCount }}</b> посещений</span>
         </div>
       </div>
     </div>
@@ -17,8 +18,11 @@
       <a-tab-pane key="1" tab="Посещения">
         <VisitsTable :claims="personalClaims.claims" />
       </a-tab-pane>
-      <a-tab-pane key="2" tab="Личные данные">
-        <ProfileForm :userId="user._id" />
+      <a-tab-pane v-if="!isAnotherUserProfile" key="2" tab="Личные данные">
+        <ProfileForm :userId="userId" />
+      </a-tab-pane>
+      <a-tab-pane v-if="isAnotherUserProfile && hasPermissionsToEditPermissions" key="3" tab="Права">
+        <PermissionsAndRoles :userId="userId" />
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -30,47 +34,100 @@ import { mapState } from 'vuex';
 
 import VisitsTable from '@/components/profile-view/VisitsTable.vue';
 import ProfileForm from '@/components/profile-view/ProfileForm.vue';
-import Button from '@/components/common/Button.vue';
+import PermissionsAndRoles from '@/components/profile-view/PermissionsAndRoles.vue';
 
 export default {
   name: 'Profile',
-  components: { VisitsTable, ProfileForm, Button },
+  components: { VisitsTable, ProfileForm, PermissionsAndRoles },
   data() {
     return {
       activeKey: ref('1'),
     };
   },
   created() {
-    this.$store.dispatch('claim/getClaimsByUserId', { userId: this.user._id });
+    this.loadUserAndClaims();
   },
   computed: mapState({
-    user: (state) => state.users.user,
-    personalClaims: (state) => state.claim.personal,
+    isAnotherUserProfile(state) {
+      return !!this.$route.params.id && this.$route.params.id !== state.auth.user?.id;
+    },
+    anotherUserProfile: (state) => state.users.userProfile,
+    user: (state) => state.auth.user,
+    personalClaims: (state) => state.claims.personal,
+    userId() {
+      if (this.isAnotherUserProfile) {
+        return this.$route.params.id;
+      }
+      return this.user.id;
+    },
+    userToDisplay() {
+      if (this.isAnotherUserProfile) {
+        return this.anotherUserProfile;
+      }
+      return this.user;
+    },
+    hasPermissionsToEditPermissions: (state) => {
+      const permissions = state.permissions.my;
+      return permissions && permissions.includes('EDIT_PERMISSIONS');
+    },
+    claimsCount() {
+      const { claims } = this.personalClaims;
+      if (!claims || (!claims.length && typeof claims.length !== 'number')) {
+        return '..';
+      }
+      return claims.length;
+    },
   }),
+  watch: {
+    isAnotherUserProfile() {
+      this.loadUserAndClaims();
+    },
+  },
+  methods: {
+    async loadUserAndClaims() {
+      this.$store.dispatch('app/setLoading', true);
+      let loadUser = Promise.resolve();
+      if (this.isAnotherUserProfile) {
+        loadUser = this.$store.dispatch('users/getUserProfile', { userId: this.userId });
+      } else if (!this.user) {
+        loadUser = this.$store.dispatch('users/getUser');
+      }
+      loadUser
+        .then(() => {
+          this.$store.dispatch('claims/getClaimsByUserId', { userId: this.userId }).finally(() => {
+            this.$store.dispatch('app/setLoading', false);
+          });
+        })
+        .catch(() => {
+          this.$store.dispatch('app/setLoading', false);
+        });
+    },
+  },
+  unmounted() {
+    this.$store.dispatch('users/clearUserProfile');
+  },
 };
 </script>
 
 <style scoped lang="scss">
+$lightBlue: #e7f5fc;
+
 .profile {
   &__header {
     position: relative;
     width: 100%;
-    height: 200px;
-    background-color: rgba(66, 185, 131, 1);
+    height: 150px;
+    background-color: $lightBlue;
     position: relative;
     max-width: 100%;
     color: black;
-    background-position: 0% 65%;
-    background-size: cover;
-    background-image: url('~@/assets/profile-background.jpeg');
   }
   &__main-data-container {
     position: absolute;
     bottom: 20px;
-    left: 10%;
+    left: 20%;
     display: flex;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.4);
     padding: 8px 16px;
     border-radius: 4px;
   }
@@ -107,19 +164,9 @@ export default {
     font-size: 16px;
   }
 
-  &__call-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background-color: rgba(24, 144, 255, 0.7);
-  }
-
-  @media (max-width: 768px) {
-    &__header {
-      background-position: center;
-    }
+  @media (max-width: 450px) {
     &__main-data-container {
-      background-color: rgba(255, 255, 255, 0.6);
+      left: unset;
     }
   }
 }

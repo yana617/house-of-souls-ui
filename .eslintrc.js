@@ -17,6 +17,6 @@ module.exports = {
     'no-shadow': ['error', { builtinGlobals: false, hoist: 'functions', allow: ['state'] }],
     camelcase: 'off',
     'no-underscore-dangle': 'off',
-    'vue/experimental-script-setup-vars': 'off',
+    'vue/script-setup-uses-vars': 'off',
   },
 };

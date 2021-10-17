@@ -2,11 +2,18 @@ import users from '../../api/users';
 
 const SET_USERS = 'SET_USERS';
 const LOAD_MORE_USERS = 'LOAD_MORE_USERS';
-const SET_USER = 'SET_USER';
+const SET_PERMISSIONS = 'SET_PERMISSIONS';
+const SET_USER_PROFILE = 'SET_USER_PROFILE';
+const SET_USER_UPDATE_ERRORS = 'SET_USER_UPDATE_ERRORS';
 
 const state = () => ({
   list: [],
-  user: null,
+  userProfile: null,
+  permissions: {
+    userPermissions: [],
+    rolePermissions: [],
+  },
+  userUpdateErrors: [],
 });
 
 const getters = {};
@@ -20,26 +27,38 @@ const actions = {
     const result = await users.getUsers(params);
     commit(LOAD_MORE_USERS, result);
   },
-  login: async ({ commit }, body = {}) => {
-    const user = await users.login(body);
-    commit(SET_USER, user);
-    commit('app/SET_MODAL', null, { root: true });
-  },
-  logout: async ({ commit }) => {
-    await users.logout();
-    commit(SET_USER, null);
-  },
-  register: async ({ commit }, body = {}) => {
-    const user = await users.register(body);
-    commit(SET_USER, user);
-    commit('app/SET_MODAL', null, { root: true });
+  getUser: async ({ commit }) => {
+    const user = await users.getUser();
+    commit('auth/SET_USER', user, { root: true });
   },
   updateUser: async ({ commit }, body = {}) => {
-    const user = await users.updateUser(body);
-    commit(SET_USER, user);
+    commit(SET_USER_UPDATE_ERRORS, []);
+    const response = await users.updateUser(body);
+    if (response.success) {
+      commit('auth/SET_USER', response.data, { root: true });
+    } else if (response.errors) {
+      commit(SET_USER_UPDATE_ERRORS, response.errors);
+    }
   },
-  restorePassword: async (_, body = {}) => {
-    await users.restorePassword(body);
+  getUserPermissions: async ({ commit }, userId) => {
+    const result = await users.getUserPermissions(userId);
+    commit(SET_PERMISSIONS, result);
+  },
+  updateRole: async (_, { userId, role } = {}) => {
+    await users.updateRole({ userId, role });
+  },
+  getUserProfile: async ({ commit }, { userId }) => {
+    const result = await users.getUserProfile({ userId });
+    commit(SET_USER_PROFILE, result);
+  },
+  clearUser: ({ commit }) => {
+    commit('auth/SET_USER', null, { root: true });
+  },
+  clearUserProfile: ({ commit }) => {
+    commit(SET_USER_PROFILE, null);
+  },
+  clearUsersList: ({ commit }) => {
+    commit(SET_USERS, []);
   },
 };
 
@@ -51,8 +70,14 @@ const mutations = {
   [LOAD_MORE_USERS](state, result) {
     state.list = state.list.concat(result.users);
   },
-  [SET_USER](state, user) {
-    state.user = user;
+  [SET_PERMISSIONS](state, result) {
+    state.permissions = result;
+  },
+  [SET_USER_PROFILE](state, result) {
+    state.userProfile = result;
+  },
+  [SET_USER_UPDATE_ERRORS](state, errors) {
+    state.userUpdateErrors = errors;
   },
 };
 

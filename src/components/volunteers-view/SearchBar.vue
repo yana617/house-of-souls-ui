@@ -1,60 +1,74 @@
 <template>
   <div class="search-bar">
-    <div class="sort-bar">
-      <span>Сортировать по:</span>
-      <div class="btn-group">
-        <SortButton
-          title="Имени"
-          name="name"
-          @change-sort="handleChangeAttribute"
-          :isSortParam="attribute === 'name'"
-        />
-        <SortButton
-          title="Фамилии"
-          name="surname"
-          @change-sort="handleChangeAttribute"
-          :isSortParam="attribute === 'surname'"
-        />
-        <SortButton
-          title="Телефону"
-          name="phone"
-          @change-sort="handleChangeAttribute"
-          :isSortParam="attribute === 'phone'"
-        />
+    <div class="search-bar__sort-bar">
+      <span class="search-bar__sort-bar__title">Сортировать по:</span>
+      <div class="search-bar__sort-bar__sub-container">
+        <div class="search-bar__btn-group">
+          <SortButton title="Имени" name="name" @change-sort="handleChangeSortBy" :isSortParam="sortBy === 'name'" />
+          <SortButton
+            title="Фамилии"
+            name="surname"
+            @change-sort="handleChangeSortBy"
+            :isSortParam="sortBy === 'surname'"
+          />
+          <SortButton
+            title="Телефону"
+            name="phone"
+            @change-sort="handleChangeSortBy"
+            :isSortParam="sortBy === 'phone'"
+          />
+        </div>
+        <div class="search-bar__order">
+          <ArrowDownOutlined v-if="order === 'asc'" class="search-bar__order__arrow" @click="order = 'desc'" />
+          <ArrowUpOutlined v-if="order === 'desc'" class="search-bar__order__arrow" @click="order = 'asc'" />
+        </div>
       </div>
     </div>
-    <div class="input-container">
-      <img class="search-icon" src="@/assets/search-icon.png" />
+    <div class="search-bar__input-container">
+      <img class="search-bar__search-icon" src="@/assets/search-icon.png" />
       <input v-model.lazy="searchText" />
     </div>
   </div>
 </template>
 
 <script>
+import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons-vue';
+
 import SortButton from './SortButton.vue';
 
 export default {
   name: 'SearchBar',
-  components: { SortButton },
+  components: { SortButton, ArrowUpOutlined, ArrowDownOutlined },
   data() {
     return {
-      attribute: 'name',
+      sortBy: 'name',
       searchText: '',
+      order: 'asc',
     };
   },
   watch: {
-    searchText(inputValue) {
-      this.$store.dispatch('users/getUsers', {
-        attribute: this.attribute,
-        search: inputValue,
-        offset: 0,
-      });
+    searchText() {
+      this.getUsers();
+    },
+    order() {
+      this.getUsers();
+      this.$emit('reset-skip');
     },
   },
   methods: {
-    handleChangeAttribute(attribute) {
-      this.attribute = attribute;
-      this.$store.dispatch('users/getUsers', { attribute, offset: 0 });
+    handleChangeSortBy(sortBy) {
+      this.sortBy = sortBy;
+      this.getUsers();
+      this.$emit('reset-skip');
+    },
+    getUsers() {
+      this.$store.dispatch('users/getUsers', {
+        sortBy: this.sortBy,
+        order: this.order,
+        skip: 0,
+        ...(this.searchText ? { search: this.searchText } : {}),
+        roles: 'VOLUNTEER,ADMIN',
+      });
     },
   },
 };
@@ -62,17 +76,6 @@ export default {
 
 <style scoped lang="scss">
 $green: #42b983;
-
-.sort-bar {
-  display: flex;
-  align-items: center;
-
-  span {
-    display: flex;
-    margin-right: 8px;
-    font-size: 16px;
-  }
-}
 
 .search-bar {
   display: flex;
@@ -87,37 +90,59 @@ $green: #42b983;
     border-radius: 4px;
     padding: 4px 8px;
   }
-}
 
-.search-icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
-}
+  &__sort-bar {
+    display: flex;
+    align-items: center;
 
-.input-container {
-  display: flex;
-  align-items: center;
-}
+    &__title {
+      display: flex;
+      margin-right: 8px;
+      font-size: 16px;
+    }
 
-@media (max-width: 768px) {
-  .search-bar {
+    &__sub-container {
+      display: flex;
+      align-items: center;
+    }
+  }
+  &__search-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+  }
+  &__input-container {
+    display: flex;
+    align-items: center;
+  }
+
+  &__order {
+    display: flex;
+    margin-left: 12px;
+
+    &__arrow {
+      font-size: 24px;
+      cursor: pointer;
+    }
+  }
+
+  @media (max-width: 768px) {
     flex-direction: column-reverse;
+
+    &__input-container {
+      margin-bottom: 8px;
+    }
   }
 
-  .input-container {
-    margin-bottom: 8px;
-  }
-}
+  @media (max-width: 500px) {
+    &__sort-bar {
+      flex-direction: column;
 
-@media (max-width: 500px) {
-  .sort-bar {
-    flex-direction: column;
-
-    span {
-      margin-bottom: 4px;
-      margin-right: 0px;
-      font-size: 14px;
+      &__title {
+        margin-bottom: 4px;
+        margin-right: 0px;
+        font-size: 14px;
+      }
     }
   }
 }

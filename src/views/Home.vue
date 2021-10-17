@@ -21,7 +21,8 @@ import HistoryActions from '@/components/home-view/HistoryActions.vue';
 import Footer from '@/components/common/Footer.vue';
 import Notice from '@/components/home-view/Notice.vue';
 import Schedule from '@/components/home-view/Schedule.vue';
-// import { getWeekDatesRange } from '@/utils/date';
+import { getToken } from '@/utils/sessionStorage';
+import { getWeekDatesRange } from '@/utils/date';
 
 export default {
   name: 'Home',
@@ -33,31 +34,39 @@ export default {
   },
   computed: mapState({
     notices: (state) => state.notices,
-    currentSchedule: (state) => state.claim.currentSchedule,
-    nextWeekSchedule: (state) => state.claim.nextWeekSchedule,
+    user: (state) => state.auth.user,
+    currentSchedule: (state) => state.claims.currentSchedule,
+    nextWeekSchedule: (state) => state.claims.nextWeekSchedule,
   }),
-  created() {
+  async created() {
+    if (!!getToken() && !this.user) {
+      this.$store.dispatch('users/getUser');
+    }
+    this.$store.dispatch('app/setLoading', true);
     this.$store.dispatch('notices/getNotices');
 
-    this.loadCurrentSchedule();
-    this.loadNextWeekSchedule();
+    await this.loadCurrentSchedule();
+    await this.loadNextWeekSchedule();
+
+    this.$store.dispatch('app/setLoading', false);
 
     this.$store.dispatch('additionalFields/getAdditionalFields');
     this.$store.dispatch('historyActions/getHistoryActions');
   },
   methods: {
-    loadCurrentSchedule() {
-      // TO-DO remove when backend will work
-      // this.$store.dispatch('claim/getSchedule', getWeekDatesRange());
-      const fromTimeStamp = new Date('2021-05-03').setHours(0, 0, 0);
-      const toTimeStamp = new Date('2021-05-09').setHours(23, 59, 59);
-      this.$store.dispatch('claim/getSchedule', { from: fromTimeStamp, to: toTimeStamp });
+    async loadCurrentSchedule() {
+      await this.$store.dispatch('claims/getSchedule', getWeekDatesRange());
     },
-    loadNextWeekSchedule() {
-      // this.$store.dispatch('claim/getNextWeekSchedule', getWeekDatesRange(+1));
-      const fromTimeStamp = new Date('2021-05-10').setHours(0, 0, 0);
-      const toTimeStamp = new Date('2021-05-16').setHours(23, 59, 59);
-      this.$store.dispatch('claim/getNextWeekSchedule', { from: fromTimeStamp, to: toTimeStamp });
+    async loadNextWeekSchedule() {
+      await this.$store.dispatch('claims/getNextWeekSchedule', getWeekDatesRange(+1));
+    },
+  },
+  watch: {
+    user() {
+      if (this.user) {
+        this.loadCurrentSchedule();
+        this.loadNextWeekSchedule();
+      }
     },
   },
 };

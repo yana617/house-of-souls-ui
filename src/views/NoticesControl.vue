@@ -2,7 +2,7 @@
   <div class="notices-control">
     <span class="notices-control__title">Информационные блоки</span>
     <Notice v-for="noticeId in notices.list" :key="noticeId" v-bind="notices.data[noticeId]" :noticeId="noticeId" />
-    <Button class="notices-control__add-btn" title="добавить" @click="openModal" />
+    <Button v-if="hasPermissionsToCreateNotice" class="notices-control__add-btn" title="добавить" @click="openModal" />
     <NewNoticeModal v-if="isModalOpen" />
   </div>
   <img class="notices-control__img" src="@/assets/cat_infos.jpeg" />
@@ -22,12 +22,20 @@ export default {
   computed: mapState({
     notices: (state) => state.notices,
     modal: (state) => state.app.modal,
+    loading: (state) => state.app.loading,
     isModalOpen() {
       return this.modal === MODAL.NOTICE;
     },
+    hasPermissionsToCreateNotice(state) {
+      const permissions = state.permissions.my;
+      return permissions && permissions.includes('CREATE_NOTICE');
+    },
   }),
   created() {
-    this.$store.dispatch('notices/getNotices');
+    this.$store.dispatch('app/setLoading', true);
+    this.$store.dispatch('notices/getNotices').finally(() => {
+      this.$store.dispatch('app/setLoading', false);
+    });
   },
   methods: {
     openModal() {

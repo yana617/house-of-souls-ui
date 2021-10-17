@@ -6,6 +6,7 @@
       "name": "Яна",
       "surname": "Сидорова",
       "phone": "375111111111",
+      "email": "test@example.com",
       "birthday": "1999-07-07T16:15:44.818Z",
       "isVerified": true
     },
@@ -14,6 +15,7 @@
       "createdAt": "2021-03-18T16:15:44.818Z",
       "name": "Евгений",
       "surname": "Куликов",
+      "email": "test2@example.com",
       "phone": "375297563006",
       "birthday": "1990-07-07T16:15:44.818Z",
       "isVerified": false
@@ -23,6 +25,7 @@
       "createdAt": "2021-04-01T16:15:44.818Z",
       "name": "Тамара",
       "surname": "Николаевна",
+      "email": "test3@example.com",
       "phone": "375293434343",
       "birthday": "1960-07-07T16:15:44.818Z",
       "isVerified": true
@@ -32,6 +35,7 @@
       "createdAt": "2021-04-22T16:15:44.818Z",
       "name": "Алеся",
       "surname": "Лиошенко",
+      "email": "test4@example.com",
       "phone": "375293434313",
       "birthday": "2001-07-07T16:15:44.818Z",
       "isVerified": true
@@ -41,6 +45,7 @@
       "createdAt": "2021-04-28T16:15:44.818Z",
       "name": "Гюнель",
       "surname": "Агаева",
+      "email": "test5@example.com",
       "phone": "375293474343",
       "birthday": "1993-07-07T16:15:44.818Z",
       "isVerified": true
@@ -50,6 +55,7 @@
       "createdAt": "2021-04-28T16:15:44.818Z",
       "name": "Лариса",
       "surname": "Качинская",
+      "email": "test6@example.com",
       "phone": "375293469343",
       "birthday": "1975-03-07T16:15:44.818Z",
       "isVerified": true

@@ -1,31 +1,30 @@
 import axios from 'axios';
 
-import { API_HOST } from '@/constants';
+const { VUE_APP_AUTH_SERVICE: AUTH_SERVICE_API } = process.env;
+const usersApi = `${AUTH_SERVICE_API}/users`;
 
 export default {
   getUsers: async (params) => {
     const limit = parseInt(process.env.VUE_APP_LIMIT, 10);
-    const { data: { data } } = await axios.get(`${API_HOST}/users`, { params: { limit, ...params } });
-    return data;
+    const { data: { data: users } } = await axios.get(usersApi, { params: { limit, ...params } });
+    return users;
   },
-  login: async (body) => {
-    const { data: { user } } = await axios.post(`${API_HOST}/login`, { user: body });
+  updateUser: async (body) => axios.put(`${usersApi}/${body.id}`, body)
+    .then((response) => response.data)
+    .catch((error) => error.response.data),
+  getUserPermissions: async (userId) => {
+    const { data: { data: permissions } } = await axios.get(`${usersApi}/${userId}/permissions`);
+    return permissions;
+  },
+  updateRole: async ({ userId, role }) => {
+    await axios.put(`${usersApi}/${userId}/role`, { role });
+  },
+  getUserProfile: async ({ userId }) => {
+    const { data: { data: user } } = await axios.get(`${usersApi}/${userId}`);
     return user;
   },
-  logout: async () => {
-    await axios.delete(`${API_HOST}/logout`);
-    return true;
-  },
-  register: async (body) => {
-    const { data: { user } } = await axios.post(`${API_HOST}/register`, { user: body });
+  getUser: async () => {
+    const { data: { data: user } } = await axios.get(`${usersApi}/me`);
     return user;
-  },
-  updateUser: async (body) => {
-    const { data: { user } } = await axios.patch(`${API_HOST}/users/${body._id}`, body);
-    return user;
-  },
-  restorePassword: async ({ email }) => {
-    const { data } = await axios.post(`${API_HOST}/restore-password`, { email });
-    return data;
   },
 };

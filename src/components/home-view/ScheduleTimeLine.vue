@@ -13,12 +13,13 @@
         class="schedule-time-line__claim"
         :claim="claim"
         @on-claim-click="openApply"
+        @on-update-click="openUpdateClaimModal(claim)"
       />
       <Button
-        v-if="user && !canUnsubscribe(day.claims)"
+        v-if="hasPermissionsToAssign && user && canSubscribe(day.claims)"
         class="schedule-time-line__claim-btn"
         title="Записаться"
-        @click="openAssignModal(day.date)"
+        @click="openAssignModal(day.date, day.claims)"
       />
       <Button
         v-if="canUnsubscribe(day.claims)"
@@ -26,10 +27,16 @@
         title="Отписаться"
         @click="unsubscribe(day.claims)"
       />
-      <span v-if="!user && !day.claims.length" class="schedule-time-line__no-assigned"> Никто не записан </span>
+      <span v-if="showNoClaims(day.claims.length)" class="schedule-time-line__no-assigned"> Никто не записан </span>
     </div>
     <ClaimInfoModal v-if="claimInfoModalOpen" v-bind="selectedClaim" @onclose="claimInfoModalOpen = false" />
-    <ScheduleAssignModal v-if="scheduleAssignModalOpen" :type="type" :date="assignDate" @onclose="onAssignModalClose" />
+    <ClaimModal
+      v-if="updateOrCreateModalOpen"
+      :claim="claimForCreateOrUpdate"
+      :mode="mode"
+      :canSubscribeYourself="canSubscribeYourself"
+      @onclose="onClaimModalClose"
+    />
   </div>
 </template>
 
@@ -39,7 +46,7 @@ import { mapState } from 'vuex';
 import Button from '../common/Button.vue';
 import ScheduleClaim from './ScheduleClaim.vue';
 import ClaimInfoModal from './ClaimInfoModal.vue';
-import ScheduleAssignModal from './ScheduleAssignModal.vue';
+import ClaimModal from './ClaimModal.vue';
 
 export default {
   name: 'ScheduleTimeLine',
@@ -47,7 +54,7 @@ export default {
     Button,
     ScheduleClaim,
     ClaimInfoModal,
-    ScheduleAssignModal,
+    ClaimModal,
   },
   props: {
     schedule: Array,
@@ -59,41 +66,74 @@ export default {
   data() {
     return {
       claimInfoModalOpen: false,
-      scheduleAssignModalOpen: false,
+      updateOrCreateModalOpen: false,
       selectedClaim: null,
       assignDate: null,
+      mode: null,
+      claim: {},
     };
   },
   computed: mapState({
-    user: (state) => state.users.user,
+    user: (state) => state.auth.user,
+    permissions: (state) => state.permissions.my,
+    hasPermissionToAssignUnregisteredUsers() {
+      return this.permissions.includes('CREATE_CLAIM_FOR_UNREGISTERED_USERS');
+    },
+    hasPermissionsToAssign() {
+      const permissions = ['CREATE_CLAIM', 'CREATE_CLAIM_FOR_UNREGISTERED_USERS'];
+      return permissions.some((p) => this.permissions.includes(p));
+    },
+    claimForCreateOrUpdate() {
+      if (this.mode === 'create') {
+        return { type: this.type, date: this.assignDate };
+      }
+      return this.claim;
+    },
   }),
   methods: {
     openApply(claim) {
       this.claimInfoModalOpen = true;
       this.selectedClaim = claim;
     },
-    openAssignModal(date) {
+    openAssignModal(date, claims) {
       this.assignDate = date;
-      this.scheduleAssignModalOpen = true;
+      this.mode = 'create';
+      this.canSubscribeYourself = true;
+      if (this.hasPermissionToAssignUnregisteredUsers) {
+        const hasOwnClaims = this.user && claims.some((claim) => (claim.user.id === this.user.id) && !claim.quest_id);
+        this.canSubscribeYourself = !hasOwnClaims;
+      }
+      this.updateOrCreateModalOpen = true;
+    },
+    openUpdateClaimModal(claim) {
+      this.claim = claim;
+      this.mode = 'update';
+      this.updateOrCreateModalOpen = true;
+    },
+    canSubscribe(claims) {
+      return this.hasPermissionToAssignUnregisteredUsers || !this.canUnsubscribe(claims);
     },
     canUnsubscribe(claims) {
-      return this.user && claims.some((claim) => claim.user._id === this.user._id);
+      return this.user && claims.some((claim) => claim.user.id === this.user.id);
     },
     unsubscribe(claims) {
-      const userClaim = claims.find((claim) => claim.user._id === this.user._id);
-      this.$store.dispatch('claim/deleteClaim', { _id: userClaim._id }).then(() => {
-        this.$store.dispatch('historyActions/createHistoryAction', {
-          action_type: 'DELETE_CLAIM',
-          claim_date: userClaim.date,
-          claim_type: userClaim.type,
-          user_from: this.user._id,
+      const userClaim = claims.find((claim) => claim.user.id === this.user.id);
+      this.$store.dispatch('app/setLoading', true);
+      this.$store
+        .dispatch('claims/deleteClaim', { _id: userClaim._id })
+        .then(() => {
+          this.$emit('refreshSchedule');
+        })
+        .finally(() => {
+          this.$store.dispatch('app/setLoading', false);
         });
-        this.$emit('refreshSchedule');
-      });
     },
-    onAssignModalClose() {
-      this.scheduleAssignModalOpen = false;
+    onClaimModalClose() {
+      this.updateOrCreateModalOpen = false;
       this.$emit('refreshSchedule');
+    },
+    showNoClaims(claimsCount) {
+      return !claimsCount && (!this.user || !this.hasPermissionsToAssign);
     },
   },
 };
@@ -123,7 +163,7 @@ $redBlack: rgb(50, 0, 0);
     display: flex;
     width: $dayWidth;
     font-size: 14px;
-    padding: 4px;
+    padding: 4px 8px;
     text-align: left;
     border-left: 1px solid $lightGrey;
     border-right: 1px solid $lightGrey;

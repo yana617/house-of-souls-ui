@@ -1,6 +1,3 @@
-import axios from 'axios';
-
-import { API_HOST } from '@/constants';
 import { MS_IN_DAY_AMOUNT } from '@/utils/date';
 
 const getDayMock = (date) => ({
@@ -10,11 +7,13 @@ const getDayMock = (date) => ({
 });
 
 const generateDatesRange = (fromTimeStamp, toTimeStamp) => {
-  const iterateDate = new Date(fromTimeStamp);
+  const fromTimeStampMiddle = new Date(fromTimeStamp);
+  const iterateDate = new Date(fromTimeStampMiddle);
   const range = [];
 
   do {
-    range.push(getDayMock(new Date(iterateDate)));
+    const middleOfDay = new Date(iterateDate).setHours(12);
+    range.push(getDayMock(new Date(middleOfDay)));
   } while (iterateDate.setHours(24) <= toTimeStamp);
 
   return range;
@@ -24,14 +23,14 @@ const mapClaims = (response) => {
   const { from, to, claims } = response;
 
   const fromTimeStamp = new Date(from).setHours(0, 0, 0, 0);
-  const toTimeStamp = new Date(to).setHours(0, 0, 0, 0);
+  const toTimeStamp = new Date(to).setHours(23, 59, 59, 0);
 
   return {
     from,
     to,
     claims: claims.reduce((result, claim) => {
       const currentDate = new Date(claim.date);
-      const currentTimeStamp = currentDate.setHours(0, 0, 0, 0);
+      const currentTimeStamp = currentDate.setHours(6, 0, 0, 0);
 
       if (currentTimeStamp > toTimeStamp || currentTimeStamp < fromTimeStamp) return result;
 
@@ -51,22 +50,8 @@ const mapClaims = (response) => {
     }, generateDatesRange(fromTimeStamp, toTimeStamp)),
   };
 };
+
 // result structure:
 // [{ date: String, morning: [claims], evening: [claims] }]
 
-export default {
-  getClaims: async ({ from, to }) => {
-    const { data: { claims } } = await axios.get(`${API_HOST}/claims?from=${from}&to=${to}`);
-    return mapClaims({ from, to, claims });
-  },
-  getClaimsByUserId: async ({ userId } = {}) => {
-    const { data: { claims, total } } = await axios.get(`${API_HOST}/claims/${userId}`);
-    return { claims, total };
-  },
-  createClaim: async (body) => {
-    await axios.post(`${API_HOST}/claims`, { claim: body });
-  },
-  deleteClaim: async ({ _id } = {}) => {
-    await axios.delete(`${API_HOST}/claims/${_id}`);
-  },
-};
+export default mapClaims;

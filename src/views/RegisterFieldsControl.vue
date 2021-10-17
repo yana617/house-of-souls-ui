@@ -7,6 +7,8 @@
         <span class="register-fields-control__field__description">обязательное поле</span>
         <span class="register-fields-control__field__title">Фамилия</span>
         <span class="register-fields-control__field__description">обязательное поле</span>
+        <span class="register-fields-control__field__title">Дата рождения</span>
+        <span class="register-fields-control__field__description">обязательное поле</span>
         <span class="register-fields-control__field__title">Телефон</span>
         <span class="register-fields-control__field__description">обязательное поле</span>
         <span class="register-fields-control__field__title">Пароль</span>
@@ -16,13 +18,15 @@
         <span class="register-fields-control__additional-fields__title">Дополнительные поля</span>
         <AdditionalField
           v-for="field in fields"
-          :key="field._id"
+          :key="field.id"
           v-bind="field"
         />
+        <span v-if="noAft" class="register-fields-control__no-aft">-</span>
       </div>
     </div>
     <div class="register-fields-control__additional-fields__add-btn__container">
       <Button
+        v-if="hasPermissions('CREATE_ADDITIONAL_FIELD_TEMPLATE')"
         class="register-fields-control__additional-fields__add-btn"
         @click="openModal()"
         title="Добавить новое поле"
@@ -45,6 +49,7 @@ export default {
   components: { Button, AdditionalField, NewAdditionalFieldModal },
   computed: mapState({
     additionalFields: (state) => state.additionalFields.current,
+    permissions: (state) => state.permissions.my,
     modal: (state) => state.app.modal,
     fields() {
       if (!this.additionalFields) return [];
@@ -53,13 +58,22 @@ export default {
     isModalOpen() {
       return this.modal === MODAL.ADDITIONAL_FIELD;
     },
+    noAft() {
+      return !this.additionalFields || this.additionalFields.length === 0;
+    },
   }),
   created() {
-    this.$store.dispatch('additionalFields/getAdditionalFields');
+    this.$store.dispatch('app/setLoading', true);
+    this.$store.dispatch('additionalFields/getAdditionalFields').finally(() => {
+      this.$store.dispatch('app/setLoading', false);
+    });
   },
   methods: {
     openModal() {
       this.$store.dispatch('app/setModal', MODAL.ADDITIONAL_FIELD);
+    },
+    hasPermissions(permission) {
+      return this.permissions.includes(permission);
     },
   },
 };
@@ -137,6 +151,11 @@ $darkGrey: #999;
       font-size: 12px;
       color: $darkGrey;
     }
+  }
+
+  &__no-aft {
+    display: block;
+    text-align: left;
   }
 
   @media (max-width: 768px) {

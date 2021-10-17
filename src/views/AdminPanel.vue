@@ -1,15 +1,19 @@
 <template>
   <div class="admin">
     <div class="admin__nav-panel">
-      <router-link v-for="link in links" :key="link.slug" class="admin__nav-panel__link" :to="link.url">
-        {{ link.label }}
-      </router-link>
+      <div v-for="link in links" :key="link.slug">
+        <router-link v-if="hasPermissions(link.permissions)" class="admin__nav-panel__link" :to="link.url">
+          {{ link.label }}
+        </router-link>
+      </div>
     </div>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import { ADMIN_LINKS } from '@/router/constants';
 
 export default {
@@ -19,9 +23,15 @@ export default {
       links: ADMIN_LINKS,
     };
   },
-  computed: {
+  computed: mapState({
+    permissions: (state) => state.permissions.my,
     path() {
       return this.$route.path;
+    },
+  }),
+  methods: {
+    hasPermissions(permissions) {
+      return permissions.some((permission) => this.permissions.includes(permission));
     },
   },
 };

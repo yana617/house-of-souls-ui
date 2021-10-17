@@ -5,14 +5,20 @@
       <ArrowBottomSvg />
     </div>
     <div :class="['dropdown__options', { open }]">
-      <div class="dropdown__option" v-for="option in items" :key="option.slug">
-        <a :class="{ selected: option.slug === selected }" @click="handleRouteClick(option.url)">{{ option.label }}</a>
+      <div v-for="option in items" :key="option.slug">
+        <div v-if="!option.permissions || hasPermissions(option.permissions)" class="dropdown__option">
+          <a :class="{ selected: option.slug === selected }" @click="handleRouteClick(option.url)">
+            {{ option.label }}
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import ArrowBottomSvg from './ArrowBottomSvg.vue';
 
 export default {
@@ -27,7 +33,7 @@ export default {
       open: false,
     };
   },
-  computed: {
+  computed: mapState({
     title() {
       if (!this.items) return null;
       const selected = this.items.find((item) => item.slug === this.selected);
@@ -36,7 +42,8 @@ export default {
     isLongText() {
       return this.title.length >= 10;
     },
-  },
+    permissions: (state) => state.permissions.my,
+  }),
   methods: {
     toggleOpen() {
       this.open = !this.open;
@@ -44,6 +51,9 @@ export default {
     handleRouteClick(url) {
       this.open = false;
       this.$router.push(url);
+    },
+    hasPermissions(permissionsToCheck) {
+      return permissionsToCheck.every((p) => this.permissions.includes(p));
     },
   },
 };
