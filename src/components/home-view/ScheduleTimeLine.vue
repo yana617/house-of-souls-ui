@@ -98,6 +98,7 @@ export default {
     openAssignModal(date, claims) {
       this.assignDate = date;
       this.mode = 'create';
+      this.canSubscribeYourself = true;
       if (this.hasPermissionToAssignUnregisteredUsers) {
         const hasOwnClaims = this.user && claims.some((claim) => (claim.user.id === this.user.id) && !claim.quest_id);
         this.canSubscribeYourself = !hasOwnClaims;
