@@ -12,17 +12,17 @@
           <span v-if="ha.user_from" class="history-actions__user_from">
             <b>&nbsp;&nbsp;{{ ha.user_from.name }} {{ ha.user_from.surname }}</b>
           </span>
-          <span v-if="ha.action_type === 'NEW_USER'">&nbsp;зарегистрировалась на сайте</span>
-          <span v-if="ha.action_type === 'CREATE_CLAIM'">&nbsp;записалась в график на </span>
-          <span v-if="ha.action_type === 'DELETE_CLAIM'">&nbsp;удалила запись в графике на </span>
+          <span v-if="ha.action_type === 'NEW_USER'">&nbsp;зарегистрировался(лась) на сайте</span>
+          <span v-if="ha.action_type === 'CREATE_CLAIM'">&nbsp;записался(лась) в график на </span>
+          <span v-if="ha.action_type === 'DELETE_CLAIM'">&nbsp;удалил(а) запись в графике на </span>
           <span v-if="ha.action_type === 'ADMIN_CREATE_GUEST_CLAIM'">
-            записала в график <b>{{ ha.guest_to.name }} {{ ha.guest_to.surname }}</b> на
+            записал(а) в график <b>{{ ha.guest_to.name }} {{ ha.guest_to.surname }}</b> на
           </span>
           <span v-if="ha.action_type === 'ADMIN_DELETE_GUEST_CLAIM'">
-            удалила запись в графике c <b>{{ ha.guest_to.name }} {{ ha.guest_to.surname }}</b> в
+            удалил(а) запись в графике c <b>{{ ha.guest_to.name }} {{ ha.guest_to.surname }}</b> в
           </span>
           <span v-if="ha.action_type === 'EDIT_ROLE'">
-            поменяла роль
+            поменял(а) роль
             <b>{{ ha.user_to.name }} {{ ha.user_to.surname }}</b>
             на <i>{{ roleTranslate(ha.new_role) }}</i
             >&nbsp;

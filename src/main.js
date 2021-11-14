@@ -32,9 +32,10 @@ const breakpoints = {
 const VueMatchMediaPlugin = createVueMatchMediaPlugin({ breakpoints });
 interceptorsSetup();
 
-const socket = io('http://localhost:1082', {
+const { VUE_APP_HOS_SERVICE } = process.env;
+const socket = io(VUE_APP_HOS_SERVICE, {
   cors: {
-    origin: 'http://localhost:1082',
+    origin: VUE_APP_HOS_SERVICE,
     methods: ['GET', 'POST'],
   },
 });
