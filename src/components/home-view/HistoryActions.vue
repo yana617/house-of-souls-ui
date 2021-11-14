@@ -10,47 +10,75 @@
         <span class="history-actions__created-at">{{ parseDateAndTime(ha.createdAt) }}</span>
         <span v-if="!collapsed">
           <span v-if="ha.user_from" class="history-actions__user_from">
-            <!-- <b>{{ ha.user_from }}</b> -->
-            <b>&nbsp;&nbsp;Яна Сидорова</b>
+            <b>&nbsp;&nbsp;{{ ha.user_from.name }} {{ ha.user_from.surname }}</b>
           </span>
-          <span v-if="ha.action_type === 'NEW_USER'"> зарегистрировалась на сайте</span>
-          <span v-if="ha.action_type === 'CREATE_CLAIM'"> записалась в график на </span>
-          <span v-if="ha.action_type === 'DELETE_CLAIM'"> удалила запись в графике на </span>
+          <span v-if="ha.action_type === 'NEW_USER'">&nbsp;зарегистрировалась на сайте</span>
+          <span v-if="ha.action_type === 'CREATE_CLAIM'">&nbsp;записалась в график на </span>
+          <span v-if="ha.action_type === 'DELETE_CLAIM'">&nbsp;удалила запись в графике на </span>
+          <span v-if="ha.action_type === 'ADMIN_CREATE_GUEST_CLAIM'">
+            записала в график <b>{{ ha.guest_to.name }} {{ ha.guest_to.surname }}</b> на
+          </span>
+          <span v-if="ha.action_type === 'ADMIN_DELETE_GUEST_CLAIM'">
+            удалила запись в графике c <b>{{ ha.guest_to.name }} {{ ha.guest_to.surname }}</b> в
+          </span>
+          <span v-if="ha.action_type === 'EDIT_ROLE'">
+            поменяла роль
+            <b>{{ ha.user_to.name }} {{ ha.user_to.surname }}</b>
+            на <i>{{ roleTranslate(ha.new_role) }}</i
+            >&nbsp;
+          </span>
           <span v-if="ha.claim_date && ha.claim_type">
-            <b> {{ dayOfWeek(ha.claim_date) }} {{ typeOfTime[ha.claim_type].toLowerCase() }}</b>
+            <b>{{ dateInfo(ha.claim_date, ha.claim_type) }}</b>
           </span>
         </span>
       </div>
+      <Button
+        v-if="!collapsed && total > historyActions.length"
+        :loading="loading"
+        @click="loadMore()"
+        class="history-actions__load-more-btn"
+        title="Загрузить ещё"
+      />
     </div>
     <div class="history-actions__colapse-icon" @click="collapsed = !collapsed">
-      <ArrowLeftOutlined v-if="collapsed" style="font-size: 36px; cursor: pointer" />
-      <ArrowRightOutlined v-if="!collapsed" style="font-size: 36px; cursor: pointer" />
+      <Arrow :toLeft="collapsed" />
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons-vue';
 
 import { typeOfTime, parseDateAndTime } from '@/utils/date';
+import Arrow from './Arrow.vue';
+import Button from '../common/Button.vue';
+
+const limit = parseInt(process.env.VUE_APP_LIMIT, 10);
 
 export default {
   name: 'HistoryAction',
-  components: { ArrowLeftOutlined, ArrowRightOutlined },
+  components: { Arrow, Button },
   data() {
     return {
       collapsed: true,
       parseDateAndTime,
       typeOfTime,
+      skip: limit,
+      loading: false,
     };
   },
   computed: mapState({
-    historyActions: (state) => state.historyActions.list,
+    historyActions: (state) => state.historyActions.list || [],
+    allRoles: (state) => state.roles.list || [],
+    total: (state) => state.historyActions.total,
   }),
+  created() {
+    this.$store.dispatch('roles/getRoles');
+  },
   mounted() {
     this.$socket.on('newAction', (action) => {
       this.$store.dispatch('historyActions/addHistoryAction', action);
+      this.skip += 1;
     });
   },
   methods: {
@@ -60,13 +88,38 @@ export default {
       };
       return new Date(date).toLocaleDateString('ru-RU', options);
     },
-    isGood: (type) => ['CREATE_CLAIM'].includes(type),
-    isBad: (type) => ['DELETE_CLAIM'].includes(type),
+    isGood: (type) => ['CREATE_CLAIM', 'ADMIN_CREATE_GUEST_CLAIM'].includes(type),
+    isBad: (type) => ['DELETE_CLAIM', 'ADMIN_DELETE_GUEST_CLAIM'].includes(type),
+    roleTranslate(roleName) {
+      return this.allRoles.find((role) => role.name === roleName)?.translate;
+    },
+    dateInfo(date, type) {
+      const formattedDate = new Date(date).toLocaleDateString('ru-RU', {
+        month: 'numeric',
+        day: 'numeric',
+      });
+      return `${this.dayOfWeek(date)} ${formattedDate} (${typeOfTime[type].toLowerCase()})`;
+    },
+    loadMore() {
+      this.loading = true;
+      this.$store
+        .dispatch('historyActions/loadMoreHistoryActions', {
+          skip: this.skip,
+        })
+        .then(() => {
+          this.skip += limit;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
+$green: #42b983;
+
 .history-actions {
   max-height: calc(100vh - 50px);
   min-height: calc(100vh - 50px);
@@ -86,13 +139,13 @@ export default {
   &__sub-container {
     display: flex;
     flex-direction: column;
-    max-height: 85vh;
+    max-height: calc(100vh - 50px);
     overflow-y: auto;
   }
 
   &__colapse-icon {
     position: absolute;
-    right: 16px;
+    right: 8px;
     bottom: 8px;
   }
 
@@ -113,6 +166,22 @@ export default {
 
   &__created-at {
     font-size: 12px;
+  }
+
+  &__load-more-btn {
+    color: $green;
+    border-color: $green;
+    margin: 8px 16px;
+    &:hover {
+      background-color: $green;
+      color: white;
+    }
+  }
+
+  @media (max-width: 450px) {
+    &.collapsed {
+      width: 0px;
+    }
   }
 }
 </style>

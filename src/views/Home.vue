@@ -7,7 +7,7 @@
         <Schedule v-bind="nextWeekSchedule" @refreshSchedule="loadNextWeekSchedule" />
       </div>
     </a-layout-content>
-    <HistoryActions />
+    <HistoryActions v-if="hasPermissions('CREATE_CLAIM')" />
   </a-layout>
   <a-layout-footer>
     <Footer />
@@ -37,6 +37,7 @@ export default {
     user: (state) => state.auth.user,
     currentSchedule: (state) => state.claims.currentSchedule,
     nextWeekSchedule: (state) => state.claims.nextWeekSchedule,
+    permissions: (state) => state.permissions.my,
   }),
   async created() {
     if (!!getToken() && !this.user) {
@@ -59,6 +60,9 @@ export default {
     },
     async loadNextWeekSchedule() {
       await this.$store.dispatch('claims/getNextWeekSchedule', getWeekDatesRange(+1));
+    },
+    hasPermissions(permission) {
+      return this.permissions.includes(permission);
     },
   },
   watch: {
