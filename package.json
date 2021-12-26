@@ -19,6 +19,7 @@
     "core-js": "^3.16.2",
     "inputmask": "^5.0.6",
     "moment": "^2.29.1",
+    "socket.io-client": "^4.2.0",
     "vue": "^3.2.20",
     "vue-router": "^4.0.11",
     "vuex": "^4.0.2"

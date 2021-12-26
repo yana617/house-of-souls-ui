@@ -33,8 +33,12 @@ const interceptorsSetup = () => {
     checkResponseErrors(response.data);
     return response;
   }, (err) => {
-    checkResponseErrors(err.response.data);
     checkResponseStatus(err.response.status);
+    if (err.response.status === UNAUTHORIZED_STATUS) {
+      return Promise.reject(err);
+    }
+
+    checkResponseErrors(err.response.data);
     return Promise.reject(err);
   });
 };

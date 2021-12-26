@@ -1,15 +1,23 @@
 <template>
-  <div class="home">
-    <Notice v-for="noticeId in notices.list" :key="noticeId" :noticeId="noticeId" v-bind="notices.data[noticeId]" />
-    <Schedule v-bind="currentSchedule" @refreshSchedule="loadCurrentSchedule" />
-    <Schedule v-bind="nextWeekSchedule" @refreshSchedule="loadNextWeekSchedule" />
-  </div>
-  <Footer />
+  <a-layout style="min-height: 100vh">
+    <a-layout-content style="background-color: white">
+      <div class="home">
+        <Notice v-for="noticeId in notices.list" :key="noticeId" :noticeId="noticeId" v-bind="notices.data[noticeId]" />
+        <Schedule v-bind="currentSchedule" @refreshSchedule="loadCurrentSchedule" />
+        <Schedule v-bind="nextWeekSchedule" @refreshSchedule="loadNextWeekSchedule" />
+      </div>
+    </a-layout-content>
+    <HistoryActions v-if="hasPermissions('CREATE_CLAIM')" />
+  </a-layout>
+  <a-layout-footer>
+    <Footer />
+  </a-layout-footer>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 
+import HistoryActions from '@/components/home-view/HistoryActions.vue';
 import Footer from '@/components/common/Footer.vue';
 import Notice from '@/components/home-view/Notice.vue';
 import Schedule from '@/components/home-view/Schedule.vue';
@@ -22,12 +30,14 @@ export default {
     Footer,
     Notice,
     Schedule,
+    HistoryActions,
   },
   computed: mapState({
     notices: (state) => state.notices,
     user: (state) => state.auth.user,
     currentSchedule: (state) => state.claims.currentSchedule,
     nextWeekSchedule: (state) => state.claims.nextWeekSchedule,
+    permissions: (state) => state.permissions.my,
   }),
   async created() {
     if (!!getToken() && !this.user) {
@@ -42,6 +52,7 @@ export default {
     this.$store.dispatch('app/setLoading', false);
 
     this.$store.dispatch('additionalFields/getAdditionalFields');
+    this.$store.dispatch('historyActions/getHistoryActions');
   },
   methods: {
     async loadCurrentSchedule() {
@@ -49,6 +60,9 @@ export default {
     },
     async loadNextWeekSchedule() {
       await this.$store.dispatch('claims/getNextWeekSchedule', getWeekDatesRange(+1));
+    },
+    hasPermissions(permission) {
+      return this.permissions.includes(permission);
     },
   },
   watch: {
