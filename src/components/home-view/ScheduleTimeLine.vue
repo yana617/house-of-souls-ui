@@ -143,7 +143,6 @@ export default {
 $dayWidth: 160px;
 $green: #42b983;
 $lightGrey: #ccc;
-$redBlack: rgb(50, 0, 0);
 
 .schedule-time-line {
   display: flex;
@@ -181,7 +180,7 @@ $redBlack: rgb(50, 0, 0);
   &__claim-btn,
   &__unsubscribe-btn {
     width: $dayWidth;
-    margin-top: 4px;
+    margin-top: 6px;
   }
 
   &__claim-btn {
@@ -205,7 +204,7 @@ $redBlack: rgb(50, 0, 0);
   &__no-assigned {
     font-size: 14px;
     margin-top: 8px;
-    color: $redBlack;
+    color: black;
     width: $dayWidth;
   }
 }

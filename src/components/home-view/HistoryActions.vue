@@ -9,9 +9,9 @@
       >
         <span class="history-actions__created-at">{{ parseDateAndTime(ha.createdAt) }}</span>
         <span v-if="!collapsed">
-          <span v-if="ha.user_from" class="history-actions__user_from">
-            <b>&nbsp;&nbsp;{{ ha.user_from.name }} {{ ha.user_from.surname }}</b>
-          </span>
+          <b style="display: inline-block" v-if="ha.user_from">
+            &nbsp;&nbsp;{{ ha.user_from.name }} {{ ha.user_from.surname }}
+          </b>
           <span v-if="ha.action_type === 'NEW_USER'">&nbsp;зарегистрировался(лась) на сайте</span>
           <span v-if="ha.action_type === 'CREATE_CLAIM'">&nbsp;записался(лась) в график на </span>
           <span v-if="ha.action_type === 'DELETE_CLAIM'">&nbsp;удалил(а) запись в графике на </span>
@@ -73,6 +73,7 @@ export default {
     total: (state) => state.historyActions.total,
   }),
   created() {
+    this.$store.dispatch('historyActions/getHistoryActions');
     this.$store.dispatch('roles/getRoles');
   },
   mounted() {

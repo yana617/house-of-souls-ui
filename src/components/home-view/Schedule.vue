@@ -69,7 +69,7 @@ export default {
 
 <style scoped lang="scss">
 $dayWidth: 160px;
-$lightGrey: #ccc;
+$lightGrey: rgb(230, 230, 230);
 $lightBlue: #d0e1f9;
 
 .schedule {
@@ -114,15 +114,18 @@ $lightBlue: #d0e1f9;
     display: flex;
     min-width: $dayWidth;
     margin: 0 4px;
-    border-bottom: 1px solid $lightGrey;
     border-left: 1px solid $lightGrey;
     border-right: 1px solid $lightGrey;
+    border-bottom: 1px solid $lightGrey;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
     padding: 8px;
     width: $dayWidth;
-    background-color: rgba(247, 201, 101, 0.1);
+    background-color: white;
     text-align: center;
     font-size: 16px;
     flex-wrap: nowrap;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0 ,0, 0.05);
 
     &__sub-container {
       margin: auto;

@@ -3,7 +3,7 @@
     <div class="login__wrapper">
       <input id="email" v-model="email" type="text" name="email" placeholder="E-mail" />
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
-      <Button @click="submitLogin" class="login__submit-btn" title="Войти" />
+      <Button :disabled="loading" @click="submitLogin" class="login__submit-btn" title="Войти" />
       <router-link @click="closeModal" class="login__forgot-password-label" to="/forgot-password">
         забыли пароль?
       </router-link>
@@ -21,6 +21,7 @@ export default {
     return {
       email: null,
       password: null,
+      loading: false,
     };
   },
   methods: {
@@ -29,10 +30,16 @@ export default {
         email: this.email,
         password: this.password,
       };
-      this.$store.dispatch('auth/login', body).then(() => {
-        this.$store.dispatch('permissions/getMyPermissions');
-        this.$store.dispatch('notices/getNotices');
-      });
+      this.loading = true;
+      this.$store
+        .dispatch('auth/login', body)
+        .then(() => {
+          this.$store.dispatch('permissions/getMyPermissions');
+          this.$store.dispatch('notices/getNotices');
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     closeModal() {
       this.$store.dispatch('app/setModal', null);
@@ -53,6 +60,7 @@ $blue-link: rgba(0, 180, 255, 0.7);
   padding: 16px;
   width: 100%;
   height: 100%;
+  flex: 1;
 
   input {
     width: 300px;
