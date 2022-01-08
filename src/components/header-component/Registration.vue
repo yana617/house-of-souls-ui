@@ -13,7 +13,7 @@
       <span class="registration__error">{{ getError('birthday') }}</span>
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
       <span class="registration__error">{{ getError('password') }}</span>
-      <div v-if="loading && !additionalFields" class="registration__loader-wrapper">
+      <div v-if="aftLoading && !additionalFields" class="registration__loader-wrapper">
         <Loader className="registration__loader" />
       </div>
       <Checkbox
@@ -23,7 +23,12 @@
         :value="selected[field.id]"
         @input="(value) => (selected[field.id] = value)"
       />
-      <Button @click="submitRegistration" class="registration__submit-btn" title="Зарегистрироваться" />
+      <Button
+        :disabled="loading"
+        @click="submitRegistration"
+        class="registration__submit-btn"
+        title="Зарегистрироваться"
+      />
     </div>
   </div>
 </template>
@@ -59,12 +64,13 @@ export default {
       password: null,
       selected: {},
       birthday: ref(),
+      aftLoading: false,
       loading: false,
       findError,
     };
   },
   created() {
-    this.loading = true;
+    this.aftLoading = true;
     this.$store
       .dispatch('additionalFields/getAdditionalFields')
       .then(() => {
@@ -73,7 +79,7 @@ export default {
         });
       })
       .finally(() => {
-        this.loading = false;
+        this.aftLoading = false;
       });
   },
   unmounted() {
@@ -93,7 +99,9 @@ export default {
           value: this.selected[additionalFieldId],
         })),
       };
+      this.loading = true;
       await this.$store.dispatch('auth/register', body);
+      this.loading = false;
       if (this.errors.length === 0) {
         this.$store.dispatch('users/getUser');
         this.$store.dispatch('permissions/getMyPermissions');
@@ -121,6 +129,7 @@ $lightGrey: #ccc;
   padding: 16px;
   width: 100%;
   height: 100%;
+  flex: 1;
 
   input {
     width: 300px;

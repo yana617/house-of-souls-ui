@@ -52,7 +52,6 @@ export default {
     this.$store.dispatch('app/setLoading', false);
 
     this.$store.dispatch('additionalFields/getAdditionalFields');
-    this.$store.dispatch('historyActions/getHistoryActions');
   },
   methods: {
     async loadCurrentSchedule() {
