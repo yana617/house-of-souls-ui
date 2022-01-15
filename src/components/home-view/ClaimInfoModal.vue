@@ -38,6 +38,7 @@
         {{ comment }}
       </div>
       <span v-if="!comment" class="claim-info-modal__info-description">-</span>
+      <span v-if="questionable" class="claim-info-modal__info-title red">Под вопросом!</span>
     </div>
   </div>
 </template>
@@ -85,6 +86,7 @@ export default {
     guest_id: {
       type: [String, null],
     },
+    questionable: Boolean,
   },
 };
 </script>
@@ -130,6 +132,10 @@ $lightGrey: #ccc;
     font-size: 14px;
     font-weight: bold;
     margin: 8px 0;
+
+    &.red {
+      color: red;
+    }
   }
 
   &__info-description {

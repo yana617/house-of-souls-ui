@@ -1,16 +1,14 @@
 <template>
-  <div @click="$emit('onclose')" class="modal__wrapper">
-    <ClaimForm
-      :claim="claim"
-      :submitButton="submitButton"
-      :title="title"
-      :errors="isUpdateMode ? updateErrors : createErrors"
-      :isUpdateMode="isUpdateMode"
-      :loading="loading"
-      @on-submit="submit"
-      @onclose="this.$emit('onclose')"
-    />
-  </div>
+  <ClaimForm
+    :claim="claim"
+    :submitButton="submitButton"
+    :title="title"
+    :errors="isUpdateMode ? updateErrors : createErrors"
+    :isUpdateMode="isUpdateMode"
+    :loading="loading"
+    @on-submit="submit"
+    @onclose="this.$emit('onclose')"
+  />
 </template>
 
 <script>
@@ -71,7 +69,7 @@ export default {
         .dispatch(`claims/${action[this.mode]}`, body)
         .then(() => {
           if ((this.isUpdateMode && this.updateErrors.length === 0)
-            || (!this.isUpdateMode && this.createErrors.length === 0)) {
+              || (!this.isUpdateMode && this.createErrors.length === 0)) {
             this.$emit('onclose');
           }
         })

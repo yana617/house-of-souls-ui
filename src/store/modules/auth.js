@@ -50,7 +50,7 @@ const actions = {
   resetPassword: async ({ commit }, body = {}) => {
     const response = await auth.resetPassword(body);
     if (response.success) {
-      notifications.success('Проверяйте почту :)', 'Сообщение на почту успешно отправлено!');
+      notifications.success('Пароль успешно обновлен!');
       return;
     }
     if (response.errors) {

@@ -44,6 +44,7 @@ const parseDate = (date) => {
 
 const getWeekDatesRange = (diffFromCurrent = 0) => {
   const target = new Date(Date.now() + WEEK_LENGTH * diffFromCurrent * MS_IN_DAY_AMOUNT);
+  target.setHours(6);
   const from = target.setDate(target.getDate() - (target.getDay() || WEEK_LENGTH) + 1);
   const to = target.setDate(target.getDate() + WEEK_LENGTH - 1);
 

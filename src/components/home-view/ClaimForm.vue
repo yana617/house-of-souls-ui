@@ -1,6 +1,5 @@
 <template>
   <div class="claim-form" @click.stop>
-    <img @click="$emit('onclose')" class="claim-form__close-icon" src="@/assets/close.png" />
     <span class="claim-form__header">{{ title }}</span>
     <span class="claim-form__error">{{ getError('guest.name') }}</span>
     <span class="claim-form__error">{{ getError('guest.surname') }}</span>
@@ -110,28 +109,10 @@ $green: #42b983;
 $greyBlue: #2c3e50;
 
 .claim-form {
-  position: absolute;
   display: flex;
   flex-direction: column;
   background-color: white;
-  border-radius: 4px;
-  top: 50%;
-  transform: translateY(-50%);
-  left: calc(50% - 200px);
-  padding: 8px 16px 16px 16px;
   text-align: left;
-  max-width: 400px;
-  min-width: 400px;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
-
-  &__close-icon {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    right: 12px;
-    top: 12px;
-    cursor: pointer;
-  }
 
   &__header {
     font-size: 18px;

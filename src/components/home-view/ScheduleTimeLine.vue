@@ -30,13 +30,20 @@
       <span v-if="showNoClaims(day.claims.length)" class="schedule-time-line__no-assigned"> Никто не записан </span>
     </div>
     <ClaimInfoModal v-if="claimInfoModalOpen" v-bind="selectedClaim" @onclose="claimInfoModalOpen = false" />
-    <ClaimModal
-      v-if="updateOrCreateModalOpen"
-      :claim="claimForCreateOrUpdate"
-      :mode="mode"
-      :canSubscribeYourself="canSubscribeYourself"
-      @onclose="onClaimModalClose"
-    />
+    <a-modal
+      v-model:visible="updateOrCreateModalOpen"
+      :footer="null"
+      centered
+      :afterClose="onClaimModalClose"
+      destroyOnClose
+    >
+      <ClaimModal
+        :claim="claimForCreateOrUpdate"
+        :mode="mode"
+        :canSubscribeYourself="canSubscribeYourself"
+        @onclose="onClaimModalClose"
+      />
+    </a-modal>
   </div>
 </template>
 
@@ -71,6 +78,7 @@ export default {
       assignDate: null,
       mode: null,
       claim: {},
+      canSubscribeYourself: true,
     };
   },
   computed: mapState({
@@ -100,7 +108,7 @@ export default {
       this.mode = 'create';
       this.canSubscribeYourself = true;
       if (this.hasPermissionToAssignUnregisteredUsers) {
-        const hasOwnClaims = this.user && claims.some((claim) => (claim.user.id === this.user.id) && !claim.quest_id);
+        const hasOwnClaims = this.user && claims.some((claim) => claim.user.id === this.user.id && !claim.guest_id);
         this.canSubscribeYourself = !hasOwnClaims;
       }
       this.updateOrCreateModalOpen = true;
