@@ -12,9 +12,15 @@
           <b style="display: inline-block" v-if="ha.user_from">
             &nbsp;&nbsp;{{ ha.user_from.name }} {{ ha.user_from.surname }}
           </b>
-          <span v-if="ha.action_type === 'NEW_USER'">&nbsp;зарегистрировался(лась) на сайте</span>
-          <span v-if="ha.action_type === 'CREATE_CLAIM'">&nbsp;записался(лась) в график на </span>
-          <span v-if="ha.action_type === 'DELETE_CLAIM'">&nbsp;удалил(а) запись в графике на </span>
+          <span v-if="ha.action_type === 'NEW_USER'">
+            зарегистрировался(лась) на сайте
+          </span>
+          <span v-if="ha.action_type === 'CREATE_CLAIM'">
+            записался(лась) в график на
+          </span>
+          <span v-if="ha.action_type === 'DELETE_CLAIM'">
+            удалил(а) запись в графике на
+          </span>
           <span v-if="ha.action_type === 'ADMIN_CREATE_GUEST_CLAIM' && ha.guest_to">
             записал(а) в график <b>{{ ha.guest_to.name }} {{ ha.guest_to.surname }}</b> на
           </span>
@@ -71,16 +77,11 @@ export default {
     historyActions: (state) => state.historyActions.list || [],
     allRoles: (state) => state.roles.list || [],
     total: (state) => state.historyActions.total,
+    socketEventTriggered: (state) => state.historyActions.onNewHistoryActionEventTriggered,
   }),
   created() {
     this.$store.dispatch('historyActions/getHistoryActions');
     this.$store.dispatch('roles/getRoles');
-  },
-  mounted() {
-    this.$socket.on('newAction', (action) => {
-      this.$store.dispatch('historyActions/addHistoryAction', action);
-      this.skip += 1;
-    });
   },
   methods: {
     dayOfWeek(date) {
@@ -113,6 +114,14 @@ export default {
         .finally(() => {
           this.loading = false;
         });
+    },
+  },
+  watch: {
+    socketEventTriggered(socketEventTriggered) {
+      if (socketEventTriggered) {
+        this.skip += 1;
+        this.$store.dispatch('historyActions/onNewHistoryActionEventTriggerHandled');
+      }
     },
   },
 };

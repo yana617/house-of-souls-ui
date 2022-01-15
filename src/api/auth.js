@@ -25,7 +25,9 @@ export default {
     })
     .catch((error) => error.response.data),
   forgotPassword: async ({ email }) => axios.post(`${authApi}/forgot-password`, { email })
+    .then((response) => response.data)
     .catch((error) => error.response.data),
   resetPassword: async (body) => axios.post(`${authApi}/reset-password`, body)
+    .then((response) => response.data)
     .catch((error) => error.response.data),
 };

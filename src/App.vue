@@ -24,6 +24,9 @@ export default {
   }),
   created() {
     this.$store.dispatch('permissions/getMyPermissions');
+    this.$socket.on('newAction', (action) => {
+      this.$store.dispatch('historyActions/addHistoryAction', action);
+    });
   },
 };
 </script>

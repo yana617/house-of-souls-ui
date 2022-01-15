@@ -32,7 +32,12 @@ export default {
   }),
   methods: {
     forgotPassword() {
-      this.$store.dispatch('auth/forgotPassword', { email: this.email });
+      this.$store.dispatch('app/setLoading', true);
+      this.$store
+        .dispatch('auth/forgotPassword', { email: this.email })
+        .finally(() => {
+          this.$store.dispatch('app/setLoading', false);
+        });
       return false;
     },
     getError(field) {

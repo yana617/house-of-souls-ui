@@ -39,7 +39,12 @@ export default {
         return false;
       }
       const { token, userId } = this.$route.query;
-      this.$store.dispatch('auth/resetPassword', { password: this.password, token, userId });
+      this.$store.dispatch('app/setLoading', true);
+      this.$store
+        .dispatch('auth/resetPassword', { password: this.password, token, userId })
+        .finally(() => {
+          this.$store.dispatch('app/setLoading', false);
+        });
       return false;
     },
     getError(field) {

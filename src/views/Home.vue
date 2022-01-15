@@ -1,6 +1,9 @@
 <template>
   <a-layout style="min-height: 100vh">
-    <a-layout-content style="background-color: white">
+    <a-layout-content
+      class="home__layout-content"
+      :class="{ 'home__layout-content__padding': hasPermissions('CREATE_CLAIM') }"
+    >
       <div class="home">
         <Notice v-for="noticeId in notices.list" :key="noticeId" :noticeId="noticeId" v-bind="notices.data[noticeId]" />
         <Schedule v-bind="currentSchedule" @refreshSchedule="loadCurrentSchedule" />
@@ -85,8 +88,25 @@ $footerHeightMobile: 90px;
   flex-direction: column;
   min-height: calc(100vh - #{$headerHeight + $footerHeight});
   padding-bottom: 16px;
+
+  &__layout-content {
+    background-color: white;
+
+    &__padding {
+      padding-right: 80px;
+    }
+  }
+
   @media (max-width: 500px) {
     min-height: calc(100vh - #{$headerHeight + $footerHeightMobile});
+  }
+
+  @media (max-width: 450px) {
+    &__layout-content {
+      &__padding {
+        padding-right: 0;
+      }
+    }
   }
 }
 </style>

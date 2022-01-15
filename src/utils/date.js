@@ -11,6 +11,7 @@ const daysOfWeek = {
 };
 
 const MS_IN_DAY_AMOUNT = 1000 * 60 * 60 * 24;
+const MIDDAY = 12;
 
 const typeOfTime = {
   morning: 'Утро',
@@ -44,6 +45,7 @@ const parseDate = (date) => {
 
 const getWeekDatesRange = (diffFromCurrent = 0) => {
   const target = new Date(Date.now() + WEEK_LENGTH * diffFromCurrent * MS_IN_DAY_AMOUNT);
+  target.setHours(MIDDAY);
   const from = target.setDate(target.getDate() - (target.getDay() || WEEK_LENGTH) + 1);
   const to = target.setDate(target.getDate() + WEEK_LENGTH - 1);
 
