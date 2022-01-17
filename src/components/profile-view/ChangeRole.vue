@@ -2,7 +2,7 @@
   <div v-if="userRole" class="change-role">
     <span><b>Роль пользователя</b></span>
     <br />
-    <span>{{ transtatedUserRole?.translate }}</span>
+    <span>{{ translatedUserRole?.translate }}</span>
     <br />
     <span><b>Поменять роль</b></span>
     <br />
@@ -44,7 +44,7 @@ export default {
         disabled: role.name === this.userRole,
       }));
     },
-    transtatedUserRole() {
+    translatedUserRole() {
       return this.allRoles.find((role) => role.name === this.userRole);
     },
   }),

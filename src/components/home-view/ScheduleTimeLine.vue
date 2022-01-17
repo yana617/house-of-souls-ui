@@ -22,14 +22,19 @@
         @click="openAssignModal(day.date, day.claims)"
       />
       <Button
-        v-if="canUnsubscribe(day.claims)"
+        v-if="!hasPermissionToAssignUnregisteredUsers && canUnsubscribe(day.claims)"
         class="schedule-time-line__unsubscribe-btn"
         title="Отписаться"
         @click="unsubscribe(day.claims)"
       />
       <span v-if="showNoClaims(day.claims.length)" class="schedule-time-line__no-assigned"> Никто не записан </span>
     </div>
-    <ClaimInfoModal v-if="claimInfoModalOpen" v-bind="selectedClaim" @onclose="claimInfoModalOpen = false" />
+    <ClaimInfoModal
+      v-if="claimInfoModalOpen"
+      v-bind="selectedClaim"
+      @onclose="claimInfoModalOpen = false"
+      @refreshSchedule="refreshSchedule"
+    />
     <a-modal
       v-model:visible="updateOrCreateModalOpen"
       :footer="null"
@@ -130,7 +135,7 @@ export default {
       this.$store
         .dispatch('claims/deleteClaim', { _id: userClaim._id })
         .then(() => {
-          this.$emit('refreshSchedule');
+          this.refreshSchedule();
         })
         .finally(() => {
           this.$store.dispatch('app/setLoading', false);
@@ -138,10 +143,13 @@ export default {
     },
     onClaimModalClose() {
       this.updateOrCreateModalOpen = false;
-      this.$emit('refreshSchedule');
+      this.refreshSchedule();
     },
     showNoClaims(claimsCount) {
       return !claimsCount && (!this.user || !this.hasPermissionsToAssign);
+    },
+    refreshSchedule() {
+      this.$emit('refreshSchedule');
     },
   },
 };
