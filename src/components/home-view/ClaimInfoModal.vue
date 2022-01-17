@@ -39,6 +39,12 @@
       </div>
       <span v-if="!comment" class="claim-info-modal__info-description">-</span>
       <span v-if="questionable" class="claim-info-modal__info-title red">Под вопросом!</span>
+      <Button
+        v-if="isAdmin"
+        class="claim-info-modal__delete-btn"
+        :title="isMyClaim ? 'Отписаться' : 'Удалить запись'"
+        @click="onDelete()"
+      />
     </div>
   </div>
 </template>
@@ -46,12 +52,13 @@
 <script>
 import { mapState } from 'vuex';
 import { CheckCircleTwoTone } from '@ant-design/icons-vue';
+import Button from '@/components/common/Button.vue';
 
 import Tooltip from '../common/CustomTooltip.vue';
 
 export default {
   name: 'ClaimInfoModal',
-  components: { Tooltip, CheckCircleTwoTone },
+  components: { Tooltip, CheckCircleTwoTone, Button },
   computed: mapState({
     additionalFields: (state) => state.additionalFields.current,
     haveTruthyAdditionFields() {
@@ -74,8 +81,30 @@ export default {
       }
       return this.user;
     },
+    authUser: (state) => state.auth.user,
+    isMyClaim() {
+      return this.authUser && this.authUser.id === this.user.id;
+    },
+    isAdmin() {
+      return this.authUser && this.authUser.role === 'ADMIN';
+    },
   }),
+  methods: {
+    onDelete() {
+      this.$store.dispatch('app/setLoading', true);
+      this.$store
+        .dispatch('claims/deleteClaim', { _id: this._id })
+        .then(() => {
+          this.$emit('refreshSchedule');
+        })
+        .finally(() => {
+          this.$store.dispatch('app/setLoading', false);
+          this.$emit('onclose');
+        });
+    },
+  },
   props: {
+    _id: String,
     additional_people: Number,
     arrival_time: String,
     comment: String,
@@ -91,7 +120,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $lightGrey: #ccc;
 
 .claim-info-modal {
@@ -170,6 +199,18 @@ $lightGrey: #ccc;
     right: 12px;
     top: 12px;
     cursor: pointer;
+  }
+
+  &__delete-btn {
+    color: red;
+    border-color: red;
+    margin-top: 8px;
+    width: 150px;
+
+    &:hover {
+      background-color: red;
+      color: white;
+    }
   }
 
   @media (max-width: 450px) {
