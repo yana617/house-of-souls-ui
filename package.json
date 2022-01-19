@@ -7,9 +7,12 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy-setup": "pm2 deploy ecosystem.config.js production setup",
-    "deploy": "pm2 deploy ecosystem.config.js production --force",
-    "deploy-with-setup": "npm run deploy-setup && npm run deploy"
+    "development:setup": "pm2 deploy ecosystem.config.js development setup",
+    "development:deploy": "pm2 deploy ecosystem.config.js development --force",
+    "development:deploy:setup": "npm run development:setup && npm run development:deploy",
+    "production:setup": "pm2 deploy ecosystem.config.js production setup",
+    "production:deploy": "pm2 deploy ecosystem.config.js production --force",
+    "production:deploy:setup": "npm run production:setup && npm run production:deploy"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.0.1",
