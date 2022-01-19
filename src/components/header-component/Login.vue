@@ -24,6 +24,9 @@ export default {
       loading: false,
     };
   },
+  mounted() {
+    this.$router.push('/');
+  },
   methods: {
     async submitLogin() {
       const body = {
