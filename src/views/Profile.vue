@@ -7,7 +7,7 @@
         </div>
         <div class="profile__name-phone-container">
           <span class="profile__name">{{ userToDisplay.name }} {{ userToDisplay.surname }}</span>
-          <a :href="`tel:${userToDisplay.phone}`">
+          <a :href="`tel:+${userToDisplay.phone}`">
             <span class="profile__phone">+{{ userToDisplay.phone }}</span>
           </a>
           <span class="profile__visits"><b>{{ claimsCount }}</b> посещений</span>

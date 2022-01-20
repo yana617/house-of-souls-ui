@@ -5,7 +5,7 @@
       <div class="claim-info-modal__header"></div>
       <span class="claim-info-modal__info-title">Данные о волонтёре</span>
       <span class="claim-info-modal__info-description"> {{ userToShow.name }} {{ userToShow.surname }} </span>
-      <a class="claim-info-modal__info-description" :href="`tel:${userToShow.phone}`">{{ userToShow.phone }}</a>
+      <a class="claim-info-modal__info-description" :href="`tel:+${userToShow.phone}`">{{ userToShow.phone }}</a>
       <span v-if="haveTruthyAdditionFields" class="claim-info-modal__additional-fields">
         <div
           class="claim-info-modal__additional-fields__item"
