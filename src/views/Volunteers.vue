@@ -7,7 +7,7 @@
         <router-link :to="`/users/${volunteer.id}`">
           <span> {{ volunteer.name }} {{ volunteer.surname }} </span>
         </router-link>
-        <a class="volunteers__phone-container" :href="`tel:${volunteer.phone.replace(/\s/g, '')}`">
+        <a class="volunteers__phone-container" :href="`tel:+${volunteer.phone.replace(/\s/g, '')}`">
           <img class="volunteers__phone-icon" src="@/assets/phone-icon.png" />
           +{{ prettifyPhone(volunteer.phone) }}
         </a>

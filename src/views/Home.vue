@@ -1,5 +1,5 @@
 <template>
-  <a-layout style="min-height: 100vh">
+  <a-layout>
     <a-layout-content
       class="home__layout-content"
       :class="{ 'home__layout-content__padding': hasPermissions('CREATE_CLAIM') }"
@@ -80,7 +80,7 @@ export default {
 
 <style scoped lang="scss">
 $headerHeight: 50px;
-$footerHeight: 60px;
+$footerHeight: 70px;
 $footerHeightMobile: 90px;
 
 .home {
