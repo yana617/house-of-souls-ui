@@ -27,7 +27,6 @@ export default {
     async loadAll() {
       await this.$store.dispatch('users/getUserPermissions', this.userId);
       await this.$store.dispatch('permissions/getPermissions');
-      await this.$store.dispatch('roles/getRoles');
     },
   },
 };
