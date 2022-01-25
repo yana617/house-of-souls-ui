@@ -1,6 +1,9 @@
 <template>
   <div class="volunteers">
-    <span id="title">Список волонтеров</span>
+    <span id="title">
+      <span> Список волонтеров </span>
+      <span class="volunteers__total" v-if="totalIsNumber">{{ total }}</span>
+    </span>
     <SearchBar ref="searchBar" @reset-skip="resetSkip" />
     <div class="volunteers__list" id="volunteers__list">
       <div class="volunteers__item" v-for="volunteer in volunteers" :key="volunteer.id">
@@ -34,6 +37,9 @@ export default {
   computed: mapState({
     volunteers: (state) => state.users.list,
     total: (state) => state.users.total,
+    totalIsNumber() {
+      return typeof this.total === 'number';
+    },
     noVolunteers() {
       return !this.volunteers || this.volunteers.length === 0;
     },
@@ -145,6 +151,15 @@ $greyBlue: #2c3e50;
   &__phone-icon {
     width: 18px;
     height: 18px;
+  }
+
+  &__total {
+    display: inline-block;
+    padding: 0px;
+    border: 1px solid $greyBlue;
+    border-radius: 16px;
+    min-width: 40px;
+    margin-left: 4px;
   }
 }
 </style>
