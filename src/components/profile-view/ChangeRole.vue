@@ -1,5 +1,5 @@
 <template>
-  <div v-if="userRole" class="change-role">
+  <div v-if="userRole && translatedUserRole" class="change-role">
     <span><b>Роль пользователя</b></span>
     <br />
     <span>{{ translatedUserRole?.translate }}</span>

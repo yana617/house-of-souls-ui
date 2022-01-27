@@ -6,11 +6,16 @@
           <img class="profile__img" src="@/assets/cat_infos.jpeg" />
         </div>
         <div class="profile__name-phone-container">
-          <span class="profile__name">{{ userToDisplay.name }} {{ userToDisplay.surname }}</span>
+          <div class="profile__name-role-container">
+            <span class="profile__name">{{ userToDisplay.name }} {{ userToDisplay.surname }}</span>
+            <span class="profile__role" v-if="translatedUserRole">{{ translatedUserRole.translate }}</span>
+          </div>
           <a :href="`tel:+${userToDisplay.phone}`">
             <span class="profile__phone">+{{ userToDisplay.phone }}</span>
           </a>
-          <span class="profile__visits"><b>{{ claimsCount }}</b> посещений</span>
+          <span class="profile__visits">
+            <b>{{ claimsCount }}</b> посещений
+          </span>
         </div>
       </div>
     </div>
@@ -48,6 +53,10 @@ export default {
     this.loadUserAndClaims();
   },
   computed: mapState({
+    allRoles: (state) => state.roles.list || [],
+    translatedUserRole() {
+      return this.allRoles.find((role) => role.name === this.userToDisplay?.role);
+    },
     isAnotherUserProfile(state) {
       return !!this.$route.params.id && this.$route.params.id !== state.auth.user?.id;
     },
@@ -86,6 +95,7 @@ export default {
   methods: {
     async loadUserAndClaims() {
       this.$store.dispatch('app/setLoading', true);
+      this.$store.dispatch('roles/getRoles');
       let loadUser = Promise.resolve();
       if (this.isAnotherUserProfile) {
         loadUser = this.$store.dispatch('users/getUserProfile', { userId: this.userId });
@@ -111,6 +121,7 @@ export default {
 
 <style scoped lang="scss">
 $lightBlue: #e7f5fc;
+$darkGrey: #646464;
 
 .profile {
   &__header {
@@ -164,9 +175,32 @@ $lightBlue: #e7f5fc;
     font-size: 16px;
   }
 
-  @media (max-width: 450px) {
+  &__name-role-container {
+    display: flex;
+    align-items: center;
+  }
+
+  &__role {
+    margin-left: 8px;
+    padding-top: 4px;
+    font-size: 16px;
+    color: $darkGrey;
+  }
+
+  @media (max-width: 768px) {
+    &__header {
+      height: 180px;
+    }
     &__main-data-container {
       left: unset;
+    }
+    &__name-role-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    &__role {
+      margin-left: 0px;
+      padding-top: 0px;
     }
   }
 }
