@@ -5,7 +5,15 @@
       :class="{ 'home__layout-content__padding': hasPermissions('CREATE_CLAIM') }"
     >
       <div class="home">
-        <Notice v-for="noticeId in notices.list" :key="noticeId" :noticeId="noticeId" v-bind="notices.data[noticeId]" />
+        <Notice
+          v-for="noticeId in noticesToShow"
+          :key="noticeId"
+          :noticeId="noticeId"
+          v-bind="notices.data[noticeId]"
+        />
+        <button @click="showAllNotices = !showAllNotices" class="home__notices__load-all-btn">
+          {{ loadNoticesBtnTitle }}
+        </button>
         <Schedule v-bind="currentSchedule" @refreshSchedule="loadCurrentSchedule" />
         <Schedule v-bind="nextWeekSchedule" @refreshSchedule="loadNextWeekSchedule" />
       </div>
@@ -27,6 +35,8 @@ import Schedule from '@/components/home-view/Schedule.vue';
 import { getToken } from '@/utils/sessionStorage';
 import { getWeekDatesRange } from '@/utils/date';
 
+const DEFAULT_NOTICES_TO_SHOW_COUNT = 2;
+
 export default {
   name: 'Home',
   components: {
@@ -41,7 +51,22 @@ export default {
     currentSchedule: (state) => state.claims.currentSchedule,
     nextWeekSchedule: (state) => state.claims.nextWeekSchedule,
     permissions: (state) => state.permissions.my,
+
+    noticesToShow() {
+      if (!this.showAllNotices) {
+        return this.notices.list.slice(0, DEFAULT_NOTICES_TO_SHOW_COUNT);
+      }
+      return this.notices.list;
+    },
+    loadNoticesBtnTitle() {
+      return this.showAllNotices ? 'Свернуть' : 'Показать все записи';
+    },
   }),
+  data() {
+    return {
+      showAllNotices: false,
+    };
+  },
   async created() {
     if (!!getToken() && !this.user) {
       this.$store.dispatch('users/getUser');
@@ -82,6 +107,7 @@ export default {
 $headerHeight: 50px;
 $footerHeight: 70px;
 $footerHeightMobile: 90px;
+$mediumBlue: #3682f3;
 
 .home {
   display: flex;
@@ -94,6 +120,22 @@ $footerHeightMobile: 90px;
 
     &__padding {
       padding-right: 80px;
+    }
+  }
+
+  &__notices {
+    &__load-all-btn {
+      margin: 8px 8px 8px auto;
+      border: none;
+      background-color: white;
+      color: $mediumBlue;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 15px;
+      letter-spacing: 0.1px;
+      &:hover {
+        color: blue;
+      }
     }
   }
 
