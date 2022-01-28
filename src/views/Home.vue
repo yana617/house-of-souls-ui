@@ -11,7 +11,11 @@
           :noticeId="noticeId"
           v-bind="notices.data[noticeId]"
         />
-        <button v-if="showLoadAllBtn" @click="showAllNotices = !showAllNotices" class="home__notices__load-all-btn">
+        <button
+          v-if="showLoadAllNoticesBtn"
+          @click="showAllNotices = !showAllNotices"
+          class="home__notices__load-all-btn"
+        >
           {{ loadNoticesBtnTitle }}
         </button>
         <Schedule v-bind="currentSchedule" @refreshSchedule="loadCurrentSchedule" />
@@ -58,7 +62,7 @@ export default {
       }
       return this.notices.list;
     },
-    showLoadAllBtn() {
+    showLoadAllNoticesBtn() {
       return this.notices.list.length > DEFAULT_NOTICES_TO_SHOW_COUNT;
     },
     loadNoticesBtnTitle() {
