@@ -63,7 +63,9 @@ export default {
   },
   components: { Button },
   created() {
-    this.$store.dispatch('notices/getNoticeById', { _id: this.noticeId });
+    if (!this.title) {
+      this.$store.dispatch('notices/getNoticeById', { _id: this.noticeId });
+    }
   },
   data() {
     return {

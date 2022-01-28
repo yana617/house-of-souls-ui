@@ -33,6 +33,7 @@ const actions = {
     }
   },
   createNotice: async ({ commit }, params = {}) => {
+    commit(SET_CREATE_ERRORS, []);
     const response = await notices.createNotice(params);
     if (response.success) {
       commit(SET_NOTICE_DATA, response.data);
