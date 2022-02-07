@@ -9,7 +9,12 @@
       </router-link>
     </div>
     <div class="header__auth">
-      <Button v-if="permissionsLoaded && !hasPermissions('VIEW_PROFILE')" @click="setModal(MODAL.LOGIN)" title="Вход" />
+      <Button
+        v-if="permissionsLoaded && !hasPermissions('VIEW_PROFILE')"
+        @click="setModal(MODAL.LOGIN)"
+        title="Вход"
+        class="header__auth__login-btn"
+      />
       <Button
         v-if="permissionsLoaded && !hasPermissions('VIEW_PROFILE')"
         @click="setModal(MODAL.REGISTRATION)"
