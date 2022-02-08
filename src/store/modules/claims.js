@@ -5,6 +5,7 @@ const SET_NEXT_WEEK_SCHEDULE = 'SET_NEXT_WEEK_SCHEDULE';
 const SET_PERSONAL_CLAIMS = 'SET_PERSONAL_CLAIMS';
 const SET_CREATE_ERRORS = 'SET_CREATE_ERRORS';
 const SET_UPDATE_ERRORS = 'SET_UPDATE_ERRORS';
+const SET_RATING = 'SET_RATING';
 
 const state = () => ({
   currentSchedule: null,
@@ -12,6 +13,7 @@ const state = () => ({
   personal: {},
   createErrors: [],
   updateErrors: [],
+  rating: null,
 });
 
 const getters = {};
@@ -52,6 +54,10 @@ const actions = {
   deleteClaim: async (_, { _id } = {}) => {
     await claims.deleteClaim({ _id });
   },
+  getRating: async ({ commit }) => {
+    const result = await claims.getRating();
+    commit(SET_RATING, result);
+  },
 };
 
 const mutations = {
@@ -69,6 +75,9 @@ const mutations = {
   },
   [SET_CREATE_ERRORS](state, errors) {
     state.createErrors = errors;
+  },
+  [SET_RATING](state, result) {
+    state.rating = result;
   },
 };
 

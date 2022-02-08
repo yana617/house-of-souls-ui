@@ -7,6 +7,8 @@ export default {
   getMyPermissions: async () => axios.get(`${permissionsApi}/me`)
     .then((response) => {
       const { data: permissions } = response.data;
+      // TO-DO remove after adding VIEW_RATING permission (on implementing)
+      permissions.push('VIEW_RATING');
       return permissions;
     })
     .catch(() => []),

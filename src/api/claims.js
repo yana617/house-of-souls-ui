@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import claimsMapper from '@/utils/claimsMapper';
+import mock from './mock';
 
 const { VUE_APP_HOS_SERVICE: HOS_SERVICE_API } = process.env;
 const claimsApi = `${HOS_SERVICE_API}/claims`;
@@ -23,5 +24,10 @@ export default {
     .catch((error) => error.response.data),
   deleteClaim: async ({ _id } = {}) => {
     await axios.delete(`${claimsApi}/${_id}`);
+  },
+  // eslint-disable-next-line arrow-body-style
+  getRating: async () => {
+    // const { data: { data: rating } } = await axios.get(`${claimsApi}/rating`);
+    return mock.generateRating();
   },
 };

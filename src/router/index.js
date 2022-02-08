@@ -34,6 +34,11 @@ const routes = [
     name: 'user',
     component: () => import(/* webpackChunkName: "volunteers" */ '../views/Profile.vue'),
     meta: { authRequired: true },
+  }, {
+    path: '/rating',
+    name: 'rating',
+    component: () => import(/* webpackChunkName: "volunteers" */ '../views/Rating.vue'),
+    meta: { authRequired: true },
   },
   {
     path: '/admin',
