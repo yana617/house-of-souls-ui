@@ -57,6 +57,28 @@ const claimsColumns = [
   },
 ];
 
+const claimsRatingColumns = [
+  {
+    title: 'Место',
+    dataIndex: 'place',
+    key: 'place',
+    slots: { customRender: 'place' },
+    width: 70,
+  },
+  {
+    title: 'Имя',
+    dataIndex: 'fullName',
+    key: 'fullName',
+    slots: { customRender: 'fullName' },
+  },
+  {
+    title: 'Посещений',
+    dataIndex: 'claimsCount',
+    key: 'claimsCount',
+    width: 100,
+  },
+];
+
 const claimTimeDescription = {
   morning: 'Смена обычно проходит с 09.00 до 13.00.',
   evening: 'Смена обычно проходит с 17.00 до 21-22.00.',
@@ -79,4 +101,5 @@ export {
   claimTimeDescription,
   claimFormLabels,
   claimFormDescriptions,
+  claimsRatingColumns,
 };

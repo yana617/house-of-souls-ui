@@ -3,8 +3,8 @@ import { randomIntNumber, randomStringNumber, randomElement } from '@/utils';
 import { randomDate } from '@/utils/date';
 
 const primitiveMocks = {
-  names: ['Яна', 'Олег', 'Аня', 'Гюнель', 'Александра'],
-  surnames: ['Маненко', 'Стадник', 'Василевская', 'Стасенко', 'Агаева'],
+  names: ['Яна', 'Аня', 'Гюнель', 'Александра'],
+  surnames: ['Маненко', 'Крусник', 'Василевская', 'Стасенко', 'Агаева'],
   phones: ['+375293355013', '+375299284739', '+375292960171'],
   arrival_time: ['8.30', '17.00', null],
   comments: ['Буду только к 19.00', 'Новенькие со мной - в первый-первый раз', null],
@@ -66,8 +66,21 @@ const usersMock = {
   total: 100,
 };
 
+// TO-DO remove after implementing API
+const mockUser = () => ({
+  id: randomStringNumber(),
+  fullName: `${randomElement(primitiveMocks.names)} ${randomElement(primitiveMocks.surnames)}`,
+  claimsCount: randomIntNumber(100),
+});
+const generateRating = () => ({
+  allTime: Array(40).fill(null).map(mockUser),
+  year: Array(30).fill(null).map(mockUser),
+  month: Array(20).fill(null).map(mockUser),
+});
+
 export default {
   generateUser,
   generateClaims,
   usersMock,
+  generateRating,
 };
