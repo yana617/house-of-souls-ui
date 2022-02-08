@@ -84,6 +84,7 @@ $pinkBlue: #f0dbff;
   &__winner {
     background-color: #f1f8f5;
     border: none !important;
+    font-weight: bold;
   }
 
   &__star {
