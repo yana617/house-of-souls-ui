@@ -66,21 +66,8 @@ const usersMock = {
   total: 100,
 };
 
-// TO-DO remove after implementing API
-const mockUser = () => ({
-  id: randomStringNumber(),
-  fullName: `${randomElement(primitiveMocks.names)} ${randomElement(primitiveMocks.surnames)}`,
-  claimsCount: randomIntNumber(100),
-});
-const generateRating = () => ({
-  allTime: Array(40).fill(null).map(mockUser),
-  year: Array(30).fill(null).map(mockUser),
-  month: Array(20).fill(null).map(mockUser),
-});
-
 export default {
   generateUser,
   generateClaims,
   usersMock,
-  generateRating,
 };
