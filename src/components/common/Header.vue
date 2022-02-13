@@ -7,6 +7,9 @@
       <router-link v-if="hasPermissions('VIEW_PROFILE')" class="header__nav-menu__right-btn" to="/profile">
         Профиль
       </router-link>
+      <router-link v-if="hasPermissions('VIEW_RATING')" class="header__nav-menu__right-btn" to="/rating">
+        Рейтинг
+      </router-link>
     </div>
     <div class="header__auth">
       <Button

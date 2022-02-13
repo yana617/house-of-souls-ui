@@ -16,6 +16,7 @@ import {
   Typography,
   Select,
   Modal,
+  Divider,
 } from 'ant-design-vue';
 import { io } from 'socket.io-client';
 import { createVueMatchMediaPlugin } from '@cwist/vue-match-media';
@@ -60,6 +61,7 @@ const run = () => {
     .use(Typography)
     .use(Select)
     .use(Modal)
+    .use(Divider)
     .use(VueMatchMediaPlugin);
   app.config.globalProperties.$socket = socket;
   app.mount('#app');

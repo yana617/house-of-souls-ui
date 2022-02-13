@@ -24,4 +24,8 @@ export default {
   deleteClaim: async ({ _id } = {}) => {
     await axios.delete(`${claimsApi}/${_id}`);
   },
+  getRating: async () => {
+    const { data: { data: rating } } = await axios.get(`${claimsApi}/rating`);
+    return rating;
+  },
 };

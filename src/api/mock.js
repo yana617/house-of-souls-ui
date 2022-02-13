@@ -3,8 +3,8 @@ import { randomIntNumber, randomStringNumber, randomElement } from '@/utils';
 import { randomDate } from '@/utils/date';
 
 const primitiveMocks = {
-  names: ['Яна', 'Олег', 'Аня', 'Гюнель', 'Александра'],
-  surnames: ['Маненко', 'Стадник', 'Василевская', 'Стасенко', 'Агаева'],
+  names: ['Яна', 'Аня', 'Гюнель', 'Александра'],
+  surnames: ['Маненко', 'Крусник', 'Василевская', 'Стасенко', 'Агаева'],
   phones: ['+375293355013', '+375299284739', '+375292960171'],
   arrival_time: ['8.30', '17.00', null],
   comments: ['Буду только к 19.00', 'Новенькие со мной - в первый-первый раз', null],
