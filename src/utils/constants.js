@@ -64,18 +64,21 @@ const claimsRatingColumns = [
     key: 'place',
     slots: { customRender: 'place' },
     width: 70,
+    align: 'center',
   },
   {
     title: 'Имя',
     dataIndex: 'fullName',
     key: 'fullName',
     slots: { customRender: 'fullName' },
+    align: 'left',
   },
   {
     title: 'Посещений',
     dataIndex: 'claimsCount',
     key: 'claimsCount',
     width: 100,
+    align: 'center',
   },
 ];
 

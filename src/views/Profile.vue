@@ -11,7 +11,7 @@
             <span class="profile__role" v-if="translatedUserRole">{{ translatedUserRole.translate }}</span>
           </div>
           <a :href="`tel:+${userToDisplay.phone}`">
-            <span class="profile__phone">+{{ userToDisplay.phone }}</span>
+            <span class="profile__phone">+{{ phoneToDisplay }}</span>
           </a>
           <span class="profile__visits">
             <b>{{ claimsCount }}</b> посещений
@@ -40,6 +40,7 @@ import { mapState } from 'vuex';
 import VisitsTable from '@/components/profile-view/VisitsTable.vue';
 import ProfileForm from '@/components/profile-view/ProfileForm.vue';
 import PermissionsAndRoles from '@/components/profile-view/PermissionsAndRoles.vue';
+import mapPhone from '@/utils/phoneMapper';
 
 export default {
   name: 'Profile',
@@ -85,6 +86,9 @@ export default {
         return '..';
       }
       return claims.length;
+    },
+    phoneToDisplay() {
+      return mapPhone(this.userToDisplay.phone);
     },
   }),
   watch: {

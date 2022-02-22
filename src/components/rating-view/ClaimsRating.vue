@@ -36,12 +36,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+$lightestGrey: #eff1f3;
+
 .claims-rating {
   display: flex;
   justify-content: center;
+  background-color: $lightestGrey;
+  padding: 32px 0;
 
   &__divider {
-    height: 550px;
+    border: none;
   }
 
   @media (max-width: 1200px) {

@@ -68,5 +68,12 @@ export default {
   @media (max-width: 768px) {
     padding: 8px 16px;
   }
+
+  @media (max-width: 370px) {
+    &__date {
+      display: grid;
+      white-space: normal;
+    }
+  }
 }
 </style>
