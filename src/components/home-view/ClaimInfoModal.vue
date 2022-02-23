@@ -4,8 +4,10 @@
       <img @click="$emit('onclose')" class="claim-info-modal__close-icon" src="@/assets/close.png" />
       <div class="claim-info-modal__header"></div>
       <span class="claim-info-modal__info-title">Данные о волонтёре</span>
-      <span class="claim-info-modal__info-description"> {{ userToShow.name }} {{ userToShow.surname }} </span>
-      <a class="claim-info-modal__info-description" :href="`tel:+${userToShow.phone}`">{{ userToShow.phone }}</a>
+      <span class="claim-info-modal__info-description name"> {{ userToShow.name }} {{ userToShow.surname }} </span>
+      <a v-if="userToShow.phone" class="claim-info-modal__info-description phone" :href="`tel:+${userToShow.phone}`">
+        +{{ phoneToShow }}
+      </a>
       <span v-if="haveTruthyAdditionFields" class="claim-info-modal__additional-fields">
         <div
           class="claim-info-modal__additional-fields__item"
@@ -52,8 +54,9 @@
 <script>
 import { mapState } from 'vuex';
 import { CheckCircleTwoTone } from '@ant-design/icons-vue';
-import Button from '@/components/common/Button.vue';
 
+import Button from '@/components/common/Button.vue';
+import mapPhone from '@/utils/phoneMapper';
 import Tooltip from '../common/CustomTooltip.vue';
 
 export default {
@@ -87,6 +90,9 @@ export default {
     },
     isAdmin() {
       return this.authUser && this.authUser.role === 'ADMIN';
+    },
+    phoneToShow() {
+      return mapPhone(this.userToShow.phone);
     },
   }),
   methods: {
@@ -172,6 +178,10 @@ $lightGrey: #ccc;
     font-size: 14px;
     font-weight: normal;
     margin: 2px 0;
+
+    &.name, &.phone {
+      font-size: 16px;
+    }
   }
 
   &__comment {

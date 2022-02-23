@@ -10,7 +10,6 @@
     :defaultExpandAllRows="true"
     class="claims-rating-table"
     size="small"
-    bordered
     :rowClassName="(record, index) => getRowClass(record, index)"
   >
     <template #title>{{ header }}</template>
@@ -29,6 +28,8 @@ import { StarFilled } from '@ant-design/icons-vue';
 
 import { parseDate, typeOfTime, weekDayOfDate } from '@/utils/date';
 import { claimsRatingColumns } from '@/utils/constants';
+
+const USERS_PER_PAGE = 10;
 
 export default {
   name: 'VisitsTable',
@@ -56,7 +57,7 @@ export default {
   },
   methods: {
     getIndex(index) {
-      return (this.currentPage - 1) * 10 + index + 1;
+      return (this.currentPage - 1) * USERS_PER_PAGE + index + 1;
     },
     getRowClass(record, index) {
       const classes = [];
@@ -76,13 +77,20 @@ export default {
 $green: #42b983;
 $gold: #ffd700;
 $pinkBlue: #f0dbff;
+$blackBlue: rgba(19, 56, 99, 0.1);
+$whiteGreen: #f1f8f5;
+
+$borderRadius: 16px;
 
 .claims-rating-table {
   max-width: 370px;
-  padding: 0 4px;
+  background-color: white;
+  border-radius: $borderRadius;
+  padding-top: 28px;
+  box-shadow: 1px 1px 10px $blackBlue;
 
   &__winner {
-    background-color: #f1f8f5;
+    background-color: $whiteGreen;
     border: none !important;
     font-weight: bold;
   }
@@ -105,6 +113,7 @@ $pinkBlue: #f0dbff;
     &__name-row {
       min-width: 300px;
     }
+    margin-bottom: 16px;
   }
 
   @media (max-width: 520px) {
@@ -137,5 +146,7 @@ $pinkBlue: #f0dbff;
 
 .ant-table-title {
   font-weight: bold;
+  padding-bottom: 16px;
+  top: -12px;
 }
 </style>
