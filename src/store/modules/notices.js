@@ -47,6 +47,9 @@ const actions = {
   deleteNotice: async (commit, params = {}) => {
     await notices.deleteNotice(params);
   },
+  clearNotices: async ({ commit }) => {
+    commit(SET_NOTICES_LIST, []);
+  },
 };
 
 const mutations = {

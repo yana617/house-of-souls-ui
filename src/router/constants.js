@@ -4,6 +4,10 @@ export const HEADER_LINKS = [{
   slug: 'volunteers',
   permissions: ['VIEW_USERS'],
 }, {
+  url: '/animals',
+  label: 'Животные',
+  slug: 'animals',
+}, {
   url: '/',
   label: 'График',
   slug: 'schedule',
@@ -46,4 +50,5 @@ export const PATHS = {
   '/admin/register-fields-control': 'register-fields-control',
   '/admin/volunteers-requests': 'volunteers-requests',
   '/admin/notices': 'notices',
+  '/animals': 'animals',
 };
