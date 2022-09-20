@@ -39,7 +39,7 @@
         <span class="animal-description__data-title">{{ sterilizedTitle }}</span>
         <span class="animal-description__data-description">{{ sterilizedTranslate }}</span>
       </div>
-      <div v-if="animal.type === 'dog'" class="animal-description__row__sub-container">
+      <div v-if="isDog" class="animal-description__row__sub-container">
         <span class="animal-description__data-title">Рост в холке</span>
         <span class="animal-description__data-description"> {{ heightTranslate }}</span>
       </div>
@@ -65,6 +65,8 @@ import Filters from '@/utils/enums/Filters';
 import { computeHeightRangeTranslate, computeMonthTranslate, computeYearTranslate } from '@/utils/computedTranslates';
 import { parseDateWithNumbers, calculatePassedTime } from '@/utils/date';
 import translates from '@/utils/translates/index';
+import AnimalType from '@/utils/enums/AnimalType';
+import AnimalPlace from '@/utils/enums/AnimalPlace';
 
 import DescriptionIconItems from './DescriptionIconItems.vue';
 
@@ -80,13 +82,13 @@ export default {
       return this.$route.params.id;
     },
     animal(state) {
-      return state.animals.data[this.animalId] || {};
+      return state.animals.data?.[this.animalId] || {};
     },
     roomTitle() {
-      return this.animal.place === 'aviary' ? 'Номер вольера' : 'Комната';
+      return this.animal.place === AnimalPlace.AVIARY ? 'Номер вольера' : 'Комната';
     },
     sterilizedTitle() {
-      return translates[Filters.STERILIZED].title[this.animal.sex];
+      return translates[Filters.STERILIZED]?.title?.[this.animal.sex];
     },
     heightTranslate() {
       const { height } = this.animal;
@@ -97,7 +99,7 @@ export default {
     },
     sterilizedTranslate() {
       const start = this.animal.sterilized ? '' : 'Не ';
-      const end = translates[Filters.STERILIZED].one[this.animal.sex];
+      const end = translates[Filters.STERILIZED]?.one?.[this.animal.sex];
       return `${start}${start ? end.toLowerCase() : end}`;
     },
     formattedLastVaccine() {
@@ -109,6 +111,9 @@ export default {
     },
     formattedSecondBirthday() {
       return parseDateWithNumbers(this.animal.secondBirthday);
+    },
+    isDog() {
+      return this.animal?.type === AnimalType.DOG;
     },
   }),
   methods: {

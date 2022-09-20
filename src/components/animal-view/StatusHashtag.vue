@@ -1,12 +1,12 @@
 <template>
-  <div class="hashtag"># {{ statusTranslate }}</div>
+  <div class="status-hashtag"># {{ statusTranslate }}</div>
 </template>
 
 <script>
 import translates from '@/utils/translates/index';
 
 export default {
-  name: 'Hashtag',
+  name: 'StatusHashtag',
   props: {
     status: String,
   },
@@ -22,7 +22,7 @@ export default {
 $grey2: #f4f6f9;
 $green: #42b983;
 
-.hashtag {
+.status-hashtag {
   padding: 12px 20px;
   background: $grey2;
   border-radius: 44px;

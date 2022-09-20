@@ -28,6 +28,7 @@ import { mapState } from 'vuex';
 
 import SearchBar from '@/components/volunteers-view/SearchBar.vue';
 import Loader from '@/components/common/Loader.vue';
+import prettifyPhone from '@/utils/prettifyPhone';
 
 const limit = parseInt(process.env.VUE_APP_LIMIT, 10);
 
@@ -96,7 +97,7 @@ export default {
         });
     },
     prettifyPhone(phone) {
-      return `${phone.substr(0, 3)} ${phone.substring(3, 5)} ${phone.substring(5)}`;
+      return prettifyPhone(phone);
     },
     checkScroll() {
       if (this.loading) return;

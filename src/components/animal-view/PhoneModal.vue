@@ -2,7 +2,7 @@
   <div>
     <a-modal :visible="visible" :footer="null" width="320px" @cancel="this.$emit('onclose')">
       <p v-if="curator.name" class="phone-modal__name">{{ curator.name }}</p>
-      <a v-if="curator.phone" class="phone-modal__phone" :href="`tel:+${curator.phone}`">+{{ prettifyPhone() }}</a>
+      <a v-if="curator.phone" class="phone-modal__phone" :href="`tel:+${curator.phone}`">+{{ prettifyPhone }}</a>
       <p v-if="!isOnTemporaryHold" class="phone-modal__name margin-top">{{ spareCurator.name }}</p>
       <div v-if="!isOnTemporaryHold">
         <p v-for="sparePhone in spareCurator.phones" :key="sparePhone">
@@ -21,6 +21,7 @@
 import { mapState } from 'vuex';
 
 import { curators } from '@/utils/constants';
+import prettifyPhone from '@/utils/prettifyPhone';
 
 export default {
   props: {
@@ -36,14 +37,11 @@ export default {
     isOnTemporaryHold() {
       return this.place === 'on_temporary_hold';
     },
-  }),
-  methods: {
     prettifyPhone() {
       const { phone } = this.curator;
-      return `${phone.substr(0, 3)} (${phone.substring(3, 5)})
-      ${phone.substring(5, 8)}-${phone.substring(8, 10)}-${phone.substring(10)}`;
+      return prettifyPhone(phone);
     },
-  },
+  }),
 };
 </script>
 

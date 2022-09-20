@@ -29,6 +29,9 @@
 </template>
 
 <script>
+import AnimalType from '@/utils/enums/AnimalType';
+import AnimalAge from '@/utils/enums/AnimalAge';
+
 const sortByOptions = [
   {
     label: 'Возрасту',
@@ -58,7 +61,7 @@ export default {
     },
     dogOlderYearSelected() {
       const { type, age } = this.$route.query;
-      return type === 'dog' && age === 'older_year';
+      return type === AnimalType.DOG && age === AnimalAge.OLDER_YEAR;
     },
   },
   methods: {

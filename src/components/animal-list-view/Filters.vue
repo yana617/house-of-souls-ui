@@ -3,7 +3,7 @@
     <Search v-if="hasViewAnimalPermission" />
     <div class="filters__title">
       <span class="filters__title__text">Фильтр</span>
-      <span class="filters__title__clear-btn" @click="handleClearFilters">Очистить</span>
+      <span v-if="hasViewAnimalPermission" class="filters__title__clear-btn" @click="handleClearFilters">Очистить</span>
     </div>
     <div class="filters__sub-container">
       <div
@@ -15,7 +15,7 @@
           'display-none':
             (filter.volunteerView && !hasViewAnimalPermission) ||
             (hasViewAnimalPermission && !isVisible(filter.filterName)),
-          'no-margin': filter.filterName === 'height',
+          'no-margin': filter.filterName === Filters.HEIGHT,
         }"
       >
         <div class="filters__item__title" @click="toggleFilter(filter.filterName)">
@@ -45,6 +45,10 @@
 
 <script>
 import filters from '@/utils/maps/filters';
+import AnimalType from '@/utils/enums/AnimalType';
+import Filters from '@/utils/enums/Filters';
+import AnimalAge from '@/utils/enums/AnimalAge';
+import AnimalPlace from '@/utils/enums/AnimalPlace';
 
 import Search from './Search.vue';
 
@@ -55,19 +59,19 @@ export default {
   },
   components: { Search },
   data() {
-    return { filters, openFilterName: null };
+    return { filters, openFilterName: null, Filters };
   },
   computed: {},
   methods: {
     isVisible(filterName) {
-      if (filterName === 'height') {
+      if (filterName === Filters.HEIGHT) {
         const { type, age } = this.$route.query;
-        return type === 'dog' && age === 'older_year';
+        return type === AnimalType.DOG && age === AnimalAge.OLDER_YEAR;
       }
 
-      if (filterName === 'room') {
+      if (filterName === Filters.ROOM) {
         const { place } = this.$route.query;
-        return place !== 'on_temporary_hold';
+        return place !== AnimalPlace.ON_TEMPORARY_HOLD;
       }
 
       return true;

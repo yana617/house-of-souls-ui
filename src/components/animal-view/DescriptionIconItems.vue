@@ -1,8 +1,8 @@
 <template>
   <div class="description-icon-items">
     <div class="description-icon-items__container">
-      <img v-if="animal.type === 'dog'" class="description-icon-items__icon" src="@/assets/dog.png" />
-      <img v-if="animal.type === 'cat'" class="description-icon-items__icon" src="@/assets/cat.png" />
+      <img v-if="isDog" class="description-icon-items__icon" src="@/assets/dog.png" />
+      <img v-if="isCat" class="description-icon-items__icon" src="@/assets/cat.png" />
       <div class="description-icon-items__sub-container">
         <span class="description-icon-items__data-title">{{ translates.type }}</span>
         <span class="description-icon-items__data-description">{{ typeTranslate }}</span>
@@ -10,8 +10,8 @@
     </div>
 
     <div class="description-icon-items__container margin-left">
-      <img v-if="animal.sex === 'male'" class="description-icon-items__icon" src="@/assets/male.png" />
-      <img v-if="animal.sex === 'female'" class="description-icon-items__icon" src="@/assets/female.png" />
+      <img v-if="!isFemale" class="description-icon-items__icon" src="@/assets/male.png" />
+      <img v-if="isFemale" class="description-icon-items__icon" src="@/assets/female.png" />
       <div class="description-icon-items__sub-container">
         <span class="description-icon-items__data-title">{{ translates.sex }}</span>
         <span class="description-icon-items__data-description">{{ sexTranslate }}</span>
@@ -34,6 +34,8 @@ import { mapState } from 'vuex';
 import { computeYearTranslate } from '@/utils/computedTranslates';
 import { calculateAge, parseDateWithNumbers } from '@/utils/date';
 import translates from '@/utils/translates/index';
+import AnimalType from '@/utils/enums/AnimalType';
+import AnimalSex from '@/utils/enums/AnimalSex';
 
 export default {
   name: 'DescriptionIconItems',
@@ -62,6 +64,15 @@ export default {
       const description = computeYearTranslate(age);
       age = age ? `${age} ` : '';
       return `${parseDateWithNumbers(this.animal.birthday)} (${age}${description})`;
+    },
+    isDog() {
+      return this.animal.type === AnimalType.DOG;
+    },
+    isCat() {
+      return this.animal.type === AnimalType.CAT;
+    },
+    isFemale() {
+      return this.animal.sex === AnimalSex.FEMALE;
     },
   }),
 };

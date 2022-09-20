@@ -1,7 +1,7 @@
 <template>
   <div class="animal-image-name-container">
     <div v-if="noNotices" class="animal-image-name-container__indent" />
-    <Hashtag :status="animal.status" />
+    <StatusHashtag :status="animal.status" />
     <img class="animal-image-name-container__image" :src="animal.photos[0]" />
     <h4 class="animal-image-name-container__name">{{ animal.name }}</h4>
     <Button
@@ -18,11 +18,11 @@
 import { mapState } from 'vuex';
 
 import Button from '@/components/common/Button.vue';
-import Hashtag from './Hashtag.vue';
+import StatusHashtag from './StatusHashtag.vue';
 
 export default {
   name: 'AnimalImageNameContainer',
-  components: { Button, Hashtag },
+  components: { Button, StatusHashtag },
   created() {
     this.$store.dispatch('app/setLoading', true);
     this.$store.dispatch('notices/getNotices', { animal_id: this.animalId }).finally(() => {

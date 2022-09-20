@@ -1,11 +1,11 @@
 <template>
   <div class="animal-navigation">
     <router-link class="animal-navigation__link" :to="`/animals`">Животные</router-link>
-    <div v-if="animalType" class="animal-navigation__right-arrow"></div>
+    <div v-if="animalType" class="animal-navigation__right-arrow" />
     <router-link v-if="animalType" class="animal-navigation__link" :to="`/animals?type=${animalType}`">
       {{ typeTranslate }}
     </router-link>
-    <div v-if="animalName || age" class="animal-navigation__right-arrow"></div>
+    <div v-if="animalName || age" class="animal-navigation__right-arrow" />
     <span v-if="animalName" class="animal-navigation__animal-name">{{ animalName }}</span>
     <span v-if="age && !animalName">{{ ageTranslate }}</span>
   </div>

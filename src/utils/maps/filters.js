@@ -5,6 +5,7 @@ import AnimalType from '../enums/AnimalType';
 import DogHeight from '../enums/DogHeight';
 import Filters from '../enums/Filters';
 import translates from '../translates/index';
+import AnimalAge from '../enums/AnimalAge';
 
 const allOption = {
   label: 'Все',
@@ -26,20 +27,20 @@ export default [{
   filterName: Filters.SEX,
   options: [allOption, {
     label: 'Мальчик',
-    value: 'male',
+    value: AnimalSex.MALE,
   }, {
     label: 'Девочка',
-    value: 'female',
+    value: AnimalSex.FEMALE,
   }],
 }, {
   title: translates[Filters.AGE],
   filterName: Filters.AGE,
   options: [allOption, {
     label: 'До 1 года',
-    value: 'under_year',
+    value: AnimalAge.UNDER_YEAR,
   }, {
     label: 'От 1 года',
-    value: 'older_year',
+    value: AnimalAge.OLDER_YEAR,
   }],
 }, {
   title: translates[Filters.HEIGHT],
@@ -56,7 +57,7 @@ export default [{
   }],
 }, {
   volunteerView: true,
-  title: translates[Filters.STERILIZED].title[AnimalSex.MALE],
+  title: translates[Filters.STERILIZED]?.title?.[AnimalSex.MALE],
   filterName: Filters.STERILIZED,
   options: [allOption, {
     label: 'Кастрированы',

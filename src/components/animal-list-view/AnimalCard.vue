@@ -16,6 +16,7 @@ import { computeYearTranslate } from '@/utils/computedTranslates';
 import { calculateAge } from '@/utils/date';
 import translates from '@/utils/translates/index';
 import Filters from '@/utils/enums/Filters';
+import AnimalType from '@/utils/enums/AnimalType';
 
 export default {
   name: 'AnimalCard',
@@ -35,7 +36,7 @@ export default {
     description() {
       const sterilizedText = translates[Filters.STERILIZED].one[this.sex]?.toLowerCase();
       const sterilizedFullText = this.sterilized ? sterilizedText : `не ${sterilizedText}`;
-      const heightText = this.type === 'dog' ? `, ${this.height} см в холке` : '';
+      const heightText = this.type === AnimalType.DOG ? `, ${this.height} см в холке` : '';
       const age = this.hasViewAnimalPermission ? `, ${this.age}` : '';
       return `${translates[this.sex]}, ${sterilizedFullText}${heightText}${age}`;
     },

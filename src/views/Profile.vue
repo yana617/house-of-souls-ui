@@ -40,7 +40,7 @@ import { mapState } from 'vuex';
 import VisitsTable from '@/components/profile-view/VisitsTable.vue';
 import ProfileForm from '@/components/profile-view/ProfileForm.vue';
 import PermissionsAndRoles from '@/components/profile-view/PermissionsAndRoles.vue';
-import mapPhone from '@/utils/phoneMapper';
+import prettifyPhone from '@/utils/prettifyPhone';
 
 export default {
   name: 'Profile',
@@ -88,7 +88,7 @@ export default {
       return claims.length;
     },
     phoneToDisplay() {
-      return mapPhone(this.userToDisplay.phone);
+      return prettifyPhone(this.userToDisplay.phone);
     },
   }),
   watch: {

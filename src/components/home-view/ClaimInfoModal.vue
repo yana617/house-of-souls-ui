@@ -2,7 +2,7 @@
   <div @click="$emit('onclose')" class="modal__wrapper claim-info-modal__wrapper">
     <div class="claim-info-modal" @click.stop>
       <img @click="$emit('onclose')" class="claim-info-modal__close-icon" src="@/assets/close.png" />
-      <div class="claim-info-modal__header"></div>
+      <div class="claim-info-modal__header" />
       <span class="claim-info-modal__info-title">Данные о волонтёре</span>
       <span class="claim-info-modal__info-description name"> {{ userToShow.name }} {{ userToShow.surname }} </span>
       <a v-if="userToShow.phone" class="claim-info-modal__info-description phone" :href="`tel:+${userToShow.phone}`">
@@ -56,7 +56,7 @@ import { mapState } from 'vuex';
 import { CheckCircleTwoTone } from '@ant-design/icons-vue';
 
 import Button from '@/components/common/Button.vue';
-import mapPhone from '@/utils/phoneMapper';
+import prettifyPhone from '@/utils/prettifyPhone';
 import Tooltip from '../common/CustomTooltip.vue';
 
 export default {
@@ -92,7 +92,7 @@ export default {
       return this.authUser && this.authUser.role === 'ADMIN';
     },
     phoneToShow() {
-      return mapPhone(this.userToShow.phone);
+      return prettifyPhone(this.userToShow.phone);
     },
   }),
   methods: {

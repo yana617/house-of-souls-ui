@@ -26,8 +26,12 @@
 <script>
 import filters from '@/utils/maps/filters';
 import Button from '@/components/common/Button.vue';
-import Sorting from './Sorting.vue';
+import AnimalType from '@/utils/enums/AnimalType';
+import AnimalAge from '@/utils/enums/AnimalAge';
+import Filters from '@/utils/enums/Filters';
+import AnimalPlace from '@/utils/enums/AnimalPlace';
 
+import Sorting from './Sorting.vue';
 import FilterSelectOptions from './FilterSelectOptions.vue';
 
 export default {
@@ -47,14 +51,14 @@ export default {
         return false;
       }
 
-      if (filterName === 'height') {
+      if (filterName === Filters.HEIGHT) {
         const { type, age } = this.$route.query;
-        return type === 'dog' && age === 'older_year';
+        return type === AnimalType.DOG && age === AnimalAge.OLDER_YEAR;
       }
 
-      if (filterName === 'room') {
+      if (filterName === Filters.ROOM) {
         const { place } = this.$route.query;
-        return place && place !== 'on_temporary_hold';
+        return place && place !== AnimalPlace.ON_TEMPORARY_HOLD;
       }
 
       return true;
