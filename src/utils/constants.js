@@ -97,43 +97,6 @@ const claimFormDescriptions = {
   comment: 'Если вы отклоняетесь от этого времени - предупредите в комментарии пожалуйста!',
 };
 
-const animalTypes = {
-  dog: 'Собаки',
-  cat: 'Коты',
-};
-
-const animalSex = {
-  male: 'Мальчик',
-  female: 'Девочка',
-};
-
-const sterilizedTranslates = {
-  male: {
-    title: 'Кастрация',
-    description: 'Кастрирован',
-  },
-  female: {
-    title: 'Стерилизация',
-    description: 'Стерилизована',
-  },
-};
-
-const animalStatus = {
-  homeless: 'Ищет Дом',
-  at_home: 'Дома 🎉',
-  died: 'На радуге 😢',
-  lost: 'Потерялся',
-  preparation: 'Подготовка к поиску дома',
-};
-
-const placeTranslates = {
-  main_home: 'Главный дом',
-  bitovka: 'Бытовка',
-  cat_home: 'Кошачий дом',
-  aviary: 'Вольер',
-  on_temporary_hold: 'На временной передержке',
-};
-
 const curators = {
   dog: {
     name: 'Тамара',
@@ -153,10 +116,5 @@ export {
   claimFormLabels,
   claimFormDescriptions,
   claimsRatingColumns,
-  animalTypes,
-  animalSex,
-  sterilizedTranslates,
-  animalStatus,
-  placeTranslates,
   curators,
 };

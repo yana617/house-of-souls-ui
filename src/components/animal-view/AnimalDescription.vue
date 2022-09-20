@@ -61,9 +61,11 @@
 <script>
 import { mapState } from 'vuex';
 
-import { sterilizedTranslates, placeTranslates } from '@/utils/constants';
+import Filters from '@/utils/enums/Filters';
 import { computeHeightRangeTranslate, computeMonthTranslate, computeYearTranslate } from '@/utils/computedTranslates';
 import { parseDateWithNumbers, calculatePassedTime } from '@/utils/date';
+import translates from '@/utils/translates/index';
+
 import DescriptionIconItems from './DescriptionIconItems.vue';
 
 export default {
@@ -84,18 +86,18 @@ export default {
       return this.animal.place === 'aviary' ? 'Номер вольера' : 'Комната';
     },
     sterilizedTitle() {
-      return sterilizedTranslates[this.animal.sex].title;
+      return translates[Filters.STERILIZED].title[this.animal.sex];
     },
     heightTranslate() {
       const { height } = this.animal;
       return `${height} см в холке (${computeHeightRangeTranslate(height)})`;
     },
     placeTranslate() {
-      return placeTranslates[this.animal.place] || '-';
+      return translates[this.animal.place] || '-';
     },
     sterilizedTranslate() {
       const start = this.animal.sterilized ? '' : 'Не ';
-      const end = sterilizedTranslates[this.animal.sex].description;
+      const end = translates[Filters.STERILIZED].one[this.animal.sex];
       return `${start}${start ? end.toLowerCase() : end}`;
     },
     formattedLastVaccine() {

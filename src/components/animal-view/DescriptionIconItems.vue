@@ -4,7 +4,7 @@
       <img v-if="animal.type === 'dog'" class="description-icon-items__icon" src="@/assets/dog.png" />
       <img v-if="animal.type === 'cat'" class="description-icon-items__icon" src="@/assets/cat.png" />
       <div class="description-icon-items__sub-container">
-        <span class="description-icon-items__data-title">Тип</span>
+        <span class="description-icon-items__data-title">{{ translates.type }}</span>
         <span class="description-icon-items__data-description">{{ typeTranslate }}</span>
       </div>
     </div>
@@ -13,7 +13,7 @@
       <img v-if="animal.sex === 'male'" class="description-icon-items__icon" src="@/assets/male.png" />
       <img v-if="animal.sex === 'female'" class="description-icon-items__icon" src="@/assets/female.png" />
       <div class="description-icon-items__sub-container">
-        <span class="description-icon-items__data-title">Пол</span>
+        <span class="description-icon-items__data-title">{{ translates.sex }}</span>
         <span class="description-icon-items__data-description">{{ sexTranslate }}</span>
       </div>
     </div>
@@ -31,14 +31,17 @@
 <script>
 import { mapState } from 'vuex';
 
-import { animalTypes, animalSex } from '@/utils/constants';
 import { computeYearTranslate } from '@/utils/computedTranslates';
 import { calculateAge, parseDateWithNumbers } from '@/utils/date';
+import translates from '@/utils/translates/index';
 
 export default {
   name: 'DescriptionIconItems',
   props: {
     hasViewAnimalPermission: Boolean,
+  },
+  data() {
+    return { translates };
   },
   components: {},
   computed: mapState({
@@ -49,10 +52,10 @@ export default {
       return state.animals.data[this.animalId] || {};
     },
     typeTranslate() {
-      return animalTypes[this.animal.type] || this.animal.type;
+      return translates[this.animal.type]?.one || this.animal.type;
     },
     sexTranslate() {
-      return animalSex[this.animal.sex] || this.animal.sex;
+      return translates[this.animal.sex] || this.animal.sex;
     },
     formattedBirthday() {
       let age = calculateAge(this.animal.birthday);

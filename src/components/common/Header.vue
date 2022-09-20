@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <Dropdown v-if="$matchMedia.mobile" :items="headerLinks" :selected="selected" />
+    <Dropdown v-if="$matchMedia.tablet" :items="headerLinks" :selected="selected" />
     <div class="header__nav-menu">
       <router-link v-if="hasPermissions('VIEW_USERS')" to="/volunteers">Волонтеры</router-link>
       <router-link class="header__nav-menu__right-btn" to="/animals">Животные</router-link>

@@ -9,8 +9,9 @@ const primitiveMocks = {
   comments: ['Буду только к 19.00', 'Новенькие со мной - в первый-первый раз', null],
   type: ['morning', 'evening'],
   animalType: ['cat', 'dog'],
-  place: ['main_home', 'cat_home', 'bitovka', 'on_temporary_hold', 'aviary'],
+  place: ['main_house', 'cat_house', 'change_house', 'on_temporary_hold', 'aviary'],
   status: ['homeless', 'at_home', 'died', 'lost', 'preparation'],
+  animalNames: ['Эшли', 'Бруня', 'Соня', 'Криспи', 'Граф', 'Ненси', 'Клякса'],
 };
 
 const generateAnimalBirthday = () => randomDate(new Date(2015, 1, 1), new Date(2022, 1, 1));
@@ -18,10 +19,10 @@ const generateAnimalSecondBirthday = () => randomDate(new Date(2019, 1, 1), new 
 
 const generateAnimal = () => ({
   id: '1',
-  name: 'Эшли',
+  name: randomElement(primitiveMocks.animalNames),
   type: randomElement(primitiveMocks.animalType),
   photos: [
-    'https://images.pexels.com/photos/2253275/pexels-photo-2253275.jpeg',
+    'https://pets.mail.ru/pic/wysiwyg/2019/07/25/dog-3702726_1280.jpg',
   ],
   sex: randomElement(['female', 'male']),
   birthday: generateAnimalBirthday().toISOString(),
@@ -33,6 +34,7 @@ const generateAnimal = () => ({
   sterilized: Math.random() > 0.5,
   height: 40,
   curator_id: '1',
+  advertisingText: 'Lorem ipsum dolor sit amet, consectetur adipiscing ...',
 });
 
 const generateCurator = () => ({

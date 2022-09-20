@@ -29,7 +29,8 @@ import logger from './utils/logger';
 import interceptorsSetup from './utils/axios';
 
 const breakpoints = {
-  mobile: { maxWidth: 768 },
+  tablet: { maxWidth: 768 },
+  mobile: { maxWidth: 600 },
 };
 const VueMatchMediaPlugin = createVueMatchMediaPlugin({ breakpoints });
 interceptorsSetup();

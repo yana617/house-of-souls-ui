@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { animalStatus } from '@/utils/constants';
+import translates from '@/utils/translates/index';
 
 export default {
   name: 'Hashtag',
@@ -12,7 +12,7 @@ export default {
   },
   computed: {
     statusTranslate() {
-      return animalStatus[this.status] || this.status;
+      return translates[this.status] || this.status;
     },
   },
 };

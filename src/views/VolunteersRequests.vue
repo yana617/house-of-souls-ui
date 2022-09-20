@@ -2,7 +2,7 @@
   <div class="volunteers-requests" v-if="hasPermissions('EDIT_PERMISSIONS')">
     <span id="title">Неверифицированные пользователи</span>
     <a-table
-      v-if="!$matchMedia.mobile"
+      v-if="!$matchMedia.tablet"
       :columns="volunteersColumns"
       :data-source="users"
       :row-key="(record) => record.id"
@@ -26,7 +26,7 @@
         </span>
       </template>
     </a-table>
-    <div v-if="$matchMedia.mobile">
+    <div v-if="$matchMedia.tablet">
       <div v-for="user in users" :key="user.id" class="volunteers-requests__mobile">
         <div class="volunteers-requests__mobile__container top">
           <h4 class="volunteers-requests__mobile__createdAt">{{ getDate(user.createdAt) }}</h4>
