@@ -1,4 +1,7 @@
+/* eslint-disable no-unused-vars */
 import axios from 'axios';
+
+import mock from './mock';
 
 const { VUE_APP_AUTH_SERVICE: AUTH_SERVICE_API } = process.env;
 const usersApi = `${AUTH_SERVICE_API}/users`;
@@ -26,5 +29,11 @@ export default {
   getUser: async () => {
     const { data: { data: user } } = await axios.get(`${usersApi}/me`);
     return user;
+  },
+  getCurator: async (userId) => {
+    // const { data: { data: curator } } = await axios.get(`${usersApi}/${userId}/curator`);
+    // return curator;
+    await new Promise((r) => setTimeout(r, 2000));
+    return mock.generateCurator();
   },
 };

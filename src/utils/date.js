@@ -25,6 +25,16 @@ const calculateAge = (birthdayDate) => {
   return Math.abs(ageDate.getUTCFullYear() - 1970);
 };
 
+const calculatePassedTime = (dateString) => {
+  const date = new Date(dateString);
+  const diff = Math.floor(Date.now() - date.getTime());
+  const day = 1000 * 60 * 60 * 24;
+  const days = Math.floor(diff / day);
+  const months = Math.floor(days / 31);
+  const years = Math.floor(months / 12);
+  return { days: days - months * 31, months: months - years * 12, years };
+};
+
 const parseDateAndTime = (date) => {
   const options = {
     day: 'numeric',
@@ -39,6 +49,12 @@ const parseDateAndTime = (date) => {
 
 const parseDate = (date) => {
   const options = { day: 'numeric', month: 'long' };
+  const jsDate = new Date(date);
+  return jsDate.toLocaleDateString('ru-RU', options);
+};
+
+const parseDateWithNumbers = (date) => {
+  const options = { day: 'numeric', month: 'numeric', year: 'numeric' };
   const jsDate = new Date(date);
   return jsDate.toLocaleDateString('ru-RU', options);
 };
@@ -69,4 +85,6 @@ export {
   randomDate,
   getWeekDatesRange,
   weekDayOfDate,
+  parseDateWithNumbers,
+  calculatePassedTime,
 };

@@ -1,5 +1,4 @@
-/* eslint-disable max-len */
-import { randomIntNumber, randomStringNumber, randomElement } from '@/utils';
+import { randomIntNumber, randomElement, randomIntNumberFromTo } from '@/utils';
 import { randomDate } from '@/utils/date';
 
 const primitiveMocks = {
@@ -9,65 +8,45 @@ const primitiveMocks = {
   arrival_time: ['8.30', '17.00', null],
   comments: ['Буду только к 19.00', 'Новенькие со мной - в первый-первый раз', null],
   type: ['morning', 'evening'],
+  animalType: ['cat', 'dog'],
+  place: ['main_home', 'cat_home', 'bitovka', 'on_temporary_hold', 'aviary'],
+  status: ['homeless', 'at_home', 'died', 'lost', 'preparation'],
 };
 
-const generateBirthday = () => randomDate(new Date(1980, 1, 1), new Date(2010, 1, 1));
+const generateAnimalBirthday = () => randomDate(new Date(2015, 1, 1), new Date(2022, 1, 1));
+const generateAnimalSecondBirthday = () => randomDate(new Date(2019, 1, 1), new Date(2022, 3, 1));
 
-const generateUserAdditionalField = ({ additionalFieldTemplateId = '1', userId = '1' } = {}) => ({
-  _id: randomStringNumber(),
-  user_id: userId,
-  additional_field_template_id: additionalFieldTemplateId,
-  value: Math.random() > 0.5,
+const generateAnimal = () => ({
+  id: '1',
+  name: 'Эшли',
+  type: randomElement(primitiveMocks.animalType),
+  photos: [
+    'https://images.pexels.com/photos/2253275/pexels-photo-2253275.jpeg',
+  ],
+  sex: randomElement(['female', 'male']),
+  birthday: generateAnimalBirthday().toISOString(),
+  place: randomElement(primitiveMocks.place),
+  room: randomElement([randomIntNumber(4), null]),
+  secondBirthday: generateAnimalSecondBirthday(),
+  description: 'Подобрали возле приюта',
+  status: randomElement(primitiveMocks.status),
+  sterilized: Math.random() > 0.5,
+  height: 40,
+  curator_id: '1',
 });
 
-const generateUser = () => {
-  const userId = randomStringNumber();
+const generateCurator = () => ({
+  name: randomElement(primitiveMocks.names),
+  phone: `37529${randomIntNumberFromTo(1111111, 9999999)}`,
+});
 
-  return {
-    _id: userId,
-    createdAt: (new Date()).toISOString(),
-    name: randomElement(primitiveMocks.names),
-    surname: randomElement(primitiveMocks.surnames),
-    phone: randomElement(primitiveMocks.phones),
-    birthday: generateBirthday().toISOString(),
-    userAdditionalFields: [
-      generateUserAdditionalField({ additionalFieldTemplateId: '1' }),
-      generateUserAdditionalField({ additionalFieldTemplateId: '2' }),
-    ],
-  };
-};
-
-const generateUserClaim = (from, to) => {
-  const user = generateUser();
-  const claimId = randomStringNumber();
-
-  return {
-    id: claimId,
-    date: randomDate(new Date(from), new Date(to)),
-    type: randomElement(primitiveMocks.type),
-    arrival_time: randomElement(primitiveMocks.arrival_time),
-    additional_people: randomIntNumber(1),
-    comment: randomElement(primitiveMocks.comments),
-    questionable: Math.random() > 0.5,
-    user: {
-      ...user,
-      user_additional_fields: [
-        generateUserAdditionalField({ additionalFieldTemplateId: '1' }),
-        generateUserAdditionalField({ additionalFieldTemplateId: '2' }),
-      ],
-    },
-  };
-};
-
-const generateClaims = (from, to) => Array(30).fill(null).map(() => generateUserClaim(from, to));
-
-const usersMock = {
-  users: Array(15).fill(null).map(generateUser),
-  total: 100,
+const lastMedicalItem = {
+  date: new Date().toISOString(),
+  drugName: 'Nobivac DHPPI',
 };
 
 export default {
-  generateUser,
-  generateClaims,
-  usersMock,
+  generateAnimal,
+  generateCurator,
+  lastMedicalItem,
 };

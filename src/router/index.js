@@ -39,8 +39,15 @@ const routes = [
     name: 'rating',
     component: () => import(/* webpackChunkName: "volunteers" */ '../views/Rating.vue'),
     meta: { authRequired: true },
-  },
-  {
+  }, {
+    path: '/animals',
+    name: 'animals',
+    component: () => import(/* webpackChunkName: "volunteers" */ '../views/AnimalList.vue'),
+  }, {
+    path: '/animals/:id',
+    name: 'animal',
+    component: () => import(/* webpackChunkName: "volunteers" */ '../views/Animal.vue'),
+  }, {
     path: '/admin',
     name: 'AdminPanel',
     redirect: '/admin/volunteers-requests',
