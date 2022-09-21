@@ -17,7 +17,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: |
-          rm -R node-modules/
           npm i 
       - name: Run linter and tests
         run: |
