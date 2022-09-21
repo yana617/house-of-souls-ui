@@ -4,25 +4,27 @@
     <div
       v-for="sortOption in sortByOptions"
       :key="sortOption.value"
-      @click="handleSortBy(sortOption.value)"
       class="sorting__option"
       :class="{
         selected: currentSortBy === sortOption.value,
         'display-none': sortOption.value === 'height' && !dogOlderYearSelected,
       }"
+      @click="handleSortBy(sortOption.value)"
     >
       {{ sortOption.label }}
     </div>
     <img
-      class="sorting__order-icon"
       v-if="currentSortBy && currentOrder === 'asc'"
+      class="sorting__order-icon"
       src="@/assets/sort-asc.png"
+      alt="sort-asc"
       @click="handleOrder('desc')"
     />
     <img
-      class="sorting__order-icon"
       v-if="currentSortBy && currentOrder === 'desc'"
+      class="sorting__order-icon"
       src="@/assets/sort-desc.png"
+      alt="sort-desc"
       @click="handleOrder('asc')"
     />
   </div>

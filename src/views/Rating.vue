@@ -1,10 +1,12 @@
 <template>
   <div class="rating">
-    <a-tabs v-model:activeKey="activeKey" class="rating__tabs" tabBarStyle="margin: 0; padding-top: 8px;">
+    <a-tabs v-model:activeKey="activeKey" class="rating__tabs" tab-bar-style="margin: 0; padding-top: 8px;">
       <a-tab-pane key="1" tab="Посещения">
         <ClaimsRating />
       </a-tab-pane>
-      <a-tab-pane key="2" tab="Реклама"> Нет данных </a-tab-pane>
+      <a-tab-pane key="2" tab="Реклама">
+        Нет данных
+      </a-tab-pane>
     </a-tabs>
   </div>
 </template>

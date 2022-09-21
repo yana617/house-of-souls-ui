@@ -1,9 +1,9 @@
 <template>
-  <div @click="closeModal()" class="modal__wrapper">
+  <div class="modal__wrapper" @click="closeModal()">
     <div class="new-additional-field-modal" @click.stop>
-      <img @click="closeModal()" class="new-additional-field-modal__close-icon" src="@/assets/close.png" />
+      <img class="new-additional-field-modal__close-icon" alt="close" src="@/assets/close.png" @click="closeModal()" />
       <h2>Новое дополнительное поле</h2>
-      <div class="new-additional-field-modal__icon-container" v-if="false">
+      <div v-if="false" class="new-additional-field-modal__icon-container">
         <input
           id="new-additional-field-icon-input"
           type="file"
@@ -15,20 +15,29 @@
           class="new-additional-field-modal__icon-sub-container"
           :class="{ 'new-additional-field-modal__no-icon': !icon }"
         >
-          <img class="new-additional-field-modal__icon" :src="icon" />
+          <img class="new-additional-field-modal__icon" alt="additional-field-icon" :src="icon" />
         </div>
-        <Button class="new-additional-field-modal__btn__upload-icon" @click="uploadIcon()" title="Загрузить иконку" />
+        <CommonButton
+          class="new-additional-field-modal__btn__upload-icon"
+          title="Загрузить иконку"
+          @click="uploadIcon()"
+        />
       </div>
       <span class="new-additional-field-modal__error">{{ getError('icon') }}</span>
       <input
+        v-model="label"
         class="new-additional-field-modal__label"
         placeholder="Короткое название (желательно одно слово)"
-        v-model="label"
       />
       <span class="new-additional-field-modal__error">{{ getError('label') }}</span>
-      <textarea class="new-additional-field-modal__description" v-model="description" placeholder="Описание" />
+      <textarea v-model="description" class="new-additional-field-modal__description" placeholder="Описание" />
       <span class="new-additional-field-modal__error">{{ getError('description') }}</span>
-      <Button :loading="loading" class="new-additional-field-modal__btn__save" @click="create()" title="Добавить" />
+      <CommonButton
+        :loading="loading"
+        class="new-additional-field-modal__btn__save"
+        title="Добавить"
+        @click="create()"
+      />
     </div>
   </div>
 </template>
@@ -36,16 +45,12 @@
 <script>
 import { mapState } from 'vuex';
 
-import Button from '../common/Button.vue';
 import { findError } from '@/utils/validation';
+import CommonButton from '../common/CommonButton.vue';
 
 export default {
   name: 'NewAdditionalFieldModal',
-  components: { Button },
-  computed: mapState({
-    icon: (state) => state.additionalFields.new.icon,
-    errors: (state) => state.additionalFields.createErrors,
-  }),
+  components: { CommonButton },
   data() {
     return {
       label: null,
@@ -54,6 +59,10 @@ export default {
       loading: false,
     };
   },
+  computed: mapState({
+    icon: (state) => state.additionalFields.new.icon,
+    errors: (state) => state.additionalFields.createErrors,
+  }),
   unmounted() {
     this.$store.dispatch('additionalFields/clearCreateErrors');
   },
@@ -141,6 +150,7 @@ $lightGrey: #ccc;
       color: black !important;
       border-color: black !important;
     }
+
     &__save {
       margin-top: 12px;
       color: $green !important;

@@ -2,18 +2,25 @@
   <div class="filter-select">
     <div class="filter-select__header">
       <div class="filter-select__back-arrow" @click="handleClose" />
-      <h4 class="filter-select__header__title">{{ title }}</h4>
+      <h4 class="filter-select__header__title">
+        {{ title }}
+      </h4>
     </div>
     <div
-      class="filter-select__option"
       v-for="option of options"
       :key="option"
+      class="filter-select__option"
       @click="handleOptionSelect(option.value)"
     >
       <span>{{ option.label }}</span>
-      <img v-if="isSelected(option.value)" class="filter-select__selected-icon" src="@/assets/selected-circle.png" />
+      <img
+        v-if="isSelected(option.value)"
+        alt="selected-icon"
+        class="filter-select__selected-icon"
+        src="@/assets/selected-circle.png"
+      />
     </div>
-    <Button class="filter-select__confirm-btn" @click="handleSelectSubmit()" title="Применить" />
+    <CommonButton class="filter-select__confirm-btn" title="Применить" @click="handleSelectSubmit()" />
   </div>
 </template>
 
@@ -23,14 +30,15 @@ import translates from '@/utils/translates/index';
 import Filters from '@/utils/enums/Filters';
 import AnimalSex from '@/utils/enums/AnimalSex';
 
-import Button from '@/components/common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 export default {
   name: 'FilterSelectOptions',
+  components: { CommonButton },
   props: {
     filterName: String,
   },
-  components: { Button },
+  emits: ['on-close'],
   data() {
     return { filters, selected: this.$route.query[this.filterName] };
   },

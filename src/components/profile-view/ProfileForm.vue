@@ -3,24 +3,24 @@
     <h3>Основные данные</h3>
     <div class="profile-form__main-info-container">
       <label>Имя</label>
-      <input :disabled="!edit" class="profile-form__input" placeholder="Имя" v-model="profile.name" />
+      <input v-model="profile.name" :disabled="!edit" class="profile-form__input" placeholder="Имя" />
       <span class="profile-form__error">{{ getError('name') }}</span>
       <label>Фамилия</label>
-      <input :disabled="!edit" class="profile-form__input" placeholder="Фамилия" v-model="profile.surname" />
+      <input v-model="profile.surname" :disabled="!edit" class="profile-form__input" placeholder="Фамилия" />
       <span class="profile-form__error">{{ getError('surname') }}</span>
       <label>Телефон</label>
-      <input :disabled="!edit" class="profile-form__input" placeholder="Телефон" v-model="profile.phone" />
+      <input v-model="profile.phone" :disabled="!edit" class="profile-form__input" placeholder="Телефон" />
       <span class="profile-form__error">{{ getError('phone') }}</span>
       <label>E-mail</label>
-      <input :disabled="!edit" class="profile-form__input" placeholder="E-mail" v-model="profile.email" />
+      <input v-model="profile.email" :disabled="!edit" class="profile-form__input" placeholder="E-mail" />
       <span class="profile-form__error">{{ getError('email') }}</span>
       <label>Дата рождения</label>
       <a-date-picker
+        v-model:value="birthday"
         size="large"
         placeholder="Дата рождения"
         class="profile-form__date-picker"
         :disabled="!edit"
-        v-model:value="birthday"
       />
       <span class="profile-form__error">{{ getError('birthday') }}</span>
     </div>
@@ -28,14 +28,14 @@
     <div class="profile-form__additional-fields-container">
       <div v-for="uaf in getUserAdditionalFields" :key="uaf.id" class="profile-form__additional-field__container">
         <label>{{ uaf.label }}</label>
-        <a-switch style="width: 44px" :disabled="!edit" v-model:checked="userAF[uaf.id].value" />
+        <a-switch v-model:checked="userAF[uaf.id].value" style="width: 44px" :disabled="!edit" />
       </div>
       <span v-if="noUaf()">-</span>
     </div>
     <div class="profile-form__btns-container">
-      <Button v-if="edit" :loading="loading" class="profile-form__save-btn" title="сохранить" @click="save" />
-      <Button v-if="!edit" class="profile-form__edit-btn" title="редактировать" @click="edit = true" />
-      <Button v-if="edit" :disabled="loading" class="profile-form__cancel-btn" title="отменить" @click="cancel" />
+      <CommonButton v-if="edit" :loading="loading" class="profile-form__save-btn" title="сохранить" @click="save" />
+      <CommonButton v-if="!edit" class="profile-form__edit-btn" title="редактировать" @click="edit = true" />
+      <CommonButton v-if="edit" :disabled="loading" class="profile-form__cancel-btn" title="отменить" @click="cancel" />
     </div>
   </div>
 </template>
@@ -45,15 +45,15 @@ import { ref } from 'vue';
 import { mapState } from 'vuex';
 import moment from 'moment';
 
-import Button from '../common/Button.vue';
 import { findError } from '@/utils/validation';
+import CommonButton from '../common/CommonButton.vue';
 
 export default {
   name: 'ProfileForm',
+  components: { CommonButton },
   props: {
     userId: String,
   },
-  components: { Button },
   data() {
     return {
       birthday: ref(),

@@ -14,14 +14,8 @@ import AnimalListMobile from '@/components/animal-list-view/AnimalListMobile.vue
 export default {
   name: 'AnimalList',
   components: { AnimalListDesktop, AnimalListMobile },
-  created() {
-    const { query } = this.$route;
-    this.$store.dispatch('app/setLoading', true);
-    this.$store.dispatch('animals/getAnimals', query).finally(() => {
-      this.$store.dispatch('app/setLoading', false);
-    });
-  },
   watch: {
+    // eslint-disable-next-line func-names
     '$route.query': function () {
       const { path, query } = this.$route;
 
@@ -32,6 +26,13 @@ export default {
         });
       }
     },
+  },
+  created() {
+    const { query } = this.$route;
+    this.$store.dispatch('app/setLoading', true);
+    this.$store.dispatch('animals/getAnimals', query).finally(() => {
+      this.$store.dispatch('app/setLoading', false);
+    });
   },
 };
 </script>

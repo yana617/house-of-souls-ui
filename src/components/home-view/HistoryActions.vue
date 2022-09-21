@@ -1,6 +1,6 @@
 <template>
   <div v-if="historyActions" class="history-actions" :class="{ collapsed }">
-    <div class="history-actions__sub-container" id="history-actions">
+    <div id="history-actions" class="history-actions__sub-container">
       <div
         v-for="ha in historyActions"
         :key="ha._id"
@@ -9,7 +9,7 @@
       >
         <span class="history-actions__created-at">{{ parseDateAndTime(ha.createdAt) }}</span>
         <span v-if="!collapsed">
-          <b style="display: inline-block" v-if="ha.user_from">
+          <b v-if="ha.user_from" style="display: inline-block">
             &nbsp;&nbsp;{{ ha.user_from.name }} {{ ha.user_from.surname }}
           </b>
           <span v-if="ha.action_type === 'NEW_USER'">
@@ -30,24 +30,23 @@
           <span v-if="ha.action_type === 'EDIT_ROLE' && ha.user_to">
             поменял(а) роль
             <b>{{ ha.user_to.name }} {{ ha.user_to.surname }}</b>
-            на <i>{{ roleTranslate(ha.new_role) }}</i
-            >&nbsp;
+            на <i>{{ roleTranslate(ha.new_role) }}</i>&nbsp;
           </span>
           <span v-if="ha.claim_date && ha.claim_type">
             <b>{{ dateInfo(ha.claim_date, ha.claim_type) }}</b>
           </span>
         </span>
       </div>
-      <Button
+      <CommonButton
         v-if="!collapsed && total > historyActions.length"
         :loading="loading"
-        @click="loadMore()"
         class="history-actions__load-more-btn"
         title="Загрузить ещё"
+        @click="loadMore()"
       />
     </div>
     <div class="history-actions__colapse-icon" @click="collapsed = !collapsed">
-      <Arrow :toLeft="collapsed" />
+      <Arrow :to-left="collapsed" />
     </div>
   </div>
 </template>
@@ -57,13 +56,13 @@ import { mapState } from 'vuex';
 
 import { typeOfTime, parseDateAndTime } from '@/utils/date';
 import Arrow from './Arrow.vue';
-import Button from '../common/Button.vue';
+import CommonButton from '../common/CommonButton.vue';
 
 const limit = parseInt(process.env.VUE_APP_LIMIT, 10);
 
 export default {
   name: 'HistoryAction',
-  components: { Arrow, Button },
+  components: { Arrow, CommonButton },
   data() {
     return {
       collapsed: true,
@@ -79,6 +78,14 @@ export default {
     total: (state) => state.historyActions.total,
     socketEventTriggered: (state) => state.historyActions.onNewHistoryActionEventTriggered,
   }),
+  watch: {
+    socketEventTriggered(socketEventTriggered) {
+      if (socketEventTriggered) {
+        this.skip += 1;
+        this.$store.dispatch('historyActions/onNewHistoryActionEventTriggerHandled');
+      }
+    },
+  },
   created() {
     this.$store.dispatch('historyActions/getHistoryActions');
     this.$store.dispatch('roles/getRoles');
@@ -114,14 +121,6 @@ export default {
         .finally(() => {
           this.loading = false;
         });
-    },
-  },
-  watch: {
-    socketEventTriggered(socketEventTriggered) {
-      if (socketEventTriggered) {
-        this.skip += 1;
-        this.$store.dispatch('historyActions/onNewHistoryActionEventTriggerHandled');
-      }
     },
   },
 };

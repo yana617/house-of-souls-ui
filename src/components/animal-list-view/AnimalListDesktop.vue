@@ -1,10 +1,10 @@
 <template>
   <span class="animal-list__title">Наши животные</span>
   <span v-if="!hasViewAnimalPermission" class="animal-list__description">{{ animalListDescription }}</span>
-  <FilterViaImages :hasViewAnimalPermission="hasViewAnimalPermission" />
+  <FilterViaImages :has-view-animal-permission="hasViewAnimalPermission" />
 
   <div class="animal-list__filters-cards-container" :class="{ 'volunteer-view': hasViewAnimalPermission }">
-    <Filters :hasViewAnimalPermission="hasViewAnimalPermission" />
+    <Filters :has-view-animal-permission="hasViewAnimalPermission" />
 
     <div class="animal-list__cards-container" :class="{ 'volunteer-view': hasViewAnimalPermission }">
       <div class="animal-list__animal-count-and-sorting-container">
@@ -16,7 +16,7 @@
           v-for="animal of animals"
           :key="animal.id"
           v-bind="animal"
-          :hasViewAnimalPermission="hasViewAnimalPermission"
+          :has-view-animal-permission="hasViewAnimalPermission"
         />
       </div>
     </div>
@@ -26,12 +26,11 @@
 <script>
 import { mapState } from 'vuex';
 
+import { animalListDescription } from '@/utils/pr-texts';
 import FilterViaImages from './FilterViaImages.vue';
 import Filters from './Filters.vue';
 import AnimalCard from './AnimalCard.vue';
 import Sorting from './Sorting.vue';
-
-import { animalListDescription } from '@/utils/pr-texts';
 
 export default {
   name: 'AnimalList',

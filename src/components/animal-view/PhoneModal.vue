@@ -1,9 +1,13 @@
 <template>
   <div>
-    <a-modal :visible="visible" :footer="null" width="320px" @cancel="this.$emit('onclose')">
-      <p v-if="curator.name" class="phone-modal__name">{{ curator.name }}</p>
+    <a-modal :visible="visible" :footer="null" width="320px" @cancel="$emit('onclose')">
+      <p v-if="curator.name" class="phone-modal__name">
+        {{ curator.name }}
+      </p>
       <a v-if="curator.phone" class="phone-modal__phone" :href="`tel:+${curator.phone}`">+{{ prettifyPhone }}</a>
-      <p v-if="!isOnTemporaryHold" class="phone-modal__name margin-top">{{ spareCurator.name }}</p>
+      <p v-if="!isOnTemporaryHold" class="phone-modal__name margin-top">
+        {{ spareCurator.name }}
+      </p>
       <div v-if="!isOnTemporaryHold">
         <p v-for="sparePhone in spareCurator.phones" :key="sparePhone">
           <a class="phone-modal__phone" :href="`tel:${sparePhone}`">
@@ -12,7 +16,9 @@
         </p>
       </div>
       <div class="phone-modal__line" />
-      <p class="phone-modal__description">Пожалуйста, скажите волонтеру, что звоните по объявлению с сайта домика</p>
+      <p class="phone-modal__description">
+        Пожалуйста, скажите волонтеру, что звоните по объявлению с сайта домика
+      </p>
     </a-modal>
   </div>
 </template>
@@ -29,6 +35,7 @@ export default {
     spareCurator: Object,
     place: String,
   },
+  emits: ['onclose'],
   data() {
     return { curators };
   },

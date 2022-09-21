@@ -2,45 +2,47 @@
   <div class="notice">
     <label>Заголовок</label>
     <input
+      v-model="notice.title"
       :disabled="!edit"
       class="notice__title"
       :class="{ notice__title__background: !title }"
-      v-model="notice.title"
     />
     <span v-if="edit" class="notice__error">{{ getError('title') }}</span>
     <label>Подробности</label>
     <textarea
+      v-model="notice.description"
       :disabled="!edit"
       class="notice__description"
       :class="{ notice__description__background: !description }"
-      v-model="notice.description"
     />
     <span v-if="edit" class="notice__error">{{ getError('description') }}</span>
     <div class="notice__checkbox-container">
-      <div class="notice__authorized-label">Видно только волонтерам:</div>
+      <div class="notice__authorized-label">
+        Видно только волонтерам:
+      </div>
       <a-switch v-model:checked="notice.internalOnly" :disabled="!edit" />
     </div>
     <div class="notice__btn-container">
-      <Button
+      <CommonButton
         v-if="!edit && hasPermissions('EDIT_NOTICE')"
-        @click="onEdit"
         class="notice__edit-btn"
         title="редактировать"
+        @click="onEdit"
       />
-      <Button
+      <CommonButton
         v-if="edit && hasPermissions('EDIT_NOTICE')"
         :loading="loading"
-        @click="onUpdate"
         class="notice__update-btn"
         title="сохранить"
+        @click="onUpdate"
       />
-      <Button v-if="edit" :disabled="loading" @click="onCancel" class="notice__cancel-btn" title="отменить" />
-      <Button
+      <CommonButton v-if="edit" :disabled="loading" class="notice__cancel-btn" title="отменить" @click="onCancel" />
+      <CommonButton
         v-if="hasPermissions('DELETE_NOTICE')"
         :disabled="loading"
-        @click="onDelete"
         class="notice__delete-btn"
         title="удалить"
+        @click="onDelete"
       />
     </div>
   </div>
@@ -50,22 +52,17 @@
 import { ref } from 'vue';
 import { mapState } from 'vuex';
 
-import Button from '@/components/common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 import { findError } from '@/utils/validation';
 
 export default {
   name: 'Notice',
+  components: { CommonButton },
   props: {
     noticeId: String,
     title: String,
     description: String,
     internalOnly: Boolean,
-  },
-  components: { Button },
-  created() {
-    if (!this.title) {
-      this.$store.dispatch('notices/getNoticeById', { _id: this.noticeId });
-    }
   },
   data() {
     return {
@@ -84,6 +81,22 @@ export default {
     errors: (state) => state.notices.updateErrors,
     permissions: (state) => state.permissions.my,
   }),
+  watch: {
+    title(newValue) {
+      this.notice.title = newValue;
+    },
+    description(newValue) {
+      this.notice.description = newValue;
+    },
+    internalOnly(newValue) {
+      this.notice.internalOnly = ref(newValue);
+    },
+  },
+  created() {
+    if (!this.title) {
+      this.$store.dispatch('notices/getNoticeById', { _id: this.noticeId });
+    }
+  },
   methods: {
     onEdit() {
       this.edit = true;
@@ -126,17 +139,6 @@ export default {
     },
     hasPermissions(permission) {
       return this.permissions.includes(permission);
-    },
-  },
-  watch: {
-    title(newValue) {
-      this.notice.title = newValue;
-    },
-    description(newValue) {
-      this.notice.description = newValue;
-    },
-    internalOnly(newValue) {
-      this.notice.internalOnly = ref(newValue);
     },
   },
 };

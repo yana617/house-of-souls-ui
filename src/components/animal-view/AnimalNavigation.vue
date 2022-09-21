@@ -1,6 +1,8 @@
 <template>
   <div class="animal-navigation">
-    <router-link class="animal-navigation__link" :to="`/animals`">Животные</router-link>
+    <router-link class="animal-navigation__link" :to="`/animals`">
+      Животные
+    </router-link>
     <div v-if="animalType" class="animal-navigation__right-arrow" />
     <router-link v-if="animalType" class="animal-navigation__link" :to="`/animals?type=${animalType}`">
       {{ typeTranslate }}

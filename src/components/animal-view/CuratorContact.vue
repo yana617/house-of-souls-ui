@@ -1,6 +1,6 @@
 <template>
   <div class="curator-contact" :class="{ loading }">
-    <div class="curator-contact__sub-container" v-if="curator">
+    <div v-if="curator" class="curator-contact__sub-container">
       <span class="curator-contact__title">Куратор</span>
       <router-link v-if="hasCurator" :to="`/users/${animal.curator_id}`">
         <span class="curator-contact__name">{{ curator.name }}</span>
@@ -9,12 +9,12 @@
     </div>
     <PhoneModal
       :visible="phoneModalOpen"
-      :spareCurator="spareCurator"
+      :spare-curator="spareCurator"
       :place="animal.place"
       @onclose="phoneModalOpen = false"
     />
     <div v-if="!loading" class="curator-contact__phone-container" @click="phoneModalOpen = true">
-      <img class="curator-contact__phone-icon" src="@/assets/phone.png" />
+      <img class="curator-contact__phone-icon" alt="phone" src="@/assets/phone.png" />
     </div>
   </div>
 </template>
@@ -22,19 +22,17 @@
 <script>
 import { mapState } from 'vuex';
 
-import PhoneModal from './PhoneModal.vue';
 import { curators } from '@/utils/constants';
+import PhoneModal from './PhoneModal.vue';
 
 export default {
   name: 'CuratorContact',
   components: { PhoneModal },
-  created() {
-    if (this.animal.curator_id) {
-      this.loading = true;
-      this.$store.dispatch('users/getCurator', { userId: this.animal.curator_id }).finally(() => {
-        this.loading = false;
-      });
-    }
+  data() {
+    return {
+      phoneModalOpen: false,
+      loading: false,
+    };
   },
   computed: mapState({
     curator: (state) => state.users.curator,
@@ -51,11 +49,13 @@ export default {
       return curators[this.animal.type];
     },
   }),
-  data() {
-    return {
-      phoneModalOpen: false,
-      loading: false,
-    };
+  created() {
+    if (this.animal.curator_id) {
+      this.loading = true;
+      this.$store.dispatch('users/getCurator', { userId: this.animal.curator_id }).finally(() => {
+        this.loading = false;
+      });
+    }
   },
 };
 </script>

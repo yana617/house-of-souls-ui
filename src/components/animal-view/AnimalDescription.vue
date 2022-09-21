@@ -1,7 +1,7 @@
 <template>
   <div class="animal-description" :class="{ 'full-width': !hasViewAnimalPermission }">
     <span class="animal-description__title">Описание</span>
-    <DescriptionIconItems :hasViewAnimalPermission="hasViewAnimalPermission" />
+    <DescriptionIconItems :has-view-animal-permission="hasViewAnimalPermission" />
     <div v-if="hasViewAnimalPermission" class="animal-description__row border-bottom">
       <div class="animal-description__row__sub-container">
         <span class="animal-description__data-title">Расположение</span>
@@ -43,7 +43,7 @@
         <span class="animal-description__data-title">Рост в холке</span>
         <span class="animal-description__data-description"> {{ heightTranslate }}</span>
       </div>
-      <div class="animal-description__row__sub-container" v-if="!hasViewAnimalPermission">
+      <div v-if="!hasViewAnimalPermission" class="animal-description__row__sub-container">
         <span class="animal-description__data-title">Последняя прививка</span>
         <span class="animal-description__data-description">{{ formattedLastVaccine }}</span>
       </div>
@@ -72,10 +72,10 @@ import DescriptionIconItems from './DescriptionIconItems.vue';
 
 export default {
   name: 'AnimalDescription',
+  components: { DescriptionIconItems },
   props: {
     hasViewAnimalPermission: Boolean,
   },
-  components: { DescriptionIconItems },
   computed: mapState({
     lastVaccine: (state) => state.animalMedicalHistory.last,
     animalId() {

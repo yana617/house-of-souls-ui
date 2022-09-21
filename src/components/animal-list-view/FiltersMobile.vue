@@ -2,30 +2,34 @@
   <div class="filters-mobile">
     <div class="filters-mobile__header">
       <div class="filters-mobile__back-arrow" @click="handleClose" />
-      <h4 class="filters-mobile__header__title">Фильтр</h4>
-      <h4 class="filters-mobile__clear-btn" @click="handleClearFilters">Очистить</h4>
+      <h4 class="filters-mobile__header__title">
+        Фильтр
+      </h4>
+      <h4 class="filters-mobile__clear-btn" @click="handleClearFilters">
+        Очистить
+      </h4>
     </div>
-    <Sorting class="filters-mobile__sorting" v-if="hasViewAnimalPermission" />
+    <Sorting v-if="hasViewAnimalPermission" class="filters-mobile__sorting" />
     <div
-      class="filters-mobile__item"
       v-for="filter of filters"
       :key="filter.title"
-      @click="openSelectOption(filter.filterName)"
+      class="filters-mobile__item"
       :class="{
         'display-none': !isVisible(filter),
       }"
+      @click="openSelectOption(filter.filterName)"
     >
       <span>{{ translatedFilterValue(filter) || filter.title }}</span>
-      <img class="filters-mobile__item__arrow-icon" src="@/assets/arrow-bottom.png" />
+      <img class="filters-mobile__item__arrow-icon" alt="arrow-bottom" src="@/assets/arrow-bottom.png" />
     </div>
-    <Button class="filters-mobile__confirm-btn" @click="handleClose()" title="Показать результат" />
+    <CommonButton class="filters-mobile__confirm-btn" title="Показать результат" @click="handleClose()" />
   </div>
-  <FilterSelectOptions v-if="selectOptionsFor" :filterName="selectOptionsFor" @on-close="handleSelectOptionsClose" />
+  <FilterSelectOptions v-if="selectOptionsFor" :filter-name="selectOptionsFor" @on-close="handleSelectOptionsClose" />
 </template>
 
 <script>
 import filters from '@/utils/maps/filters';
-import Button from '@/components/common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 import AnimalType from '@/utils/enums/AnimalType';
 import AnimalAge from '@/utils/enums/AnimalAge';
 import Filters from '@/utils/enums/Filters';
@@ -36,10 +40,10 @@ import FilterSelectOptions from './FilterSelectOptions.vue';
 
 export default {
   name: 'FiltersMobile',
+  components: { FilterSelectOptions, CommonButton, Sorting },
   props: {
     hasViewAnimalPermission: Boolean,
   },
-  components: { FilterSelectOptions, Button, Sorting },
   emits: ['on-close'],
   data() {
     return { filters, selectOptionsFor: null };

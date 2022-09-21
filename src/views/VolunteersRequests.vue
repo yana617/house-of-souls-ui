@@ -1,5 +1,5 @@
 <template>
-  <div class="volunteers-requests" v-if="hasPermissions('EDIT_PERMISSIONS')">
+  <div v-if="hasPermissions('EDIT_PERMISSIONS')" class="volunteers-requests">
     <span id="title">Неверифицированные пользователи</span>
     <a-table
       v-if="!$matchMedia.tablet"
@@ -16,7 +16,7 @@
       </template>
       <template #userAdditionalFields="{ record }">
         <span>
-          <AdditionalFieldsTags v-if="!noAtf" :userAdditionalFields="record.user_additional_fields" />
+          <AdditionalFieldsTags v-if="!noAtf" :user-additional-fields="record.user_additional_fields" />
           <span v-if="noAtf || !record.user_additional_fields">-</span>
         </span>
       </template>
@@ -29,21 +29,25 @@
     <div v-if="$matchMedia.tablet">
       <div v-for="user in users" :key="user.id" class="volunteers-requests__mobile">
         <div class="volunteers-requests__mobile__container top">
-          <h4 class="volunteers-requests__mobile__createdAt">{{ getDate(user.createdAt) }}</h4>
-          <h3 class="volunteers-requests__mobile__name">{{ userInfo(user) }}</h3>
+          <h4 class="volunteers-requests__mobile__createdAt">
+            {{ getDate(user.createdAt) }}
+          </h4>
+          <h3 class="volunteers-requests__mobile__name">
+            {{ userInfo(user) }}
+          </h3>
         </div>
         <div class="volunteers-requests__mobile__container bottom">
           <h4>{{ user.phone }}</h4>
           <div v-if="!noAtf" class="volunteers-requests__mobile__line" />
-          <AdditionalFieldsTags v-if="!noAtf" :userAdditionalFields="user.user_additional_fields" />
+          <AdditionalFieldsTags v-if="!noAtf" :user-additional-fields="user.user_additional_fields" />
         </div>
-        <Button
-          @click="changeRole(user.id)"
+        <CommonButton
           class="volunteers-requests__mobile__submit-btn"
           title="Сделать волонтером"
+          @click="changeRole(user.id)"
         />
       </div>
-      <span class="volunteers-requests__mobile__no-users" v-if="users.length === 0">Пока нет заявок</span>
+      <span v-if="users.length === 0" class="volunteers-requests__mobile__no-users">Пока нет заявок</span>
     </div>
   </div>
 </template>
@@ -54,27 +58,27 @@ import { mapState } from 'vuex';
 import { volunteersColumns } from '@/utils/constants';
 import { parseDateAndTime, calculateAge } from '@/utils/date';
 import AdditionalFieldsTags from '@/components/volunteers-requests-view/AdditionalFieldsTags.vue';
-import Button from '@/components/common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 export default {
   name: 'VolunteersRequests',
-  components: { Button, AdditionalFieldsTags },
-  created() {
-    this.loadUsers();
-    this.$store.dispatch('additionalFields/getAdditionalFields');
-  },
-  unmounted() {
-    this.$store.dispatch('users/clearUsersList');
+  components: { CommonButton, AdditionalFieldsTags },
+  data() {
+    return {
+      volunteersColumns,
+    };
   },
   computed: mapState({
     permissions: (state) => state.permissions.my,
     users: (state) => state.users.list,
     noAtf: (state) => !state.additionalFields.current || state.additionalFields.current.length === 0,
   }),
-  setup() {
-    return {
-      volunteersColumns,
-    };
+  created() {
+    this.loadUsers();
+    this.$store.dispatch('additionalFields/getAdditionalFields');
+  },
+  unmounted() {
+    this.$store.dispatch('users/clearUsersList');
   },
   methods: {
     getDate(date) {

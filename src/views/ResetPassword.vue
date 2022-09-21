@@ -2,12 +2,12 @@
   <div class="reset-password">
     <form :onsubmit="resetPassword">
       <label>Восстановление пароля</label>
-      <a-input type="password" size="large" v-model:value="password" placeholder="Пароль" />
+      <a-input v-model:value="password" type="password" size="large" placeholder="Пароль" />
       <span class="reset-password__error">{{ getError('password') }}</span>
-      <a-input type="password" size="large" v-model:value="repeatPassword" placeholder="Подтвердите пароль" />
+      <a-input v-model:value="repeatPassword" type="password" size="large" placeholder="Подтвердите пароль" />
       <span class="reset-password__error">{{ getError('token') }}</span>
       <span class="reset-password__error">{{ getError('userId') }}</span>
-      <Button class="reset-password__btn" title="Отправить запрос" />
+      <CommonButton class="reset-password__btn" title="Отправить запрос" />
     </form>
   </div>
 </template>
@@ -16,12 +16,12 @@
 import { mapState } from 'vuex';
 
 import notifications from '@/utils/notifications';
-import Button from '@/components/common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 import { findError } from '@/utils/validation';
 
 export default {
   name: 'ResetPassword',
-  components: { Button },
+  components: { CommonButton },
   data() {
     return {
       password: '',

@@ -7,7 +7,7 @@ import { IS_AUTH } from '@/mocks/constants';
 
 import mockUtils from '../utils';
 import data from './mocks.json';
-import { userAdditionalFields as userAdditionalFieldsMocks } from '../userAdditionalFields/mocks.json';
+import uafData from '../userAdditionalFields/mocks.json';
 
 export default [
   rest.post(`${API_HOST}/login`, (req, res, ctx) => {
@@ -140,7 +140,7 @@ export default [
     const isVerified = isVerifiedQuery === 'true';
     let users = data.users.filter((user) => user.isVerified === isVerified);
     users = users.map((user) => {
-      const user_additional_fields = userAdditionalFieldsMocks.filter((uaf) => uaf.user_id === user._id);
+      const user_additional_fields = uafData.userAdditionalFields.filter((uaf) => uaf.user_id === user._id);
       return { ...user, user_additional_fields };
     });
 

@@ -1,13 +1,13 @@
 <template>
   <div class="animal__container">
-    <div class="animal" v-if="animal">
-      <AnimalNavigation :type="animal.type" :animalName="animal.name" />
+    <div v-if="animal" class="animal">
+      <AnimalNavigation :type="animal.type" :animal-name="animal.name" />
       <div class="animal__base">
         <div v-if="hasPermission('VIEW_ANIMAL')" class="animal__base__left">
           <AnimalImageNameContainer />
           <CuratorContact />
         </div>
-        <AnimalDescription :hasViewAnimalPermission="hasPermission('VIEW_ANIMAL')" />
+        <AnimalDescription :has-view-animal-permission="hasPermission('VIEW_ANIMAL')" />
       </div>
     </div>
   </div>
@@ -29,16 +29,6 @@ export default {
     AnimalDescription,
     CuratorContact,
   },
-  created() {
-    this.$store.dispatch('notices/clearNotices');
-    this.$store.dispatch('app/setLoading', true);
-    this.$store.dispatch('animals/getAnimalById', { id: this.animalId }).finally(() => {
-      this.$store.dispatch('app/setLoading', false);
-    });
-    if (!this.hasPermission('VIEW_ANIMAL')) {
-      this.$store.dispatch('animalMedicalHistory/getLastMedicalItem', { animal_id: this.animalId, type: 'vaccine' });
-    }
-  },
   computed: mapState({
     notices: (state) => state.animals.notices,
     permissions: (state) => state.permissions.my,
@@ -49,6 +39,16 @@ export default {
       return state.animals.data[this.animalId];
     },
   }),
+  created() {
+    this.$store.dispatch('notices/clearNotices');
+    this.$store.dispatch('app/setLoading', true);
+    this.$store.dispatch('animals/getAnimalById', { id: this.animalId }).finally(() => {
+      this.$store.dispatch('app/setLoading', false);
+    });
+    if (!this.hasPermission('VIEW_ANIMAL')) {
+      this.$store.dispatch('animalMedicalHistory/getLastMedicalItem', { animal_id: this.animalId, type: 'vaccine' });
+    }
+  },
   methods: {
     hasPermission(permission) {
       return this.permissions.includes(permission);

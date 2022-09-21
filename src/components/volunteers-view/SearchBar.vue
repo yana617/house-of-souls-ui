@@ -4,18 +4,18 @@
       <span class="search-bar__sort-bar__title">Сортировать по:</span>
       <div class="search-bar__sort-bar__sub-container">
         <div class="search-bar__btn-group">
-          <SortButton title="Имени" name="name" @change-sort="handleChangeSortBy" :isSortParam="sortBy === 'name'" />
+          <SortButton title="Имени" name="name" :is-sort-param="sortBy === 'name'" @change-sort="handleChangeSortBy" />
           <SortButton
             title="Фамилии"
             name="surname"
+            :is-sort-param="sortBy === 'surname'"
             @change-sort="handleChangeSortBy"
-            :isSortParam="sortBy === 'surname'"
           />
           <SortButton
             title="Телефону"
             name="phone"
+            :is-sort-param="sortBy === 'phone'"
             @change-sort="handleChangeSortBy"
-            :isSortParam="sortBy === 'phone'"
           />
         </div>
         <div class="search-bar__order">
@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="search-bar__input-container">
-      <img class="search-bar__search-icon" src="@/assets/search-icon.png" />
+      <img class="search-bar__search-icon" alt="search" src="@/assets/search-icon.png" />
       <input v-model.lazy="searchText" />
     </div>
   </div>
@@ -39,6 +39,7 @@ import SortButton from './SortButton.vue';
 export default {
   name: 'SearchBar',
   components: { SortButton, ArrowUpOutlined, ArrowDownOutlined },
+  emits: ['reset-skip'],
   data() {
     return {
       sortBy: 'name',

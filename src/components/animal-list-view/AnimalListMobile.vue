@@ -1,39 +1,43 @@
 <template>
-  <AnimalNavigation class="animal-list-mobile__nav" v-if="!showImageFilters" />
+  <AnimalNavigation v-if="!showImageFilters" class="animal-list-mobile__nav" />
   <span class="animal-list-mobile__title">Наши животные</span>
   <Search v-if="hasViewAnimalPermission" />
   <span v-if="!hasViewAnimalPermission && showImageFilters" class="animal-list-mobile__description">
     {{ animalListDescription }}
   </span>
-  <FilterViaImages v-if="showImageFilters" :hasViewAnimalPermission="hasViewAnimalPermission" />
+  <FilterViaImages v-if="showImageFilters" :has-view-animal-permission="hasViewAnimalPermission" />
 
   <div v-if="!showImageFilters" class="animal-list-mobile__sub-container">
     <AnimalTypeAgeMobileFilter />
     <div class="animal-list-mobile__count-filter-container">
       <span>По запросу найдено: {{ animals.length }}</span>
-      <img class="animal-list-mobile__filter-icon" src="@/assets/filter.png" @click="filtersOpen = true" />
+      <img class="animal-list-mobile__filter-icon" alt="filter" src="@/assets/filter.png" @click="filtersOpen = true" />
     </div>
     <AnimalCard
       v-for="animal of animals"
       :key="animal.id"
       v-bind="animal"
-      :hasViewAnimalPermission="hasViewAnimalPermission"
+      :has-view-animal-permission="hasViewAnimalPermission"
       class="animal-list-mobile__animal-card"
     />
   </div>
-  <FiltersMobile v-if="filtersOpen" @on-close="handleCloseFilters" :hasViewAnimalPermission="hasViewAnimalPermission" />
+  <FiltersMobile
+    v-if="filtersOpen"
+    :has-view-animal-permission="hasViewAnimalPermission"
+    @on-close="handleCloseFilters"
+  />
 </template>
 
 <script>
 import { mapState } from 'vuex';
 
 import AnimalNavigation from '@/components/animal-view/AnimalNavigation.vue';
+import { animalListDescription } from '@/utils/pr-texts';
 import FilterViaImages from './FilterViaImages.vue';
 import AnimalCard from './AnimalCard.vue';
 import AnimalTypeAgeMobileFilter from './AnimalTypeAgeMobileFilter.vue';
 import FiltersMobile from './FiltersMobile.vue';
 import Search from './Search.vue';
-import { animalListDescription } from '@/utils/pr-texts';
 
 const ANIMALS_PAGE_VISIT_KEY = 'animalsPageVisited';
 
@@ -50,11 +54,6 @@ export default {
   data() {
     return { animalListDescription, filtersOpen: false };
   },
-  beforeUnmount() {
-    if (this.visitingFirstTime) {
-      localStorage.setItem(ANIMALS_PAGE_VISIT_KEY, true);
-    }
-  },
   computed: mapState({
     visitingFirstTime: () => !localStorage.getItem(ANIMALS_PAGE_VISIT_KEY),
     animals: (state) => state.animals.list,
@@ -67,6 +66,11 @@ export default {
       return this.visitingFirstTime && Object.keys(query).length === 0;
     },
   }),
+  beforeUnmount() {
+    if (this.visitingFirstTime) {
+      localStorage.setItem(ANIMALS_PAGE_VISIT_KEY, true);
+    }
+  },
   methods: {
     hasPermission(permission) {
       return this.permissions.includes(permission);

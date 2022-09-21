@@ -5,11 +5,12 @@ module.exports = {
     jest: true,
   },
   extends: [
-    'plugin:vue/vue3-essential',
     '@vue/airbnb',
+    'eslint:recommended',
+    'plugin:vue/vue3-recommended',
   ],
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
   },
   rules: {
     'no-console': 'error',
@@ -19,5 +20,27 @@ module.exports = {
     camelcase: 'off',
     'no-underscore-dangle': 'off',
     'vue/script-setup-uses-vars': 'off',
+    'vue/max-len': ['error', {
+      code: 120,
+      template: 120,
+      tabWidth: 2,
+      comments: 120,
+    }],
+    'vue/require-default-prop': 'off',
+    'vue/multi-word-component-names': 'off',
+
+    // TODO: fix
+    'vuejs-accessibility/click-events-have-key-events': 'off',
+    'vuejs-accessibility/label-has-for': 'off',
+    'vuejs-accessibility/form-control-has-label': 'off',
+  },
+
+  settings: {
+    'import/resolver': {
+      alias: {
+        map: [['@', './src/']],
+        extensions: ['.js', '.vue'],
+      },
+    },
   },
 };

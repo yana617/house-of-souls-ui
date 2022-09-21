@@ -1,5 +1,5 @@
-import auth from '../../api/auth';
 import notifications from '@/utils/notifications';
+import auth from '../../api/auth';
 
 const SET_USER = 'SET_USER';
 const SET_REGISTER_ERRORS = 'SET_REGISTER_ERRORS';

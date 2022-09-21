@@ -7,14 +7,14 @@
     </div>
     <div class="filters__sub-container">
       <div
-        class="filters__item"
         v-for="filter of filters"
         :key="filter.title"
+        class="filters__item"
         :class="{
           visible: isVisible(filter.filterName),
           'display-none':
-            (filter.volunteerView && !hasViewAnimalPermission) ||
-            (hasViewAnimalPermission && !isVisible(filter.filterName)),
+            (filter.volunteerView && !hasViewAnimalPermission)
+            || (hasViewAnimalPermission && !isVisible(filter.filterName)),
           'no-margin': filter.filterName === Filters.HEIGHT,
         }"
       >
@@ -23,6 +23,7 @@
           <img
             class="filters__item__arrow-icon"
             :class="{ rotated: openFilterName === filter.filterName }"
+            alt="arrow-bottom-icon"
             src="@/assets/arrow-bottom.png"
           />
         </div>
@@ -31,9 +32,9 @@
             v-for="option of filter.options"
             :key="option.value"
             :value="option.value"
-            @click="select(filter.filterName, option.value)"
             class="filters__item__option"
             :class="{ selected: selectedFilterValue(filter.filterName) === option.value }"
+            @click="select(filter.filterName, option.value)"
           >
             {{ option.label }}
           </div>
@@ -54,10 +55,10 @@ import Search from './Search.vue';
 
 export default {
   name: 'Filters',
+  components: { Search },
   props: {
     hasViewAnimalPermission: Boolean,
   },
-  components: { Search },
   data() {
     return { filters, openFilterName: null, Filters };
   },

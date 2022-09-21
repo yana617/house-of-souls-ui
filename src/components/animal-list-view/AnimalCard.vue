@@ -1,12 +1,18 @@
 <template>
   <router-link class="animal-card" :to="`/animals/${id}`">
     <div class="animal-card__image-container">
-      <img class="animal-card__image" :src="photos[0]" />
-      <div></div>
+      <img class="animal-card__image" alt="avatar" :src="photos[0]" />
+      <div />
     </div>
-    <p class="animal-card__name">{{ name }}</p>
-    <p class="animal-card__description">{{ description }}</p>
-    <p class="animal-card__advertising-text">{{ cutText }}</p>
+    <p class="animal-card__name">
+      {{ name }}
+    </p>
+    <p class="animal-card__description">
+      {{ description }}
+    </p>
+    <p class="animal-card__advertising-text">
+      {{ cutText }}
+    </p>
     <span class="animal-card__go-btn">Подробнее</span>
   </router-link>
 </template>

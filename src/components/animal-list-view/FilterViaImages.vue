@@ -7,7 +7,7 @@
       :class="{ selected: selected(filter.type, filter.age) }"
       @click="select(filter.type, filter.age)"
     >
-      <img class="filter-via-images__item__image" :src="getImgUrl(filter.image)" />
+      <img class="filter-via-images__item__image" alt="filter-image" :src="getImgUrl(filter.image)" />
       <div class="filter-via-images__item__title">
         <span class="filter-via-images__item__title__text">{{ filter.labelLong }}</span>
       </div>

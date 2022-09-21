@@ -5,9 +5,9 @@
       <a-typography-text type="secondary" class="forgot-password__description">
         Вам на почту придет ссылка, перейдя по которой можно будет поменять пароль
       </a-typography-text>
-      <a-input type="email" size="large" v-model:value="email" placeholder="E-mail" />
+      <a-input v-model:value="email" type="email" size="large" placeholder="E-mail" />
       <span class="forgot-password__error">{{ getError('email') }}</span>
-      <Button class="forgot-password__btn" title="Отправить запрос" />
+      <CommonButton class="forgot-password__btn" title="Отправить запрос" />
     </form>
   </div>
 </template>
@@ -15,12 +15,12 @@
 <script>
 import { mapState } from 'vuex';
 
-import Button from '@/components/common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 import { findError } from '@/utils/validation';
 
 export default {
   name: 'ForgotPassword',
-  components: { Button },
+  components: { CommonButton },
   data() {
     return {
       email: '',

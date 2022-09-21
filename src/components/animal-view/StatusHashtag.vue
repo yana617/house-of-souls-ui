@@ -1,5 +1,7 @@
 <template>
-  <div class="status-hashtag"># {{ statusTranslate }}</div>
+  <div class="status-hashtag">
+    # {{ statusTranslate }}
+  </div>
 </template>
 
 <script>

@@ -4,10 +4,9 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { API_HOST } from '@/constants';
 import { IS_AUTH } from '@/mocks/constants';
-import { claims as claimsMocks } from './mocks.json';
-import { userAdditionalFields as userAdditionalFieldsMocks } from '../userAdditionalFields/mocks.json';
-import { users as usersMocks } from '../users/mocks.json';
-
+import claimsData from './mocks.json';
+import uafData from '../userAdditionalFields/mocks.json';
+import usersData from '../users/mocks.json';
 import mockUtils from '../utils';
 
 export default [
@@ -25,15 +24,16 @@ export default [
       );
     }
 
-    let claims = claimsMocks.filter((claim) => {
+    let claims = claimsData.claims.filter((claim) => {
       const claimDateInSecs = new Date(claim.date).getTime();
       return claimDateInSecs > from && claimDateInSecs < to;
     });
 
     claims = claims.map((claim) => {
       const { user_id } = claim;
-      const user = usersMocks.find((u) => u._id === user_id);
-      const user_additional_fields = userAdditionalFieldsMocks.filter((uaf) => uaf.user_id === user_id);
+      const user = usersData.users.find((u) => u._id === user_id);
+      const user_additional_fields = uafData.userAdditionalFields
+        .filter((uaf) => uaf.user_id === user_id);
       return {
         ...claim,
         user: {
@@ -55,7 +55,7 @@ export default [
   rest.get(`${API_HOST}/claims/:userId`, (req, res, ctx) => {
     const { userId } = req.params;
 
-    const claims = claimsMocks.filter((claim) => claim.user_id === userId);
+    const claims = claimsData.claims.filter((claim) => claim.user_id === userId);
 
     return res(
       ctx.status(200),
@@ -79,7 +79,7 @@ export default [
 
     const { id } = req.params;
 
-    const claimFromDB = claimsMocks.find((claim) => claim._id === id);
+    const claimFromDB = claimsData.claims.find((claim) => claim._id === id);
     if (!claimFromDB) {
       return res(
         ctx.status(404),
@@ -87,7 +87,7 @@ export default [
       );
     }
 
-    claimsMocks.splice(claimsMocks.indexOf(claimFromDB), 1);
+    claimsData.claims.splice(claimsData.claims.indexOf(claimFromDB), 1);
 
     return res(
       ctx.status(204),
@@ -118,7 +118,7 @@ export default [
       _id: uuidv4(),
     };
 
-    claimsMocks.push(newClaim);
+    claimsData.claims.push(newClaim);
 
     return res(
       ctx.json({

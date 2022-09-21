@@ -9,8 +9,10 @@ export default {
     const { data: { data: result } } = await axios.get(aftApi);
     return result;
   },
-  updateAdditionalField: async (updatedAdditionalField) => axios.put(`${aftApi}/${updatedAdditionalField.id}`,
-    updatedAdditionalField)
+  updateAdditionalField: async (updatedAdditionalField) => axios.put(
+    `${aftApi}/${updatedAdditionalField.id}`,
+    updatedAdditionalField,
+  )
     .then((response) => response.data)
     .catch((error) => error.response.data),
   deleteAdditionalField: async ({ id } = {}) => {

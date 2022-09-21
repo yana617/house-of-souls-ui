@@ -33,6 +33,7 @@ export default {
   getCurator: async (userId) => {
     // const { data: { data: curator } } = await axios.get(`${usersApi}/${userId}/curator`);
     // return curator;
+    // eslint-disable-next-line no-promise-executor-return
     await new Promise((r) => setTimeout(r, 2000));
     return mock.generateCurator();
   },

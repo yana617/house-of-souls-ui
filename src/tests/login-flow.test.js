@@ -7,7 +7,7 @@ import {
 import axios from 'axios';
 
 import App from '@/App.vue';
-import Header from '@/components/common/Header.vue';
+import CommonHeader from '@/components/common/CommonHeader.vue';
 import Login from '@/components/header-component/Login.vue';
 
 import store from '../store';
@@ -46,7 +46,7 @@ describe('Home.vue', () => {
   });
 
   it('loads login btn and it works = shows modal correctly', async () => {
-    expect(wrapper.findComponent(Header).exists()).toBe(true);
+    expect(wrapper.findComponent(CommonHeader).exists()).toBe(true);
 
     const loginBtn = wrapper.find('.header__auth__login-btn');
     expect(loginBtn.exists()).toBe(true);

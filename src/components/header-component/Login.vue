@@ -3,8 +3,8 @@
     <div class="login__wrapper">
       <input id="email" v-model="email" type="text" name="email" placeholder="E-mail" />
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
-      <Button :disabled="loading" @click="submitLogin" class="login__submit-btn" title="Войти" />
-      <router-link @click="closeModal" class="login__forgot-password-label" to="/forgot-password">
+      <CommonButton :disabled="loading" class="login__submit-btn" title="Войти" @click="submitLogin" />
+      <router-link class="login__forgot-password-label" to="/forgot-password" @click="closeModal">
         забыли пароль?
       </router-link>
     </div>
@@ -12,11 +12,11 @@
 </template>
 
 <script>
-import Button from '../common/Button.vue';
+import CommonButton from '../common/CommonButton.vue';
 
 export default {
   name: 'Login',
-  components: { Button },
+  components: { CommonButton },
   data() {
     return {
       email: null,

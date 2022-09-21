@@ -2,9 +2,15 @@
   <div class="header">
     <Dropdown v-if="$matchMedia.tablet" :items="headerLinks" :selected="selected" />
     <div class="header__nav-menu">
-      <router-link v-if="hasPermissions('VIEW_USERS')" to="/volunteers">Волонтеры</router-link>
-      <router-link class="header__nav-menu__right-btn" to="/animals">Животные</router-link>
-      <router-link class="header__nav-menu__right-btn" to="/">График</router-link>
+      <router-link v-if="hasPermissions('VIEW_USERS')" to="/volunteers">
+        Волонтеры
+      </router-link>
+      <router-link class="header__nav-menu__right-btn" to="/animals">
+        Животные
+      </router-link>
+      <router-link class="header__nav-menu__right-btn" to="/">
+        График
+      </router-link>
       <router-link v-if="hasPermissions('VIEW_PROFILE')" class="header__nav-menu__right-btn" to="/profile">
         Профиль
       </router-link>
@@ -13,25 +19,30 @@
       </router-link>
     </div>
     <div class="header__auth">
-      <Button
+      <CommonButton
         v-if="permissionsLoaded && !hasPermissions('VIEW_PROFILE')"
-        @click="setModal(MODAL.LOGIN)"
         title="Вход"
         class="header__auth__login-btn"
+        @click="setModal(MODAL.LOGIN)"
       />
-      <Button
+      <CommonButton
         v-if="permissionsLoaded && !hasPermissions('VIEW_PROFILE')"
-        @click="setModal(MODAL.REGISTRATION)"
         class="header__auth__register-btn"
         title="Регистрация"
+        @click="setModal(MODAL.REGISTRATION)"
       />
-      <Button
+      <CommonButton
         v-if="hasAdminPermissions()"
-        @click="$router.push('/admin/volunteers-requests')"
         class="header__auth__admin-btn"
         title="Админка"
+        @click="$router.push('/admin/volunteers-requests')"
       />
-      <Button v-if="hasPermissions('VIEW_PROFILE')" class="header__auth__logout-btn" @click="logout()" title="Выход" />
+      <CommonButton
+        v-if="hasPermissions('VIEW_PROFILE')"
+        class="header__auth__logout-btn"
+        title="Выход"
+        @click="logout()"
+      />
       <AuthModal />
     </div>
   </div>
@@ -41,17 +52,17 @@
 <script>
 import { mapState } from 'vuex';
 
-import Button from './Button.vue';
+import { clearStorage } from '@/utils/sessionStorage';
+import CommonButton from './CommonButton.vue';
 import Dropdown from './Dropdown.vue';
 import AuthModal from '../header-component/AuthModal.vue';
 import { PATHS, HEADER_LINKS, ADMIN_LINKS } from '../../router/constants';
 import { MODAL } from '../../utils/constants';
-import { clearStorage } from '@/utils/sessionStorage';
 
 export default {
-  name: 'Header',
+  name: 'CommonHeader',
   components: {
-    Button,
+    CommonButton,
     Dropdown,
     AuthModal,
   },

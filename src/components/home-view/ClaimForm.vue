@@ -4,25 +4,25 @@
     <span class="claim-form__error">{{ getError('guest.name') }}</span>
     <span class="claim-form__error">{{ getError('guest.surname') }}</span>
     <span class="claim-form__error">{{ getError('guest.phone') }}</span>
-    <ClaimBaseInfo :claim="claimModel" :isUpdateMode="isUpdateMode" v-model:isGuest="isGuest" />
+    <ClaimBaseInfo v-model:isGuest="isGuest" :claim="claimModel" :is-update-mode="isUpdateMode" />
     <label class="claim-form__title">{{ labels.arrivalTime }}</label>
     <a-time-picker
+      v-model:value="claimModel.arrival_time"
       style="width: 100%"
       placeholder="Выбрать время"
       format="HH:mm"
-      v-model:value="claimModel.arrival_time"
       :minute-step="15"
-    ></a-time-picker>
+    />
     <span class="claim-form__error">{{ getError('arrival_time') }}</span>
-    <BaseInput :label="labels.additionalPeople" v-model="claimModel.additional_people" />
+    <BaseInput v-model="claimModel.additional_people" :label="labels.additionalPeople" />
     <span class="claim-form__error">{{ getError('additional_people') }}</span>
-    <BaseInput is-textarea :label="labels.comment" :description="commentDescription" v-model="claimModel.comment" />
+    <BaseInput v-model="claimModel.comment" is-textarea :label="labels.comment" :description="commentDescription" />
     <span class="claim-form__error">{{ getError('comment') }}</span>
-    <a-checkbox class="claim-form__checkbox" v-model:checked="claimModel.questionable">
+    <a-checkbox v-model:checked="claimModel.questionable" class="claim-form__checkbox">
       {{ labels.questionable }}
     </a-checkbox>
     <span>{{ descriptions.questionable }} </span>
-    <Button :loading="loading" class="claim-form__submit-btn" :title="submitButton" @click="submit()" />
+    <CommonButton :loading="loading" class="claim-form__submit-btn" :title="submitButton" @click="submit()" />
   </div>
 </template>
 
@@ -30,16 +30,16 @@
 import { mapState } from 'vuex';
 import moment from 'moment';
 
-import Button from '@/components/common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 import BaseInput from '@/components/common/BaseInput.vue';
-import ClaimBaseInfo from './ClaimBaseInfo.vue';
 import { claimTimeDescription, claimFormLabels, claimFormDescriptions } from '@/utils/constants';
 import { findError } from '@/utils/validation';
+import ClaimBaseInfo from './ClaimBaseInfo.vue';
 
 export default {
   name: 'ClaimForm',
   components: {
-    Button,
+    CommonButton,
     BaseInput,
     ClaimBaseInfo,
   },
@@ -51,6 +51,7 @@ export default {
     loading: Boolean,
     errors: Array,
   },
+  emits: ['on-submit'],
   data() {
     return {
       claimModel: {

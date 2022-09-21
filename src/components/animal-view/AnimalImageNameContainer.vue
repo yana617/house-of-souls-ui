@@ -2,13 +2,15 @@
   <div class="animal-image-name-container">
     <div v-if="noNotices" class="animal-image-name-container__indent" />
     <StatusHashtag :status="animal.status" />
-    <img class="animal-image-name-container__image" :src="animal.photos[0]" />
-    <h4 class="animal-image-name-container__name">{{ animal.name }}</h4>
-    <Button
+    <img class="animal-image-name-container__image" alt="avatar" :src="animal.photos[0]" />
+    <h4 class="animal-image-name-container__name">
+      {{ animal.name }}
+    </h4>
+    <CommonButton
       v-if="!noNotices"
       class="animal-image-name-container__notices-btn"
-      @click="showNotices()"
       title="Лечение"
+      @click="showNotices()"
     />
     <div v-if="noNotices" class="animal-image-name-container__indent" />
   </div>
@@ -17,18 +19,12 @@
 <script>
 import { mapState } from 'vuex';
 
-import Button from '@/components/common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 import StatusHashtag from './StatusHashtag.vue';
 
 export default {
   name: 'AnimalImageNameContainer',
-  components: { Button, StatusHashtag },
-  created() {
-    this.$store.dispatch('app/setLoading', true);
-    this.$store.dispatch('notices/getNotices', { animal_id: this.animalId }).finally(() => {
-      this.$store.dispatch('app/setLoading', false);
-    });
-  },
+  components: { CommonButton, StatusHashtag },
   computed: mapState({
     notices: (state) => state.notices.list,
     animalId() {
@@ -41,6 +37,12 @@ export default {
       return this.notices.length === 0;
     },
   }),
+  created() {
+    this.$store.dispatch('app/setLoading', true);
+    this.$store.dispatch('notices/getNotices', { animal_id: this.animalId }).finally(() => {
+      this.$store.dispatch('app/setLoading', false);
+    });
+  },
 };
 </script>
 

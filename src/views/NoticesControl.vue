@@ -1,11 +1,16 @@
 <template>
   <div class="notices-control">
     <span class="notices-control__title">Информационные блоки</span>
-    <Notice v-for="noticeId in notices.list" :key="noticeId" v-bind="notices.data[noticeId]" :noticeId="noticeId" />
-    <Button v-if="hasPermissionsToCreateNotice" class="notices-control__add-btn" title="добавить" @click="openModal" />
+    <Notice v-for="noticeId in notices.list" :key="noticeId" v-bind="notices.data[noticeId]" :notice-id="noticeId" />
+    <CommonButton
+      v-if="hasPermissionsToCreateNotice"
+      class="notices-control__add-btn"
+      title="добавить"
+      @click="openModal"
+    />
     <NewNoticeModal v-if="isModalOpen" />
   </div>
-  <img class="notices-control__img" src="@/assets/cat_infos.jpeg" />
+  <img class="notices-control__img" src="@/assets/cat_infos.jpeg" alt="notices" />
 </template>
 
 <script>
@@ -13,12 +18,12 @@ import { mapState } from 'vuex';
 
 import { MODAL } from '@/utils/constants';
 import Notice from '@/components/notices-control-view/Notice.vue';
-import Button from '@/components/common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 import NewNoticeModal from '@/components/notices-control-view/NewNoticeModal.vue';
 
 export default {
   name: 'NoticesControl',
-  components: { Notice, Button, NewNoticeModal },
+  components: { Notice, CommonButton, NewNoticeModal },
   computed: mapState({
     notices: (state) => state.notices,
     modal: (state) => state.app.modal,

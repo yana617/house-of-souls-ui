@@ -1,21 +1,21 @@
 <template>
   <div v-if="isModalOpen" class="modal__wrapper">
     <div class="auth-modal">
-      <img class="auth-modal__background-image" src="@/assets/auth-modal-back.jpg" />
-      <img class="auth-modal__background-image mobile" src="@/assets/auth-modal-mobile.jpg" />
-      <img @click="setModal(null)" class="auth-modal__header__close-icon" src="@/assets/close.png" />
+      <img class="auth-modal__background-image" alt="back" src="@/assets/auth-modal-back.jpg" />
+      <img class="auth-modal__background-image mobile" alt="mobile" src="@/assets/auth-modal-mobile.jpg" />
+      <img class="auth-modal__header__close-icon" src="@/assets/close.png" alt="close" @click="setModal(null)" />
       <div class="auth-modal__header">
         <span
-          @click="setModal(MODAL.LOGIN)"
           class="auth-modal__header__title"
           :class="{ selected: modal === MODAL.LOGIN }"
+          @click="setModal(MODAL.LOGIN)"
         >
           Вход
         </span>
         <span
-          @click="setModal(MODAL.REGISTRATION)"
           class="auth-modal__header__title"
           :class="{ selected: modal === MODAL.REGISTRATION }"
+          @click="setModal(MODAL.REGISTRATION)"
         >
           Регистрация
         </span>
@@ -36,15 +36,15 @@ import { MODAL } from '../../utils/constants';
 export default {
   name: 'AuthModal',
   components: { Registration, Login },
+  data() {
+    return { MODAL };
+  },
   computed: mapState({
     modal: (state) => state.app.modal,
     isModalOpen() {
       return this.modal === MODAL.REGISTRATION || this.modal === MODAL.LOGIN;
     },
   }),
-  data() {
-    return { MODAL };
-  },
   methods: {
     setModal(modalName) {
       this.$store.dispatch('app/setModal', modalName);

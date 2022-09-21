@@ -1,5 +1,5 @@
 <template>
-  <button class="sort-button" :class="{ 'is-sort-param': isSortParam }" @click="changeSort">
+  <button type="button" class="sort-button" :class="{ 'is-sort-param': isSortParam }" @click="changeSort">
     {{ title }}
   </button>
 </template>
@@ -15,6 +15,7 @@ export default {
     last: Boolean,
     isSortParam: Boolean,
   },
+  emits: ['change-sort'],
   methods: {
     changeSort() {
       this.$emit('change-sort', this.name);

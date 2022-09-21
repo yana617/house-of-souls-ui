@@ -5,7 +5,7 @@
       :data-source="claims"
       :row-key="(record) => record._id"
       :pagination="paginationOpt"
-      :defaultExpandAllRows="true"
+      :default-expand-all-rows="true"
       class="visit__table"
     >
       <template #date="{ text: date }">

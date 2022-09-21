@@ -1,10 +1,12 @@
 <template>
-  <button :disabled="loading || disabled">{{ loading ? 'Загрузка..' : title }}</button>
+  <button :disabled="loading || disabled" type="button">
+    {{ loading ? 'Загрузка..' : title }}
+  </button>
 </template>
 
 <script>
 export default {
-  name: 'Button',
+  name: 'CommonButton',
   props: {
     title: String,
     loading: Boolean,

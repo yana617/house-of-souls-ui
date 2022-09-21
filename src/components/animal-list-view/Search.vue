@@ -2,7 +2,7 @@
   <div class="search">
     <h3>Поиск</h3>
     <input v-model="searchText" placeholder="Введите кличку..">
-    <img class="search__icon" src="@/assets/search-icon.png" />
+    <img class="search__icon" alt="search" src="@/assets/search-icon.png" />
   </div>
 </template>
 
