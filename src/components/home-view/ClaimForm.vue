@@ -28,7 +28,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import CommonButton from '@/components/common/CommonButton.vue';
 import BaseInput from '@/components/common/BaseInput.vue';
@@ -60,7 +60,7 @@ export default {
         additional_people: this.claim.additional_people || 0,
         comment: this.claim.comment || '',
         questionable: this.claim.questionable || false,
-        arrival_time: this.claim.arrival_time ? moment(this.claim.arrival_time, 'HH:mm') : null,
+        arrival_time: this.claim.arrival_time ? dayjs(this.claim.arrival_time, 'HH:mm') : null,
         guest_id: this.claim.guest_id,
         guest: {
           name: this.claim.guest?.name || '',

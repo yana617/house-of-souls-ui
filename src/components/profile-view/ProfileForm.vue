@@ -43,7 +43,7 @@
 <script>
 import { ref } from 'vue';
 import { mapState } from 'vuex';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { findError } from '@/utils/validation';
 import CommonButton from '../common/CommonButton.vue';
@@ -120,7 +120,7 @@ export default {
     },
     loadProfile() {
       this.profile = { ...this.user };
-      this.birthday = moment(this.user.birthday);
+      this.birthday = dayjs(this.user.birthday);
     },
   },
 };
