@@ -30,7 +30,7 @@ const interceptorsSetup = () => {
   }, (error) => Promise.reject(error));
 
   axios.interceptors.response.use((response) => {
-    checkResponseErrors(response.data);
+    checkResponseErrors(response.data || {});
     return response;
   }, (err) => {
     checkResponseStatus(err.response.status);
@@ -38,7 +38,7 @@ const interceptorsSetup = () => {
       return Promise.reject(err);
     }
 
-    checkResponseErrors(err.response.data);
+    checkResponseErrors(err.response.data || {});
     return Promise.reject(err);
   });
 };
