@@ -10,8 +10,10 @@ const getters = {};
 
 const actions = {
   getRoles: async ({ commit }) => {
-    const result = await roles.getRoles();
-    commit(SET_ROLES, result);
+    const response = await roles.getRoles();
+    if (response.success) {
+      commit(SET_ROLES, response.data);
+    }
   },
 };
 

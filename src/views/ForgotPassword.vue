@@ -1,13 +1,16 @@
 <template>
-  <div class="forgot-password">
+  <div v-if="anotherUserProfile" class="forgot-password">
     <form :onsubmit="forgotPassword">
-      <label>Восстановление пароля</label>
-      <a-typography-text type="secondary" class="forgot-password__description">
-        Вам на почту придет ссылка, перейдя по которой можно будет поменять пароль
-      </a-typography-text>
-      <a-input type="email" size="large" v-model:value="email" placeholder="E-mail" />
-      <span class="forgot-password__error">{{ getError('email') }}</span>
-      <Button class="forgot-password__btn" title="Отправить запрос" />
+      <label>Сгенерировать ссылку для {{ userNameSurname }}</label>
+      <a-typography-text type="secondary" class="forgot-password__description" v-html="description" />
+      <Button v-if="!resetLink" class="forgot-password__generate-btn" title="Сгенерировать ссылку" />
+      <Button
+        v-if="resetLink"
+        type="button"
+        @click="onCopyLink"
+        class="forgot-password__copy-btn"
+        title="Скопировать ссылку"
+      />
     </form>
   </div>
 </template>
@@ -15,33 +18,63 @@
 <script>
 import { mapState } from 'vuex';
 
+import notifications from '@/utils/notifications';
 import Button from '@/components/common/Button.vue';
-import { findError } from '@/utils/validation';
+
+const description = `После нажатия кнопки будет сгенерирована ссылка для смены пароля. 
+Ссылка действительна в течении <b>20 минут</b>. 
+После появления ссылки скопируйте ее и отправьте пользователю.`;
 
 export default {
   name: 'ForgotPassword',
   components: { Button },
   data() {
-    return {
-      email: '',
-      findError,
-    };
+    return { description };
+  },
+  mounted() {
+    if (this.userId) {
+      this.loadUser();
+    }
   },
   computed: mapState({
-    errors: (state) => state.auth.forgotPasswordErrors,
+    anotherUserProfile: (state) => state.users.userProfile,
+    resetLink: (state) => state.auth.resetLink,
+    userId() {
+      return this.$route.query.userId;
+    },
+    userNameSurname() {
+      if (this.anotherUserProfile) {
+        const { name, surname } = this.anotherUserProfile;
+        return `${name} ${surname}`;
+      }
+      return null;
+    },
   }),
   methods: {
+    loadUser() {
+      this.$store.dispatch('app/setLoading', true);
+      this.$store
+        .dispatch('users/getUserProfile', { userId: this.userId })
+        .finally(() => {
+          this.$store.dispatch('app/setLoading', false);
+        });
+    },
     forgotPassword() {
       this.$store.dispatch('app/setLoading', true);
       this.$store
-        .dispatch('auth/forgotPassword', { email: this.email })
+        .dispatch('auth/forgotPassword', { userId: this.userId })
         .finally(() => {
           this.$store.dispatch('app/setLoading', false);
         });
       return false;
     },
-    getError(field) {
-      return this.findError(this.errors, field);
+    async onCopyLink() {
+      try {
+        await navigator.clipboard.writeText(this.resetLink);
+        notifications.success('Успешно скопировано!');
+      } catch (e) {
+        notifications.error('Ошибка копирования :(');
+      }
     },
   },
 };
@@ -50,6 +83,7 @@ export default {
 <style scoped lang="scss">
 $cyan: rgb(27, 147, 245);
 $blueGrey: rgb(235, 245, 255);
+$green: #42b983;
 
 .forgot-password {
   background-color: $blueGrey;
@@ -68,8 +102,9 @@ $blueGrey: rgb(235, 245, 255);
     label {
       font-size: 20px;
       font-weight: bold;
-      margin-bottom: 16px;
+      margin-bottom: 24px;
       display: block;
+      max-width: 300px;
     }
 
     input {
@@ -79,19 +114,32 @@ $blueGrey: rgb(235, 245, 255);
 
   &__description {
     max-width: 300px;
-    margin-top: -12px;
     margin-bottom: 16px;
+    text-align: justify;
   }
 
-  &__btn {
+  &__generate-btn,
+  &__copy-btn {
     color: white;
-    background-color: $cyan;
     margin-top: 16px;
     padding: 12px;
+  }
+
+  &__generate-btn {
+    background-color: $cyan;
 
     &:hover {
       color: $cyan;
       border-color: $cyan;
+    }
+  }
+
+  &__copy-btn {
+    background-color: $green;
+
+    &:hover {
+      color: $green;
+      border-color: $green;
     }
   }
 
@@ -105,6 +153,7 @@ $blueGrey: rgb(235, 245, 255);
     form {
       border-left: none;
       border-right: none;
+
       input {
         width: 100%;
       }

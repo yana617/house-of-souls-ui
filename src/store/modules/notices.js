@@ -16,12 +16,16 @@ const getters = {};
 
 const actions = {
   getNotices: async ({ commit }, params = {}) => {
-    const result = await notices.getNotices(params);
-    commit(SET_NOTICES_LIST, result);
+    const response = await notices.getNotices(params);
+    if (response.success) {
+      commit(SET_NOTICES_LIST, response.data);
+    }
   },
   getNoticeById: async ({ commit }, params = {}) => {
-    const result = await notices.getNoticeById(params);
-    commit(SET_NOTICE_DATA, result);
+    const response = await notices.getNoticeById(params);
+    if (response.success) {
+      commit(SET_NOTICE_DATA, response.data);
+    }
   },
   updateNotice: async ({ commit }, params = {}) => {
     commit(SET_UPDATE_ERRORS, []);

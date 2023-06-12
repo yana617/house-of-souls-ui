@@ -10,7 +10,7 @@ const SET_RATING = 'SET_RATING';
 const state = () => ({
   currentSchedule: null,
   nextWeekSchedule: null,
-  personal: {},
+  personal: [],
   createErrors: [],
   updateErrors: [],
   rating: null,
@@ -20,16 +20,22 @@ const getters = {};
 
 const actions = {
   getSchedule: async ({ commit }, params = {}) => {
-    const result = await claims.getClaims(params);
-    commit(SET_CURRENT_SCHEDULE, result);
+    const mappedClaims = await claims.getClaims(params);
+    if (mappedClaims) {
+      commit(SET_CURRENT_SCHEDULE, mappedClaims);
+    }
   },
   getNextWeekSchedule: async ({ commit }, params = {}) => {
-    const result = await claims.getClaims(params);
-    commit(SET_NEXT_WEEK_SCHEDULE, result);
+    const mappedClaims = await claims.getClaims(params);
+    if (mappedClaims) {
+      commit(SET_NEXT_WEEK_SCHEDULE, mappedClaims);
+    }
   },
   getClaimsByUserId: async ({ commit }, params = {}) => {
-    const result = await claims.getClaimsByUserId(params);
-    commit(SET_PERSONAL_CLAIMS, result);
+    const response = await claims.getClaimsByUserId(params);
+    if (response.success) {
+      commit(SET_PERSONAL_CLAIMS, response.data);
+    }
   },
   createClaim: async ({ commit }, body = {}) => {
     const response = await claims.createClaim(body);
@@ -55,8 +61,10 @@ const actions = {
     await claims.deleteClaim({ _id });
   },
   getRating: async ({ commit }) => {
-    const result = await claims.getRating();
-    commit(SET_RATING, result);
+    const response = await claims.getRating();
+    if (response.success) {
+      commit(SET_RATING, response.data);
+    }
   },
 };
 

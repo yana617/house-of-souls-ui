@@ -13,21 +13,29 @@ const setNewToken = (response) => {
 };
 
 export default {
-  login: async (body) => axios.post(`${authApi}/login`, body)
-    .then((response) => {
-      setNewToken(response.data);
-      return response.data;
-    }),
-  register: async (body) => axios.post(`${authApi}/register`, body)
+  login: async (body) => axios
+    .post(`${authApi}/login`, body)
     .then((response) => {
       setNewToken(response.data);
       return response.data;
     })
     .catch((error) => error.response.data),
-  forgotPassword: async ({ email }) => axios.post(`${authApi}/forgot-password`, { email })
+
+  register: async (body) => axios
+    .post(`${authApi}/register`, body)
+    .then((response) => {
+      setNewToken(response.data);
+      return response.data;
+    })
+    .catch((error) => error.response.data),
+
+  forgotPassword: async ({ userId }) => axios
+    .post(`${authApi}/forgot-password`, { userId })
     .then((response) => response.data)
     .catch((error) => error.response.data),
-  resetPassword: async (body) => axios.post(`${authApi}/reset-password`, body)
+
+  resetPassword: async (body) => axios
+    .post(`${authApi}/reset-password`, body)
     .then((response) => response.data)
     .catch((error) => error.response.data),
 };

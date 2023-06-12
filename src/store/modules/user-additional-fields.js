@@ -12,8 +12,10 @@ const getters = {};
 
 const actions = {
   getUserAdditionalFields: async ({ commit }) => {
-    const fields = await userAdditionalFields.getUserAdditionalFields();
-    commit(SET_USER_ADDITIONAL_FIELDS, fields);
+    const response = await userAdditionalFields.getUserAdditionalFields();
+    if (response.success) {
+      commit(SET_USER_ADDITIONAL_FIELDS, response.data);
+    }
   },
   updateUserAdditionalField: async ({ commit }, { id, value } = {}) => {
     await userAdditionalFields.updateUserAdditionalField({ id, value });

@@ -3,7 +3,7 @@
     <div v-if="haveTruthyAdditionFields()" class="schedule-claim__additional-fields">
       <div
         class="schedule-claim__additional-fields__wrapper"
-        v-for="field in claim.user.user_additional_fields"
+        v-for="field in claim.user?.user_additional_fields"
         :key="field.id"
       >
         <img v-if="false" class="schedule-claim__icon" :src="getIcon(field.additional_field_template_d)" />
@@ -46,7 +46,7 @@ export default {
       return `${name} ${surname}`;
     },
     isMyClaim() {
-      return this.user && this.user.id === this.claim.user.id;
+      return this.user && this.user?.id === this.claim.user?.id;
     },
   }),
   methods: {

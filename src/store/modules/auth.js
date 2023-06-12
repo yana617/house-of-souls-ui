@@ -1,16 +1,18 @@
-import auth from '../../api/auth';
 import notifications from '@/utils/notifications';
+import auth from '../../api/auth';
 
 const SET_USER = 'SET_USER';
 const SET_REGISTER_ERRORS = 'SET_REGISTER_ERRORS';
 const SET_FORGOT_PASSWORD_ERRORS = 'SET_FORGOT_PASSWORD_ERRORS';
 const SET_RESET_PASSWORD_ERRORS = 'SET_RESET_PASSWORD_ERRORS';
+const SET_RESET_LINK = 'SET_RESET_LINK';
 
 const state = () => ({
   user: null,
   registerErrors: [],
   forgotPasswordErrors: [],
   resetPasswordErrors: [],
+  resetLink: null,
 });
 
 const getters = {};
@@ -38,13 +40,7 @@ const actions = {
   forgotPassword: async ({ commit }, body = {}) => {
     const response = await auth.forgotPassword(body);
     if (response.success) {
-      notifications.success('Проверяйте почту :)', 'Сообщение на почту успешно отправлено!');
-      return;
-    }
-    if (response.errors) {
-      commit(SET_FORGOT_PASSWORD_ERRORS, response.errors);
-    } else {
-      commit(SET_FORGOT_PASSWORD_ERRORS, []);
+      commit(SET_RESET_LINK, response.data);
     }
   },
   resetPassword: async ({ commit }, body = {}) => {
@@ -73,6 +69,9 @@ const mutations = {
   },
   [SET_RESET_PASSWORD_ERRORS](state, errors) {
     state.resetPasswordErrors = errors;
+  },
+  [SET_RESET_LINK](state, link) {
+    state.resetLink = link;
   },
 };
 

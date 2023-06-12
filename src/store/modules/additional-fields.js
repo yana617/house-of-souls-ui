@@ -17,8 +17,10 @@ const getters = {};
 
 const actions = {
   getAdditionalFields: async ({ commit }) => {
-    const additionalFieldTemplates = await additionalFields.getAdditionalFields();
-    commit(SET_ADDITIONAL_FIELDS, additionalFieldTemplates);
+    const response = await additionalFields.getAdditionalFields();
+    if (response.success) {
+      commit(SET_ADDITIONAL_FIELDS, response.data);
+    }
   },
   updateAdditionalField: async ({ commit }, body = {}) => {
     const response = await additionalFields.updateAdditionalField(body);

@@ -36,14 +36,14 @@
 <script>
 import { mapState } from 'vuex';
 
-import Button from '../common/Button.vue';
 import { findError } from '@/utils/validation';
+import Button from '../common/Button.vue';
 
 export default {
   name: 'NewAdditionalFieldModal',
   components: { Button },
   computed: mapState({
-    icon: (state) => state.additionalFields.new.icon,
+    icon: (state) => state.additionalFields.new?.icon,
     errors: (state) => state.additionalFields.createErrors,
   }),
   data() {

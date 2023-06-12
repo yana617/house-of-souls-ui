@@ -7,6 +7,7 @@
       class="schedule-time-line__applies"
       :class="{ 'border-top': borderTop }"
     >
+      <NoPeople v-if="!day.claims.length" />
       <ScheduleClaim
         v-for="claim in day.claims"
         :key="claim.id"
@@ -27,7 +28,6 @@
         title="Отписаться"
         @click="unsubscribe(day.claims)"
       />
-      <span v-if="showNoClaims(day.claims.length)" class="schedule-time-line__no-assigned"> Никто не записан </span>
     </div>
     <ClaimInfoModal
       v-if="claimInfoModalOpen"
@@ -59,6 +59,7 @@ import Button from '../common/Button.vue';
 import ScheduleClaim from './ScheduleClaim.vue';
 import ClaimInfoModal from './ClaimInfoModal.vue';
 import ClaimModal from './ClaimModal.vue';
+import NoPeople from './NoPeople.vue';
 
 export default {
   name: 'ScheduleTimeLine',
@@ -67,6 +68,7 @@ export default {
     ScheduleClaim,
     ClaimInfoModal,
     ClaimModal,
+    NoPeople,
   },
   props: {
     schedule: Array,
@@ -145,9 +147,6 @@ export default {
       this.updateOrCreateModalOpen = false;
       this.refreshSchedule();
     },
-    showNoClaims(claimsCount) {
-      return !claimsCount && (!this.user || !this.hasPermissionsToAssign);
-    },
     refreshSchedule() {
       this.$emit('refreshSchedule');
     },
@@ -215,13 +214,6 @@ $lightGrey: #ccc;
       background-color: red;
       color: white;
     }
-  }
-
-  &__no-assigned {
-    font-size: 14px;
-    margin-top: 8px;
-    color: black;
-    width: $dayWidth;
   }
 }
 </style>

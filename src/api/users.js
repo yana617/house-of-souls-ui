@@ -6,25 +6,33 @@ const usersApi = `${AUTH_SERVICE_API}/users`;
 export default {
   getUsers: async (params) => {
     const limit = parseInt(process.env.VUE_APP_LIMIT, 10);
-    const { data: { data: users } } = await axios.get(usersApi, { params: { limit, ...params } });
-    return users;
+    return axios
+      .get(usersApi, { params: { limit, ...params } })
+      .then((response) => response.data)
+      .catch((error) => error.response.data);
   },
-  updateUser: async (body) => axios.put(`${usersApi}/${body.id}`, body)
+
+  updateUser: async (body) => axios
+    .put(`${usersApi}/${body.id}`, body)
     .then((response) => response.data)
     .catch((error) => error.response.data),
-  getUserPermissions: async (userId) => {
-    const { data: { data: permissions } } = await axios.get(`${usersApi}/${userId}/permissions`);
-    return permissions;
-  },
-  updateRole: async ({ userId, role }) => {
-    await axios.put(`${usersApi}/${userId}/role`, { role });
-  },
-  getUserProfile: async ({ userId }) => {
-    const { data: { data: user } } = await axios.get(`${usersApi}/${userId}`);
-    return user;
-  },
-  getUser: async () => {
-    const { data: { data: user } } = await axios.get(`${usersApi}/me`);
-    return user;
-  },
+
+  getUserPermissions: async (userId) => axios
+    .get(`${usersApi}/${userId}/permissions`)
+    .then((response) => response.data)
+    .catch((error) => error.response.data),
+
+  updateRole: async ({ userId, role }) => axios
+    .put(`${usersApi}/${userId}/role`, { role })
+    .catch((error) => error.response.data),
+
+  getUserProfile: async ({ userId }) => axios
+    .get(`${usersApi}/${userId}`)
+    .then((response) => response.data)
+    .catch((error) => error.response.data),
+
+  getUser: async () => axios
+    .get(`${usersApi}/me`)
+    .then((response) => response.data)
+    .catch((error) => error.response.data),
 };

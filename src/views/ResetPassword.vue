@@ -2,12 +2,12 @@
   <div class="reset-password">
     <form :onsubmit="resetPassword">
       <label>Восстановление пароля</label>
-      <a-input type="password" size="large" v-model:value="password" placeholder="Пароль" />
+      <a-input type="password" size="large" v-model:value="password" placeholder="Новый пароль" />
       <span class="reset-password__error">{{ getError('password') }}</span>
       <a-input type="password" size="large" v-model:value="repeatPassword" placeholder="Подтвердите пароль" />
       <span class="reset-password__error">{{ getError('token') }}</span>
       <span class="reset-password__error">{{ getError('userId') }}</span>
-      <Button class="reset-password__btn" title="Отправить запрос" />
+      <Button class="reset-password__btn" title="Обновить пароль" />
     </form>
   </div>
 </template>
@@ -42,6 +42,9 @@ export default {
       this.$store.dispatch('app/setLoading', true);
       this.$store
         .dispatch('auth/resetPassword', { password: this.password, token, userId })
+        .then(() => {
+          this.$router.push('/');
+        })
         .finally(() => {
           this.$store.dispatch('app/setLoading', false);
         });
