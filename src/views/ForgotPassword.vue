@@ -1,7 +1,7 @@
 <template>
   <div v-if="anotherUserProfile" class="forgot-password">
     <form :onsubmit="forgotPassword">
-      <label>Сгенерировать ссылку для {{ userNameSurname }}</label>
+      <p>Сгенерировать ссылку для {{ userNameSurname }}</p>
       <a-typography-text type="secondary" class="forgot-password__description" v-html="description" />
       <Button v-if="!resetLink" class="forgot-password__generate-btn" title="Сгенерировать ссылку" />
       <Button

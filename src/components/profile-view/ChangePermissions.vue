@@ -2,7 +2,13 @@
   <div class="change-permissions">
     <span><b>Права предоставляемые ролью пользователя</b></span>
     <br />
-    <a-checkbox class="change-permissions__item" v-for="perm in translatedRolePermissions" :key="perm" checked disabled>
+    <a-checkbox
+      class="change-permissions__item"
+      v-for="perm in translatedRolePermissions"
+      :key="perm"
+      checked
+      disabled
+    >
       {{ perm.translate }}
     </a-checkbox>
     <br />
@@ -26,7 +32,12 @@
       {{ perm.translate }}
     </a-checkbox>
     <br />
-    <Button :loading="loading" class="change-permissions__save-btn" title="сохранить" @click="updatePermissions" />
+    <Button
+      :loading="loading"
+      class="change-permissions__save-btn"
+      title="сохранить"
+      @click="updatePermissions"
+    />
   </div>
 </template>
 
@@ -51,7 +62,8 @@ export default {
     userAdditionalPermissions: (state) => state.users.permissions.userPermissions || [],
     userPermissionsToAdd() {
       return this.allPermissions.filter(
-        (p) => !this.userAdditionalPermissions.includes(p.name) && !this.userRolePermissions.includes(p.name),
+        (p) => !this.userAdditionalPermissions.includes(p.name)
+          && !this.userRolePermissions.includes(p.name),
       );
     },
     translatedRolePermissions() {

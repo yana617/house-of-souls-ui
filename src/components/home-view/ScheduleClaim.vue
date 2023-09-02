@@ -6,16 +6,27 @@
         v-for="field in claim.user?.user_additional_fields"
         :key="field.id"
       >
-        <img v-if="false" class="schedule-claim__icon" :src="getIcon(field.additional_field_template_d)" />
+        <img
+          v-if="false"
+          class="schedule-claim__icon"
+          :src="getIcon(field.additional_field_template_d)"
+          alt="additional-field-icon"
+        />
         <SmileOutlined v-if="field.value" class="schedule-claim__icon" />
       </div>
     </div>
     <span @click="$emit('on-claim-click', claim)" class="schedule-claim__main-container">
       <b v-if="claim.questionable" class="schedule-claim__questionable">?</b>
       {{ username }}
-      <b class="schedule-claim__additional-people" v-if="claim.additional_people"> +{{ claim.additional_people }} </b>
+      <b class="schedule-claim__additional-people" v-if="claim.additional_people">
+        +{{ claim.additional_people }}
+      </b>
     </span>
-    <EditOutlined v-if="isMyClaim" @click="this.$emit('on-update-click')" style="margin-left: auto" />
+    <EditOutlined
+      v-if="isMyClaim"
+      @click="this.$emit('on-update-click')"
+      style="margin-left: auto"
+    />
   </div>
 </template>
 
@@ -63,8 +74,12 @@ export default {
       return this.additionalFields.find((field) => field.id === aftId);
     },
     haveTruthyAdditionFields() {
-      return this.userAdditionalFields && this.userAdditionalFields.some(
-        (field) => field.value && this.additionalFieldTemplateExist(field.additional_field_template_id),
+      return (
+        this.userAdditionalFields && this.userAdditionalFields.some(
+          (field) => field.value && this.additionalFieldTemplateExist(
+            field.additional_field_template_id,
+          ),
+        )
       );
     },
   },

@@ -1,9 +1,22 @@
 <template>
   <div v-if="isModalOpen" class="modal__wrapper">
     <div class="auth-modal">
-      <img class="auth-modal__background-image" src="@/assets/auth-modal-back.jpg" />
-      <img class="auth-modal__background-image mobile" src="@/assets/auth-modal-mobile.jpg" />
-      <img @click="setModal(null)" class="auth-modal__header__close-icon" src="@/assets/close.png" />
+      <img
+        class="auth-modal__background-image"
+        src="@/assets/auth-modal-back.jpg"
+        alt="back-icon"
+      />
+      <img
+        class="auth-modal__background-image mobile"
+        src="@/assets/auth-modal-mobile.jpg"
+        alt="mobile back icon"
+      />
+      <img
+        @click="setModal(null)"
+        class="auth-modal__header__close-icon"
+        src="@/assets/close.png"
+        alt="close-icon"
+      />
       <div class="auth-modal__header">
         <span
           @click="setModal(MODAL.LOGIN)"

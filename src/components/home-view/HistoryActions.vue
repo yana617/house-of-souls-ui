@@ -5,7 +5,10 @@
         v-for="ha in historyActions"
         :key="ha._id"
         class="history-actions__item"
-        :class="{ positive: isPositiveAction(ha.action_type), negative: isNegativeAction(ha.action_type) }"
+        :class="{
+          positive: isPositiveAction(ha.action_type),
+          negative: isNegativeAction(ha.action_type),
+        }"
       >
         <span class="history-actions__created-at">{{ parseDateAndTime(ha.createdAt) }}</span>
         <span v-if="!collapsed">

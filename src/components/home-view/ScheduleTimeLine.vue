@@ -115,7 +115,8 @@ export default {
       this.mode = 'create';
       this.canSubscribeYourself = true;
       if (this.hasPermissionToAssignUnregisteredUsers) {
-        const hasOwnClaims = this.user && claims.some((claim) => claim.user.id === this.user.id && !claim.guest_id);
+        const hasOwnClaims = this.user
+          && claims.some((claim) => claim.user.id === this.user.id && !claim.guest_id);
         this.canSubscribeYourself = !hasOwnClaims;
       }
       this.updateOrCreateModalOpen = true;

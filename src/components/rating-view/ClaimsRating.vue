@@ -11,8 +11,8 @@
 <script>
 import { mapState } from 'vuex';
 
-import ClaimsRatingTable from './ClaimsRatingTable.vue';
 import { claimsColumns } from '@/utils/constants';
+import ClaimsRatingTable from './ClaimsRatingTable.vue';
 
 export default {
   name: 'ClaimsRating',

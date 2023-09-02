@@ -24,6 +24,7 @@ const routes = [
     path: '/forgot-password',
     name: 'forgot-password',
     component: () => import(/* webpackChunkName: "volunteers" */ '../views/ForgotPassword.vue'),
+    meta: { authRequired: true },
   },
   {
     path: '/reset-password',

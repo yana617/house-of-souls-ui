@@ -5,24 +5,35 @@
     <span class="claim-form__error">{{ getError('guest.surname') }}</span>
     <span class="claim-form__error">{{ getError('guest.phone') }}</span>
     <ClaimBaseInfo :claim="claimModel" :isUpdateMode="isUpdateMode" v-model:isGuest="isGuest" />
-    <label class="claim-form__title">{{ labels.arrivalTime }}</label>
+    <label for="time-select" class="claim-form__title">{{ labels.arrivalTime }}</label>
     <a-time-picker
       style="width: 100%"
       placeholder="Выбрать время"
       format="HH:mm"
       v-model:value="claimModel.arrival_time"
       :minute-step="15"
-    ></a-time-picker>
+      id="time-select"
+    />
     <span class="claim-form__error">{{ getError('arrival_time') }}</span>
     <BaseInput :label="labels.additionalPeople" v-model="claimModel.additional_people" />
     <span class="claim-form__error">{{ getError('additional_people') }}</span>
-    <BaseInput is-textarea :label="labels.comment" :description="commentDescription" v-model="claimModel.comment" />
+    <BaseInput
+      is-textarea
+      :label="labels.comment"
+      :description="commentDescription"
+      v-model="claimModel.comment"
+    />
     <span class="claim-form__error">{{ getError('comment') }}</span>
     <a-checkbox class="claim-form__checkbox" v-model:checked="claimModel.questionable">
       {{ labels.questionable }}
     </a-checkbox>
     <span>{{ descriptions.questionable }} </span>
-    <Button :loading="loading" class="claim-form__submit-btn" :title="submitButton" @click="submit()" />
+    <Button
+      :loading="loading"
+      class="claim-form__submit-btn"
+      :title="submitButton"
+      @click="submit()"
+    />
   </div>
 </template>
 
@@ -32,9 +43,9 @@ import moment from 'moment';
 
 import Button from '@/components/common/Button.vue';
 import BaseInput from '@/components/common/BaseInput.vue';
-import ClaimBaseInfo from './ClaimBaseInfo.vue';
 import { claimTimeDescription, claimFormLabels, claimFormDescriptions } from '@/utils/constants';
 import { findError } from '@/utils/validation';
+import ClaimBaseInfo from './ClaimBaseInfo.vue';
 
 export default {
   name: 'ClaimForm',
@@ -88,7 +99,9 @@ export default {
         _id: this.claim._id,
         ...this.claimModel,
         comment: this.claimModel.comment.length !== 0 ? this.claimModel.comment : null,
-        arrival_time: this.claimModel.arrival_time ? this.claimModel.arrival_time.format('HH:mm') : null,
+        arrival_time: this.claimModel.arrival_time
+          ? this.claimModel.arrival_time.format('HH:mm')
+          : null,
         additional_people: parseInt(this.claimModel.additional_people, 10) || null,
         user_id: this.user.id,
       };

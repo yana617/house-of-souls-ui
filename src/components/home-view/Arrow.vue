@@ -1,6 +1,6 @@
 <template>
   <div class="arrow" :class="{ 'to-left': toLeft }">
-    <div></div>
+    <div />
   </div>
 </template>
 

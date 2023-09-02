@@ -11,7 +11,7 @@
           <span> {{ volunteer.name }} {{ volunteer.surname }} </span>
         </router-link>
         <a class="volunteers__phone-container" :href="`tel:+${volunteer.phone.replace(/\s/g, '')}`">
-          <img class="volunteers__phone-icon" src="@/assets/phone-icon.png" />
+          <img class="volunteers__phone-icon" src="@/assets/phone-icon.png" alt="phone" />
           +{{ prettifyPhone(volunteer.phone) }}
         </a>
       </div>

@@ -12,8 +12,7 @@
       v-model:value="updatedRole"
       style="width: 300px"
       :options="roles"
-    >
-    </a-select>
+    />
     <br />
     <Button :loading="loading" class="change-role__save-btn" title="сохранить" @click="updateRole" />
   </div>

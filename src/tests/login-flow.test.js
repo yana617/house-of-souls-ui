@@ -67,7 +67,8 @@ describe('Home.vue', () => {
     passwordInput.element.value = 'password';
     await passwordInput.trigger('input');
 
-    const submitFunction = jest.fn().mockImplementation(() => Promise.resolve({ data: { success: true } }));
+    const submitFunction = jest.fn()
+      .mockImplementation(() => Promise.resolve({ data: { success: true } }));
     jest.spyOn(axios, 'post').mockImplementationOnce(submitFunction);
     jest.spyOn(axios, 'get')
       .mockImplementationOnce(() => Promise.resolve([]))

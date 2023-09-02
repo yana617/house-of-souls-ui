@@ -1,8 +1,8 @@
 <template>
   <div class="reset-password">
     <form :onsubmit="resetPassword">
-      <label>Восстановление пароля</label>
-      <a-input type="password" size="large" v-model:value="password" placeholder="Новый пароль" />
+      <label for="pass">Восстановление пароля</label>
+      <a-input id="pass" type="password" size="large" v-model:value="password" placeholder="Новый пароль" />
       <span class="reset-password__error">{{ getError('password') }}</span>
       <a-input type="password" size="large" v-model:value="repeatPassword" placeholder="Подтвердите пароль" />
       <span class="reset-password__error">{{ getError('token') }}</span>
@@ -18,6 +18,7 @@ import { mapState } from 'vuex';
 import notifications from '@/utils/notifications';
 import Button from '@/components/common/Button.vue';
 import { findError } from '@/utils/validation';
+import { getToken } from '@/utils/sessionStorage';
 
 export default {
   name: 'ResetPassword',
@@ -28,6 +29,11 @@ export default {
       repeatPassword: '',
       findError,
     };
+  },
+  created() {
+    if (getToken()) {
+      this.$router.push('/');
+    }
   },
   computed: mapState({
     errors: (state) => state.auth.resetPasswordErrors,
