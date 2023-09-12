@@ -12,6 +12,8 @@ import Login from '@/components/header-component/Login.vue';
 
 import store from '../store';
 
+jest.mock('axios');
+
 const $socket = {
   on: jest.fn(),
 };
@@ -26,8 +28,7 @@ describe('Home.vue', () => {
   let wrapper;
 
   beforeAll(async () => {
-    const permissions = [];
-    jest.spyOn(axios, 'get').mockImplementationOnce(() => Promise.resolve(permissions));
+    axios.get.mockResolvedValueOnce({ data: { success: true, permissions: [] } });
     wrapper = mount(App, {
       global: {
         plugins: [store],
@@ -46,6 +47,7 @@ describe('Home.vue', () => {
   });
 
   it('loads login btn and it works = shows modal correctly', async () => {
+    axios.get.mockResolvedValueOnce({ data: { success: true, permissions: [] } });
     expect(wrapper.findComponent(Header).exists()).toBe(true);
 
     const loginBtn = wrapper.find('.header__auth__login-btn');
@@ -58,6 +60,7 @@ describe('Home.vue', () => {
   });
 
   it('you can input your values and submit login correctly', async () => {
+    axios.get.mockResolvedValueOnce({ data: { success: true, permissions: [] } });
     expect(wrapper.findComponent(Login).exists()).toBe(true);
 
     const emailInput = wrapper.find('#email');
