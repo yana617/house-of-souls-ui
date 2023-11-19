@@ -2,14 +2,12 @@ import axios from 'axios';
 
 import claimsMapper from '@/utils/claimsMapper';
 
-const { VUE_APP_HOS_SERVICE: HOS_SERVICE_API } = process.env;
-const claimsApi = `${HOS_SERVICE_API}/claims`;
-const usersApi = `${HOS_SERVICE_API}/users`;
+import { CLAIMS_URL, HOS_USERS_URL } from './constants';
 
-export default {
+export const claimsApi = {
   getClaims: async ({ from, to }) => {
     const response = await axios
-      .get(`${claimsApi}?from=${from}&to=${to}`)
+      .get(`${CLAIMS_URL}?from=${from}&to=${to}`)
       .then((res) => res.data)
       .catch((error) => error.response.data);
 
@@ -20,26 +18,26 @@ export default {
   },
 
   getClaimsByUserId: async ({ userId } = {}) => axios
-    .get(`${usersApi}/${userId}/claims`)
+    .get(`${HOS_USERS_URL}/${userId}/claims`)
     .then((response) => response.data)
     .catch((error) => error.response.data),
 
   createClaim: async (body) => axios
-    .post(claimsApi, body)
+    .post(CLAIMS_URL, body)
     .then((response) => response.data)
     .catch((error) => error.response.data),
 
   updateClaim: async (claim) => axios
-    .patch(`${claimsApi}/${claim._id}`, claim)
+    .patch(`${CLAIMS_URL}/${claim._id}`, claim)
     .then((response) => response.data)
     .catch((error) => error.response.data),
 
   deleteClaim: async ({ _id } = {}) => axios
-    .delete(`${claimsApi}/${_id}`)
+    .delete(`${CLAIMS_URL}/${_id}`)
     .catch((error) => error.response.data),
 
   getRating: async () => axios
-    .get(`${claimsApi}/rating`)
+    .get(`${CLAIMS_URL}/rating`)
     .then((response) => response.data)
     .catch((error) => error.response.data),
 };

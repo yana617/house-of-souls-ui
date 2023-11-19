@@ -61,7 +61,7 @@
           :id="uaf.id"
           style="width: 44px"
           :disabled="!edit"
-          v-model:checked="userAF[uaf.id].value"
+          v-model:checked="mappedUserAdditionalFields[uaf.id].value"
         />
       </div>
       <span v-if="noUaf()">-</span>
@@ -109,7 +109,7 @@ export default {
     return {
       birthday: ref(),
       edit: false,
-      userAF: [],
+      mappedUserAdditionalFields: [],
       profile: {},
       findError,
       loading: false,
@@ -122,7 +122,7 @@ export default {
     getUserAdditionalFields() {
       if (!this.additionalFieldsTemplates || !this.userAdditionalFields) return null;
       this.setFields();
-      return Object.values(this.userAF);
+      return Object.values(this.mappedUserAdditionalFields);
     },
     updateErrors: (state) => state.users.userUpdateErrors,
   }),
@@ -133,11 +133,11 @@ export default {
   },
   methods: {
     setFields() {
-      this.userAdditionalFields.forEach((userAF) => {
+      this.userAdditionalFields.forEach((uaf) => {
         const field = this.additionalFieldsTemplates.find(
-          (aft) => aft.id === userAF.additional_field_template_id,
+          (aft) => aft.id === uaf.additional_field_template_id,
         );
-        this.userAF[userAF.id] = { ...field, ...userAF };
+        this.mappedUserAdditionalFields[uaf.id] = { ...field, ...uaf };
       });
     },
     cancel() {
@@ -152,7 +152,7 @@ export default {
       };
       this.loading = true;
       await this.$store.dispatch('users/updateUser', body);
-      const updatingUaf = Object.values(this.userAF).map((uaf) => this.$store
+      const updatingUaf = Object.values(this.mappedUserAdditionalFields).map((uaf) => this.$store
         .dispatch('userAdditionalFields/updateUserAdditionalField', {
           id: uaf.id,
           value: uaf.value,

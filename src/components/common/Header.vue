@@ -41,11 +41,11 @@
 import { mapState } from 'vuex';
 
 import { clearStorage } from '@/utils/sessionStorage';
+import { MODAL } from '@/utils/constants';
+import { PATHS, HEADER_LINKS, ADMIN_LINKS } from '@/router/constants';
 import Button from './Button.vue';
 import Dropdown from './Dropdown.vue';
 import AuthModal from '../header-component/AuthModal.vue';
-import { PATHS, HEADER_LINKS, ADMIN_LINKS } from '../../router/constants';
-import { MODAL } from '../../utils/constants';
 
 export default {
   name: 'Header',

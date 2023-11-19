@@ -59,10 +59,9 @@
 import { mapState } from 'vuex';
 
 import { typeOfTime, parseDateAndTime } from '@/utils/date';
+import { LIMIT } from '@/api/constants';
 import Arrow from './Arrow.vue';
 import Button from '../common/Button.vue';
-
-const limit = parseInt(process.env.VUE_APP_LIMIT, 10);
 
 export default {
   name: 'HistoryAction',
@@ -72,7 +71,7 @@ export default {
       collapsed: true,
       parseDateAndTime,
       typeOfTime,
-      skip: limit,
+      skip: LIMIT,
       loading: false,
     };
   },
@@ -112,7 +111,7 @@ export default {
           skip: this.skip,
         })
         .then(() => {
-          this.skip += limit;
+          this.skip += LIMIT;
         })
         .finally(() => {
           this.loading = false;

@@ -28,8 +28,7 @@ import { mapState } from 'vuex';
 
 import SearchBar from '@/components/volunteers-view/SearchBar.vue';
 import Loader from '@/components/common/Loader.vue';
-
-const limit = parseInt(process.env.VUE_APP_LIMIT, 10);
+import { LIMIT } from '@/api/constants';
 
 export default {
   name: 'Volunteers',
@@ -59,7 +58,7 @@ export default {
         order: 'asc',
       })
       .then(() => {
-        this.skip += limit;
+        this.skip += LIMIT;
       })
       .finally(() => {
         this.loading = false;
@@ -89,7 +88,7 @@ export default {
           ...(searchValue !== '' ? { search: searchValue } : {}),
         })
         .then(() => {
-          this.skip += limit;
+          this.skip += LIMIT;
         })
         .finally(() => {
           this.loading = false;
@@ -109,7 +108,7 @@ export default {
       }
     },
     resetSkip() {
-      this.skip = limit;
+      this.skip = LIMIT;
     },
   },
 };

@@ -1,5 +1,5 @@
 import notifications from '@/utils/notifications';
-import auth from '../../api/auth';
+import { authApi } from '@/api/auth';
 
 const SET_USER = 'SET_USER';
 const SET_REGISTER_ERRORS = 'SET_REGISTER_ERRORS';
@@ -19,14 +19,14 @@ const getters = {};
 
 const actions = {
   login: async ({ commit }, body = {}) => {
-    const response = await auth.login(body);
+    const response = await authApi.login(body);
     if (response.success) {
       commit(SET_USER, response.data);
       commit('app/SET_MODAL', null, { root: true });
     }
   },
   register: async ({ commit }, body = {}) => {
-    const response = await auth.register(body);
+    const response = await authApi.register(body);
     if (response.success) {
       commit(SET_USER, response.data);
       commit('app/SET_MODAL', null, { root: true });
@@ -38,13 +38,13 @@ const actions = {
     commit(SET_REGISTER_ERRORS, []);
   },
   forgotPassword: async ({ commit }, body = {}) => {
-    const response = await auth.forgotPassword(body);
+    const response = await authApi.forgotPassword(body);
     if (response.success) {
       commit(SET_RESET_LINK, response.data);
     }
   },
   resetPassword: async ({ commit }, body = {}) => {
-    const response = await auth.resetPassword(body);
+    const response = await authApi.resetPassword(body);
     if (response.success) {
       notifications.success('Пароль успешно обновлен!');
       return;

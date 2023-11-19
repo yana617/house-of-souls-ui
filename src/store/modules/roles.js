@@ -1,4 +1,4 @@
-import roles from '../../api/roles';
+import { rolesApi } from '@/api/roles';
 
 const SET_ROLES = 'SET_ROLES';
 
@@ -10,7 +10,7 @@ const getters = {};
 
 const actions = {
   getRoles: async ({ commit }) => {
-    const response = await roles.getRoles();
+    const response = await rolesApi.getRoles();
     if (response.success) {
       commit(SET_ROLES, response.data);
     }

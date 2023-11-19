@@ -1,25 +1,23 @@
 import axios from 'axios';
 
-const { VUE_APP_AUTH_SERVICE: AUTH_SERVICE_API } = process.env;
+import { AFT_URL } from './constants';
 
-const aftApi = `${AUTH_SERVICE_API}/additional-field-templates`;
-
-export default {
+export const aftApi = {
   getAdditionalFields: async () => axios
-    .get(aftApi)
+    .get(AFT_URL)
     .then((response) => response.data)
     .catch((error) => error.response.data),
 
   updateAdditionalField: async (updatedAdditionalField) => axios
-    .put(`${aftApi}/${updatedAdditionalField.id}`, updatedAdditionalField)
+    .put(`${AFT_URL}/${updatedAdditionalField.id}`, updatedAdditionalField)
     .then((response) => response.data)
     .catch((error) => error.response.data),
 
   deleteAdditionalField: async ({ id } = {}) => axios
-    .delete(`${aftApi}/${id}`)
+    .delete(`${AFT_URL}/${id}`)
     .catch((error) => error.response.data),
 
-  createAdditionalField: async (body = {}) => axios.post(aftApi, body)
+  createAdditionalField: async (body = {}) => axios.post(AFT_URL, body)
     .then((response) => response.data)
     .catch((error) => error.response.data),
 

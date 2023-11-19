@@ -1,16 +1,14 @@
 import axios from 'axios';
 
-const { VUE_APP_AUTH_SERVICE: AUTH_SERVICE_API } = process.env;
+import { UAF_URL } from './constants';
 
-const uafApi = `${AUTH_SERVICE_API}/user-additional-fields`;
-
-export default {
+export const uafApi = {
   getUserAdditionalFields: async () => axios
-    .get(`${uafApi}/me`)
+    .get(`${UAF_URL}/me`)
     .then((response) => response.data)
     .catch((error) => error.response.data),
 
   updateUserAdditionalField: async ({ id, value }) => axios
-    .put(`${uafApi}/${id}`, { value })
+    .put(`${UAF_URL}/${id}`, { value })
     .catch((error) => error.response.data),
 };

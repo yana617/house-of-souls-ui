@@ -42,9 +42,9 @@
 <script>
 import { mapState } from 'vuex';
 
+import { MODAL } from '@/utils/constants';
 import Registration from './Registration.vue';
 import Login from './Login.vue';
-import { MODAL } from '../../utils/constants';
 
 export default {
   name: 'AuthModal',

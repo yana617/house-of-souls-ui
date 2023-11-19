@@ -1,4 +1,4 @@
-import additionalFields from '../../api/additional-fields';
+import { aftApi } from '@/api/additional-fields';
 
 const SET_ADDITIONAL_FIELDS = 'SET_ADDITIONAL_FIELDS';
 const SET_ADDITIONAL_FIELD_ICON_LINK = 'SET_NEW_ADDITIONAL_FIELD_ICON_LINK';
@@ -17,13 +17,13 @@ const getters = {};
 
 const actions = {
   getAdditionalFields: async ({ commit }) => {
-    const response = await additionalFields.getAdditionalFields();
+    const response = await aftApi.getAdditionalFields();
     if (response.success) {
       commit(SET_ADDITIONAL_FIELDS, response.data);
     }
   },
   updateAdditionalField: async ({ commit }, body = {}) => {
-    const response = await additionalFields.updateAdditionalField(body);
+    const response = await aftApi.updateAdditionalField(body);
     if (response.success) {
       commit(SET_UPDATE_ERRORS, []);
     } else if (response.errors) {
@@ -31,15 +31,15 @@ const actions = {
     }
   },
   deleteAdditionalField: async (_, { id } = {}) => {
-    await additionalFields.deleteAdditionalField({ id });
+    await aftApi.deleteAdditionalField({ id });
   },
   uploadIcon: async ({ commit }, formData) => {
-    const link = await additionalFields.uploadIcon(formData);
+    const link = await aftApi.uploadIcon(formData);
     commit(SET_ADDITIONAL_FIELD_ICON_LINK, link);
   },
   createAdditionalField: async ({ commit }, body) => {
     commit(SET_CREATE_ERRORS, []);
-    const response = await additionalFields.createAdditionalField(body);
+    const response = await aftApi.createAdditionalField(body);
     if (response.errors) {
       commit(SET_CREATE_ERRORS, response.errors);
     }

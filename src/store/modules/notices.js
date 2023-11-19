@@ -1,4 +1,4 @@
-import notices from '../../api/notices';
+import { noticesApi } from '@/api/notices';
 
 const SET_NOTICES_LIST = 'SET_NOTICES_LIST';
 const SET_NOTICE_DATA = 'SET_NOTICE_DATA';
@@ -16,20 +16,20 @@ const getters = {};
 
 const actions = {
   getNotices: async ({ commit }, params = {}) => {
-    const response = await notices.getNotices(params);
+    const response = await noticesApi.getNotices(params);
     if (response.success) {
       commit(SET_NOTICES_LIST, response.data);
     }
   },
   getNoticeById: async ({ commit }, params = {}) => {
-    const response = await notices.getNoticeById(params);
+    const response = await noticesApi.getNoticeById(params);
     if (response.success) {
       commit(SET_NOTICE_DATA, response.data);
     }
   },
   updateNotice: async ({ commit }, params = {}) => {
     commit(SET_UPDATE_ERRORS, []);
-    const response = await notices.updateNotice(params);
+    const response = await noticesApi.updateNotice(params);
     if (response.success) {
       commit(SET_NOTICE_DATA, response.data);
     } else if (response.errors) {
@@ -38,7 +38,7 @@ const actions = {
   },
   createNotice: async ({ commit }, params = {}) => {
     commit(SET_CREATE_ERRORS, []);
-    const response = await notices.createNotice(params);
+    const response = await noticesApi.createNotice(params);
     if (response.success) {
       commit(SET_NOTICE_DATA, response.data);
     } else if (response.errors) {
@@ -48,8 +48,8 @@ const actions = {
   clearCreateErrors: async ({ commit }) => {
     commit(SET_CREATE_ERRORS, []);
   },
-  deleteNotice: async (commit, params = {}) => {
-    await notices.deleteNotice(params);
+  deleteNotice: async (_, params = {}) => {
+    await noticesApi.deleteNotice(params);
   },
 };
 
