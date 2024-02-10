@@ -6,8 +6,8 @@ import { API_HOST } from '@/constants';
 import { IS_AUTH } from '@/mocks/constants';
 
 import mockUtils from '../utils';
-import data from './mocks.json';
-import { userAdditionalFields as userAdditionalFieldsMocks } from '../userAdditionalFields/mocks.json';
+import userMocks from './mocks';
+import userAdditionalFieldMocks from '../userAdditionalFields/mocks';
 
 export default [
   rest.post(`${API_HOST}/login`, (req, res, ctx) => {
@@ -22,7 +22,7 @@ export default [
       );
     }
 
-    const userFromDB = data.users.find((user) => user.email === email);
+    const userFromDB = userMocks.find((user) => user.email === email);
 
     if (!userFromDB) {
       return res(
@@ -69,7 +69,7 @@ export default [
       ...userFromRequest,
       _id: uuidv4(),
     };
-    data.users.push(newUser);
+    userMocks.push(newUser);
 
     sessionStorage.setItem(IS_AUTH, 'true');
     return res(
@@ -92,14 +92,14 @@ export default [
 
     const { id } = req.params;
 
-    const userFromDb = data.users.find((user) => user._id === id);
+    const userFromDb = userMocks.find((user) => user._id === id);
     const userFromRequest = mockUtils.clearUserRequest(req.body);
 
     if (!userFromDb) return res(ctx.status(404));
 
-    data.users.forEach((user, index) => {
+    userMocks.forEach((user, index) => {
       if (user._id === id) {
-        data.users[index] = {
+        userMocks[index] = {
           ...user,
           ...userFromRequest,
         };
@@ -138,9 +138,10 @@ export default [
     }
 
     const isVerified = isVerifiedQuery === 'true';
-    let users = data.users.filter((user) => user.isVerified === isVerified);
+    let users = userMocks.filter((user) => user.isVerified === isVerified);
     users = users.map((user) => {
-      const user_additional_fields = userAdditionalFieldsMocks.filter((uaf) => uaf.user_id === user._id);
+      const user_additional_fields = userAdditionalFieldMocks
+        .filter((uaf) => uaf.user_id === user._id);
       return { ...user, user_additional_fields };
     });
 
@@ -188,7 +189,7 @@ export default [
 
     const { id } = req.params;
 
-    const userFromDb = data.users.find((user) => user._id === id);
+    const userFromDb = userMocks.find((user) => user._id === id);
 
     return res(
       ctx.status(200),

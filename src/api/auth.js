@@ -2,8 +2,7 @@ import axios from 'axios';
 
 import { setToken } from '@/utils/sessionStorage';
 
-const { VUE_APP_AUTH_SERVICE: AUTH_SERVICE_API } = process.env;
-const authApi = `${AUTH_SERVICE_API}/auth`;
+import { AUTH_URL } from './constants';
 
 const setNewToken = (response) => {
   const user = response.data;
@@ -12,22 +11,30 @@ const setNewToken = (response) => {
   }
 };
 
-export default {
-  login: async (body) => axios.post(`${authApi}/login`, body)
-    .then((response) => {
-      setNewToken(response.data);
-      return response.data;
-    }),
-  register: async (body) => axios.post(`${authApi}/register`, body)
+export const authApi = {
+  login: async (body) => axios
+    .post(`${AUTH_URL}/login`, body)
     .then((response) => {
       setNewToken(response.data);
       return response.data;
     })
     .catch((error) => error.response.data),
-  forgotPassword: async ({ email }) => axios.post(`${authApi}/forgot-password`, { email })
+
+  register: async (body) => axios
+    .post(`${AUTH_URL}/register`, body)
+    .then((response) => {
+      setNewToken(response.data);
+      return response.data;
+    })
+    .catch((error) => error.response.data),
+
+  forgotPassword: async ({ userId }) => axios
+    .post(`${AUTH_URL}/forgot-password`, { userId })
     .then((response) => response.data)
     .catch((error) => error.response.data),
-  resetPassword: async (body) => axios.post(`${authApi}/reset-password`, body)
+
+  resetPassword: async (body) => axios
+    .post(`${AUTH_URL}/reset-password`, body)
     .then((response) => response.data)
     .catch((error) => error.response.data),
 };

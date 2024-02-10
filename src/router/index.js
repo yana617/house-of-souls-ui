@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+
 import Home from '../views/Home.vue';
 import authRequired from './authRequired';
 
@@ -24,6 +25,7 @@ const routes = [
     path: '/forgot-password',
     name: 'forgot-password',
     component: () => import(/* webpackChunkName: "volunteers" */ '../views/ForgotPassword.vue'),
+    meta: { authRequired: true },
   },
   {
     path: '/reset-password',

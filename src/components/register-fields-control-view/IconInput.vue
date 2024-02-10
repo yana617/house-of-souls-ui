@@ -1,7 +1,7 @@
 <template>
   <div class="icon-input__container">
     <div class="icon-input__sub-container" :class="{ 'icon-input__no-icon': !icon }">
-      <img class="icon-input__image" :src="icon" />
+      <img class="icon-input__image" :src="icon" alt="icon" />
     </div>
     <Button v-if="edit" @click="uploadIcon()" class="icon-input__upload-btn" title="обновить иконку" />
     <input id="icon-input-id" type="file" accept="image/*" class="icon-input__unvisible-input" @change="onIconChange" />

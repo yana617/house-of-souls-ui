@@ -1,4 +1,4 @@
-import permissions from '../../api/permissions';
+import { permissionsApi } from '@/api/permissions';
 
 const SET_PERMISSIONS = 'SET_PERMISSIONS';
 const SET_MY_PERMISSIONS = 'SET_MY_PERMISSIONS';
@@ -13,18 +13,22 @@ const getters = {};
 
 const actions = {
   getMyPermissions: async ({ commit }) => {
-    const result = await permissions.getMyPermissions();
-    commit(SET_MY_PERMISSIONS, result);
+    const response = await permissionsApi.getMyPermissions();
+    if (response.success) {
+      commit(SET_MY_PERMISSIONS, response.data);
+    }
   },
   resetPermissions: async ({ commit }) => {
     commit(SET_MY_PERMISSIONS, []);
   },
   getPermissions: async ({ commit }) => {
-    const result = await permissions.getPermissions();
-    commit(SET_PERMISSIONS, result);
+    const response = await permissionsApi.getPermissions();
+    if (response.success) {
+      commit(SET_PERMISSIONS, response.data);
+    }
   },
   updatePermissions: async (_, { userId, permissions: permissionsToUpdate } = {}) => {
-    await permissions.updatePermissions({ userId, permissions: permissionsToUpdate });
+    await permissionsApi.updatePermissions({ userId, permissions: permissionsToUpdate });
   },
 };
 

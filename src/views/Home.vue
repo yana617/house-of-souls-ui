@@ -12,6 +12,7 @@
           v-bind="notices.data[noticeId]"
         />
         <button
+          type="button"
           v-if="showLoadAllNoticesBtn"
           @click="showAllNotices = !showAllNotices"
           class="home__notices__load-all-btn"

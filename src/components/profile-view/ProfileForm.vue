@@ -2,40 +2,91 @@
   <div v-if="user" class="profile-form">
     <h3>Основные данные</h3>
     <div class="profile-form__main-info-container">
-      <label>Имя</label>
-      <input :disabled="!edit" class="profile-form__input" placeholder="Имя" v-model="profile.name" />
+      <label for="name">Имя</label>
+      <input
+        :disabled="!edit"
+        id="name"
+        class="profile-form__input"
+        placeholder="Имя"
+        v-model="profile.name"
+      />
       <span class="profile-form__error">{{ getError('name') }}</span>
-      <label>Фамилия</label>
-      <input :disabled="!edit" class="profile-form__input" placeholder="Фамилия" v-model="profile.surname" />
+      <label for="surname">Фамилия</label>
+      <input
+        :disabled="!edit"
+        id="surname"
+        class="profile-form__input"
+        placeholder="Фамилия"
+        v-model="profile.surname"
+      />
       <span class="profile-form__error">{{ getError('surname') }}</span>
-      <label>Телефон</label>
-      <input :disabled="!edit" class="profile-form__input" placeholder="Телефон" v-model="profile.phone" />
+      <label for="phone">Телефон</label>
+      <input
+        :disabled="!edit"
+        id="phone"
+        class="profile-form__input"
+        placeholder="Телефон"
+        v-model="profile.phone"
+      />
       <span class="profile-form__error">{{ getError('phone') }}</span>
-      <label>E-mail</label>
-      <input :disabled="!edit" class="profile-form__input" placeholder="E-mail" v-model="profile.email" />
+      <label for="email">E-mail</label>
+      <input
+        :disabled="!edit"
+        id="email"
+        class="profile-form__input"
+        placeholder="E-mail"
+        v-model="profile.email"
+      />
       <span class="profile-form__error">{{ getError('email') }}</span>
-      <label>Дата рождения</label>
+      <label for="birthday">Дата рождения</label>
       <a-date-picker
+        :disabled="!edit"
+        id="birthday"
         size="large"
         placeholder="Дата рождения"
         class="profile-form__date-picker"
-        :disabled="!edit"
         v-model:value="birthday"
       />
       <span class="profile-form__error">{{ getError('birthday') }}</span>
     </div>
     <h3>Дополнительные данные</h3>
     <div class="profile-form__additional-fields-container">
-      <div v-for="uaf in getUserAdditionalFields" :key="uaf.id" class="profile-form__additional-field__container">
-        <label>{{ uaf.label }}</label>
-        <a-switch style="width: 44px" :disabled="!edit" v-model:checked="userAF[uaf.id].value" />
+      <div
+        v-for="uaf in getUserAdditionalFields"
+        :key="uaf.id"
+        class="profile-form__additional-field__container"
+      >
+        <label :for="uaf.id">{{ uaf.label }}</label>
+        <a-switch
+          :id="uaf.id"
+          style="width: 44px"
+          :disabled="!edit"
+          v-model:checked="mappedUserAdditionalFields[uaf.id].value"
+        />
       </div>
       <span v-if="noUaf()">-</span>
     </div>
     <div class="profile-form__btns-container">
-      <Button v-if="edit" :loading="loading" class="profile-form__save-btn" title="сохранить" @click="save" />
-      <Button v-if="!edit" class="profile-form__edit-btn" title="редактировать" @click="edit = true" />
-      <Button v-if="edit" :disabled="loading" class="profile-form__cancel-btn" title="отменить" @click="cancel" />
+      <Button
+        v-if="edit"
+        :loading="loading"
+        class="profile-form__save-btn"
+        title="сохранить"
+        @click="save"
+      />
+      <Button
+        v-if="!edit"
+        class="profile-form__edit-btn"
+        title="редактировать"
+        @click="edit = true"
+      />
+      <Button
+        v-if="edit"
+        :disabled="loading"
+        class="profile-form__cancel-btn"
+        title="отменить"
+        @click="cancel"
+      />
     </div>
   </div>
 </template>
@@ -45,8 +96,8 @@ import { ref } from 'vue';
 import { mapState } from 'vuex';
 import moment from 'moment';
 
-import Button from '../common/Button.vue';
 import { findError } from '@/utils/validation';
+import Button from '../common/Button.vue';
 
 export default {
   name: 'ProfileForm',
@@ -58,7 +109,7 @@ export default {
     return {
       birthday: ref(),
       edit: false,
-      userAF: [],
+      mappedUserAdditionalFields: [],
       profile: {},
       findError,
       loading: false,
@@ -71,7 +122,7 @@ export default {
     getUserAdditionalFields() {
       if (!this.additionalFieldsTemplates || !this.userAdditionalFields) return null;
       this.setFields();
-      return Object.values(this.userAF);
+      return Object.values(this.mappedUserAdditionalFields);
     },
     updateErrors: (state) => state.users.userUpdateErrors,
   }),
@@ -82,9 +133,11 @@ export default {
   },
   methods: {
     setFields() {
-      this.userAdditionalFields.forEach((userAF) => {
-        const field = this.additionalFieldsTemplates.find((aft) => aft.id === userAF.additional_field_template_id);
-        this.userAF[userAF.id] = { ...field, ...userAF };
+      this.userAdditionalFields.forEach((uaf) => {
+        const field = this.additionalFieldsTemplates.find(
+          (aft) => aft.id === uaf.additional_field_template_id,
+        );
+        this.mappedUserAdditionalFields[uaf.id] = { ...field, ...uaf };
       });
     },
     cancel() {
@@ -99,7 +152,7 @@ export default {
       };
       this.loading = true;
       await this.$store.dispatch('users/updateUser', body);
-      const updatingUaf = Object.values(this.userAF).map((uaf) => this.$store
+      const updatingUaf = Object.values(this.mappedUserAdditionalFields).map((uaf) => this.$store
         .dispatch('userAdditionalFields/updateUserAdditionalField', {
           id: uaf.id,
           value: uaf.value,

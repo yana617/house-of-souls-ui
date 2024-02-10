@@ -1,5 +1,5 @@
 <template>
-  <a-spin :class="loaderClassName" tip="Загрузка..."></a-spin>
+  <a-spin :class="loaderClassName" tip="Загрузка..." />
 </template>
 
 <script>

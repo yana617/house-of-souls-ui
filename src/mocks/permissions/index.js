@@ -4,7 +4,7 @@ import { rest } from 'msw';
 import { API_HOST } from '@/constants';
 import { IS_AUTH } from '@/mocks/constants';
 
-import data from './mocks.json';
+import permissionMocks from './mocks';
 
 export default [
   rest.get(`${API_HOST}/permissions`, (req, res, ctx) => {
@@ -20,7 +20,7 @@ export default [
     return res(
       ctx.status(200),
       ctx.json({
-        permissions: data.permissions,
+        permissions: permissionMocks,
       }),
     );
   }),

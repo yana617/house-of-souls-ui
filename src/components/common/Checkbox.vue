@@ -1,10 +1,10 @@
 <template>
   <div class="checkbox">
-    <div class="checkbox__selects">
+    <div id="select" class="checkbox__selects">
       <span @click="$emit('input', true)" class="checkbox__select" :class="{ selected: value }">+</span>
       <span @click="$emit('input', false)" class="checkbox__select" :class="{ selected: !value }">-</span>
     </div>
-    <label>{{ label }}</label>
+    <label for="select">{{ label }}</label>
     <Tooltip v-if="description" :helpText="description" />
   </div>
 </template>

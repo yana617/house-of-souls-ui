@@ -6,13 +6,13 @@ import { API_HOST } from '@/constants';
 import { IS_AUTH } from '@/mocks/constants';
 
 import mockUtils from '../utils';
-import data from './mocks.json';
+import additionalFieldTemplateMocks from './mocks';
 
 export default [
   rest.get(`${API_HOST}/additional-field-templates`, (_, res, ctx) => res(
     ctx.status(200),
     ctx.json({
-      additionalFieldTemplates: data.additionalFieldTemplates,
+      additionalFieldTemplates: additionalFieldTemplateMocks,
     }),
   )),
 
@@ -43,7 +43,7 @@ export default [
       _id: uuidv4(),
     };
 
-    data.additionalFieldTemplates.push(newAdditionalFieldTemplate);
+    additionalFieldTemplateMocks.push(newAdditionalFieldTemplate);
 
     return res(
       ctx.status(201),

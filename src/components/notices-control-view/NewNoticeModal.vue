@@ -1,15 +1,15 @@
 <template>
   <div @click="closeModal()" class="modal__wrapper">
     <div class="new-notice-modal" @click.stop>
-      <img @click="closeModal()" class="new-notice-modal__close-icon" src="@/assets/close.png" />
+      <img alt="close icon" @click="closeModal()" class="new-notice-modal__close-icon" src="@/assets/close.png" />
       <h2>Добавление новости</h2>
       <input class="new-notice-modal__title" placeholder="Заголовок" v-model="title" />
       <span class="new-notice-modal__error">{{ getError('title') }}</span>
       <textarea class="new-notice-modal__description" v-model="description" placeholder="Подробности" />
       <span class="new-notice-modal__error">{{ getError('description') }}</span>
-      <label class="new-notice-modal__authorized">
+      <label for="authorized-switch" class="new-notice-modal__authorized">
         Только для волонторов
-        <a-switch v-model:checked="internalOnly" />
+        <a-switch id="authorized-switch" v-model:checked="internalOnly" />
       </label>
       <Button :loading="loading" class="new-notice-modal__create-btn" @click="create()" title="Добавить" />
     </div>
@@ -20,8 +20,8 @@
 import { ref } from 'vue';
 import { mapState } from 'vuex';
 
-import Button from '../common/Button.vue';
 import { findError } from '@/utils/validation';
+import Button from '../common/Button.vue';
 
 export default {
   name: 'NewNoticeModal',

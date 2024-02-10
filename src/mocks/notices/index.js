@@ -6,14 +6,14 @@ import { API_HOST } from '@/constants';
 import { IS_AUTH } from '@/mocks/constants';
 
 import mockUtils from '../utils';
-import data from './mocks.json';
+import noticeMocks from './mocks';
 
 export default [
   // getting a list of notices id
   rest.get(`${API_HOST}/notices`, (_, res, ctx) => {
     const isAuth = sessionStorage.getItem(IS_AUTH);
 
-    const responseData = data.notices.reduce((list, notice) => [
+    const responseData = noticeMocks.reduce((list, notice) => [
       ...list,
       ...(isAuth ? [notice._id] : [notice.authorized ? undefined : notice._id]),
     ], []);
@@ -32,7 +32,7 @@ export default [
     const isAuth = sessionStorage.getItem(IS_AUTH);
     const { id } = req.params;
 
-    const responseData = data.notices.find((notice) => notice._id === id);
+    const responseData = noticeMocks.find((notice) => notice._id === id);
 
     if (!responseData) return res(ctx.status(404), ctx.json({ success: false }));
     if (responseData.authorized && !isAuth) return res(ctx.status(403));
@@ -61,14 +61,14 @@ export default [
     const { id } = req.params;
     const noticeFromRequest = mockUtils.clearNoticeRequest(req.body && req.body.notice);
 
-    const noticeFromDB = data.notices.find((notice) => notice._id === id);
+    const noticeFromDB = noticeMocks.find((notice) => notice._id === id);
 
     if (!noticeFromDB) return res(ctx.status(404), ctx.json({ success: false }));
 
     // changing an entity in DB
-    data.notices.forEach((notice, index) => {
+    noticeMocks.forEach((notice, index) => {
       if (notice._id === id) {
-        data.notices[index] = {
+        noticeMocks[index] = {
           ...notice,
           ...noticeFromRequest,
         };
@@ -114,7 +114,7 @@ export default [
       _id: uuidv4(),
     };
 
-    data.notices.push(newNotice);
+    noticeMocks.push(newNotice);
 
     return res(
       ctx.status(201),
@@ -138,7 +138,7 @@ export default [
 
     const { id } = req.params;
 
-    const noticeFromDB = data.notices.find((notice) => notice._id === id);
+    const noticeFromDB = noticeMocks.find((notice) => notice._id === id);
     if (!noticeFromDB) {
       return res(
         ctx.status(404),
@@ -147,7 +147,7 @@ export default [
     }
 
     // deleting the notice in the DB
-    data.notices.splice(data.notices.indexOf(noticeFromDB), 1);
+    noticeMocks.splice(noticeMocks.indexOf(noticeFromDB), 1);
 
     return res(
       ctx.status(204),

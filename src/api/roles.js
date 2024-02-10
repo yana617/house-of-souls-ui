@@ -1,11 +1,10 @@
 import axios from 'axios';
 
-const { VUE_APP_AUTH_SERVICE: AUTH_SERVICE_API } = process.env;
-const rolesApi = `${AUTH_SERVICE_API}/roles`;
+import { ROLES_URL } from './constants';
 
-export default {
-  getRoles: async () => {
-    const { data: { data: roles } } = await axios.get(rolesApi);
-    return roles;
-  },
+export const rolesApi = {
+  getRoles: async () => axios
+    .get(ROLES_URL)
+    .then((response) => response.data)
+    .catch((error) => error.response.data),
 };
