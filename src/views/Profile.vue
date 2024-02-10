@@ -3,7 +3,7 @@
     <div class="profile__header">
       <div class="profile__main-data-container">
         <div class="profile__img-container">
-          <img class="profile__img" src="@/assets/cat_infos.jpeg" />
+          <img class="profile__img" src="@/assets/cat_infos.jpeg" alt="profile-icon" />
         </div>
         <div class="profile__name-phone-container">
           <div class="profile__name-role-container">
@@ -18,10 +18,16 @@
           </span>
         </div>
       </div>
+      <Button
+        v-if="isAnotherUserProfile && hasPermissionsToEditPermissions"
+        @click="$router.push(`/forgot-password?userId=${userId}`)"
+        class="profile__reset-password-btn"
+        title="Сгенерировать ссылку для смены пароля"
+      />
     </div>
     <a-tabs v-model:activeKey="activeKey">
       <a-tab-pane key="1" tab="Посещения">
-        <VisitsTable :claims="personalClaims.claims" />
+        <VisitsTable :claims="personalClaims" />
       </a-tab-pane>
       <a-tab-pane v-if="!isAnotherUserProfile" key="2" tab="Личные данные">
         <ProfileForm :userId="userId" />
@@ -40,11 +46,17 @@ import { mapState } from 'vuex';
 import VisitsTable from '@/components/profile-view/VisitsTable.vue';
 import ProfileForm from '@/components/profile-view/ProfileForm.vue';
 import PermissionsAndRoles from '@/components/profile-view/PermissionsAndRoles.vue';
+import Button from '@/components/common/Button.vue';
 import mapPhone from '@/utils/phoneMapper';
 
 export default {
   name: 'Profile',
-  components: { VisitsTable, ProfileForm, PermissionsAndRoles },
+  components: {
+    VisitsTable,
+    ProfileForm,
+    PermissionsAndRoles,
+    Button,
+  },
   data() {
     return {
       activeKey: ref('1'),
@@ -81,11 +93,10 @@ export default {
       return permissions && permissions.includes('EDIT_PERMISSIONS');
     },
     claimsCount() {
-      const { claims } = this.personalClaims;
-      if (!claims || (!claims.length && typeof claims.length !== 'number')) {
+      if (!this.personalClaims) {
         return '..';
       }
-      return claims.length;
+      return this.personalClaims.length;
     },
     phoneToDisplay() {
       return mapPhone(this.userToDisplay.phone);
@@ -108,9 +119,11 @@ export default {
       }
       loadUser
         .then(() => {
-          this.$store.dispatch('claims/getClaimsByUserId', { userId: this.userId }).finally(() => {
-            this.$store.dispatch('app/setLoading', false);
-          });
+          this.$store
+            .dispatch('claims/getClaimsByUserId', { userId: this.userId })
+            .finally(() => {
+              this.$store.dispatch('app/setLoading', false);
+            });
         })
         .catch(() => {
           this.$store.dispatch('app/setLoading', false);
@@ -137,6 +150,7 @@ $darkGrey: #646464;
     max-width: 100%;
     color: black;
   }
+
   &__main-data-container {
     position: absolute;
     bottom: 20px;
@@ -146,6 +160,7 @@ $darkGrey: #646464;
     padding: 8px 16px;
     border-radius: 4px;
   }
+
   &__img-container {
     width: 80px;
     height: 80px;
@@ -154,6 +169,7 @@ $darkGrey: #646464;
     border-radius: 40px;
     background-color: white;
   }
+
   &__img {
     min-width: 80px;
     min-height: 80px;
@@ -161,20 +177,24 @@ $darkGrey: #646464;
     max-width: 80px;
     border-radius: 40px;
   }
+
   &__name-phone-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin-left: 16px;
   }
+
   &__name {
     font-size: 20px;
     font-weight: bold;
   }
+
   &__phone {
     font-size: 16px;
     margin-bottom: 2px;
   }
+
   &__visits {
     font-size: 16px;
   }
@@ -191,17 +211,45 @@ $darkGrey: #646464;
     color: $darkGrey;
   }
 
+  &__reset-password-btn {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    color: red;
+    border-color: red;
+
+    &:hover {
+      background-color: red;
+      border-color: red;
+      color: white;
+    }
+  }
+
   @media (max-width: 768px) {
     &__header {
       height: 180px;
+      display: flex;
+      flex-direction: column;
     }
+
     &__main-data-container {
+      position: relative;
       left: unset;
+      bottom: unset;
     }
+
+    &__reset-password-btn {
+      position: relative;
+      right: unset;
+      top: unset;
+      margin: 16px;
+    }
+
     &__name-role-container {
       flex-direction: column;
       align-items: flex-start;
     }
+
     &__role {
       margin-left: 0px;
       padding-top: 0px;

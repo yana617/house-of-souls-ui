@@ -16,7 +16,10 @@
       </template>
       <template #userAdditionalFields="{ record }">
         <span>
-          <AdditionalFieldsTags v-if="!noAtf" :userAdditionalFields="record.user_additional_fields" />
+          <AdditionalFieldsTags
+            v-if="!noAtf"
+            :userAdditionalFields="record.user_additional_fields"
+          />
           <span v-if="noAtf || !record.user_additional_fields">-</span>
         </span>
       </template>
@@ -43,7 +46,9 @@
           title="Сделать волонтером"
         />
       </div>
-      <span class="volunteers-requests__mobile__no-users" v-if="users.length === 0">Пока нет заявок</span>
+      <span class="volunteers-requests__mobile__no-users" v-if="users.length === 0">
+        Пока нет заявок
+      </span>
     </div>
   </div>
 </template>
@@ -69,7 +74,8 @@ export default {
   computed: mapState({
     permissions: (state) => state.permissions.my,
     users: (state) => state.users.list,
-    noAtf: (state) => !state.additionalFields.current || state.additionalFields.current.length === 0,
+    noAtf: (state) => (!state.additionalFields.current
+      || state.additionalFields.current.length === 0),
   }),
   setup() {
     return {

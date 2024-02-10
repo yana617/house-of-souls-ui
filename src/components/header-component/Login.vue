@@ -4,9 +4,6 @@
       <input id="email" v-model="email" type="text" name="email" placeholder="E-mail" />
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
       <Button :disabled="loading" @click="submitLogin" class="login__submit-btn" title="Войти" />
-      <router-link @click="closeModal" class="login__forgot-password-label" to="/forgot-password">
-        забыли пароль?
-      </router-link>
     </div>
   </div>
 </template>
@@ -43,9 +40,6 @@ export default {
         .finally(() => {
           this.loading = false;
         });
-    },
-    closeModal() {
-      this.$store.dispatch('app/setModal', null);
     },
   },
 };

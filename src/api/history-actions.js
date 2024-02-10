@@ -1,11 +1,10 @@
 import axios from 'axios';
 
-const { VUE_APP_HOS_SERVICE: API_HOST } = process.env;
-const limit = parseInt(process.env.VUE_APP_LIMIT, 10);
+import { HISTORY_ACTIONS_URL, LIMIT } from './constants';
 
-export default {
-  getHistoryActions: async (params) => {
-    const { data: { data } } = await axios.get(`${API_HOST}/history-actions`, { params: { limit, ...params } });
-    return data;
-  },
+export const historyActionsApi = {
+  getHistoryActions: async (params) => axios
+    .get(HISTORY_ACTIONS_URL, { params: { limit: LIMIT, ...params } })
+    .then((res) => res.data)
+    .catch((error) => error.response.data),
 };

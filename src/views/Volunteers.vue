@@ -11,7 +11,7 @@
           <span> {{ volunteer.name }} {{ volunteer.surname }} </span>
         </router-link>
         <a class="volunteers__phone-container" :href="`tel:+${volunteer.phone.replace(/\s/g, '')}`">
-          <img class="volunteers__phone-icon" src="@/assets/phone-icon.png" />
+          <img class="volunteers__phone-icon" src="@/assets/phone-icon.png" alt="phone" />
           +{{ prettifyPhone(volunteer.phone) }}
         </a>
       </div>
@@ -28,8 +28,7 @@ import { mapState } from 'vuex';
 
 import SearchBar from '@/components/volunteers-view/SearchBar.vue';
 import Loader from '@/components/common/Loader.vue';
-
-const limit = parseInt(process.env.VUE_APP_LIMIT, 10);
+import { LIMIT } from '@/api/constants';
 
 export default {
   name: 'Volunteers',
@@ -59,7 +58,7 @@ export default {
         order: 'asc',
       })
       .then(() => {
-        this.skip += limit;
+        this.skip += LIMIT;
       })
       .finally(() => {
         this.loading = false;
@@ -89,7 +88,7 @@ export default {
           ...(searchValue !== '' ? { search: searchValue } : {}),
         })
         .then(() => {
-          this.skip += limit;
+          this.skip += LIMIT;
         })
         .finally(() => {
           this.loading = false;
@@ -109,7 +108,7 @@ export default {
       }
     },
     resetSkip() {
-      this.skip = limit;
+      this.skip = LIMIT;
     },
   },
 };

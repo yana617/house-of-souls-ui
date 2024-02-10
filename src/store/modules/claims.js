@@ -1,4 +1,4 @@
-import claims from '../../api/claims';
+import { claimsApi } from '@/api/claims';
 
 const SET_CURRENT_SCHEDULE = 'SET_CURRENT_SCHEDULE';
 const SET_NEXT_WEEK_SCHEDULE = 'SET_NEXT_WEEK_SCHEDULE';
@@ -10,7 +10,7 @@ const SET_RATING = 'SET_RATING';
 const state = () => ({
   currentSchedule: null,
   nextWeekSchedule: null,
-  personal: {},
+  personal: [],
   createErrors: [],
   updateErrors: [],
   rating: null,
@@ -20,19 +20,25 @@ const getters = {};
 
 const actions = {
   getSchedule: async ({ commit }, params = {}) => {
-    const result = await claims.getClaims(params);
-    commit(SET_CURRENT_SCHEDULE, result);
+    const mappedClaims = await claimsApi.getClaims(params);
+    if (mappedClaims) {
+      commit(SET_CURRENT_SCHEDULE, mappedClaims);
+    }
   },
   getNextWeekSchedule: async ({ commit }, params = {}) => {
-    const result = await claims.getClaims(params);
-    commit(SET_NEXT_WEEK_SCHEDULE, result);
+    const mappedClaims = await claimsApi.getClaims(params);
+    if (mappedClaims) {
+      commit(SET_NEXT_WEEK_SCHEDULE, mappedClaims);
+    }
   },
   getClaimsByUserId: async ({ commit }, params = {}) => {
-    const result = await claims.getClaimsByUserId(params);
-    commit(SET_PERSONAL_CLAIMS, result);
+    const response = await claimsApi.getClaimsByUserId(params);
+    if (response.success) {
+      commit(SET_PERSONAL_CLAIMS, response.data);
+    }
   },
   createClaim: async ({ commit }, body = {}) => {
-    const response = await claims.createClaim(body);
+    const response = await claimsApi.createClaim(body);
     if (response.success) {
       commit(SET_CREATE_ERRORS, []);
     } else if (response.errors) {
@@ -40,7 +46,7 @@ const actions = {
     }
   },
   updateClaim: async ({ commit }, body = {}) => {
-    const response = await claims.updateClaim(body);
+    const response = await claimsApi.updateClaim(body);
     if (response.success) {
       commit(SET_UPDATE_ERRORS, []);
     } else if (response.errors) {
@@ -52,11 +58,13 @@ const actions = {
     commit(SET_UPDATE_ERRORS, []);
   },
   deleteClaim: async (_, { _id } = {}) => {
-    await claims.deleteClaim({ _id });
+    await claimsApi.deleteClaim({ _id });
   },
   getRating: async ({ commit }) => {
-    const result = await claims.getRating();
-    commit(SET_RATING, result);
+    const response = await claimsApi.getRating();
+    if (response.success) {
+      commit(SET_RATING, response.data);
+    }
   },
 };
 

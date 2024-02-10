@@ -52,7 +52,9 @@ const getWeekDatesRange = (diffFromCurrent = 0) => {
   return { from: new Date(from).toISOString(), to: new Date(to).toISOString() };
 };
 
-const randomDate = (start, end) => new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+const randomDate = (start, end) => new Date(
+  start.getTime() + Math.random() * (end.getTime() - start.getTime()),
+);
 
 const weekDayOfDate = (dateString) => {
   const date = new Date(dateString);

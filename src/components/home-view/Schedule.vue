@@ -4,7 +4,7 @@
     <div class="schedule__container">
       <div class="schedule__sub-container">
         <div class="schedule__line">
-          <div style="min-width: 80px"></div>
+          <div style="min-width: 80px" />
           <span v-for="day in claims" :key="day.date" class="schedule__date">
             <span class="schedule__date__sub-container">
               {{ dayOfWeek(day.date) }}

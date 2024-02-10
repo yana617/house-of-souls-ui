@@ -46,9 +46,15 @@ export default {
   clearUserRequest: clearRequestData(USER_ALLOWED_FIELDS),
   checkRequiredUserFields: checkRequiredFields(USER_REQUIRED_FIELDS),
   clearAdditionalFieldTemplateRequest: clearRequestData(ADDITIONAL_FIELD_TEMPLATE_ALLOWED_FIELDS),
-  checkRequiredAdditionalFieldTemplateFields: checkRequiredFields(ADDITIONAL_FIELD_TEMPLATE_REQUIRED_FIELDS),
-  clearUserAdditionalFieldRequest: clearRequestData(USER_ADDITIONAL_FIELD_ALLOWED_FIELDS),
-  checkRequiredUserAdditionalFieldFields: checkRequiredFields(USER_ADDITIONAL_FIELD_REQUIRED_FIELDS),
+  checkRequiredAdditionalFieldTemplateFields: checkRequiredFields(
+    ADDITIONAL_FIELD_TEMPLATE_REQUIRED_FIELDS,
+  ),
+  clearUserAdditionalFieldRequest: clearRequestData(
+    USER_ADDITIONAL_FIELD_ALLOWED_FIELDS,
+  ),
+  checkRequiredUserAdditionalFieldFields: checkRequiredFields(
+    USER_ADDITIONAL_FIELD_REQUIRED_FIELDS,
+  ),
   clearClaimRequest: clearRequestData(CLAIM_ALLOWED_FIELDS),
   checkRequiredClaimFields: checkRequiredFields(CLAIM_REQUIRED_FIELDS),
 };

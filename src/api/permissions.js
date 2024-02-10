@@ -1,20 +1,19 @@
 import axios from 'axios';
 
-const { VUE_APP_AUTH_SERVICE: AUTH_SERVICE_API } = process.env;
-const permissionsApi = `${AUTH_SERVICE_API}/permissions`;
+import { PERMISSIONS_URL } from './constants';
 
-export default {
-  getMyPermissions: async () => axios.get(`${permissionsApi}/me`)
-    .then((response) => {
-      const { data: permissions } = response.data;
-      return permissions;
-    })
-    .catch(() => []),
-  getPermissions: async () => {
-    const { data: { data: permissions } } = await axios.get(permissionsApi);
-    return permissions;
-  },
-  updatePermissions: async ({ userId, permissions }) => {
-    await axios.put(permissionsApi, { userId, permissions });
-  },
+export const permissionsApi = {
+  getMyPermissions: async () => axios
+    .get(`${PERMISSIONS_URL}/me`)
+    .then((response) => response.data)
+    .catch((error) => error.response.data),
+
+  getPermissions: async () => axios
+    .get(PERMISSIONS_URL)
+    .then((response) => response.data)
+    .catch((error) => error.response.data),
+
+  updatePermissions: async ({ userId, permissions }) => axios
+    .put(PERMISSIONS_URL, { userId, permissions })
+    .catch((error) => error.response.data),
 };

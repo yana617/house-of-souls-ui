@@ -37,11 +37,11 @@
 import { mapState } from 'vuex';
 import { ref } from 'vue';
 
+import { findError } from '@/utils/validation';
 import Loader from '../common/Loader.vue';
 import Checkbox from '../common/Checkbox.vue';
 import Button from '../common/Button.vue';
 import PhoneInput from '../common/PhoneInput.vue';
-import { findError } from '@/utils/validation';
 
 export default {
   name: 'Registration',

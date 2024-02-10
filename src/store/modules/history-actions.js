@@ -1,4 +1,4 @@
-import historyActions from '../../api/history-actions';
+import { historyActionsApi } from '@/api/history-actions';
 
 const SET_HISTORY_ACTIONS = 'SET_HISTORY_ACTIONS';
 const LOAD_MORE_HISTORY_ACTIONS = 'LOAD_MORE_HISTORY_ACTIONS';
@@ -15,12 +15,16 @@ const getters = {};
 
 const actions = {
   getHistoryActions: async ({ commit }, params = {}) => {
-    const list = await historyActions.getHistoryActions(params);
-    commit(SET_HISTORY_ACTIONS, list);
+    const response = await historyActionsApi.getHistoryActions(params);
+    if (response.success) {
+      commit(SET_HISTORY_ACTIONS, response.data);
+    }
   },
   loadMoreHistoryActions: async ({ commit }, params = {}) => {
-    const list = await historyActions.getHistoryActions(params);
-    commit(LOAD_MORE_HISTORY_ACTIONS, list);
+    const response = await historyActionsApi.getHistoryActions(params);
+    if (response.success) {
+      commit(LOAD_MORE_HISTORY_ACTIONS, response.data);
+    }
   },
   addHistoryAction: async ({ commit }, action) => {
     commit(ADD_HISTORY_ACTION, action);
@@ -39,7 +43,7 @@ const mutations = {
     state.list = state.list.concat(result.historyActions);
   },
   [ADD_HISTORY_ACTION](state, action) {
-    state.list = [action, ...state.list];
+    state.list = [action, ...(state.list || [])];
     state.total += 1;
     state.onNewHistoryActionEventTriggered = true;
   },

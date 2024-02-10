@@ -1,9 +1,7 @@
-/* eslint-disable no-unused-vars */
-import userAdditionalFields from '../../api/user-additional-fields';
+import { uafApi } from '@/api/user-additional-fields';
 
 const SET_USER_ADDITIONAL_FIELDS = 'SET_USER_ADDITIONAL_FIELDS';
 
-// initial state
 const state = () => ({
   current: null,
 });
@@ -12,11 +10,13 @@ const getters = {};
 
 const actions = {
   getUserAdditionalFields: async ({ commit }) => {
-    const fields = await userAdditionalFields.getUserAdditionalFields();
-    commit(SET_USER_ADDITIONAL_FIELDS, fields);
+    const response = await uafApi.getUserAdditionalFields();
+    if (response.success) {
+      commit(SET_USER_ADDITIONAL_FIELDS, response.data);
+    }
   },
-  updateUserAdditionalField: async ({ commit }, { id, value } = {}) => {
-    await userAdditionalFields.updateUserAdditionalField({ id, value });
+  updateUserAdditionalField: async (_, { id, value } = {}) => {
+    await uafApi.updateUserAdditionalField({ id, value });
   },
 };
 

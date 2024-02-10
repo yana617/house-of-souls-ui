@@ -1,7 +1,12 @@
 <template>
   <div @click="closeModal()" class="modal__wrapper">
     <div class="new-additional-field-modal" @click.stop>
-      <img @click="closeModal()" class="new-additional-field-modal__close-icon" src="@/assets/close.png" />
+      <img
+        @click="closeModal()"
+        class="new-additional-field-modal__close-icon"
+        src="@/assets/close.png"
+        alt="close"
+      />
       <h2>Новое дополнительное поле</h2>
       <div class="new-additional-field-modal__icon-container" v-if="false">
         <input
@@ -15,9 +20,13 @@
           class="new-additional-field-modal__icon-sub-container"
           :class="{ 'new-additional-field-modal__no-icon': !icon }"
         >
-          <img class="new-additional-field-modal__icon" :src="icon" />
+          <img class="new-additional-field-modal__icon" :src="icon" alt="additional-field-icon" />
         </div>
-        <Button class="new-additional-field-modal__btn__upload-icon" @click="uploadIcon()" title="Загрузить иконку" />
+        <Button
+          class="new-additional-field-modal__btn__upload-icon"
+          @click="uploadIcon()"
+          title="Загрузить иконку"
+        />
       </div>
       <span class="new-additional-field-modal__error">{{ getError('icon') }}</span>
       <input
@@ -26,9 +35,18 @@
         v-model="label"
       />
       <span class="new-additional-field-modal__error">{{ getError('label') }}</span>
-      <textarea class="new-additional-field-modal__description" v-model="description" placeholder="Описание" />
+      <textarea
+        class="new-additional-field-modal__description"
+        v-model="description"
+        placeholder="Описание"
+      />
       <span class="new-additional-field-modal__error">{{ getError('description') }}</span>
-      <Button :loading="loading" class="new-additional-field-modal__btn__save" @click="create()" title="Добавить" />
+      <Button
+        :loading="loading"
+        class="new-additional-field-modal__btn__save"
+        @click="create()"
+        title="Добавить"
+      />
     </div>
   </div>
 </template>
@@ -36,14 +54,14 @@
 <script>
 import { mapState } from 'vuex';
 
-import Button from '../common/Button.vue';
 import { findError } from '@/utils/validation';
+import Button from '../common/Button.vue';
 
 export default {
   name: 'NewAdditionalFieldModal',
   components: { Button },
   computed: mapState({
-    icon: (state) => state.additionalFields.new.icon,
+    icon: (state) => state.additionalFields.new?.icon,
     errors: (state) => state.additionalFields.createErrors,
   }),
   data() {

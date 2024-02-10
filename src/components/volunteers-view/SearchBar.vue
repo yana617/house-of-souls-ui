@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="search-bar__input-container">
-      <img class="search-bar__search-icon" src="@/assets/search-icon.png" />
+      <img class="search-bar__search-icon" src="@/assets/search-icon.png" alt="search" />
       <input v-model.lazy="searchText" />
     </div>
   </div>

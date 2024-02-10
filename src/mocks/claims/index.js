@@ -33,7 +33,8 @@ export default [
     claims = claims.map((claim) => {
       const { user_id } = claim;
       const user = userMocks.find((u) => u._id === user_id);
-      const user_additional_fields = userAdditionalFieldMocks.filter((uaf) => uaf.user_id === user_id);
+      const user_additional_fields = userAdditionalFieldMocks
+        .filter((uaf) => uaf.user_id === user_id);
       return {
         ...claim,
         user: {

@@ -140,7 +140,8 @@ export default [
     const isVerified = isVerifiedQuery === 'true';
     let users = userMocks.filter((user) => user.isVerified === isVerified);
     users = users.map((user) => {
-      const user_additional_fields = userAdditionalFieldMocks.filter((uaf) => uaf.user_id === user._id);
+      const user_additional_fields = userAdditionalFieldMocks
+        .filter((uaf) => uaf.user_id === user._id);
       return { ...user, user_additional_fields };
     });
 
