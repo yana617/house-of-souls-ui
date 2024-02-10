@@ -1,7 +1,12 @@
 <template>
   <div class="modal__wrapper" @click="closeModal()">
     <div class="new-additional-field-modal" @click.stop>
-      <img class="new-additional-field-modal__close-icon" alt="close" src="@/assets/close.png" @click="closeModal()" />
+      <img
+        @click="closeModal()"
+        class="new-additional-field-modal__close-icon"
+        src="@/assets/close.png"
+        alt="close"
+      />
       <h2>Новое дополнительное поле</h2>
       <div v-if="false" class="new-additional-field-modal__icon-container">
         <input
@@ -30,13 +35,17 @@
         placeholder="Короткое название (желательно одно слово)"
       />
       <span class="new-additional-field-modal__error">{{ getError('label') }}</span>
-      <textarea v-model="description" class="new-additional-field-modal__description" placeholder="Описание" />
+      <textarea
+        class="new-additional-field-modal__description"
+        v-model="description"
+        placeholder="Описание"
+      />
       <span class="new-additional-field-modal__error">{{ getError('description') }}</span>
       <CommonButton
         :loading="loading"
         class="new-additional-field-modal__btn__save"
-        title="Добавить"
         @click="create()"
+        title="Добавить"
       />
     </div>
   </div>
@@ -46,11 +55,15 @@
 import { mapState } from 'vuex';
 
 import { findError } from '@/utils/validation';
-import CommonButton from '../common/CommonButton.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 export default {
   name: 'NewAdditionalFieldModal',
   components: { CommonButton },
+  computed: mapState({
+    icon: (state) => state.additionalFields.new?.icon,
+    errors: (state) => state.additionalFields.createErrors,
+  }),
   data() {
     return {
       label: null,
@@ -59,10 +72,6 @@ export default {
       loading: false,
     };
   },
-  computed: mapState({
-    icon: (state) => state.additionalFields.new.icon,
-    errors: (state) => state.additionalFields.createErrors,
-  }),
   unmounted() {
     this.$store.dispatch('additionalFields/clearCreateErrors');
   },

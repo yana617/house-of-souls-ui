@@ -1,9 +1,22 @@
 <template>
   <div v-if="isModalOpen" class="modal__wrapper">
     <div class="auth-modal">
-      <img class="auth-modal__background-image" alt="back" src="@/assets/auth-modal-back.jpg" />
-      <img class="auth-modal__background-image mobile" alt="mobile" src="@/assets/auth-modal-mobile.jpg" />
-      <img class="auth-modal__header__close-icon" src="@/assets/close.png" alt="close" @click="setModal(null)" />
+      <img
+        class="auth-modal__background-image"
+        src="@/assets/auth-modal-back.jpg"
+        alt="back-icon"
+      />
+      <img
+        class="auth-modal__background-image mobile"
+        src="@/assets/auth-modal-mobile.jpg"
+        alt="mobile back icon"
+      />
+      <img
+        @click="setModal(null)"
+        class="auth-modal__header__close-icon"
+        src="@/assets/close.png"
+        alt="close-icon"
+      />
       <div class="auth-modal__header">
         <span
           class="auth-modal__header__title"
@@ -29,9 +42,9 @@
 <script>
 import { mapState } from 'vuex';
 
+import { MODAL } from '@/utils/constants';
 import Registration from './Registration.vue';
 import Login from './Login.vue';
-import { MODAL } from '../../utils/constants';
 
 export default {
   name: 'AuthModal',

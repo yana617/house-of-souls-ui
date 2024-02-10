@@ -1,16 +1,21 @@
 <template>
   <div class="notices-control">
     <span class="notices-control__title">Информационные блоки</span>
-    <Notice v-for="noticeId in notices.list" :key="noticeId" v-bind="notices.data[noticeId]" :notice-id="noticeId" />
+    <Notice
+      v-for="noticeId in notices.list"
+      :key="noticeId"
+      v-bind="notices.data[noticeId]"
+      :noticeId="noticeId"
+    />
     <CommonButton
       v-if="hasPermissionsToCreateNotice"
       class="notices-control__add-btn"
-      title="добавить"
+      title="Добавить"
       @click="openModal"
     />
     <NewNoticeModal v-if="isModalOpen" />
   </div>
-  <img class="notices-control__img" src="@/assets/cat_infos.jpeg" alt="notices" />
+  <img class="notices-control__img" src="@/assets/cat_infos.jpeg" alt="background-image" />
 </template>
 
 <script>

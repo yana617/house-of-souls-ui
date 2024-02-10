@@ -38,9 +38,9 @@ import { mapState } from 'vuex';
 import { ref } from 'vue';
 
 import { findError } from '@/utils/validation';
+import CommonButton from '@/components/common/CommonButton.vue';
 import Loader from '../common/Loader.vue';
 import Checkbox from '../common/Checkbox.vue';
-import CommonButton from '../common/CommonButton.vue';
 import PhoneInput from '../common/PhoneInput.vue';
 
 export default {

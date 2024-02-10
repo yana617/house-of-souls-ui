@@ -1,11 +1,11 @@
 <template>
   <div class="checkbox">
-    <div class="checkbox__selects">
-      <span class="checkbox__select" :class="{ selected: value }" @click="$emit('input', true)">+</span>
-      <span class="checkbox__select" :class="{ selected: !value }" @click="$emit('input', false)">-</span>
+    <div id="select" class="checkbox__selects">
+      <span @click="$emit('input', true)" class="checkbox__select" :class="{ selected: value }">+</span>
+      <span @click="$emit('input', false)" class="checkbox__select" :class="{ selected: !value }">-</span>
     </div>
-    <label>{{ label }}</label>
-    <Tooltip v-if="description" :help-text="description" />
+    <label for="select">{{ label }}</label>
+    <Tooltip v-if="description" :helpText="description" />
   </div>
 </template>
 

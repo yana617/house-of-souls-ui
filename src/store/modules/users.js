@@ -1,4 +1,4 @@
-import users from '../../api/users';
+import { usersApi } from '@/api/users';
 
 const SET_USERS = 'SET_USERS';
 const LOAD_MORE_USERS = 'LOAD_MORE_USERS';
@@ -22,20 +22,26 @@ const getters = {};
 
 const actions = {
   getUsers: async ({ commit }, params = {}) => {
-    const result = await users.getUsers(params);
-    commit(SET_USERS, result);
+    const response = await usersApi.getUsers(params);
+    if (response.success) {
+      commit(SET_USERS, response.data);
+    }
   },
   loadMoreUsers: async ({ commit }, params = {}) => {
-    const result = await users.getUsers(params);
-    commit(LOAD_MORE_USERS, result);
+    const response = await usersApi.getUsers(params);
+    if (response.success) {
+      commit(LOAD_MORE_USERS, response.data);
+    }
   },
   getUser: async ({ commit }) => {
-    const user = await users.getUser();
-    commit('auth/SET_USER', user, { root: true });
+    const response = await usersApi.getUser();
+    if (response.success) {
+      commit('auth/SET_USER', response.data, { root: true });
+    }
   },
   updateUser: async ({ commit }, body = {}) => {
     commit(SET_USER_UPDATE_ERRORS, []);
-    const response = await users.updateUser(body);
+    const response = await usersApi.updateUser(body);
     if (response.success) {
       commit('auth/SET_USER', response.data, { root: true });
     } else if (response.errors) {
@@ -43,15 +49,19 @@ const actions = {
     }
   },
   getUserPermissions: async ({ commit }, userId) => {
-    const result = await users.getUserPermissions(userId);
-    commit(SET_PERMISSIONS, result);
+    const response = await usersApi.getUserPermissions(userId);
+    if (response.success) {
+      commit(SET_PERMISSIONS, response.data);
+    }
   },
   updateRole: async (_, { userId, role } = {}) => {
-    await users.updateRole({ userId, role });
+    await usersApi.updateRole({ userId, role });
   },
-  getUserProfile: async ({ commit }, { userId } = {}) => {
-    const result = await users.getUserProfile({ userId });
-    commit(SET_USER_PROFILE, result);
+  getUserProfile: async ({ commit }, { userId }) => {
+    const response = await usersApi.getUserProfile({ userId });
+    if (response.success) {
+      commit(SET_USER_PROFILE, response.data);
+    }
   },
   clearUser: ({ commit }) => {
     commit('auth/SET_USER', null, { root: true });
@@ -63,7 +73,7 @@ const actions = {
     commit(SET_USERS, []);
   },
   getCurator: async ({ commit }, { userId } = {}) => {
-    const result = await users.getCurator(userId);
+    const result = await usersApi.getCurator(userId);
     commit(SET_CURATOR, result);
   },
 };

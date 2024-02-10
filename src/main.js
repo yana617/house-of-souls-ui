@@ -20,6 +20,7 @@ import {
 } from 'ant-design-vue';
 import { io } from 'socket.io-client';
 import { createVueMatchMediaPlugin } from '@cwist/vue-match-media';
+import InlineSvg from 'vue-inline-svg';
 import 'ant-design-vue/dist/antd.css';
 
 import App from './App.vue';
@@ -64,7 +65,11 @@ const run = () => {
     .use(Modal)
     .use(Divider)
     .use(VueMatchMediaPlugin);
+
   app.config.globalProperties.$socket = socket;
+
+  app.component('inline-svg', InlineSvg);
+
   app.mount('#app');
 };
 

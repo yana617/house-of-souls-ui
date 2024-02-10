@@ -1,7 +1,7 @@
 <template>
   <div class="modal__wrapper claim-info-modal__wrapper" @click="$emit('onclose')">
     <div class="claim-info-modal" @click.stop>
-      <img class="claim-info-modal__close-icon" alt="close" src="@/assets/close.png" @click="$emit('onclose')" />
+      <img @click="$emit('onclose')" class="claim-info-modal__close-icon" src="@/assets/close.png" alt="close" />
       <div class="claim-info-modal__header" />
       <span class="claim-info-modal__info-title">Данные о волонтёре</span>
       <span class="claim-info-modal__info-description name"> {{ userToShow.name }} {{ userToShow.surname }} </span>
@@ -17,12 +17,12 @@
           <img
             v-if="false"
             :key="field.id"
-            alt="additional-field"
             class="claim-info-modal__icon"
             :src="additionalFieldsById[field.additional_field_template_id]?.icon"
+            alt="additional-field-icon"
           />
-          <CheckCircleTwoTone v-if="field.value" two-tone-color="#52c41a" />
-          <span v-if="field.value" class="claim-info-modal__additional-fields__label">
+          <CheckCircleTwoTone v-if="field.value" :two-tone-color="twoToneColor" />
+          <span class="claim-info-modal__additional-fields__label" v-if="field.value">
             {{ additionalFieldsById[field.additional_field_template_id]?.label }}
           </span>
           <Tooltip
@@ -60,6 +60,8 @@ import CommonButton from '@/components/common/CommonButton.vue';
 import prettifyPhone from '@/utils/prettifyPhone';
 import Tooltip from '../common/CustomTooltip.vue';
 
+const TWO_TONE_COLOR = '#52c41a';
+
 export default {
   name: 'ClaimInfoModal',
   components: { Tooltip, CheckCircleTwoTone, CommonButton },
@@ -78,6 +80,11 @@ export default {
     questionable: Boolean,
   },
   emits: ['refresh-schedule', 'onclose'],
+  data() {
+    return {
+      twoToneColor: TWO_TONE_COLOR,
+    };
+  },
   computed: mapState({
     additionalFields: (state) => state.additionalFields.current,
     haveTruthyAdditionFields() {

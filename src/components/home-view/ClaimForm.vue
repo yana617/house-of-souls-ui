@@ -4,25 +4,36 @@
     <span class="claim-form__error">{{ getError('guest.name') }}</span>
     <span class="claim-form__error">{{ getError('guest.surname') }}</span>
     <span class="claim-form__error">{{ getError('guest.phone') }}</span>
-    <ClaimBaseInfo v-model:isGuest="isGuest" :claim="claimModel" :is-update-mode="isUpdateMode" />
-    <label class="claim-form__title">{{ labels.arrivalTime }}</label>
+    <ClaimBaseInfo :claim="claimModel" :isUpdateMode="isUpdateMode" v-model:isGuest="isGuest" />
+    <label for="time-select" class="claim-form__title">{{ labels.arrivalTime }}</label>
     <a-time-picker
       v-model:value="claimModel.arrival_time"
       style="width: 100%"
       placeholder="Выбрать время"
       format="HH:mm"
       :minute-step="15"
+      id="time-select"
     />
     <span class="claim-form__error">{{ getError('arrival_time') }}</span>
     <BaseInput v-model="claimModel.additional_people" :label="labels.additionalPeople" />
     <span class="claim-form__error">{{ getError('additional_people') }}</span>
-    <BaseInput v-model="claimModel.comment" is-textarea :label="labels.comment" :description="commentDescription" />
+    <BaseInput
+      is-textarea
+      :label="labels.comment"
+      :description="commentDescription"
+      v-model="claimModel.comment"
+    />
     <span class="claim-form__error">{{ getError('comment') }}</span>
     <a-checkbox v-model:checked="claimModel.questionable" class="claim-form__checkbox">
       {{ labels.questionable }}
     </a-checkbox>
     <span>{{ descriptions.questionable }} </span>
-    <CommonButton :loading="loading" class="claim-form__submit-btn" :title="submitButton" @click="submit()" />
+    <CommonButton
+      :loading="loading"
+      class="claim-form__submit-btn"
+      :title="submitButton"
+      @click="submit()"
+    />
   </div>
 </template>
 
@@ -89,7 +100,9 @@ export default {
         _id: this.claim._id,
         ...this.claimModel,
         comment: this.claimModel.comment.length !== 0 ? this.claimModel.comment : null,
-        arrival_time: this.claimModel.arrival_time ? this.claimModel.arrival_time.format('HH:mm') : null,
+        arrival_time: this.claimModel.arrival_time
+          ? this.claimModel.arrival_time.format('HH:mm')
+          : null,
         additional_people: parseInt(this.claimModel.additional_people, 10) || null,
         user_id: this.user.id,
       };

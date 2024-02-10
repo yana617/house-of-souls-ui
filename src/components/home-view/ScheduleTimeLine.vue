@@ -7,6 +7,7 @@
       class="schedule-time-line__applies"
       :class="{ 'border-top': borderTop }"
     >
+      <NoPeople v-if="!day.claims.length" />
       <ScheduleClaim
         v-for="claim in day.claims"
         :key="claim.id"
@@ -27,7 +28,6 @@
         title="Отписаться"
         @click="unsubscribe(day.claims)"
       />
-      <span v-if="showNoClaims(day.claims.length)" class="schedule-time-line__no-assigned"> Никто не записан </span>
     </div>
     <ClaimInfoModal
       v-if="claimInfoModalOpen"
@@ -55,10 +55,11 @@
 <script>
 import { mapState } from 'vuex';
 
-import CommonButton from '../common/CommonButton.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 import ScheduleClaim from './ScheduleClaim.vue';
 import ClaimInfoModal from './ClaimInfoModal.vue';
 import ClaimModal from './ClaimModal.vue';
+import NoPeople from './NoPeople.vue';
 
 export default {
   name: 'ScheduleTimeLine',
@@ -67,6 +68,7 @@ export default {
     ScheduleClaim,
     ClaimInfoModal,
     ClaimModal,
+    NoPeople,
   },
   props: {
     schedule: Array,
@@ -114,7 +116,8 @@ export default {
       this.mode = 'create';
       this.canSubscribeYourself = true;
       if (this.hasPermissionToAssignUnregisteredUsers) {
-        const hasOwnClaims = this.user && claims.some((claim) => claim.user.id === this.user.id && !claim.guest_id);
+        const hasOwnClaims = this.user
+          && claims.some((claim) => claim.user.id === this.user.id && !claim.guest_id);
         this.canSubscribeYourself = !hasOwnClaims;
       }
       this.updateOrCreateModalOpen = true;
@@ -145,9 +148,6 @@ export default {
     onClaimModalClose() {
       this.updateOrCreateModalOpen = false;
       this.refreshSchedule();
-    },
-    showNoClaims(claimsCount) {
-      return !claimsCount && (!this.user || !this.hasPermissionsToAssign);
     },
     refreshSchedule() {
       this.$emit('refresh-schedule');
@@ -216,13 +216,6 @@ $lightGrey: #ccc;
       background-color: red;
       color: white;
     }
-  }
-
-  &__no-assigned {
-    font-size: 14px;
-    margin-top: 8px;
-    color: black;
-    width: $dayWidth;
   }
 }
 </style>

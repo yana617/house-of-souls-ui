@@ -1,5 +1,5 @@
 <template>
-  <button :disabled="loading || disabled" type="button">
+  <button type="submit" :disabled="loading || disabled">
     {{ loading ? 'Загрузка..' : title }}
   </button>
 </template>

@@ -21,7 +21,7 @@
 <script>
 import { mapState } from 'vuex';
 
-import CommonButton from '../common/CommonButton.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 export default {
   name: 'ChangeRole',

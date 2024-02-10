@@ -12,9 +12,9 @@
           v-bind="notices.data[noticeId]"
         />
         <button
+          type="button"
           v-if="showLoadAllNoticesBtn"
           class="home__notices__load-all-btn"
-          type="button"
           @click="showAllNotices = !showAllNotices"
         >
           {{ loadNoticesBtnTitle }}

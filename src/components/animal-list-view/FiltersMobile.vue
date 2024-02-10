@@ -2,12 +2,8 @@
   <div class="filters-mobile">
     <div class="filters-mobile__header">
       <div class="filters-mobile__back-arrow" @click="handleClose" />
-      <h4 class="filters-mobile__header__title">
-        Фильтр
-      </h4>
-      <h4 class="filters-mobile__clear-btn" @click="handleClearFilters">
-        Очистить
-      </h4>
+      <h4 class="filters-mobile__header__title">Фильтр</h4>
+      <h4 class="filters-mobile__clear-btn" @click="handleClearFilters">Очистить</h4>
     </div>
     <Sorting v-if="hasViewAnimalPermission" class="filters-mobile__sorting" />
     <div
@@ -20,11 +16,23 @@
       @click="openSelectOption(filter.filterName)"
     >
       <span>{{ translatedFilterValue(filter) || filter.title }}</span>
-      <img class="filters-mobile__item__arrow-icon" alt="arrow-bottom" src="@/assets/arrow-bottom.png" />
+      <img
+        class="filters-mobile__item__arrow-icon"
+        alt="arrow-bottom"
+        src="@/assets/arrow-bottom.png"
+      />
     </div>
-    <CommonButton class="filters-mobile__confirm-btn" title="Показать результат" @click="handleClose()" />
+    <CommonButton
+      class="filters-mobile__confirm-btn"
+      title="Показать результат"
+      @click="handleClose()"
+    />
   </div>
-  <FilterSelectOptions v-if="selectOptionsFor" :filter-name="selectOptionsFor" @on-close="handleSelectOptionsClose" />
+  <FilterSelectOptions
+    v-if="selectOptionsFor"
+    :filter-name="selectOptionsFor"
+    @on-close="handleSelectOptionsClose"
+  />
 </template>
 
 <script>

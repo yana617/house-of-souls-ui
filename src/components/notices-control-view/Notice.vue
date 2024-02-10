@@ -1,19 +1,20 @@
 <template>
   <div class="notice">
-    <label>Заголовок</label>
+    <label for="title">Заголовок</label>
     <input
       v-model="notice.title"
       :disabled="!edit"
       class="notice__title"
       :class="{ notice__title__background: !title }"
+      id="notice-title"
     />
     <span v-if="edit" class="notice__error">{{ getError('title') }}</span>
-    <label>Подробности</label>
+    <label for="description">Подробности</label>
     <textarea
       v-model="notice.description"
       :disabled="!edit"
-      class="notice__description"
       :class="{ notice__description__background: !description }"
+      class="notice__description"
     />
     <span v-if="edit" class="notice__error">{{ getError('description') }}</span>
     <div class="notice__checkbox-container">

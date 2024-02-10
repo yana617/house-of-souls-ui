@@ -16,7 +16,10 @@
       </template>
       <template #userAdditionalFields="{ record }">
         <span>
-          <AdditionalFieldsTags v-if="!noAtf" :user-additional-fields="record.user_additional_fields" />
+          <AdditionalFieldsTags
+            v-if="!noAtf"
+            :userAdditionalFields="record.user_additional_fields"
+          />
           <span v-if="noAtf || !record.user_additional_fields">-</span>
         </span>
       </template>
@@ -39,7 +42,10 @@
         <div class="volunteers-requests__mobile__container bottom">
           <h4>{{ user.phone }}</h4>
           <div v-if="!noAtf" class="volunteers-requests__mobile__line" />
-          <AdditionalFieldsTags v-if="!noAtf" :user-additional-fields="user.user_additional_fields" />
+          <AdditionalFieldsTags
+            v-if="!noAtf"
+            :user-additional-fields="user.user_additional_fields"
+          />
         </div>
         <CommonButton
           class="volunteers-requests__mobile__submit-btn"
@@ -47,7 +53,9 @@
           @click="changeRole(user.id)"
         />
       </div>
-      <span v-if="users.length === 0" class="volunteers-requests__mobile__no-users">Пока нет заявок</span>
+      <span class="volunteers-requests__mobile__no-users" v-if="users.length === 0">
+        Пока нет заявок
+      </span>
     </div>
   </div>
 </template>
@@ -71,7 +79,8 @@ export default {
   computed: mapState({
     permissions: (state) => state.permissions.my,
     users: (state) => state.users.list,
-    noAtf: (state) => !state.additionalFields.current || state.additionalFields.current.length === 0,
+    noAtf: (state) => !state.additionalFields.current
+      || state.additionalFields.current.length === 0,
   }),
   created() {
     this.loadUsers();

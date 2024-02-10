@@ -3,16 +3,13 @@
     <div class="login__wrapper">
       <input id="email" v-model="email" type="text" name="email" placeholder="E-mail" />
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
-      <CommonButton :disabled="loading" class="login__submit-btn" title="Войти" @click="submitLogin" />
-      <router-link class="login__forgot-password-label" to="/forgot-password" @click="closeModal">
-        забыли пароль?
-      </router-link>
+      <CommonButton :disabled="loading" @click="submitLogin" class="login__submit-btn" title="Войти" />
     </div>
   </div>
 </template>
 
 <script>
-import CommonButton from '../common/CommonButton.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 export default {
   name: 'Login',
@@ -43,9 +40,6 @@ export default {
         .finally(() => {
           this.loading = false;
         });
-    },
-    closeModal() {
-      this.$store.dispatch('app/setModal', null);
     },
   },
 };

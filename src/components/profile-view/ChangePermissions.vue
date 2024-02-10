@@ -2,7 +2,13 @@
   <div class="change-permissions">
     <span><b>Права предоставляемые ролью пользователя</b></span>
     <br />
-    <a-checkbox v-for="perm in translatedRolePermissions" :key="perm" class="change-permissions__item" checked disabled>
+    <a-checkbox
+      class="change-permissions__item"
+      v-for="perm in translatedRolePermissions"
+      :key="perm"
+      checked
+      disabled
+    >
       {{ perm.translate }}
     </a-checkbox>
     <br />
@@ -38,7 +44,7 @@
 <script>
 import { mapState } from 'vuex';
 
-import CommonButton from '../common/CommonButton.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 export default {
   name: 'ChangePermissions',
@@ -56,7 +62,8 @@ export default {
     userAdditionalPermissions: (state) => state.users.permissions.userPermissions || [],
     userPermissionsToAdd() {
       return this.allPermissions.filter(
-        (p) => !this.userAdditionalPermissions.includes(p.name) && !this.userRolePermissions.includes(p.name),
+        (p) => !this.userAdditionalPermissions.includes(p.name)
+          && !this.userRolePermissions.includes(p.name),
       );
     },
     translatedRolePermissions() {

@@ -1,13 +1,24 @@
 <template>
   <div class="reset-password">
     <form :onsubmit="resetPassword">
-      <label>Восстановление пароля</label>
-      <a-input v-model:value="password" type="password" size="large" placeholder="Пароль" />
+      <label for="pass">Восстановление пароля</label>
+      <a-input
+        id="pass"
+        type="password"
+        size="large"
+        v-model:value="password"
+        placeholder="Новый пароль"
+      />
       <span class="reset-password__error">{{ getError('password') }}</span>
-      <a-input v-model:value="repeatPassword" type="password" size="large" placeholder="Подтвердите пароль" />
+      <a-input
+        v-model:value="repeatPassword"
+        type="password"
+        size="large"
+        placeholder="Подтвердите пароль"
+      />
       <span class="reset-password__error">{{ getError('token') }}</span>
       <span class="reset-password__error">{{ getError('userId') }}</span>
-      <CommonButton class="reset-password__btn" title="Отправить запрос" />
+      <CommonButton class="reset-password__btn" title="Обновить пароль" />
     </form>
   </div>
 </template>
@@ -18,6 +29,7 @@ import { mapState } from 'vuex';
 import notifications from '@/utils/notifications';
 import CommonButton from '@/components/common/CommonButton.vue';
 import { findError } from '@/utils/validation';
+import { getToken } from '@/utils/sessionStorage';
 
 export default {
   name: 'ResetPassword',
@@ -28,6 +40,11 @@ export default {
       repeatPassword: '',
       findError,
     };
+  },
+  created() {
+    if (getToken()) {
+      this.$router.push('/');
+    }
   },
   computed: mapState({
     errors: (state) => state.auth.resetPasswordErrors,
@@ -42,6 +59,9 @@ export default {
       this.$store.dispatch('app/setLoading', true);
       this.$store
         .dispatch('auth/resetPassword', { password: this.password, token, userId })
+        .then(() => {
+          this.$router.push('/');
+        })
         .finally(() => {
           this.$store.dispatch('app/setLoading', false);
         });
