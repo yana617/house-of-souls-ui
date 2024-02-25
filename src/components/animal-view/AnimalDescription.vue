@@ -1,7 +1,7 @@
 <template>
   <div class="animal-description" :class="{ 'full-width': !hasViewAnimalPermission }">
     <span class="animal-description__title">Описание</span>
-    <DescriptionIconItems :hasViewAnimalPermission="hasViewAnimalPermission" />
+    <DescriptionIconItems :has-view-animal-permission="hasViewAnimalPermission" />
     <div v-if="hasViewAnimalPermission" class="animal-description__row border-bottom">
       <div class="animal-description__row__sub-container">
         <span class="animal-description__data-title">Расположение</span>
@@ -27,7 +27,10 @@
       </div>
     </div>
 
-    <div class="animal-description__row border-bottom" :class="{ 'no-padding': hasViewAnimalPermission }">
+    <div
+      class="animal-description__row border-bottom"
+      :class="{ 'no-padding': hasViewAnimalPermission }"
+    >
       <div class="animal-description__row__sub-container">
         <span class="animal-description__data-title">История</span>
         <span class="animal-description__data-description">{{ animal.description }}</span>
@@ -39,11 +42,11 @@
         <span class="animal-description__data-title">{{ sterilizedTitle }}</span>
         <span class="animal-description__data-description">{{ sterilizedTranslate }}</span>
       </div>
-      <div v-if="animal.type === 'dog'" class="animal-description__row__sub-container">
+      <div v-if="isDog" class="animal-description__row__sub-container">
         <span class="animal-description__data-title">Рост в холке</span>
         <span class="animal-description__data-description"> {{ heightTranslate }}</span>
       </div>
-      <div class="animal-description__row__sub-container" v-if="!hasViewAnimalPermission">
+      <div v-if="!hasViewAnimalPermission" class="animal-description__row__sub-container">
         <span class="animal-description__data-title">Последняя прививка</span>
         <span class="animal-description__data-description">{{ formattedLastVaccine }}</span>
       </div>
@@ -61,41 +64,49 @@
 <script>
 import { mapState } from 'vuex';
 
-import { sterilizedTranslates, placeTranslates } from '@/utils/constants';
-import { computeHeightRangeTranslate, computeMonthTranslate, computeYearTranslate } from '@/utils/computedTranslates';
+import Filters from '@/utils/enums/Filters';
+import {
+  computeHeightRangeTranslate,
+  computeMonthTranslate,
+  computeYearTranslate,
+} from '@/utils/computedTranslates';
 import { parseDateWithNumbers, calculatePassedTime } from '@/utils/date';
+import translates from '@/utils/translates/index';
+import AnimalType from '@/utils/enums/AnimalType';
+import AnimalPlace from '@/utils/enums/AnimalPlace';
+
 import DescriptionIconItems from './DescriptionIconItems.vue';
 
 export default {
   name: 'AnimalDescription',
+  components: { DescriptionIconItems },
   props: {
     hasViewAnimalPermission: Boolean,
   },
-  components: { DescriptionIconItems },
   computed: mapState({
     lastVaccine: (state) => state.animalMedicalHistory.last,
     animalId() {
       return this.$route.params.id;
     },
     animal(state) {
-      return state.animals.data[this.animalId] || {};
+      return state.animals.data?.[this.animalId] || {};
     },
     roomTitle() {
-      return this.animal.place === 'aviary' ? 'Номер вольера' : 'Комната';
+      return this.animal.place === AnimalPlace.AVIARY ? 'Номер вольера' : 'Комната';
     },
     sterilizedTitle() {
-      return sterilizedTranslates[this.animal.sex].title;
+      return translates[Filters.STERILIZED]?.title?.[this.animal.sex];
     },
     heightTranslate() {
       const { height } = this.animal;
       return `${height} см в холке (${computeHeightRangeTranslate(height)})`;
     },
     placeTranslate() {
-      return placeTranslates[this.animal.place] || '-';
+      return translates[this.animal.place] || '-';
     },
     sterilizedTranslate() {
       const start = this.animal.sterilized ? '' : 'Не ';
-      const end = sterilizedTranslates[this.animal.sex].description;
+      const end = translates[Filters.STERILIZED]?.one?.[this.animal.sex];
       return `${start}${start ? end.toLowerCase() : end}`;
     },
     formattedLastVaccine() {
@@ -107,6 +118,9 @@ export default {
     },
     formattedSecondBirthday() {
       return parseDateWithNumbers(this.animal.secondBirthday);
+    },
+    isDog() {
+      return this.animal?.type === AnimalType.DOG;
     },
   }),
   methods: {
@@ -133,7 +147,6 @@ $grey2: #f4f6f9;
   box-shadow: 0px 8px 64px rgba(15, 34, 67, 0.03), 0px 0px 1px rgba(15, 34, 67, 0.08);
   border-radius: 8px;
   width: 70%;
-  margin: 32px 32px 32px 0;
   color: $black1;
 
   &.full-width {
@@ -142,7 +155,7 @@ $grey2: #f4f6f9;
 
   &__title {
     font-weight: 500;
-    font-size: 22px;
+    font-size: 28px;
     margin: 16px 32px;
   }
 
@@ -170,14 +183,14 @@ $grey2: #f4f6f9;
 
   &__data-title {
     font-weight: 400;
-    font-size: 14px;
+    font-size: 16px;
     color: $grey1;
     margin-bottom: 4px;
     text-align: left;
   }
 
   &__data-description {
-    font-size: 16px;
+    font-size: 18px;
     text-align: left;
   }
 

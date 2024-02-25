@@ -1,5 +1,5 @@
 <template>
-  <div class="claims-rating" v-if="rating">
+  <div v-if="rating" class="claims-rating">
     <ClaimsRatingTable header="За всё время" :users="rating.allTime" />
     <a-divider type="vertical" class="claims-rating__divider" />
     <ClaimsRatingTable header="За последний год" :users="rating.year" />
@@ -17,19 +17,19 @@ import ClaimsRatingTable from './ClaimsRatingTable.vue';
 export default {
   name: 'ClaimsRating',
   components: { ClaimsRatingTable },
+  data() {
+    return {
+      claimsColumns,
+    };
+  },
+  computed: mapState({
+    rating: (state) => state.claims.rating,
+  }),
   created() {
     this.$store.dispatch('app/setLoading', true);
     this.$store.dispatch('claims/getRating').finally(() => {
       this.$store.dispatch('app/setLoading', false);
     });
-  },
-  computed: mapState({
-    rating: (state) => state.claims.rating,
-  }),
-  data() {
-    return {
-      claimsColumns,
-    };
   },
   methods: {},
 };

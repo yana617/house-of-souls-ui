@@ -11,6 +11,7 @@ export default {
   getLastMedicalItem: async (params) => {
     // const { data: { data } } = await axios.get(`${animalsApi}/last`, { params });
     // return data;
+    // eslint-disable-next-line no-promise-executor-return
     await new Promise((r) => setTimeout(r, 2000));
     return mock.lastMedicalItem;
   },

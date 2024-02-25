@@ -1,6 +1,8 @@
 <template>
   <div v-if="claims" class="schedule">
-    <div class="schedule__dates-info">с {{ fromDate }} по {{ toDate }}</div>
+    <div class="schedule__dates-info">
+      с {{ fromDate }} по {{ toDate }}
+    </div>
     <div class="schedule__container">
       <div class="schedule__sub-container">
         <div class="schedule__line">
@@ -12,14 +14,14 @@
             </span>
           </span>
         </div>
-        <ScheduleTimeLine title="УТРО" type="morning" :schedule="morningSchedule" @refreshSchedule="refreshSchedule" />
+        <ScheduleTimeLine title="УТРО" type="morning" :schedule="morningSchedule" @refresh-schedule="refreshSchedule" />
         <ScheduleTimeLine
           class="schedule__evening"
           title="ВЕЧЕР"
           type="evening"
-          borderTop
+          border-top
           :schedule="eveningSchedule"
-          @refreshSchedule="refreshSchedule"
+          @refresh-schedule="refreshSchedule"
         />
       </div>
     </div>
@@ -38,6 +40,7 @@ export default {
     to: String,
     claims: Array,
   },
+  emits: ['refresh-schedule'],
   computed: {
     morningSchedule() {
       return this.claims.map((day) => ({ date: day.date, claims: day.morning }));
@@ -61,7 +64,7 @@ export default {
       return new Date(date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'numeric' });
     },
     refreshSchedule() {
-      this.$emit('refreshSchedule');
+      this.$emit('refresh-schedule');
     },
   },
 };

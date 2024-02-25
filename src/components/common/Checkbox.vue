@@ -20,6 +20,7 @@ export default {
     label: String,
     description: String,
   },
+  emits: ['input'],
 };
 </script>
 

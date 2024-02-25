@@ -1,6 +1,6 @@
 <template>
   <div class="dropdown">
-    <div @click="toggleOpen" :class="['dropdown__selected', { open }]">
+    <div :class="['dropdown__selected', { open }]" @click="toggleOpen">
       <span class="dropdown__selected__text" :class="{ 'long-text': isLongText }">{{ title }}</span>
       <ArrowBottomSvg />
     </div>

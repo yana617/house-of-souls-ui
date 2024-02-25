@@ -1,5 +1,5 @@
 <template>
-  <div @click="closeModal()" class="modal__wrapper">
+  <div class="modal__wrapper" @click="closeModal()">
     <div class="new-additional-field-modal" @click.stop>
       <img
         @click="closeModal()"
@@ -8,7 +8,7 @@
         alt="close"
       />
       <h2>Новое дополнительное поле</h2>
-      <div class="new-additional-field-modal__icon-container" v-if="false">
+      <div v-if="false" class="new-additional-field-modal__icon-container">
         <input
           id="new-additional-field-icon-input"
           type="file"
@@ -20,19 +20,19 @@
           class="new-additional-field-modal__icon-sub-container"
           :class="{ 'new-additional-field-modal__no-icon': !icon }"
         >
-          <img class="new-additional-field-modal__icon" :src="icon" alt="additional-field-icon" />
+          <img class="new-additional-field-modal__icon" alt="additional-field-icon" :src="icon" />
         </div>
-        <Button
+        <CommonButton
           class="new-additional-field-modal__btn__upload-icon"
-          @click="uploadIcon()"
           title="Загрузить иконку"
+          @click="uploadIcon()"
         />
       </div>
       <span class="new-additional-field-modal__error">{{ getError('icon') }}</span>
       <input
+        v-model="label"
         class="new-additional-field-modal__label"
         placeholder="Короткое название (желательно одно слово)"
-        v-model="label"
       />
       <span class="new-additional-field-modal__error">{{ getError('label') }}</span>
       <textarea
@@ -41,7 +41,7 @@
         placeholder="Описание"
       />
       <span class="new-additional-field-modal__error">{{ getError('description') }}</span>
-      <Button
+      <CommonButton
         :loading="loading"
         class="new-additional-field-modal__btn__save"
         @click="create()"
@@ -55,11 +55,11 @@
 import { mapState } from 'vuex';
 
 import { findError } from '@/utils/validation';
-import Button from '../common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 export default {
   name: 'NewAdditionalFieldModal',
-  components: { Button },
+  components: { CommonButton },
   computed: mapState({
     icon: (state) => state.additionalFields.new?.icon,
     errors: (state) => state.additionalFields.createErrors,
@@ -159,6 +159,7 @@ $lightGrey: #ccc;
       color: black !important;
       border-color: black !important;
     }
+
     &__save {
       margin-top: 12px;
       color: $green !important;
