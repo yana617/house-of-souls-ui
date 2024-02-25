@@ -1,20 +1,18 @@
 <template>
   <div class="curator-contact" :class="{ loading }">
-    <div v-if="curator" class="curator-contact__sub-container">
+    <div class="curator-contact__sub-container">
       <span class="curator-contact__title">Куратор</span>
-      <router-link v-if="hasCurator" :to="`/users/${animal.curator_id}`">
-        <span class="curator-contact__name">{{ curator.name }}</span>
-      </router-link>
-      <span v-if="!hasCurator" class="curator-contact__name">{{ spareCurator.name }}</span>
+      <span class="curator-contact__value">{{ curator.name || defaultCurator.name }}</span>
     </div>
-    <PhoneModal
-      :visible="phoneModalOpen"
-      :spare-curator="spareCurator"
-      :place="animal.place"
-      @onclose="phoneModalOpen = false"
-    />
-    <div v-if="!loading" class="curator-contact__phone-container" @click="phoneModalOpen = true">
-      <img class="curator-contact__phone-icon" alt="phone" src="@/assets/phone.png" />
+    <div class="curator-contact__sub-container">
+      <span class="curator-contact__title">Для связи</span>
+      <span class="curator-contact__value">
+        {{ curator.phone ? prettifyPhone(curator.phone) : defaultCurator.phones[0] }}
+      </span>
+    </div>
+    <div class="curator-contact__sub-container" v-if="!curator.phone">
+      <span class="curator-contact__title">Для связи</span>
+      <span class="curator-contact__value">{{ defaultCurator.phones[1] }}</span>
     </div>
   </div>
 </template>
@@ -22,16 +20,15 @@
 <script>
 import { mapState } from 'vuex';
 
-import { curators } from '@/utils/constants';
-import PhoneModal from './PhoneModal.vue';
+import { defaultCuratorPhones } from '@/utils/constants';
+import prettifyPhone from '@/utils/prettifyPhone';
 
 export default {
-  name: 'CuratorContact',
-  components: { PhoneModal },
+  name: 'CuratorContactForGuests',
   data() {
     return {
-      phoneModalOpen: false,
       loading: false,
+      prettifyPhone,
     };
   },
   computed: mapState({
@@ -45,8 +42,8 @@ export default {
     hasCurator() {
       return this.curator.name || this.loading;
     },
-    spareCurator() {
-      return curators[this.animal.type];
+    defaultCurator() {
+      return defaultCuratorPhones[this.animal.type];
     },
   }),
   created() {
@@ -62,19 +59,20 @@ export default {
 
 <style scoped lang="scss">
 $blue: #3f91f7;
-$grey: #8a92a6;
+$grey1: #8a92a6;
 $darkBlue: #2f3e4e;
 
 .curator-contact {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background: #ffffff;
+  gap: 64px;
+  background: white;
   box-shadow: 0px 8px 64px rgba(15, 34, 67, 0.03), 0px 0px 1px rgba(15, 34, 67, 0.08);
   border-radius: 8px;
   width: 100%;
   margin-top: 32px;
-  padding: 16px 48px;
+  padding: 16px 32px;
+  height: 120px;
 
   &.loading {
     animation: color-change 0.5s infinite linear alternate;
@@ -94,19 +92,17 @@ $darkBlue: #2f3e4e;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
-    margin-right: 64px;
   }
 
   &__title {
     font-weight: 400;
-    font-size: 14px;
-    color: #8a92a6;
+    font-size: 16px;
+    color: $grey1;
     margin-bottom: 4px;
   }
 
-  &__name {
-    font-size: 16px;
-    text-align: left;
+  &__value {
+    font-size: 19px;
   }
 
   &__phone-container {

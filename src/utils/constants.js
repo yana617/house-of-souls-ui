@@ -97,7 +97,7 @@ const claimFormDescriptions = {
   comment: 'Если вы отклоняетесь от этого времени - предупредите в комментарии пожалуйста!',
 };
 
-const curators = {
+const defaultCuratorPhones = {
   dog: {
     name: 'Тамара',
     phones: ['+375(29) 322-61-55', '+375(33) 66-11-625'],
@@ -116,5 +116,5 @@ export {
   claimFormLabels,
   claimFormDescriptions,
   claimsRatingColumns,
-  curators,
+  defaultCuratorPhones,
 };

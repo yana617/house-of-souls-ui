@@ -1,5 +1,5 @@
 <template>
-  <div class="description-icon-items">
+  <div class="description-icon-items" :class="{ 'border-bottom': !hasViewAnimalPermission }">
     <div class="description-icon-items__container">
       <img v-if="isDog" class="description-icon-items__icon" alt="dog" src="@/assets/dog.png" />
       <img v-if="isCat" class="description-icon-items__icon" alt="cat" src="@/assets/cat.png" />
@@ -10,8 +10,18 @@
     </div>
 
     <div class="description-icon-items__container margin-left">
-      <img v-if="!isFemale" class="description-icon-items__icon" alt="male" src="@/assets/male.png" />
-      <img v-if="isFemale" class="description-icon-items__icon" alt="female" src="@/assets/female.png" />
+      <img
+        v-if="!isFemale"
+        class="description-icon-items__icon"
+        alt="male"
+        src="@/assets/male.png"
+      />
+      <img
+        v-if="isFemale"
+        class="description-icon-items__icon"
+        alt="female"
+        src="@/assets/female.png"
+      />
       <div class="description-icon-items__sub-container">
         <span class="description-icon-items__data-title">{{ translates.sex }}</span>
         <span class="description-icon-items__data-description">{{ sexTranslate }}</span>
@@ -82,12 +92,17 @@ export default {
 $darkBlue: #2f3e4e;
 $green: #42b983;
 $grey1: #8a92a6;
+$grey2: #f4f6f9;
 
 .description-icon-items {
   display: flex;
   align-items: center;
   padding: 16px 32px 16px;
   width: 100%;
+
+  &.border-bottom {
+    border-bottom: 1.5px solid $grey2;
+  }
 
   &__container {
     display: flex;
@@ -112,14 +127,14 @@ $grey1: #8a92a6;
 
   &__data-title {
     font-weight: 400;
-    font-size: 14px;
+    font-size: 16px;
     color: $grey1;
     margin-bottom: 4px;
     text-align: left;
   }
 
   &__data-description {
-    font-size: 16px;
+    font-size: 18px;
     text-align: left;
   }
 

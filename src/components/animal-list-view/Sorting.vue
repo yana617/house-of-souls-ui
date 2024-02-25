@@ -63,7 +63,7 @@ export default {
     },
     dogOlderYearSelected() {
       const { type, age } = this.$route.query;
-      return type === AnimalType.DOG && age === AnimalAge.OLDER_YEAR;
+      return type === AnimalType.DOG && age === AnimalAge.OVER_YEAR;
     },
   },
   methods: {

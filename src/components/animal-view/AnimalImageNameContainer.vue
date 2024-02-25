@@ -57,7 +57,7 @@ $darkBlue: #2f3e4e;
   box-shadow: 0px 8px 64px rgba(15, 34, 67, 0.03), 0px 0px 1px rgba(15, 34, 67, 0.08);
   border-radius: 8px;
   width: 100%;
-  padding: 24px;
+  padding: 32px 24px;
 
   &__image {
     width: 200px;
@@ -70,7 +70,7 @@ $darkBlue: #2f3e4e;
   &__name {
     color: $darkBlue;
     font-weight: 600;
-    font-size: 22px;
+    font-size: 26px;
     line-height: 29px;
   }
 

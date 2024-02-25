@@ -47,19 +47,14 @@ export default {
     animals: (state) => state.animals.list,
     permissions: (state) => state.permissions.my,
     hasViewAnimalPermission() {
-      return this.hasPermission('VIEW_ANIMAL');
+      return this.permissions.includes('VIEW_ANIMAL');
     },
   }),
-  methods: {
-    hasPermission(permission) {
-      return this.permissions.includes(permission);
-    },
-  },
 };
 </script>
 
 <style scoped lang="scss">
-$grey2: #8a92a6;
+$grey1: #8a92a6;
 
 .animal-list {
   &__title {
@@ -74,7 +69,7 @@ $grey2: #8a92a6;
   }
 
   &__cards-container {
-    color: $grey2;
+    color: $grey1;
     margin-top: 16px;
     width: 100%;
     text-align: left;

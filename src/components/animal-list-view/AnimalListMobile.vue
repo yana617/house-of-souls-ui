@@ -83,7 +83,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$grey2: #8a92a6;
+$grey1: #8a92a6;
 
 .animal-list-mobile {
   &__nav {
@@ -115,7 +115,7 @@ $grey2: #8a92a6;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: $grey2;
+    color: $grey1;
     font-size: 16px;
   }
 

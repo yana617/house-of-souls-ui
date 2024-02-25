@@ -24,7 +24,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$grey2: #8a92a6;
 $blue: #3f91f7;
 $black1: #232d42;
 

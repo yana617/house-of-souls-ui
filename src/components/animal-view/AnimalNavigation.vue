@@ -41,12 +41,13 @@ export default {
 
 <style scoped lang="scss">
 $blue: #3f91f7;
-$grey: #8a92a6;
+$grey1: #8a92a6;
 
 .animal-navigation {
   display: flex;
   align-items: center;
-  color: $grey;
+  color: $grey1;
+  font-size: 16px;
 
   &__right-arrow {
     border: solid black;
@@ -64,7 +65,7 @@ $grey: #8a92a6;
   }
 
   &__link {
-    color: $grey;
+    color: $grey1;
     &:hover {
       color: $blue;
       text-decoration: underline;

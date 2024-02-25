@@ -3,7 +3,14 @@
     <Search v-if="hasViewAnimalPermission" />
     <div class="filters__title">
       <span class="filters__title__text">Фильтр</span>
-      <span v-if="hasViewAnimalPermission" class="filters__title__clear-btn" @click="handleClearFilters">Очистить</span>
+      <span
+        v-if="hasViewAnimalPermission"
+        class="filters__title__clear-btn"
+        @click="handleClearFilters"
+      >
+        Очистить
+      </span
+      >
     </div>
     <div class="filters__sub-container">
       <div
@@ -27,7 +34,10 @@
             src="@/assets/arrow-bottom.png"
           />
         </div>
-        <div class="filters__item__options-container" :class="{ visible: openFilterName === filter.filterName }">
+        <div
+          class="filters__item__options-container"
+          :class="{ visible: openFilterName === filter.filterName }"
+        >
           <div
             v-for="option of filter.options"
             :key="option.value"
@@ -67,7 +77,7 @@ export default {
     isVisible(filterName) {
       if (filterName === Filters.HEIGHT) {
         const { type, age } = this.$route.query;
-        return type === AnimalType.DOG && age === AnimalAge.OLDER_YEAR;
+        return type === AnimalType.DOG && age === AnimalAge.OVER_YEAR;
       }
 
       if (filterName === Filters.ROOM) {
@@ -107,7 +117,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$grey2: #8a92a6;
+$grey1: #8a92a6;
 $blue: #3f91f7;
 $black1: #232d42;
 
@@ -170,7 +180,7 @@ $black1: #232d42;
       border-radius: 8px;
       margin-bottom: 8px;
       box-shadow: 0px 18px 32px rgba(208, 210, 218, 0.15);
-      color: $grey2;
+      color: $grey1;
       cursor: pointer;
 
       align-items: center;
@@ -200,7 +210,7 @@ $black1: #232d42;
       text-align: left;
       padding: 4px 0;
       cursor: pointer;
-      color: $grey2;
+      color: $grey1;
 
       &.selected {
         color: $black1 !important;
@@ -234,7 +244,7 @@ $black1: #232d42;
     }
 
     &__clear-btn {
-      color: $grey2;
+      color: $grey1;
       font-size: 14px;
       margin-left: auto;
       cursor: pointer;

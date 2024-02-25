@@ -2,7 +2,7 @@ import AnimalAge from '../enums/AnimalAge';
 
 export default [{
   type: 'dog',
-  age: AnimalAge.OLDER_YEAR,
+  age: AnimalAge.OVER_YEAR,
   labelShort: 'Собаки',
   labelLong: 'Собаки от 1 года',
   image: 'dog-filter.jpg',
@@ -14,7 +14,7 @@ export default [{
   image: 'puppy-filter.jpeg',
 }, {
   type: 'cat',
-  age: AnimalAge.OLDER_YEAR,
+  age: AnimalAge.OVER_YEAR,
   labelShort: 'Коты',
   labelLong: 'Коты до 1 года',
   image: 'cat-filter.jpeg',

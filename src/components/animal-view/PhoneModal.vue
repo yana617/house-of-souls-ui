@@ -26,7 +26,7 @@
 <script>
 import { mapState } from 'vuex';
 
-import { curators } from '@/utils/constants';
+import { defaultCuratorPhones } from '@/utils/constants';
 import prettifyPhone from '@/utils/prettifyPhone';
 
 export default {
@@ -37,7 +37,7 @@ export default {
   },
   emits: ['onclose'],
   data() {
-    return { curators };
+    return { defaultCuratorPhones };
   },
   computed: mapState({
     curator: (state) => state.users.curator,

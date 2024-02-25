@@ -27,7 +27,10 @@
       </div>
     </div>
 
-    <div class="animal-description__row border-bottom" :class="{ 'no-padding': hasViewAnimalPermission }">
+    <div
+      class="animal-description__row border-bottom"
+      :class="{ 'no-padding': hasViewAnimalPermission }"
+    >
       <div class="animal-description__row__sub-container">
         <span class="animal-description__data-title">История</span>
         <span class="animal-description__data-description">{{ animal.description }}</span>
@@ -62,7 +65,11 @@
 import { mapState } from 'vuex';
 
 import Filters from '@/utils/enums/Filters';
-import { computeHeightRangeTranslate, computeMonthTranslate, computeYearTranslate } from '@/utils/computedTranslates';
+import {
+  computeHeightRangeTranslate,
+  computeMonthTranslate,
+  computeYearTranslate,
+} from '@/utils/computedTranslates';
 import { parseDateWithNumbers, calculatePassedTime } from '@/utils/date';
 import translates from '@/utils/translates/index';
 import AnimalType from '@/utils/enums/AnimalType';
@@ -140,7 +147,6 @@ $grey2: #f4f6f9;
   box-shadow: 0px 8px 64px rgba(15, 34, 67, 0.03), 0px 0px 1px rgba(15, 34, 67, 0.08);
   border-radius: 8px;
   width: 70%;
-  margin: 32px 32px 32px 0;
   color: $black1;
 
   &.full-width {
@@ -149,7 +155,7 @@ $grey2: #f4f6f9;
 
   &__title {
     font-weight: 500;
-    font-size: 22px;
+    font-size: 28px;
     margin: 16px 32px;
   }
 
@@ -177,14 +183,14 @@ $grey2: #f4f6f9;
 
   &__data-title {
     font-weight: 400;
-    font-size: 14px;
+    font-size: 16px;
     color: $grey1;
     margin-bottom: 4px;
     text-align: left;
   }
 
   &__data-description {
-    font-size: 16px;
+    font-size: 18px;
     text-align: left;
   }
 

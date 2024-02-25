@@ -3,12 +3,13 @@
     <div v-if="animal" class="animal">
       <AnimalNavigation :type="animal.type" :animal-name="animal.name" />
       <div class="animal__base">
-        <div v-if="hasPermission('VIEW_ANIMAL')" class="animal__base__left">
+        <div v-if="hasViewAnimalPermission" class="animal__base__left">
           <AnimalImageNameContainer />
-          <CuratorContact />
+          <CuratorContactForVolunteers />
         </div>
-        <AnimalDescription :has-view-animal-permission="hasPermission('VIEW_ANIMAL')" />
+        <AnimalDescription :has-view-animal-permission="hasViewAnimalPermission" />
       </div>
+      <CuratorContactForGuests v-if="!hasViewAnimalPermission" />
     </div>
   </div>
 </template>
@@ -19,7 +20,8 @@ import { mapState } from 'vuex';
 import AnimalNavigation from '@/components/animal-view/AnimalNavigation.vue';
 import AnimalImageNameContainer from '@/components/animal-view/AnimalImageNameContainer.vue';
 import AnimalDescription from '@/components/animal-view/AnimalDescription.vue';
-import CuratorContact from '@/components/animal-view/CuratorContact.vue';
+import CuratorContactForVolunteers from '@/components/animal-view/CuratorContactForVolunteers.vue';
+import CuratorContactForGuests from '@/components/animal-view/CuratorContactForGuests.vue';
 
 export default {
   name: 'Animal',
@@ -27,7 +29,8 @@ export default {
     AnimalNavigation,
     AnimalImageNameContainer,
     AnimalDescription,
-    CuratorContact,
+    CuratorContactForVolunteers,
+    CuratorContactForGuests,
   },
   computed: mapState({
     notices: (state) => state.animals.notices,
@@ -38,6 +41,9 @@ export default {
     animal(state) {
       return state.animals.data[this.animalId];
     },
+    hasViewAnimalPermission() {
+      return this.permissions.includes('VIEW_ANIMAL');
+    },
   }),
   created() {
     this.$store.dispatch('notices/clearNotices');
@@ -45,14 +51,12 @@ export default {
     this.$store.dispatch('animals/getAnimalById', { id: this.animalId }).finally(() => {
       this.$store.dispatch('app/setLoading', false);
     });
-    if (!this.hasPermission('VIEW_ANIMAL')) {
-      this.$store.dispatch('animalMedicalHistory/getLastMedicalItem', { animal_id: this.animalId, type: 'vaccine' });
+    if (!this.hasViewAnimalPermission) {
+      this.$store.dispatch('animalMedicalHistory/getLastMedicalItem', {
+        animal_id: this.animalId,
+        type: 'vaccine',
+      });
     }
-  },
-  methods: {
-    hasPermission(permission) {
-      return this.permissions.includes(permission);
-    },
   },
 };
 </script>
@@ -73,12 +77,13 @@ $lightestGrey: #fafafa;
 
   &__base {
     display: flex;
+    padding-top: 32px;
 
     &__left {
       display: flex;
       flex-direction: column;
       width: 30%;
-      margin: 32px 32px 32px 0;
+      margin-right: 32px;
     }
   }
 

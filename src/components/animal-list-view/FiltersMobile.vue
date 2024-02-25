@@ -65,7 +65,7 @@ export default {
 
       if (filterName === Filters.HEIGHT) {
         const { type, age } = this.$route.query;
-        return type === AnimalType.DOG && age === AnimalAge.OLDER_YEAR;
+        return type === AnimalType.DOG && age === AnimalAge.OVER_YEAR;
       }
 
       if (filterName === Filters.ROOM) {
@@ -97,7 +97,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$grey2: #8a92a6;
+$grey1: #8a92a6;
 $blue: #3f91f7;
 $black1: #232d42;
 $darkBlue: #2f3e4e;
@@ -118,7 +118,7 @@ $darkBlue: #2f3e4e;
     align-items: center;
     justify-content: center;
     position: relative;
-    border-bottom: 1px solid rgba($color: $grey2, $alpha: 0.2);
+    border-bottom: 1px solid rgba($color: $grey1, $alpha: 0.2);
     margin-bottom: 12px;
     padding: 8px 16px;
 
@@ -146,7 +146,7 @@ $darkBlue: #2f3e4e;
   }
 
   &__clear-btn {
-    color: $grey2;
+    color: $grey1;
     position: absolute;
     right: 16px;
   }
@@ -159,7 +159,7 @@ $darkBlue: #2f3e4e;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0px 18px 32px rgba(208, 210, 218, 0.15);
-    color: $grey2;
+    color: $grey1;
     cursor: pointer;
     margin: 4px 16px;
 
@@ -191,7 +191,7 @@ $darkBlue: #2f3e4e;
 
   &__sorting {
     margin: 4px 16px;
-    color: $grey2;
+    color: $grey1;
   }
 }
 </style>

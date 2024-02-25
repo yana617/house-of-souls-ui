@@ -58,7 +58,7 @@ export default {
     [DogHeight.MEDIUM]: 'Средние (от 39 до 50 см)',
     [DogHeight.BIG]: 'Большие (от 51 см)',
 
-    [AnimalAge.OLDER_YEAR]: 'От 1 года',
+    [AnimalAge.OVER_YEAR]: 'От 1 года',
     [AnimalAge.UNDER_YEAR]: 'До 1 года',
   },
   EN: {

@@ -62,7 +62,7 @@ export default {
 
 <style scoped lang="scss">
 $darkBlue: #2f3e4e;
-$grey2: #8a92a6;
+$grey1: #8a92a6;
 $blue: #3f91f7;
 
 .animal-card {
@@ -101,7 +101,7 @@ $blue: #3f91f7;
     margin: 0;
     padding: 0 16px;
     font-size: 14px;
-    color: $grey2;
+    color: $grey1;
     height: 40px;
   }
 
