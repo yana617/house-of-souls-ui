@@ -33,7 +33,7 @@
     >
       <div class="animal-description__row__sub-container">
         <span class="animal-description__data-title">История</span>
-        <span class="animal-description__data-description">{{ animal.description }}</span>
+        <span class="animal-description__data-description">{{ animal.description || "-" }}</span>
       </div>
     </div>
 
@@ -42,7 +42,7 @@
         <span class="animal-description__data-title">{{ sterilizedTitle }}</span>
         <span class="animal-description__data-description">{{ sterilizedTranslate }}</span>
       </div>
-      <div v-if="isDog" class="animal-description__row__sub-container">
+      <div v-if="isDog && animal.height" class="animal-description__row__sub-container">
         <span class="animal-description__data-title">Рост в холке</span>
         <span class="animal-description__data-description"> {{ heightTranslate }}</span>
       </div>
@@ -55,7 +55,7 @@
     <div class="animal-description__row no-padding">
       <div class="animal-description__row__sub-container">
         <span class="animal-description__data-title">Особенности здоровья</span>
-        <span class="animal-description__data-description">{{ animal.healthDetails || '-' }}</span>
+        <span class="animal-description__data-description">{{ animal.health_details || '-' }}</span>
       </div>
     </div>
   </div>
@@ -117,7 +117,7 @@ export default {
       return `${parseDateWithNumbers(date)} (${drugName})`;
     },
     formattedSecondBirthday() {
-      return parseDateWithNumbers(this.animal.secondBirthday);
+      return parseDateWithNumbers(this.animal.second_birthday);
     },
     isDog() {
       return this.animal?.type === AnimalType.DOG;
@@ -125,7 +125,7 @@ export default {
   }),
   methods: {
     getPassedTimeCount() {
-      const count = calculatePassedTime(this.animal.secondBirthday);
+      const count = calculatePassedTime(this.animal.second_birthday);
       const years = count.years ? `${count.years} ${computeYearTranslate(count.years)} ` : '';
       const months = count.months ? `${count.months} ${computeMonthTranslate(count.months)}` : '';
       return `${years}${months}` || 'недавно';

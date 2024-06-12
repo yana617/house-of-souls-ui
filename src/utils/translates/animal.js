@@ -9,7 +9,7 @@ import AnimalAge from '../enums/AnimalAge';
 export default {
   RU: {
     [AnimalStatus.HOMELESS]: 'Ищет Дом',
-    [AnimalStatus.AT_HOME]: 'Дома 🎉',
+    [AnimalStatus.ADOPTED]: 'Дома 🎉',
     [AnimalStatus.DIED]: 'На радуге 😢',
     [AnimalStatus.LOST]: 'Потерялся',
     [AnimalStatus.PREPARATION]: 'Подготовка к поиску дома',

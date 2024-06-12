@@ -7,9 +7,6 @@ const primitiveMocks = {
   arrival_time: ['8.30', '17.00', null],
   comments: ['Буду только к 19.00', 'Новенькие со мной - в первый-первый раз', null],
   type: ['morning', 'evening'],
-  animalType: ['cat', 'dog'],
-  place: ['main_house', 'cat_house', 'change_house', 'on_temporary_hold', 'aviary'],
-  status: ['homeless', 'at_home', 'died', 'lost', 'preparation'],
   animalNames: ['Эшли', 'Бруня', 'Соня', 'Криспи', 'Граф', 'Ненси', 'Клякса'],
 };
 

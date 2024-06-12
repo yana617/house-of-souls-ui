@@ -134,7 +134,7 @@ $grey2: #f4f6f9;
   }
 
   &__data-description {
-    font-size: 18px;
+    font-size: 16px;
     text-align: left;
   }
 

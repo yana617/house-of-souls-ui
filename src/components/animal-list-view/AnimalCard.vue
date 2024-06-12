@@ -34,7 +34,7 @@ export default {
     sex: String,
     sterilized: Boolean,
     type: String,
-    advertisingText: String,
+    advertising_text: String,
     birthday: String,
     hasViewAnimalPermission: Boolean,
   },
@@ -47,8 +47,12 @@ export default {
       return `${translates[this.sex]}, ${sterilizedFullText}${heightText}${age}`;
     },
     cutText() {
+      if (!this.advertising_text) {
+        return '';
+      }
+
       const cutLength = this.$matchMedia.mobile ? 60 : 40;
-      return `${this.advertisingText?.slice(0, cutLength)}...`;
+      return `${this.advertising_text?.slice(0, cutLength)}...`;
     },
     age() {
       let age = calculateAge(this.birthday);

@@ -142,7 +142,7 @@ export default [
     filterName: Filters.STATUS,
     options: [
       { label: translates[AnimalStatus.HOMELESS], value: AnimalStatus.HOMELESS },
-      { label: translates[AnimalStatus.AT_HOME], value: AnimalStatus.AT_HOME },
+      { label: translates[AnimalStatus.ADOPTED], value: AnimalStatus.ADOPTED },
       { label: translates[AnimalStatus.DIED], value: AnimalStatus.DIED },
       { label: translates[AnimalStatus.LOST], value: AnimalStatus.LOST },
       { label: translates[AnimalStatus.PREPARATION], value: AnimalStatus.PREPARATION },

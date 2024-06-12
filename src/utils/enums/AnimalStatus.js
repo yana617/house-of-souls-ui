@@ -1,6 +1,6 @@
 export default {
   HOMELESS: 'homeless',
-  AT_HOME: 'at_home',
+  ADOPTED: 'adopted',
   DIED: 'died',
   LOST: 'lost',
   PREPARATION: 'preparation',

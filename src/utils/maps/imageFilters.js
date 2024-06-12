@@ -16,7 +16,7 @@ export default [{
   type: 'cat',
   age: AnimalAge.OVER_YEAR,
   labelShort: 'Коты',
-  labelLong: 'Коты до 1 года',
+  labelLong: 'Коты от 1 года',
   image: 'cat-filter.jpeg',
 }, {
   type: 'cat',
