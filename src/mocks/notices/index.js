@@ -22,7 +22,7 @@ export default [
       ctx.status(200),
       ctx.json({
         success: true,
-        notices: responseData.filter((n) => !!n),
+        data: responseData.filter((n) => !!n),
       }),
     );
   }),
@@ -41,7 +41,7 @@ export default [
       ctx.status(200),
       ctx.json({
         success: true,
-        notice: responseData,
+        data: responseData,
       }),
     );
   }),
@@ -79,7 +79,7 @@ export default [
       ctx.status(200),
       ctx.json({
         success: true,
-        notice: {
+        data: {
           ...noticeFromDB,
           ...noticeFromRequest,
         },
@@ -119,7 +119,7 @@ export default [
     return res(
       ctx.status(201),
       ctx.json({
-        notice: newNotice,
+        data: newNotice,
         success: true,
       }),
     );

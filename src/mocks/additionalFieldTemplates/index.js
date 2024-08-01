@@ -12,7 +12,8 @@ export default [
   rest.get(`${API_HOST}/additional-field-templates`, (_, res, ctx) => res(
     ctx.status(200),
     ctx.json({
-      additionalFieldTemplates: additionalFieldTemplateMocks,
+      success: true,
+      data: additionalFieldTemplateMocks,
     }),
   )),
 
@@ -22,7 +23,7 @@ export default [
     if (!isAuth) {
       return res(
         ctx.status(403),
-        ctx.json({ errorMessage: 'Please, authorize to create a new notice' }),
+        ctx.json({ success: false, error: 'Please, authorize to create a new notice' }),
       );
     }
 

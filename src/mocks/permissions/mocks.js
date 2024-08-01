@@ -43,4 +43,12 @@ export default [
     name: 'EDIT_ADDITIONAL_FIELD_TEMPLATE',
     translate: 'Редактировать дополнительные поля',
   },
+  {
+    name: 'EDIT_PERMISSIONS',
+    translate: 'Редактировать права',
+  },
+  {
+    name: 'VIEW_RATING',
+    translate: 'Просматривать рейтинг',
+  },
 ];

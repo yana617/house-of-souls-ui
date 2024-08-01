@@ -74,8 +74,8 @@ export default {
   computed: mapState({
     permissions: (state) => state.permissions.my,
     users: (state) => state.users.list,
-    noAtf: (state) => (!state.additionalFields.current
-      || state.additionalFields.current.length === 0),
+    noAtf: (state) => !state.additionalFields.current
+      || state.additionalFields.current.length === 0,
   }),
   setup() {
     return {
@@ -99,9 +99,11 @@ export default {
     },
     loadUsers() {
       this.$store.dispatch('app/setLoading', true);
-      this.$store.dispatch('users/getUsers', { roles: 'USER' }).finally(() => {
-        this.$store.dispatch('app/setLoading', false);
-      });
+      this.$store
+        .dispatch('users/getUsers', { roles: 'USER', sortBy: 'createdAt', order: 'desc' })
+        .finally(() => {
+          this.$store.dispatch('app/setLoading', false);
+        });
     },
     hasPermissions(permission) {
       return this.permissions.includes(permission);
