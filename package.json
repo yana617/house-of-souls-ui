@@ -16,7 +16,7 @@
     "production:deploy:setup": "npm run production:setup && npm run production:deploy"
   },
   "dependencies": {
-    "@ant-design/icons-vue": "6.0.1",
+    "@ant-design/icons-vue": "6.1.0",
     "@cwist/vue-match-media": "3.0.1",
     "ant-design-vue": "2.2.8",
     "axios": "0.27.2",
