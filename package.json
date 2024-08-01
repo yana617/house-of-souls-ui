@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "6.0.1",
-    "@cwist/vue-match-media": "3.0.1",
+    "@cwist/vue-match-media": "3.0.3",
     "ant-design-vue": "2.2.8",
     "axios": "0.27.2",
     "core-js": "3.31.0",
