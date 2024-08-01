@@ -7,7 +7,7 @@ export default [
     phone: '375111111111',
     email: 'test@example.com',
     birthday: '1999-07-07T16:15:44.818Z',
-    isVerified: true,
+    role: 'ADMIN',
   },
   {
     _id: '75b597b0-213d-4944-b25f-bd342d7edac3',
@@ -17,7 +17,7 @@ export default [
     email: 'test2@example.com',
     phone: '375297563006',
     birthday: '1990-07-07T16:15:44.818Z',
-    isVerified: false,
+    role: 'ADMIN',
   },
   {
     _id: 'b9945b75-024f-400d-940d-27b646ca471d',
@@ -27,7 +27,7 @@ export default [
     email: 'test3@example.com',
     phone: '375293434343',
     birthday: '1960-07-07T16:15:44.818Z',
-    isVerified: true,
+    role: 'USER',
   },
   {
     _id: 'e3bad91b-78b2-48d1-97a4-5738d74809ac',
@@ -37,7 +37,7 @@ export default [
     email: 'test4@example.com',
     phone: '375293434313',
     birthday: '2001-07-07T16:15:44.818Z',
-    isVerified: true,
+    role: 'USER',
   },
   {
     _id: '1e16a7d7-ae0c-4863-a4b2-a941664046c3',
@@ -47,7 +47,7 @@ export default [
     email: 'test5@example.com',
     phone: '375293474343',
     birthday: '1993-07-07T16:15:44.818Z',
-    isVerified: true,
+    role: 'USER',
   },
   {
     _id: '36f2c0b3-c5f5-43bf-9cc8-eab7d09e5a21',
@@ -57,6 +57,6 @@ export default [
     email: 'test6@example.com',
     phone: '375293469343',
     birthday: '1975-03-07T16:15:44.818Z',
-    isVerified: true,
+    role: 'USER',
   },
 ];

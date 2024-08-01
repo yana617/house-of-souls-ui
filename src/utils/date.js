@@ -37,8 +37,8 @@ const parseDateAndTime = (date) => {
   return jsDate.toLocaleDateString('ru-RU', options);
 };
 
-const parseDate = (date) => {
-  const options = { day: 'numeric', month: 'long' };
+const parseDate = (date, withYear) => {
+  const options = { day: 'numeric', month: 'long', ...(withYear ? { year: 'numeric' } : {}) };
   const jsDate = new Date(date);
   return jsDate.toLocaleDateString('ru-RU', options);
 };
