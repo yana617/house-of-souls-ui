@@ -5,6 +5,7 @@ const LOAD_MORE_USERS = 'LOAD_MORE_USERS';
 const SET_PERMISSIONS = 'SET_PERMISSIONS';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_USER_UPDATE_ERRORS = 'SET_USER_UPDATE_ERRORS';
+const SET_CURATOR = 'SET_CURATOR';
 
 const state = () => ({
   list: [],
@@ -14,6 +15,7 @@ const state = () => ({
     rolePermissions: [],
   },
   userUpdateErrors: [],
+  curator: {},
 });
 
 const getters = {};
@@ -70,6 +72,10 @@ const actions = {
   clearUsersList: ({ commit }) => {
     commit(SET_USERS, []);
   },
+  getCurator: async ({ commit }, { userId } = {}) => {
+    const result = await usersApi.getCurator(userId);
+    commit(SET_CURATOR, result);
+  },
 };
 
 const mutations = {
@@ -88,6 +94,9 @@ const mutations = {
   },
   [SET_USER_UPDATE_ERRORS](state, errors) {
     state.userUpdateErrors = errors;
+  },
+  [SET_CURATOR](state, result) {
+    state.curator = result;
   },
 };
 

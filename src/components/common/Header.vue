@@ -3,6 +3,7 @@
     <Dropdown v-if="$matchMedia.mobile" :items="headerLinks" :selected="selected" />
     <div class="header__nav-menu">
       <router-link v-if="hasPermissions('VIEW_USERS')" to="/volunteers">Волонтеры</router-link>
+      <router-link class="header__nav-menu__right-btn" to="/animals">Животные</router-link>
       <router-link class="header__nav-menu__right-btn" to="/">График</router-link>
       <router-link v-if="hasPermissions('VIEW_PROFILE')" class="header__nav-menu__right-btn" to="/profile">
         Профиль

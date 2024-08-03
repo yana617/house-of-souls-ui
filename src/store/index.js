@@ -9,6 +9,8 @@ import notices from './modules/notices';
 import claims from './modules/claims';
 import roles from './modules/roles';
 import permissions from './modules/permissions';
+import animals from './modules/animals';
+import animalMedicalHistory from './modules/animal-medical-history';
 import app from './modules/app';
 
 const debug = process.env.NODE_ENV !== 'production';
@@ -31,6 +33,8 @@ export default createStore({
     historyActions,
     roles,
     permissions,
+    animals,
+    animalMedicalHistory,
   },
   strict: debug,
 });
