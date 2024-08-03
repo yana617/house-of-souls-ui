@@ -6,7 +6,11 @@
       :columns="volunteersColumns"
       :data-source="users"
       :row-key="(record) => record.id"
-      class="volunteers-requests__table"
+      :rowClassName="
+        (record) => ({
+          'volunteers-requests__deactivated-row': record.createdAt !== record.updatedAt,
+        })
+      "
     >
       <template #createdAt="{ text: date }">
         <span>{{ getDate(date) }}</span>
@@ -74,8 +78,7 @@ export default {
   computed: mapState({
     permissions: (state) => state.permissions.my,
     users: (state) => state.users.list,
-    noAtf: (state) => !state.additionalFields.all
-      || state.additionalFields.all.length === 0,
+    noAtf: (state) => !state.additionalFields.all || state.additionalFields.all.length === 0,
   }),
   setup() {
     return {
@@ -100,7 +103,12 @@ export default {
     loadUsers() {
       this.$store.dispatch('app/setLoading', true);
       this.$store
-        .dispatch('users/getUsers', { roles: 'USER', sortBy: 'createdAt', order: 'desc' })
+        .dispatch('users/getUsers', {
+          roles: 'USER',
+          sortBy: 'createdAt',
+          order: 'desc',
+          limit: 50,
+        })
         .finally(() => {
           this.$store.dispatch('app/setLoading', false);
         });
@@ -112,13 +120,18 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 $green: #42b983;
 $lightGrey: #ccc;
 $lightestGrey: #f0f0f0;
+$lightRed: #ffe5e1;
 
 .volunteers-requests {
   width: 100%;
+
+  &__deactivated-row {
+    background-color: $lightRed;
+  }
 
   &__mobile {
     display: flex;
