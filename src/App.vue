@@ -33,9 +33,12 @@ export default {
 
 <style lang="scss">
 $headerHeight: 50px;
+
 $greyBlue: #2c3e50;
 $lightGrey: #ccc;
 $lightestGrey: #f0f0f0;
+
+$lightRed: #ffe5e1;
 
 html,
 body {
