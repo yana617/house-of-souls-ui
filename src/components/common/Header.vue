@@ -60,7 +60,6 @@ export default {
     };
   },
   computed: mapState({
-    additionalFields: (state) => state.additionalFields.current,
     user: (state) => state.auth.user,
     path() {
       return this.$route.path;

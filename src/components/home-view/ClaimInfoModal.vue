@@ -14,13 +14,6 @@
           v-for="field in user.user_additional_fields"
           :key="field._id"
         >
-          <img
-            v-if="false"
-            :key="field.id"
-            class="claim-info-modal__icon"
-            :src="additionalFieldsById[field.additional_field_template_id]?.icon"
-            alt="additional-field-icon"
-          />
           <CheckCircleTwoTone v-if="field.value" :two-tone-color="twoToneColor" />
           <span class="claim-info-modal__additional-fields__label" v-if="field.value">
             {{ additionalFieldsById[field.additional_field_template_id]?.label }}
@@ -71,7 +64,7 @@ export default {
     };
   },
   computed: mapState({
-    additionalFields: (state) => state.additionalFields.current,
+    additionalFields: (state) => state.additionalFields.all,
     haveTruthyAdditionFields() {
       return (
         !this.guest_id
@@ -199,11 +192,6 @@ $lightGrey: #ccc;
       border-radius: 4px;
       font-size: 14px;
     }
-  }
-
-  &__icon {
-    width: 16px;
-    height: 16px;
   }
 
   &__tooltip {
