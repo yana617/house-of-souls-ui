@@ -6,13 +6,9 @@
         v-for="field in claim.user?.user_additional_fields"
         :key="field.id"
       >
-        <img
-          v-if="false"
-          class="schedule-claim__icon"
-          :src="getIcon(field.additional_field_template_d)"
-          alt="additional-field-icon"
-        />
-        <SmileOutlined v-if="field.value" class="schedule-claim__icon" />
+        <span v-if="field.value && additionalFieldsById[field.additional_field_template_id]?.icon">
+          {{ additionalFieldsById[field.additional_field_template_id].icon }}
+        </span>
       </div>
     </div>
     <span @click="$emit('on-claim-click', claim)" class="schedule-claim__main-container">
@@ -32,16 +28,16 @@
 
 <script>
 import { mapState } from 'vuex';
-import { EditOutlined, SmileOutlined } from '@ant-design/icons-vue';
+import { EditOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'Schedule',
-  components: { EditOutlined, SmileOutlined },
+  components: { EditOutlined },
   props: {
     claim: Object,
   },
   computed: mapState({
-    additionalFields: (state) => state.additionalFields.current,
+    additionalFields: (state) => state.additionalFields.all,
     user: (state) => state.auth.user,
     claimUser() {
       if (this.claim.guest_id) {
@@ -59,16 +55,15 @@ export default {
     isMyClaim() {
       return this.user && this.user?.id === this.claim.user?.id;
     },
+    additionalFieldsById() {
+      const additionalFieldsById = {};
+      this.additionalFields.forEach((field) => {
+        additionalFieldsById[field.id] = field;
+      });
+      return additionalFieldsById;
+    },
   }),
   methods: {
-    getIcon(id) {
-      if (!this.additionalFields) return '';
-      const fieldObj = this.additionalFields.find((field) => field._id === id);
-      if (!fieldObj) {
-        return '';
-      }
-      return fieldObj.icon;
-    },
     additionalFieldTemplateExist(aftId) {
       if (!this.additionalFields || this.additionalFields.length === 0) return false;
       return this.additionalFields.find((field) => field.id === aftId);
@@ -76,9 +71,8 @@ export default {
     haveTruthyAdditionFields() {
       return (
         this.userAdditionalFields && this.userAdditionalFields.some(
-          (field) => field.value && this.additionalFieldTemplateExist(
-            field.additional_field_template_id,
-          ),
+          (field) => field.value
+            && this.additionalFieldTemplateExist(field.additional_field_template_id),
         )
       );
     },

@@ -1,8 +1,9 @@
 <template>
   <div class="additional-field">
-    <IconInput v-if="false" v-model="iconModel" />
     <BaseInput :disabled="!edit" v-model="labelModel" />
     <span class="additional-field__error">{{ getError('label') }}</span>
+    <BaseInput :disabled="!edit" v-model="iconModel" />
+    <span class="additional-field__error">{{ getError('icon') }}</span>
     <BaseInput is-textarea :disabled="!edit" v-model="descriptionModel" />
     <span class="additional-field__error">{{ getError('description') }}</span>
     <div class="additional-field__control-btns">
@@ -54,17 +55,13 @@ export default {
   },
   computed: mapState({
     permissions: (state) => state.permissions.my,
-    uploadedIcon: (state) => state.additionalFields.icon,
     errors: (state) => state.additionalFields.updateErrors,
   }),
-  unmounted() {
-    this.$store.dispatch('additionalFields/clearIcon');
-  },
   methods: {
     update() {
       const body = {
         id: this.id,
-        icon: this.uploadedIcon || this.iconModel,
+        icon: this.iconModel,
         label: this.labelModel,
         description: this.descriptionModel,
       };
@@ -82,7 +79,7 @@ export default {
     },
     cancel() {
       this.labelModel = this.label;
-      // this.iconModel = this.icon;
+      this.iconModel = this.icon;
       this.descriptionModel = this.description;
       this.edit = false;
     },

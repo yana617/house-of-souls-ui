@@ -20,10 +20,4 @@ export const aftApi = {
   createAdditionalField: async (body = {}) => axios.post(AFT_URL, body)
     .then((response) => response.data)
     .catch((error) => error.response.data),
-
-  // eslint-disable-next-line no-unused-vars
-  uploadIcon: async (formData) => {
-    await axios.get('https://jsonplaceholder.typicode.com/todos/1');
-    return 'https://image.flaticon.com/icons/png/512/91/91544.png';
-  },
 };

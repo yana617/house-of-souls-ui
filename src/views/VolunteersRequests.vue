@@ -74,8 +74,8 @@ export default {
   computed: mapState({
     permissions: (state) => state.permissions.my,
     users: (state) => state.users.list,
-    noAtf: (state) => !state.additionalFields.current
-      || state.additionalFields.current.length === 0,
+    noAtf: (state) => !state.additionalFields.all
+      || state.additionalFields.all.length === 0,
   }),
   setup() {
     return {

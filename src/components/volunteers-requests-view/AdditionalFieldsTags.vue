@@ -19,7 +19,7 @@ export default {
     userAdditionalFields: Array,
   },
   computed: mapState({
-    additionalFieldsTemplates: (state) => state.additionalFields.current,
+    additionalFieldsTemplates: (state) => state.additionalFields.all,
   }),
   methods: {
     getUserAdditionalField(id) {
