@@ -8,7 +8,7 @@
         <div class="profile__name-phone-container">
           <div class="profile__name-role-container">
             <span class="profile__name">{{ userToDisplay.name }} {{ userToDisplay.surname }}</span>
-            <span class="profile__role" v-if="translatedUserRole">{{ translatedUserRole.translate }}</span>
+            <span v-if="translatedUserRole" class="profile__role">{{ translatedUserRole.translate }}</span>
           </div>
           <a :href="`tel:+${userToDisplay.phone}`">
             <span class="profile__phone">+{{ phoneToDisplay }}</span>
@@ -18,7 +18,7 @@
           </span>
         </div>
       </div>
-      <Button
+      <CommonButton
         v-if="isAnotherUserProfile && hasPermissionsToEditPermissions"
         @click="$router.push(`/forgot-password?userId=${userId}`)"
         class="profile__reset-password-btn"
@@ -30,10 +30,10 @@
         <VisitsTable :claims="personalClaims" />
       </a-tab-pane>
       <a-tab-pane v-if="!isAnotherUserProfile" key="2" tab="Личные данные">
-        <ProfileForm :userId="userId" />
+        <ProfileForm :user-id="userId" />
       </a-tab-pane>
       <a-tab-pane v-if="isAnotherUserProfile && hasPermissionsToEditPermissions" key="3" tab="Права">
-        <PermissionsAndRoles :userId="userId" />
+        <PermissionsAndRoles :user-id="userId" />
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -46,8 +46,8 @@ import { mapState } from 'vuex';
 import VisitsTable from '@/components/profile-view/VisitsTable.vue';
 import ProfileForm from '@/components/profile-view/ProfileForm.vue';
 import PermissionsAndRoles from '@/components/profile-view/PermissionsAndRoles.vue';
-import Button from '@/components/common/Button.vue';
-import mapPhone from '@/utils/phoneMapper';
+import prettifyPhone from '@/utils/prettifyPhone';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 export default {
   name: 'Profile',
@@ -55,15 +55,12 @@ export default {
     VisitsTable,
     ProfileForm,
     PermissionsAndRoles,
-    Button,
+    CommonButton,
   },
   data() {
     return {
       activeKey: ref('1'),
     };
-  },
-  created() {
-    this.loadUserAndClaims();
   },
   computed: mapState({
     allRoles: (state) => state.roles.list || [],
@@ -99,13 +96,19 @@ export default {
       return this.personalClaims.length;
     },
     phoneToDisplay() {
-      return mapPhone(this.userToDisplay.phone);
+      return prettifyPhone(this.userToDisplay.phone);
     },
   }),
   watch: {
     isAnotherUserProfile() {
       this.loadUserAndClaims();
     },
+  },
+  created() {
+    this.loadUserAndClaims();
+  },
+  unmounted() {
+    this.$store.dispatch('users/clearUserProfile');
   },
   methods: {
     async loadUserAndClaims() {
@@ -129,9 +132,6 @@ export default {
           this.$store.dispatch('app/setLoading', false);
         });
     },
-  },
-  unmounted() {
-    this.$store.dispatch('users/clearUserProfile');
   },
 };
 </script>

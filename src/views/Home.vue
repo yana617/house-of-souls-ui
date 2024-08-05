@@ -8,25 +8,25 @@
         <Notice
           v-for="noticeId in noticesToShow"
           :key="noticeId"
-          :noticeId="noticeId"
+          :notice-id="noticeId"
           v-bind="notices.data[noticeId]"
         />
         <button
           type="button"
           v-if="showLoadAllNoticesBtn"
-          @click="showAllNotices = !showAllNotices"
           class="home__notices__load-all-btn"
+          @click="showAllNotices = !showAllNotices"
         >
           {{ loadNoticesBtnTitle }}
         </button>
-        <Schedule v-bind="currentSchedule" @refreshSchedule="loadCurrentSchedule" />
-        <Schedule v-bind="nextWeekSchedule" @refreshSchedule="loadNextWeekSchedule" />
+        <Schedule v-bind="currentSchedule" @refresh-schedule="loadCurrentSchedule" />
+        <Schedule v-bind="nextWeekSchedule" @refresh-schedule="loadNextWeekSchedule" />
       </div>
     </a-layout-content>
     <HistoryActions v-if="hasPermissions('CREATE_CLAIM')" />
   </a-layout>
   <a-layout-footer>
-    <Footer />
+    <CommonFooter />
   </a-layout-footer>
 </template>
 
@@ -34,7 +34,7 @@
 import { mapState } from 'vuex';
 
 import HistoryActions from '@/components/home-view/HistoryActions.vue';
-import Footer from '@/components/common/Footer.vue';
+import CommonFooter from '@/components/common/CommonFooter.vue';
 import Notice from '@/components/home-view/Notice.vue';
 import Schedule from '@/components/home-view/Schedule.vue';
 import { getToken } from '@/utils/sessionStorage';
@@ -45,10 +45,15 @@ const DEFAULT_NOTICES_TO_SHOW_COUNT = 2;
 export default {
   name: 'Home',
   components: {
-    Footer,
+    CommonFooter,
     Notice,
     Schedule,
     HistoryActions,
+  },
+  data() {
+    return {
+      showAllNotices: false,
+    };
   },
   computed: mapState({
     notices: (state) => state.notices,
@@ -70,10 +75,13 @@ export default {
       return this.showAllNotices ? 'Свернуть' : 'Показать все записи';
     },
   }),
-  data() {
-    return {
-      showAllNotices: false,
-    };
+  watch: {
+    user() {
+      if (this.user) {
+        this.loadCurrentSchedule();
+        this.loadNextWeekSchedule();
+      }
+    },
   },
   async created() {
     if (!!getToken() && !this.user) {
@@ -98,14 +106,6 @@ export default {
     },
     hasPermissions(permission) {
       return this.permissions.includes(permission);
-    },
-  },
-  watch: {
-    user() {
-      if (this.user) {
-        this.loadCurrentSchedule();
-        this.loadNextWeekSchedule();
-      }
     },
   },
 };

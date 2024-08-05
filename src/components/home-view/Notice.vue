@@ -1,8 +1,12 @@
 <template>
   <div class="notice">
-    <h4 class="notice__title">{{ title }}</h4>
+    <h4 class="notice__title">
+      {{ title }}
+    </h4>
     <div class="notice__line" />
-    <h5 class="notice__description">{{ description }}</h5>
+    <h5 class="notice__description">
+      {{ description }}
+    </h5>
   </div>
 </template>
 

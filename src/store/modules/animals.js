@@ -5,28 +5,36 @@ const SET_ANIMAL_DATA = 'SET_ANIMAL_DATA';
 
 const state = () => ({
   list: [],
-  data: {},
+  total: 0,
+  current: {},
 });
 
 const getters = {};
 
 const actions = {
   getAnimals: async ({ commit }, params = {}) => {
-    const result = await animals.getAnimals(params);
-    commit(SET_ANIMALS_LIST, result);
+    const response = await animals.getAnimals(params);
+
+    if (response.success) {
+      commit(SET_ANIMALS_LIST, response.data);
+    }
   },
   getAnimalById: async ({ commit }, params = {}) => {
-    const result = await animals.getAnimalById(params);
-    commit(SET_ANIMAL_DATA, result);
+    const response = await animals.getAnimalById(params);
+
+    if (response.success) {
+      commit(SET_ANIMAL_DATA, response.data);
+    }
   },
 };
 
 const mutations = {
   [SET_ANIMALS_LIST](state, result) {
-    state.list = result;
+    state.list = result.animals;
+    state.total = result.total;
   },
   [SET_ANIMAL_DATA](state, result) {
-    state.data[result.id] = result;
+    state.current = result;
   },
 };
 

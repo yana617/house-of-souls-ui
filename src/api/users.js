@@ -33,6 +33,7 @@ export const usersApi = {
     .get(`${AUTH_USERS_URL}/me`)
     .then((response) => response.data)
     .catch((error) => error.response.data),
+
   getCurator: async (userId) => {
     // const { data: { data: curator } } = await axios.get(`${usersApi}/${userId}/curator`);
     // return curator;

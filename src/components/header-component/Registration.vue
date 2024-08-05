@@ -5,16 +5,16 @@
       <span class="registration__error">{{ getError('name') }}</span>
       <input id="surname" v-model="surname" type="text" name="surname" placeholder="Фамилия" />
       <span class="registration__error">{{ getError('surname') }}</span>
-      <PhoneInput @onchange="onChangePhone" id="phone" placeholder="Телефон" />
+      <PhoneInput id="phone" placeholder="Телефон" @onchange="onChangePhone" />
       <span class="registration__error">{{ getError('phone') }}</span>
       <input id="email" v-model="email" type="text" name="email" placeholder="E-mail" />
       <span class="registration__error">{{ getError('email') }}</span>
-      <a-date-picker size="large" placeholder="Дата рождения" class="registration__birthday" v-model:value="birthday" />
+      <a-date-picker v-model:value="birthday" size="large" placeholder="Дата рождения" class="registration__birthday" />
       <span class="registration__error">{{ getError('birthday') }}</span>
       <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
       <span class="registration__error">{{ getError('password') }}</span>
       <div v-if="aftLoading && !additionalFields" class="registration__loader-wrapper">
-        <Loader className="registration__loader" />
+        <Loader class-name="registration__loader" />
       </div>
       <Checkbox
         v-for="field in additionalFields"
@@ -23,11 +23,11 @@
         :value="selected[field.id]"
         @input="(value) => (selected[field.id] = value)"
       />
-      <Button
+      <CommonButton
         :disabled="loading"
-        @click="submitRegistration"
         class="registration__submit-btn"
         title="Зарегистрироваться"
+        @click="submitRegistration"
       />
     </div>
   </div>
@@ -38,9 +38,9 @@ import { mapState } from 'vuex';
 import { ref } from 'vue';
 
 import { findError } from '@/utils/validation';
+import CommonButton from '@/components/common/CommonButton.vue';
 import Loader from '../common/Loader.vue';
 import Checkbox from '../common/Checkbox.vue';
-import Button from '../common/Button.vue';
 import PhoneInput from '../common/PhoneInput.vue';
 
 export default {
@@ -48,13 +48,9 @@ export default {
   components: {
     Checkbox,
     PhoneInput,
-    Button,
+    CommonButton,
     Loader,
   },
-  computed: mapState({
-    additionalFields: (state) => state.additionalFields.current,
-    errors: (state) => state.auth.registerErrors,
-  }),
   data() {
     return {
       name: null,
@@ -69,6 +65,10 @@ export default {
       findError,
     };
   },
+  computed: mapState({
+    additionalFields: (state) => state.additionalFields.current,
+    errors: (state) => state.auth.registerErrors,
+  }),
   created() {
     this.aftLoading = true;
     this.$store

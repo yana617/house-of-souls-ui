@@ -12,7 +12,7 @@
   <span v-if="!isGuest" class="claim-base-info__text"> <b>Телефон</b> +{{ user.phone }} </span>
   <span class="claim-base-info__text"> <b>Дата</b> {{ date }} </span>
   <span class="claim-base-info__text"> <b>Время</b> {{ typeOfTime }} </span>
-  <Button
+  <CommonButton
     v-if="!isUpdateMode && !isGuest && havePermissions('CREATE_CLAIM_FOR_UNREGISTERED_USERS')"
     class="claim-base-info__submit-another-person__btn"
     title="Записать другого человека"
@@ -24,16 +24,17 @@
 import { mapState } from 'vuex';
 
 import { daysOfWeek, parseDate, typeOfTime } from '@/utils/date';
-import Button from '@/components/common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 import GuestForm from './GuestForm.vue';
 
 export default {
+  components: { GuestForm, CommonButton },
   props: {
     isUpdateMode: Boolean,
     claim: Object,
     isGuest: Boolean,
   },
-  components: { GuestForm, Button },
+  emits: ['update:isGuest'],
   data() {
     return {
       claimModel: this.claim,

@@ -20,6 +20,7 @@ export default {
     last: Boolean,
     isSortParam: Boolean,
   },
+  emits: ['change-sort'],
   methods: {
     onChangeSort() {
       this.$emit('change-sort', this.name);

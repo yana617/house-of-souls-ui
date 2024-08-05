@@ -7,7 +7,7 @@
       v-bind="notices.data[noticeId]"
       :noticeId="noticeId"
     />
-    <Button
+    <CommonButton
       v-if="hasPermissionsToCreateNotice"
       class="notices-control__add-btn"
       title="Добавить"
@@ -23,12 +23,12 @@ import { mapState } from 'vuex';
 
 import { MODAL } from '@/utils/constants';
 import Notice from '@/components/notices-control-view/Notice.vue';
-import Button from '@/components/common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 import NewNoticeModal from '@/components/notices-control-view/NewNoticeModal.vue';
 
 export default {
   name: 'NoticesControl',
-  components: { Notice, Button, NewNoticeModal },
+  components: { Notice, CommonButton, NewNoticeModal },
   computed: mapState({
     notices: (state) => state.notices,
     modal: (state) => state.app.modal,

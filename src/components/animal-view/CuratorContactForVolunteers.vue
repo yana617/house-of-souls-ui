@@ -1,6 +1,6 @@
 <template>
   <div class="curator-contact" :class="{ loading }">
-    <div class="curator-contact__sub-container" v-if="curator">
+    <div v-if="curator" class="curator-contact__sub-container">
       <span class="curator-contact__title">Куратор</span>
       <router-link v-if="hasCurator" :to="`/users/${animal.curator_id}`">
         <span class="curator-contact__name">{{ curator.name }}</span>
@@ -9,12 +9,12 @@
     </div>
     <PhoneModal
       :visible="phoneModalOpen"
-      :spareCurator="spareCurator"
+      :spare-curator="spareCurator"
       :place="animal.place"
       @onclose="phoneModalOpen = false"
     />
     <div v-if="!loading" class="curator-contact__phone-container" @click="phoneModalOpen = true">
-      <img class="curator-contact__phone-icon" src="@/assets/phone.png" />
+      <img class="curator-contact__phone-icon" alt="phone" src="@/assets/phone.png" />
     </div>
   </div>
 </template>
@@ -22,12 +22,31 @@
 <script>
 import { mapState } from 'vuex';
 
+import { defaultCuratorPhones } from '@/utils/constants';
 import PhoneModal from './PhoneModal.vue';
-import { curators } from '@/utils/constants';
 
 export default {
-  name: 'CuratorContact',
+  name: 'CuratorContactForVolunteers',
   components: { PhoneModal },
+  data() {
+    return {
+      phoneModalOpen: false,
+      loading: false,
+    };
+  },
+  computed: mapState({
+    curator: (state) => state.users.curator,
+    animalId() {
+      return this.$route.params.id;
+    },
+    animal: (state) => state.animals.current,
+    hasCurator() {
+      return this.curator.name || this.loading;
+    },
+    spareCurator() {
+      return defaultCuratorPhones[this.animal.type] || defaultCuratorPhones.dog;
+    },
+  }),
   created() {
     if (this.animal.curator_id) {
       this.loading = true;
@@ -36,33 +55,12 @@ export default {
       });
     }
   },
-  computed: mapState({
-    curator: (state) => state.users.curator,
-    animalId() {
-      return this.$route.params.id;
-    },
-    animal(state) {
-      return state.animals.data[this.animalId] || {};
-    },
-    hasCurator() {
-      return this.curator.name || this.loading;
-    },
-    spareCurator() {
-      return curators[this.animal.type];
-    },
-  }),
-  data() {
-    return {
-      phoneModalOpen: false,
-      loading: false,
-    };
-  },
 };
 </script>
 
 <style scoped lang="scss">
 $blue: #3f91f7;
-$grey: #8a92a6;
+$grey1: #8a92a6;
 $darkBlue: #2f3e4e;
 
 .curator-contact {
@@ -74,7 +72,7 @@ $darkBlue: #2f3e4e;
   border-radius: 8px;
   width: 100%;
   margin-top: 32px;
-  padding: 16px 48px;
+  padding: 32px 48px;
 
   &.loading {
     animation: color-change 0.5s infinite linear alternate;
@@ -99,13 +97,13 @@ $darkBlue: #2f3e4e;
 
   &__title {
     font-weight: 400;
-    font-size: 14px;
-    color: #8a92a6;
+    font-size: 16px;
+    color: $grey1;
     margin-bottom: 4px;
   }
 
   &__name {
-    font-size: 16px;
+    font-size: 18px;
     text-align: left;
   }
 
