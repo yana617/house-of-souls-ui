@@ -105,7 +105,7 @@ export default {
     sterilizedTranslate() {
       const start = this.animal.sterilized ? '' : 'Не ';
       const end = translates[Filters.STERILIZED]?.one?.[this.animal.sex];
-      return `${start}${start ? end.toLowerCase() : end}`;
+      return `${start}${start ? end?.toLowerCase() : end}`;
     },
     formattedLastVaccine() {
       if (!this.lastVaccine) {

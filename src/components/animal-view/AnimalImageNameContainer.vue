@@ -2,7 +2,7 @@
   <div class="animal-image-name-container">
     <div v-if="noNotices" class="animal-image-name-container__indent" />
     <StatusHashtag :status="animal.status" />
-    <img class="animal-image-name-container__image" alt="avatar" :src="animal.photos[0]" />
+    <img class="animal-image-name-container__image" alt="avatar" :src="animal.photos?.[0]" />
     <h4 class="animal-image-name-container__name">
       {{ animal.name }}
     </h4>

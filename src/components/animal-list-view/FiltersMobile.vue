@@ -38,10 +38,7 @@
 <script>
 import filters from '@/utils/maps/filters';
 import CommonButton from '@/components/common/CommonButton.vue';
-import AnimalType from '@/utils/enums/AnimalType';
-import AnimalAge from '@/utils/enums/AnimalAge';
-import Filters from '@/utils/enums/Filters';
-import AnimalPlace from '@/utils/enums/AnimalPlace';
+import { isFilterVisible } from '@/utils/is-filter-visible';
 
 import Sorting from './Sorting.vue';
 import FilterSelectOptions from './FilterSelectOptions.vue';
@@ -58,22 +55,13 @@ export default {
   },
   computed: {},
   methods: {
-    isVisible({ filterName, volunteerView }) {
-      if (volunteerView && !this.hasViewAnimalPermission) {
-        return false;
-      }
-
-      if (filterName === Filters.HEIGHT) {
-        const { type, age } = this.$route.query;
-        return type === AnimalType.DOG && age === AnimalAge.OVER_YEAR;
-      }
-
-      if (filterName === Filters.ROOM) {
-        const { place } = this.$route.query;
-        return place && place !== AnimalPlace.ON_TEMPORARY_HOLD;
-      }
-
-      return true;
+    isVisible({ filterName, forVolunteersOnly }) {
+      return isFilterVisible({
+        filterName,
+        forVolunteersOnly,
+        routeQuery: this.$route.query,
+        hasViewAnimalPermission: this.hasViewAnimalPermission,
+      });
     },
     translatedFilterValue(filter) {
       const filterValue = this.$route.query[filter.filterName];

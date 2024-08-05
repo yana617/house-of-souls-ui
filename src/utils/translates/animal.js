@@ -40,7 +40,7 @@ export default {
     [Filters.TYPE]: 'Категория',
 
     [AnimalPlace.MAIN_HOUSE]: 'Главный дом',
-    [AnimalPlace.CHANGE_HOUSE]: 'Бытовка',
+    [AnimalPlace.QUARANTINE_HOUSE]: 'Бытовка',
     [AnimalPlace.CAT_HOUSE]: 'Кошачий дом',
     [AnimalPlace.AVIARY]: 'Вольер',
     [AnimalPlace.ON_TEMPORARY_HOLD]: 'На временной передержке',

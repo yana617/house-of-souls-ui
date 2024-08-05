@@ -19,9 +19,7 @@
         class="filters__item"
         :class="{
           visible: isVisible(filter.filterName),
-          'display-none':
-            (filter.volunteerView && !hasViewAnimalPermission)
-            || (hasViewAnimalPermission && !isVisible(filter.filterName)),
+          'display-none': !isVisible(filter),
           'no-margin': filter.filterName === Filters.HEIGHT,
         }"
       >
@@ -56,11 +54,9 @@
 
 <script>
 import filters from '@/utils/maps/filters';
-import AnimalType from '@/utils/enums/AnimalType';
 import Filters from '@/utils/enums/Filters';
-import AnimalAge from '@/utils/enums/AnimalAge';
-import AnimalPlace from '@/utils/enums/AnimalPlace';
 
+import { isFilterVisible } from '@/utils/is-filter-visible';
 import Search from './Search.vue';
 
 export default {
@@ -74,18 +70,13 @@ export default {
   },
   computed: {},
   methods: {
-    isVisible(filterName) {
-      if (filterName === Filters.HEIGHT) {
-        const { type, age } = this.$route.query;
-        return type === AnimalType.DOG && age === AnimalAge.OVER_YEAR;
-      }
-
-      if (filterName === Filters.ROOM) {
-        const { place } = this.$route.query;
-        return place !== AnimalPlace.ON_TEMPORARY_HOLD;
-      }
-
-      return true;
+    isVisible({ filterName, forVolunteersOnly }) {
+      return isFilterVisible({
+        filterName,
+        forVolunteersOnly,
+        routeQuery: this.$route.query,
+        hasViewAnimalPermission: this.hasViewAnimalPermission,
+      });
     },
     translatedFilterValue(filter) {
       const filterValue = this.$route.query[filter.filterName];
@@ -155,17 +146,12 @@ $black1: #232d42;
     position: relative;
     width: 25%;
     margin-right: 24px;
-    visibility: hidden;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 
     &.no-margin {
       margin-right: 0;
-    }
-
-    &.visible {
-      visibility: visible;
     }
 
     &.display-none {

@@ -86,7 +86,8 @@
     },
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/src/tests/__mocks__/image.js",
-      "^@/(.*)$": "<rootDir>/src/$1"
+      "^@/(.*)$": "<rootDir>/src/$1",
+      "^axios$": "axios/dist/node/axios.cjs"
     }
   }
 }

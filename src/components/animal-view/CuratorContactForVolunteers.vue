@@ -44,7 +44,7 @@ export default {
       return this.curator.name || this.loading;
     },
     spareCurator() {
-      return defaultCuratorPhones[this.animal.type];
+      return defaultCuratorPhones[this.animal.type] || defaultCuratorPhones.dog;
     },
   }),
   created() {

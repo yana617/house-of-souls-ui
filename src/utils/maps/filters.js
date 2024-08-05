@@ -49,11 +49,11 @@ export default [
     options: [
       allOption,
       {
-        label: 'До 1 года',
+        label: translates[AnimalAge.UNDER_YEAR],
         value: AnimalAge.UNDER_YEAR,
       },
       {
-        label: 'От 1 года',
+        label: translates[AnimalAge.OVER_YEAR],
         value: AnimalAge.OVER_YEAR,
       },
     ],
@@ -78,7 +78,7 @@ export default [
     ],
   },
   {
-    volunteerView: true,
+    forVolunteersOnly: true,
     title: translates[Filters.STERILIZED]?.title?.[AnimalSex.MALE],
     filterName: Filters.STERILIZED,
     options: [
@@ -94,7 +94,7 @@ export default [
     ],
   },
   {
-    volunteerView: true,
+    forVolunteersOnly: true,
     title: translates[Filters.PLACE],
     filterName: Filters.PLACE,
     options: [
@@ -104,8 +104,8 @@ export default [
         value: AnimalPlace.MAIN_HOUSE,
       },
       {
-        label: translates[AnimalPlace.CHANGE_HOUSE],
-        value: AnimalPlace.CHANGE_HOUSE,
+        label: translates[AnimalPlace.QUARANTINE_HOUSE],
+        value: AnimalPlace.QUARANTINE_HOUSE,
       },
       {
         label: translates[AnimalPlace.CAT_HOUSE],
@@ -122,7 +122,7 @@ export default [
     ],
   },
   {
-    volunteerView: true,
+    forVolunteersOnly: true,
     title: translates[Filters.ROOM],
     filterName: Filters.ROOM,
     options: [
@@ -137,7 +137,7 @@ export default [
     ],
   },
   {
-    volunteerView: true,
+    forVolunteersOnly: true,
     title: translates[Filters.STATUS],
     filterName: Filters.STATUS,
     options: [
