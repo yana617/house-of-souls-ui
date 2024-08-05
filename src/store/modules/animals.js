@@ -5,7 +5,8 @@ const SET_ANIMAL_DATA = 'SET_ANIMAL_DATA';
 
 const state = () => ({
   list: [],
-  data: {},
+  total: 0,
+  current: {},
 });
 
 const getters = {};
@@ -29,10 +30,11 @@ const actions = {
 
 const mutations = {
   [SET_ANIMALS_LIST](state, result) {
-    state.list = result;
+    state.list = result.animals;
+    state.total = result.total;
   },
   [SET_ANIMAL_DATA](state, result) {
-    state.data[result.id] = result;
+    state.current = result;
   },
 };
 

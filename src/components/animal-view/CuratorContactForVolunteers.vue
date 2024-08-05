@@ -39,9 +39,7 @@ export default {
     animalId() {
       return this.$route.params.id;
     },
-    animal(state) {
-      return state.animals.data[this.animalId] || {};
-    },
+    animal: (state) => state.animals.current,
     hasCurator() {
       return this.curator.name || this.loading;
     },

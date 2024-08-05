@@ -30,9 +30,7 @@ export default {
     animalId() {
       return this.$route.params.id;
     },
-    animal(state) {
-      return state.animals.data[this.animalId] || {};
-    },
+    animal: (state) => state.animals.current,
     noNotices() {
       return this.notices.length === 0;
     },
