@@ -53,22 +53,26 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import filters from '@/utils/maps/filters';
 import Filters from '@/utils/enums/Filters';
-
 import { isFilterVisible } from '@/utils/is-filter-visible';
+
 import Search from './Search.vue';
 
 export default {
   name: 'Filters',
   components: { Search },
-  props: {
-    hasViewAnimalPermission: Boolean,
-  },
   data() {
     return { filters, openFilterName: null, Filters };
   },
-  computed: {},
+  computed: mapState({
+    permissions: (state) => state.permissions.my,
+    hasViewAnimalPermission() {
+      return this.permissions.includes('VIEW_ANIMAL');
+    },
+  }),
   methods: {
     isVisible({ filterName, forVolunteersOnly }) {
       return isFilterVisible({

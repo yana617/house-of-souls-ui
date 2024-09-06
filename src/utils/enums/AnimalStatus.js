@@ -4,4 +4,5 @@ export default {
   DIED: 'died',
   LOST: 'lost',
   PREPARATION: 'preparation',
+  ON_PROBATION: 'on-probation',
 };

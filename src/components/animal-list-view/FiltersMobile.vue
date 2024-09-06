@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import filters from '@/utils/maps/filters';
 import CommonButton from '@/components/common/CommonButton.vue';
 import { isFilterVisible } from '@/utils/is-filter-visible';
@@ -46,14 +48,16 @@ import FilterSelectOptions from './FilterSelectOptions.vue';
 export default {
   name: 'FiltersMobile',
   components: { FilterSelectOptions, CommonButton, Sorting },
-  props: {
-    hasViewAnimalPermission: Boolean,
-  },
   emits: ['on-close'],
   data() {
     return { filters, selectOptionsFor: null };
   },
-  computed: {},
+  computed: mapState({
+    permissions: (state) => state.permissions.my,
+    hasViewAnimalPermission() {
+      return this.permissions.includes('VIEW_ANIMAL');
+    },
+  }),
   methods: {
     isVisible({ filterName, forVolunteersOnly }) {
       return isFilterVisible({

@@ -7,7 +7,7 @@
           <AnimalImageNameContainer />
           <CuratorContactForVolunteers />
         </div>
-        <AnimalDescription :has-view-animal-permission="hasViewAnimalPermission" />
+        <AnimalDescription />
       </div>
       <CuratorContactForGuests v-if="!hasViewAnimalPermission" />
     </div>

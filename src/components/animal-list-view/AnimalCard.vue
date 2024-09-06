@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import { computeYearTranslate } from '@/utils/computedTranslates';
 import { calculateAge } from '@/utils/date';
 import translates from '@/utils/translates/index';
@@ -36,9 +38,12 @@ export default {
     type: String,
     advertising_text: String,
     birthday: String,
-    hasViewAnimalPermission: Boolean,
   },
-  computed: {
+  computed: mapState({
+    permissions: (state) => state.permissions.my,
+    hasViewAnimalPermission() {
+      return this.permissions.includes('VIEW_ANIMAL');
+    },
     description() {
       const sterilizedText = translates[Filters.STERILIZED].one[this.sex]?.toLowerCase();
       const sterilizedFullText = this.sterilized ? sterilizedText : `не ${sterilizedText}`;
@@ -60,7 +65,7 @@ export default {
       age = age ? `${age} ` : '';
       return `${age}${description}`;
     },
-  },
+  }),
 };
 </script>
 

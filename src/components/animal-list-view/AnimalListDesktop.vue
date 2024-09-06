@@ -1,23 +1,31 @@
 <template>
   <span class="animal-list__title">Наши животные</span>
-  <span v-if="!hasViewAnimalPermission" class="animal-list__description">{{ animalListDescription }}</span>
-  <FilterViaImages :has-view-animal-permission="hasViewAnimalPermission" />
+  <span v-if="!hasViewAnimalPermission" class="animal-list__description">
+    {{ animalListDescription }}
+  </span>
+  <FilterViaImages />
 
-  <div class="animal-list__filters-cards-container" :class="{ 'volunteer-view': hasViewAnimalPermission }">
-    <Filters :has-view-animal-permission="hasViewAnimalPermission" />
+  <div
+    class="animal-list__filters-cards-container"
+    :class="{ 'volunteer-view': hasViewAnimalPermission }"
+  >
+    <Filters />
 
-    <div class="animal-list__cards-container" :class="{ 'volunteer-view': hasViewAnimalPermission }">
+    <div
+      class="animal-list__cards-container"
+      :class="{ 'volunteer-view': hasViewAnimalPermission }"
+    >
       <div class="animal-list__animal-count-and-sorting-container">
-        <span>По запросу найдено: <b>{{ animals.length }}</b></span>
+        <span>
+          По запросу найдено: <b>{{ animals.length }}</b>
+        </span>
         <Sorting v-if="hasViewAnimalPermission" />
       </div>
-      <div class="animal-list__cards-sub-container" :class="{ 'volunteer-view': hasViewAnimalPermission }">
-        <AnimalCard
-          v-for="animal of animals"
-          :key="animal.id"
-          v-bind="animal"
-          :has-view-animal-permission="hasViewAnimalPermission"
-        />
+      <div
+        class="animal-list__cards-sub-container"
+        :class="{ 'volunteer-view': hasViewAnimalPermission }"
+      >
+        <AnimalCard v-for="animal of animals" :key="animal.id" v-bind="animal" />
       </div>
     </div>
   </div>

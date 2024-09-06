@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import imageFilters from '@/utils/maps/imageFilters';
 
 export default {
@@ -26,6 +28,12 @@ export default {
   data() {
     return { imageFilters };
   },
+  computed: mapState({
+    permissions: (state) => state.permissions.my,
+    hasViewAnimalPermission() {
+      return this.permissions.includes('VIEW_ANIMAL');
+    },
+  }),
   methods: {
     selected(itemType, itemAge) {
       const { type, age } = this.$route.query;

@@ -80,10 +80,8 @@ import DescriptionIconItems from './DescriptionIconItems.vue';
 export default {
   name: 'AnimalDescription',
   components: { DescriptionIconItems },
-  props: {
-    hasViewAnimalPermission: Boolean,
-  },
   computed: mapState({
+    permissions: (state) => state.permissions.my,
     lastVaccine: (state) => state.animalMedicalHistory.last,
     animalId() {
       return this.$route.params.id;
@@ -119,6 +117,9 @@ export default {
     },
     isDog() {
       return this.animal?.type === AnimalType.DOG;
+    },
+    hasViewAnimalPermission() {
+      return this.permissions.includes('VIEW_ANIMAL');
     },
   }),
   methods: {

@@ -5,7 +5,7 @@
   <span v-if="!hasViewAnimalPermission && showImageFilters" class="animal-list-mobile__description">
     {{ animalListDescription }}
   </span>
-  <FilterViaImages v-if="showImageFilters" :has-view-animal-permission="hasViewAnimalPermission" />
+  <FilterViaImages v-if="showImageFilters" />
 
   <div v-if="!showImageFilters" class="animal-list-mobile__sub-container">
     <AnimalTypeAgeMobileFilter />
@@ -17,13 +17,11 @@
       v-for="animal of animals"
       :key="animal.id"
       v-bind="animal"
-      :has-view-animal-permission="hasViewAnimalPermission"
       class="animal-list-mobile__animal-card"
     />
   </div>
   <FiltersMobile
     v-if="filtersOpen"
-    :has-view-animal-permission="hasViewAnimalPermission"
     @on-close="handleCloseFilters"
   />
 </template>
@@ -58,12 +56,12 @@ export default {
     visitingFirstTime: () => !localStorage.getItem(ANIMALS_PAGE_VISIT_KEY),
     animals: (state) => state.animals.list,
     permissions: (state) => state.permissions.my,
-    hasViewAnimalPermission() {
-      return this.hasPermission('VIEW_ANIMAL');
-    },
     showImageFilters() {
       const { query } = this.$route;
       return this.visitingFirstTime && Object.keys(query).length === 0;
+    },
+    hasViewAnimalPermission() {
+      return this.permissions.includes('VIEW_ANIMAL');
     },
   }),
   beforeUnmount() {
@@ -72,9 +70,6 @@ export default {
     }
   },
   methods: {
-    hasPermission(permission) {
-      return this.permissions.includes(permission);
-    },
     handleCloseFilters() {
       this.filtersOpen = false;
     },

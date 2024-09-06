@@ -146,6 +146,7 @@ export default [
       { label: translates[AnimalStatus.DIED], value: AnimalStatus.DIED },
       { label: translates[AnimalStatus.LOST], value: AnimalStatus.LOST },
       { label: translates[AnimalStatus.PREPARATION], value: AnimalStatus.PREPARATION },
+      { label: translates[AnimalStatus.ON_PROBATION], value: AnimalStatus.ON_PROBATION },
     ],
   },
 ];

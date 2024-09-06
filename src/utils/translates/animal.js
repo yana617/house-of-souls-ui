@@ -13,6 +13,7 @@ export default {
     [AnimalStatus.DIED]: 'На радуге 😢',
     [AnimalStatus.LOST]: 'Потерялся',
     [AnimalStatus.PREPARATION]: 'Подготовка к поиску дома',
+    [AnimalStatus.ON_PROBATION]: 'На испытательном сроке',
 
     [AnimalSex.FEMALE]: 'Девочка',
     [AnimalSex.MALE]: 'Мальчик',
