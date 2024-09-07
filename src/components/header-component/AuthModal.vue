@@ -19,16 +19,16 @@
       />
       <div class="auth-modal__header">
         <span
-          @click="setModal(MODAL.LOGIN)"
           class="auth-modal__header__title"
           :class="{ selected: modal === MODAL.LOGIN }"
+          @click="setModal(MODAL.LOGIN)"
         >
           Вход
         </span>
         <span
-          @click="setModal(MODAL.REGISTRATION)"
           class="auth-modal__header__title"
           :class="{ selected: modal === MODAL.REGISTRATION }"
+          @click="setModal(MODAL.REGISTRATION)"
         >
           Регистрация
         </span>
@@ -49,15 +49,15 @@ import Login from './Login.vue';
 export default {
   name: 'AuthModal',
   components: { Registration, Login },
+  data() {
+    return { MODAL };
+  },
   computed: mapState({
     modal: (state) => state.app.modal,
     isModalOpen() {
       return this.modal === MODAL.REGISTRATION || this.modal === MODAL.LOGIN;
     },
   }),
-  data() {
-    return { MODAL };
-  },
   methods: {
     setModal(modalName) {
       this.$store.dispatch('app/setModal', modalName);

@@ -15,24 +15,24 @@
     <span><b>Редактируемые</b></span>
     <br />
     <a-checkbox
-      class="change-permissions__item"
       v-for="perm in translatedAdditionalPermissions"
       :key="perm"
+      class="change-permissions__item"
       :checked="updatedPermissions[perm.name]"
       @change="(e) => onChange(e, perm.name)"
     >
       {{ perm.translate }}
     </a-checkbox>
     <a-checkbox
-      class="change-permissions__item"
       v-for="perm in userPermissionsToAdd"
       :key="perm"
+      class="change-permissions__item"
       @change="(e) => onChange(e, perm.name)"
     >
       {{ perm.translate }}
     </a-checkbox>
     <br />
-    <Button
+    <CommonButton
       :loading="loading"
       class="change-permissions__save-btn"
       title="сохранить"
@@ -44,11 +44,11 @@
 <script>
 import { mapState } from 'vuex';
 
-import Button from '../common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 export default {
   name: 'ChangePermissions',
-  components: { Button },
+  components: { CommonButton },
   data() {
     return {
       updatedPermissions: {},

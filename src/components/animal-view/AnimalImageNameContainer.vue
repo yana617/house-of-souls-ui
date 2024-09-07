@@ -1,14 +1,16 @@
 <template>
   <div class="animal-image-name-container">
     <div v-if="noNotices" class="animal-image-name-container__indent" />
-    <Hashtag :status="animal.status" />
-    <img class="animal-image-name-container__image" :src="animal.photos[0]" />
-    <h4 class="animal-image-name-container__name">{{ animal.name }}</h4>
-    <Button
+    <StatusHashtag :status="animal.status" />
+    <img class="animal-image-name-container__image" alt="avatar" :src="animal.photos?.[0]" />
+    <h4 class="animal-image-name-container__name">
+      {{ animal.name }}
+    </h4>
+    <CommonButton
       v-if="!noNotices"
       class="animal-image-name-container__notices-btn"
-      @click="showNotices()"
       title="Лечение"
+      @click="showNotices()"
     />
     <div v-if="noNotices" class="animal-image-name-container__indent" />
   </div>
@@ -17,30 +19,28 @@
 <script>
 import { mapState } from 'vuex';
 
-import Button from '@/components/common/Button.vue';
-import Hashtag from './Hashtag.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
+import StatusHashtag from './StatusHashtag.vue';
 
 export default {
   name: 'AnimalImageNameContainer',
-  components: { Button, Hashtag },
+  components: { CommonButton, StatusHashtag },
+  computed: mapState({
+    notices: (state) => state.notices.list,
+    animalId() {
+      return this.$route.params.id;
+    },
+    animal: (state) => state.animals.current,
+    noNotices() {
+      return this.notices.length === 0;
+    },
+  }),
   created() {
     this.$store.dispatch('app/setLoading', true);
     this.$store.dispatch('notices/getNotices', { animal_id: this.animalId }).finally(() => {
       this.$store.dispatch('app/setLoading', false);
     });
   },
-  computed: mapState({
-    notices: (state) => state.notices.list,
-    animalId() {
-      return this.$route.params.id;
-    },
-    animal(state) {
-      return state.animals.data[this.animalId] || {};
-    },
-    noNotices() {
-      return this.notices.length === 0;
-    },
-  }),
 };
 </script>
 
@@ -55,7 +55,7 @@ $darkBlue: #2f3e4e;
   box-shadow: 0px 8px 64px rgba(15, 34, 67, 0.03), 0px 0px 1px rgba(15, 34, 67, 0.08);
   border-radius: 8px;
   width: 100%;
-  padding: 24px;
+  padding: 32px 24px;
 
   &__image {
     width: 200px;
@@ -68,7 +68,7 @@ $darkBlue: #2f3e4e;
   &__name {
     color: $darkBlue;
     font-weight: 600;
-    font-size: 22px;
+    font-size: 26px;
     line-height: 29px;
   }
 

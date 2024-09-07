@@ -7,25 +7,25 @@
     <span><b>Поменять роль</b></span>
     <br />
     <a-select
-      placeholder="Выберите роль"
       ref="select"
       v-model:value="updatedRole"
+      placeholder="Выберите роль"
       style="width: 300px"
       :options="roles"
     />
     <br />
-    <Button :loading="loading" class="change-role__save-btn" title="сохранить" @click="updateRole" />
+    <CommonButton :loading="loading" class="change-role__save-btn" title="сохранить" @click="updateRole" />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 
-import Button from '../common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 export default {
   name: 'ChangeRole',
-  components: { Button },
+  components: { CommonButton },
   data() {
     return {
       updatedRole: null,

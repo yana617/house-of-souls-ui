@@ -67,20 +67,20 @@
       <span v-if="noUaf()">-</span>
     </div>
     <div class="profile-form__btns-container">
-      <Button
+      <CommonButton
         v-if="edit"
         :loading="loading"
         class="profile-form__save-btn"
         title="сохранить"
         @click="save"
       />
-      <Button
+      <CommonButton
         v-if="!edit"
         class="profile-form__edit-btn"
         title="редактировать"
         @click="edit = true"
       />
-      <Button
+      <CommonButton
         v-if="edit"
         :disabled="loading"
         class="profile-form__cancel-btn"
@@ -94,17 +94,17 @@
 <script>
 import { ref } from 'vue';
 import { mapState } from 'vuex';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { findError } from '@/utils/validation';
-import Button from '../common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 export default {
   name: 'ProfileForm',
+  components: { CommonButton },
   props: {
     userId: String,
   },
-  components: { Button },
   data() {
     return {
       birthday: ref(),
@@ -173,7 +173,7 @@ export default {
     },
     loadProfile() {
       this.profile = { ...this.user };
-      this.birthday = moment(this.user.birthday);
+      this.birthday = dayjs(this.user.birthday);
     },
   },
 };

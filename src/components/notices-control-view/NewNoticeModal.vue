@@ -1,17 +1,17 @@
 <template>
-  <div @click="closeModal()" class="modal__wrapper">
+  <div class="modal__wrapper" @click="closeModal()">
     <div class="new-notice-modal" @click.stop>
-      <img alt="close icon" @click="closeModal()" class="new-notice-modal__close-icon" src="@/assets/close.png" />
+      <img class="new-notice-modal__close-icon" alt="close-icon" src="@/assets/close.png" @click="closeModal()" />
       <h2>Добавление новости</h2>
-      <input class="new-notice-modal__title" placeholder="Заголовок" v-model="title" />
+      <input v-model="title" class="new-notice-modal__title" placeholder="Заголовок" />
       <span class="new-notice-modal__error">{{ getError('title') }}</span>
-      <textarea class="new-notice-modal__description" v-model="description" placeholder="Подробности" />
+      <textarea v-model="description" class="new-notice-modal__description" placeholder="Подробности" />
       <span class="new-notice-modal__error">{{ getError('description') }}</span>
       <label for="authorized-switch" class="new-notice-modal__authorized">
         Только для волонторов
         <a-switch id="authorized-switch" v-model:checked="internalOnly" />
       </label>
-      <Button :loading="loading" class="new-notice-modal__create-btn" @click="create()" title="Добавить" />
+      <CommonButton :loading="loading" class="new-notice-modal__create-btn" title="Добавить" @click="create()" />
     </div>
   </div>
 </template>
@@ -21,11 +21,11 @@ import { ref } from 'vue';
 import { mapState } from 'vuex';
 
 import { findError } from '@/utils/validation';
-import Button from '../common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 export default {
   name: 'NewNoticeModal',
-  components: { Button },
+  components: { CommonButton },
   data() {
     return {
       title: null,

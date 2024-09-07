@@ -1,25 +1,39 @@
 <template>
   <div class="animal-navigation">
-    <router-link class="animal-navigation__link" :to="`/animals`">Животные</router-link>
-    <div class="animal-navigation__right-arrow"></div>
-    <router-link class="animal-navigation__link" :to="`/animals?type=${type}`">{{ typeTranslate }}</router-link>
-    <div class="animal-navigation__right-arrow"></div>
-    <span class="animal-navigation__animal-name">{{ animalName }}</span>
+    <router-link class="animal-navigation__link" :to="`/animals`">
+      Животные
+    </router-link>
+    <div v-if="animalType" class="animal-navigation__right-arrow" />
+    <router-link v-if="animalType" class="animal-navigation__link" :to="`/animals?type=${animalType}`">
+      {{ typeTranslate }}
+    </router-link>
+    <div v-if="animalName || age" class="animal-navigation__right-arrow" />
+    <span v-if="animalName" class="animal-navigation__animal-name">{{ animalName }}</span>
+    <span v-if="age && !animalName">{{ ageTranslate }}</span>
   </div>
 </template>
 
 <script>
-import { animalTypes } from '@/utils/constants';
+import translates from '@/utils/translates/index';
 
 export default {
   name: 'AnimalNavigation',
   props: {
-    type: String,
     animalName: String,
+    type: String,
   },
   computed: {
+    animalType() {
+      return this.type || this.$route.query?.type;
+    },
+    age() {
+      return this.$route.query?.age;
+    },
     typeTranslate() {
-      return animalTypes[this.type] || this.type;
+      return translates[this.animalType]?.many || this.animalType;
+    },
+    ageTranslate() {
+      return translates[this.age].toLowerCase();
     },
   },
 };
@@ -27,19 +41,20 @@ export default {
 
 <style scoped lang="scss">
 $blue: #3f91f7;
-$grey: #8a92a6;
+$grey1: #8a92a6;
 
 .animal-navigation {
   display: flex;
   align-items: center;
-  color: $grey;
+  color: $grey1;
+  font-size: 16px;
 
   &__right-arrow {
     border: solid black;
     border-width: 0 1px 1px 0;
     display: inline-block;
     padding: 2px;
-    margin: 0 6px 0 2px;
+    margin: 2px 6px 0 2px;
 
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
@@ -50,7 +65,7 @@ $grey: #8a92a6;
   }
 
   &__link {
-    color: $grey;
+    color: $grey1;
     &:hover {
       color: $blue;
       text-decoration: underline;

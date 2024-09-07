@@ -1,6 +1,6 @@
 <template>
   <div id="app-sub-container">
-    <Header />
+    <CommonHeader />
     <div v-if="loading" class="loader__wrapper">
       <Loader />
     </div>
@@ -10,13 +10,13 @@
 <script>
 import { mapState } from 'vuex';
 
-import Header from '@/components/common/Header.vue';
+import CommonHeader from '@/components/common/CommonHeader.vue';
 import Loader from '@/components/common/Loader.vue';
 
 export default {
   name: 'App',
   components: {
-    Header,
+    CommonHeader,
     Loader,
   },
   computed: mapState({

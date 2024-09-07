@@ -1,9 +1,13 @@
 <template>
   <div>
-    <a-modal :visible="visible" :footer="null" width="320px" @cancel="this.$emit('onclose')">
-      <p v-if="curator.name" class="phone-modal__name">{{ curator.name }}</p>
-      <a v-if="curator.phone" class="phone-modal__phone" :href="`tel:+${curator.phone}`">+{{ prettifyPhone() }}</a>
-      <p v-if="!isOnTemporaryHold" class="phone-modal__name margin-top">{{ spareCurator.name }}</p>
+    <a-modal :visible="visible" :footer="null" width="320px" @cancel="$emit('onclose')">
+      <p v-if="curator.name" class="phone-modal__name">
+        {{ curator.name }}
+      </p>
+      <a v-if="curator.phone" class="phone-modal__phone" :href="`tel:+${curator.phone}`">+{{ prettifyPhone }}</a>
+      <p v-if="!isOnTemporaryHold" class="phone-modal__name margin-top">
+        {{ spareCurator.name }}
+      </p>
       <div v-if="!isOnTemporaryHold">
         <p v-for="sparePhone in spareCurator.phones" :key="sparePhone">
           <a class="phone-modal__phone" :href="`tel:${sparePhone}`">
@@ -12,7 +16,9 @@
         </p>
       </div>
       <div class="phone-modal__line" />
-      <p class="phone-modal__description">Пожалуйста, скажите волонтеру, что звоните по объявлению с сайта домика</p>
+      <p class="phone-modal__description">
+        Пожалуйста, скажите волонтеру, что звоните по объявлению с сайта домика
+      </p>
     </a-modal>
   </div>
 </template>
@@ -20,7 +26,8 @@
 <script>
 import { mapState } from 'vuex';
 
-import { curators } from '@/utils/constants';
+import { defaultCuratorPhones } from '@/utils/constants';
+import prettifyPhone from '@/utils/prettifyPhone';
 
 export default {
   props: {
@@ -28,22 +35,20 @@ export default {
     spareCurator: Object,
     place: String,
   },
+  emits: ['onclose'],
   data() {
-    return { curators };
+    return { defaultCuratorPhones };
   },
   computed: mapState({
     curator: (state) => state.users.curator,
     isOnTemporaryHold() {
       return this.place === 'on_temporary_hold';
     },
-  }),
-  methods: {
     prettifyPhone() {
       const { phone } = this.curator;
-      return `${phone.substr(0, 3)} (${phone.substring(3, 5)})
-      ${phone.substring(5, 8)}-${phone.substring(8, 10)}-${phone.substring(10)}`;
+      return prettifyPhone(phone);
     },
-  },
+  }),
 };
 </script>
 

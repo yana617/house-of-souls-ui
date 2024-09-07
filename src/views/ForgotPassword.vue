@@ -2,9 +2,17 @@
   <div v-if="anotherUserProfile" class="forgot-password">
     <form :onsubmit="forgotPassword">
       <p>Сгенерировать ссылку для {{ userNameSurname }}</p>
-      <a-typography-text type="secondary" class="forgot-password__description" v-html="description" />
-      <Button v-if="!resetLink" class="forgot-password__generate-btn" title="Сгенерировать ссылку" />
-      <Button
+      <a-typography-text
+        type="secondary"
+        class="forgot-password__description"
+        v-html="description"
+      />
+      <CommonButton
+        v-if="!resetLink"
+        class="forgot-password__generate-btn"
+        title="Сгенерировать ссылку"
+      />
+      <CommonButton
         v-if="resetLink"
         type="button"
         @click="onCopyLink"
@@ -19,7 +27,7 @@
 import { mapState } from 'vuex';
 
 import notifications from '@/utils/notifications';
-import Button from '@/components/common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 const description = `После нажатия кнопки будет сгенерирована ссылка для смены пароля. 
 Ссылка действительна в течении <b>20 минут</b>. 
@@ -27,7 +35,7 @@ const description = `После нажатия кнопки будет сген�
 
 export default {
   name: 'ForgotPassword',
-  components: { Button },
+  components: { CommonButton },
   data() {
     return { description };
   },
@@ -53,19 +61,15 @@ export default {
   methods: {
     loadUser() {
       this.$store.dispatch('app/setLoading', true);
-      this.$store
-        .dispatch('users/getUserProfile', { userId: this.userId })
-        .finally(() => {
-          this.$store.dispatch('app/setLoading', false);
-        });
+      this.$store.dispatch('users/getUserProfile', { userId: this.userId }).finally(() => {
+        this.$store.dispatch('app/setLoading', false);
+      });
     },
     forgotPassword() {
       this.$store.dispatch('app/setLoading', true);
-      this.$store
-        .dispatch('auth/forgotPassword', { userId: this.userId })
-        .finally(() => {
-          this.$store.dispatch('app/setLoading', false);
-        });
+      this.$store.dispatch('auth/forgotPassword', { userId: this.userId }).finally(() => {
+        this.$store.dispatch('app/setLoading', false);
+      });
       return false;
     },
     async onCopyLink() {
