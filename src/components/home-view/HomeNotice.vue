@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: 'Notice',
+  name: 'HomeNotice',
   props: {
     noticeId: String,
     title: String,

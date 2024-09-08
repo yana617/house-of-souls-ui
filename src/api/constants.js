@@ -1,10 +1,10 @@
 const {
-  VUE_APP_AUTH_SERVICE: AUTH_SERVICE_API,
-  VUE_APP_HOS_SERVICE: HOS_SERVICE_API,
-  VUE_APP_LIMIT,
-} = process.env;
+  VITE_AUTH_SERVICE: AUTH_SERVICE_API,
+  VITE_HOS_SERVICE: HOS_SERVICE_API,
+  VITE_LIMIT,
+} = import.meta.env;
 
-export const LIMIT = parseInt(VUE_APP_LIMIT, 10);
+export const LIMIT = parseInt(VITE_LIMIT, 10);
 
 export const AFT_URL = `${AUTH_SERVICE_API}/additional-field-templates`;
 export const UAF_URL = `${AUTH_SERVICE_API}/user-additional-fields`;

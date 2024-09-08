@@ -14,7 +14,7 @@
       @onclose="phoneModalOpen = false"
     />
     <div v-if="!loading" class="curator-contact__phone-container" @click="phoneModalOpen = true">
-      <img class="curator-contact__phone-icon" alt="phone" src="@/assets/phone.png" />
+      <img class="curator-contact__phone-icon" alt="phone" src="@/assets/phone.png">
     </div>
   </div>
 </template>

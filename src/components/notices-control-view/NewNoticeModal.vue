@@ -1,9 +1,14 @@
 <template>
   <div class="modal__wrapper" @click="closeModal()">
     <div class="new-notice-modal" @click.stop>
-      <img class="new-notice-modal__close-icon" alt="close-icon" src="@/assets/close.png" @click="closeModal()" />
+      <img
+        class="new-notice-modal__close-icon"
+        alt="close-icon"
+        src="@/assets/close.png"
+        @click="closeModal()"
+      >
       <h2>Добавление новости</h2>
-      <input v-model="title" class="new-notice-modal__title" placeholder="Заголовок" />
+      <input v-model="title" class="new-notice-modal__title" placeholder="Заголовок">
       <span class="new-notice-modal__error">{{ getError('title') }}</span>
       <textarea v-model="description" class="new-notice-modal__description" placeholder="Подробности" />
       <span class="new-notice-modal__error">{{ getError('description') }}</span>
@@ -11,7 +16,12 @@
         Только для волонторов
         <a-switch id="authorized-switch" v-model:checked="internalOnly" />
       </label>
-      <CommonButton :loading="loading" class="new-notice-modal__create-btn" title="Добавить" @click="create()" />
+      <CommonButton
+        :loading="loading"
+        class="new-notice-modal__create-btn"
+        title="Добавить"
+        @click="create()"
+      />
     </div>
   </div>
 </template>

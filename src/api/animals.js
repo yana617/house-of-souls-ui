@@ -5,7 +5,7 @@ import AnimalStatus from '@/utils/enums/AnimalStatus';
 import AnimalAge from '@/utils/enums/AnimalAge';
 import DogHeight from '@/utils/enums/DogHeight';
 
-const { VUE_APP_ANIMAL_SERVICE: ANIMAL_SERVICE_API } = process.env;
+const { VITE_ANIMAL_SERVICE: ANIMAL_SERVICE_API } = import.meta.env;
 const ANIMALS_URL = `${ANIMAL_SERVICE_API}/animals`;
 
 export default {

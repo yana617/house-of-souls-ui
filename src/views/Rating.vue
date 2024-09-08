@@ -1,6 +1,6 @@
 <template>
   <div class="rating">
-    <a-tabs v-model:activeKey="activeKey" class="rating__tabs" tab-bar-style="margin: 0; padding-top: 8px;">
+    <a-tabs v-model:active-key="activeKey" class="rating__tabs" tab-bar-style="margin: 0; padding-top: 8px;">
       <a-tab-pane key="1" tab="Посещения">
         <ClaimsRating />
       </a-tab-pane>

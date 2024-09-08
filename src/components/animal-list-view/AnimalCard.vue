@@ -1,7 +1,7 @@
 <template>
   <router-link class="animal-card" :to="`/animals/${id}`">
     <div class="animal-card__image-container">
-      <img class="animal-card__image" alt="avatar" :src="photos[0]" />
+      <img class="animal-card__image" alt="avatar" :src="photos[0]">
       <div />
     </div>
     <p class="animal-card__name">

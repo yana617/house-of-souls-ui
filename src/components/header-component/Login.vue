@@ -1,9 +1,26 @@
 <template>
   <div class="login">
     <div class="login__wrapper">
-      <input id="email" v-model="email" type="text" name="email" placeholder="E-mail" />
-      <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
-      <CommonButton :disabled="loading" @click="submitLogin" class="login__submit-btn" title="Войти" />
+      <input
+        id="email"
+        v-model="email"
+        type="text"
+        name="email"
+        placeholder="E-mail"
+      >
+      <input
+        id="password"
+        v-model="password"
+        type="password"
+        name="password"
+        placeholder="Пароль"
+      >
+      <CommonButton
+        :disabled="loading"
+        class="login__submit-btn"
+        title="Войти"
+        @click="submitLogin"
+      />
     </div>
   </div>
 </template>

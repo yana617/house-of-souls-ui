@@ -2,8 +2,12 @@
   <div class="filters-mobile">
     <div class="filters-mobile__header">
       <div class="filters-mobile__back-arrow" @click="handleClose" />
-      <h4 class="filters-mobile__header__title">Фильтр</h4>
-      <h4 class="filters-mobile__clear-btn" @click="handleClearFilters">Очистить</h4>
+      <h4 class="filters-mobile__header__title">
+        Фильтр
+      </h4>
+      <h4 class="filters-mobile__clear-btn" @click="handleClearFilters">
+        Очистить
+      </h4>
     </div>
     <Sorting v-if="hasViewAnimalPermission" class="filters-mobile__sorting" />
     <div
@@ -20,7 +24,7 @@
         class="filters-mobile__item__arrow-icon"
         alt="arrow-bottom"
         src="@/assets/arrow-bottom.png"
-      />
+      >
     </div>
     <CommonButton
       class="filters-mobile__confirm-btn"

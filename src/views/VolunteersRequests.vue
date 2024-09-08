@@ -18,7 +18,7 @@
         <span>
           <AdditionalFieldsTags
             v-if="!noAtf"
-            :userAdditionalFields="record.user_additional_fields"
+            :user-additional-fields="record.user_additional_fields"
           />
           <span v-if="noAtf || !record.user_additional_fields">-</span>
         </span>
@@ -53,7 +53,7 @@
           @click="changeRole(user.id)"
         />
       </div>
-      <span class="volunteers-requests__mobile__no-users" v-if="users.length === 0">
+      <span v-if="users.length === 0" class="volunteers-requests__mobile__no-users">
         Пока нет заявок
       </span>
     </div>

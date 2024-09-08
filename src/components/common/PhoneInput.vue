@@ -1,5 +1,5 @@
 <template>
-  <input :id="id" :placeholder="placeholder" @input="$emit('onchange', $event.target.value)" />
+  <input :id="id" :placeholder="placeholder" @input="$emit('onchange', $event.target.value)">
 </template>
 
 <script>

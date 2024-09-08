@@ -1,7 +1,12 @@
 <template>
   <div class="modal__wrapper claim-info-modal__wrapper" @click="$emit('onclose')">
     <div class="claim-info-modal" @click.stop>
-      <img @click="$emit('onclose')" class="claim-info-modal__close-icon" src="@/assets/close.png" alt="close" />
+      <img
+        class="claim-info-modal__close-icon"
+        src="@/assets/close.png"
+        alt="close"
+        @click="$emit('onclose')"
+      >
       <div class="claim-info-modal__header" />
       <span class="claim-info-modal__info-title">Данные о волонтёре</span>
       <span class="claim-info-modal__info-description name"> {{ userToShow.name }} {{ userToShow.surname }} </span>
@@ -20,9 +25,9 @@
             class="claim-info-modal__icon"
             :src="additionalFieldsById[field.additional_field_template_id]?.icon"
             alt="additional-field-icon"
-          />
+          >
           <CheckCircleTwoTone v-if="field.value" :two-tone-color="twoToneColor" />
-          <span class="claim-info-modal__additional-fields__label" v-if="field.value">
+          <span v-if="field.value" class="claim-info-modal__additional-fields__label">
             {{ additionalFieldsById[field.additional_field_template_id]?.label }}
           </span>
           <Tooltip

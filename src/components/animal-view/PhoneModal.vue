@@ -1,6 +1,11 @@
 <template>
   <div>
-    <a-modal :visible="visible" :footer="null" width="320px" @cancel="$emit('onclose')">
+    <a-modal
+      :visible="visible"
+      :footer="null"
+      width="320px"
+      @cancel="$emit('onclose')"
+    >
       <p v-if="curator.name" class="phone-modal__name">
         {{ curator.name }}
       </p>

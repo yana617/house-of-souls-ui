@@ -1,8 +1,18 @@
 <template>
   <div class="description-icon-items" :class="{ 'border-bottom': !hasViewAnimalPermission }">
     <div class="description-icon-items__container">
-      <img v-if="isDog" class="description-icon-items__icon" alt="dog" src="@/assets/dog.png" />
-      <img v-if="isCat" class="description-icon-items__icon" alt="cat" src="@/assets/cat.png" />
+      <img
+        v-if="isDog"
+        class="description-icon-items__icon"
+        alt="dog"
+        src="@/assets/dog.png"
+      >
+      <img
+        v-if="isCat"
+        class="description-icon-items__icon"
+        alt="cat"
+        src="@/assets/cat.png"
+      >
       <div class="description-icon-items__sub-container">
         <span class="description-icon-items__data-title">{{ translates.type }}</span>
         <span class="description-icon-items__data-description">{{ typeTranslate }}</span>
@@ -15,13 +25,13 @@
         class="description-icon-items__icon"
         alt="male"
         src="@/assets/male.png"
-      />
+      >
       <img
         v-if="isFemale"
         class="description-icon-items__icon"
         alt="female"
         src="@/assets/female.png"
-      />
+      >
       <div class="description-icon-items__sub-container">
         <span class="description-icon-items__data-title">{{ translates.sex }}</span>
         <span class="description-icon-items__data-description">{{ sexTranslate }}</span>
@@ -29,7 +39,7 @@
     </div>
 
     <div v-if="hasViewAnimalPermission" class="description-icon-items__container margin-left">
-      <img class="description-icon-items__icon" alt="calendar-icon" src="@/assets/calendar.png" />
+      <img class="description-icon-items__icon" alt="calendar-icon" src="@/assets/calendar.png">
       <div class="description-icon-items__sub-container">
         <span class="description-icon-items__data-title">Дата рождения</span>
         <span class="description-icon-items__data-description">{{ formattedBirthday }}</span>
@@ -50,9 +60,6 @@ import AnimalSex from '@/utils/enums/AnimalSex';
 export default {
   name: 'DescriptionIconItems',
   components: {},
-  props: {
-    hasViewAnimalPermission: Boolean,
-  },
   data() {
     return { translates };
   },
@@ -81,6 +88,10 @@ export default {
     },
     isFemale() {
       return this.animal.sex === AnimalSex.FEMALE;
+    },
+    permissions: (state) => state.permissions.my,
+    hasViewAnimalPermission() {
+      return this.permissions.includes('VIEW_ANIMAL');
     },
   }),
 };

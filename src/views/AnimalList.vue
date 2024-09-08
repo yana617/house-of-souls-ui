@@ -15,7 +15,6 @@ export default {
   name: 'AnimalList',
   components: { AnimalListDesktop, AnimalListMobile },
   watch: {
-    // eslint-disable-next-line func-names
     '$route.query': function () {
       const { path, query } = this.$route;
 

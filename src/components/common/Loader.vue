@@ -1,5 +1,8 @@
 <template>
-  <a-spin :class="loaderClassName" tip="Загрузка..." />
+  <a-spin
+    :class="loaderClassName"
+    tip="Загрузка..."
+  />
 </template>
 
 <script>

@@ -9,8 +9,7 @@
         @click="handleClearFilters"
       >
         Очистить
-      </span
-      >
+      </span>
     </div>
     <div class="filters__sub-container">
       <div
@@ -30,7 +29,7 @@
             :class="{ rotated: openFilterName === filter.filterName }"
             alt="arrow-bottom-icon"
             src="@/assets/arrow-bottom.png"
-          />
+          >
         </div>
         <div
           class="filters__item__options-container"

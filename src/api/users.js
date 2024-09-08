@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+ 
 import axios from 'axios';
 
 import mock from './mock';
@@ -34,10 +34,9 @@ export const usersApi = {
     .then((response) => response.data)
     .catch((error) => error.response.data),
 
-  getCurator: async (userId) => {
+  getCurator: async (_userId) => {
     // const { data: { data: curator } } = await axios.get(`${usersApi}/${userId}/curator`);
     // return curator;
-    // eslint-disable-next-line no-promise-executor-return
     await new Promise((r) => setTimeout(r, 2000));
     return mock.generateCurator();
   },

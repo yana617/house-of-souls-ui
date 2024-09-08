@@ -7,7 +7,7 @@
       :class="{ selected: selected(filter.type, filter.age) }"
       @click="select(filter.type, filter.age)"
     >
-      <img class="filter-via-images__item__image" alt="filter-image" :src="getImgUrl(filter.image)" />
+      <img class="filter-via-images__item__image" alt="filter-image" :src="getImgUrl(filter.image)">
       <div class="filter-via-images__item__title">
         <span class="filter-via-images__item__title__text">{{ filter.labelLong }}</span>
       </div>
@@ -22,9 +22,6 @@ import imageFilters from '@/utils/maps/imageFilters';
 
 export default {
   name: 'FilterViaImages',
-  props: {
-    hasViewAnimalPermission: Boolean,
-  },
   data() {
     return { imageFilters };
   },
@@ -42,9 +39,8 @@ export default {
       }
       return type === itemType && age === itemAge;
     },
-    getImgUrl(pet) {
-      const images = require.context('../../assets/', false, /\.jpg|.jpeg$/);
-      return images(`./${pet}`);
+    getImgUrl(fileName) {
+      return new URL(`../../assets/${fileName}`, import.meta.url).href;
     },
     select(type, age) {
       if (!this.selected(type, age)) {

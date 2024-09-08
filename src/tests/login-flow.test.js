@@ -1,10 +1,6 @@
-import {
-  mount,
-  flushPromises,
-  RouterLinkStub,
-  RouterViewStub,
-} from '@vue/test-utils';
+import { mount, flushPromises, RouterLinkStub, RouterViewStub } from '@vue/test-utils';
 import Antd from 'ant-design-vue';
+import { describe, vi, beforeAll, it, expect } from 'vitest';
 
 import App from '@/App.vue';
 import CommonHeader from '@/components/common/CommonHeader.vue';
@@ -18,10 +14,8 @@ import { authApi } from '@/api/auth';
 
 import store from '../store';
 
-jest.mock('axios');
-
 const $socket = {
-  on: jest.fn(),
+  on: vi.fn(),
 };
 const $matchMedia = {
   mobile: false,
@@ -33,23 +27,17 @@ describe('Home.vue', () => {
   let wrapper;
 
   beforeAll(async () => {
-    getPermissionsSpy = jest
+    getPermissionsSpy = vi
       .spyOn(permissionsApi, 'getMyPermissions')
       .mockResolvedValue({ success: true, data: [] });
 
-    jest
-      .spyOn(noticesApi, 'getNotices')
-      .mockResolvedValue({ success: true, data: [] });
+    vi.spyOn(noticesApi, 'getNotices').mockResolvedValue({ success: true, data: [] });
 
-    jest
-      .spyOn(claimsApi, 'getClaims')
-      .mockResolvedValue({ success: true, data: [] });
+    vi.spyOn(claimsApi, 'getClaims').mockResolvedValue({ success: true, data: [] });
 
-    jest
-      .spyOn(aftApi, 'getAdditionalFields')
-      .mockResolvedValue({ success: true, data: [] });
+    vi.spyOn(aftApi, 'getAdditionalFields').mockResolvedValue({ success: true, data: [] });
 
-    loginSpy = jest
+    loginSpy = vi
       .spyOn(authApi, 'login')
       .mockResolvedValue({ success: true, data: { token: 'token' } });
 

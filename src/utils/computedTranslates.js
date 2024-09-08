@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 const computeHeightRangeTranslate = (height) => {
   if (height <= 38) {
     return 'маленький';

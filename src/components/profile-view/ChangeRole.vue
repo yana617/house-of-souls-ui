@@ -1,11 +1,11 @@
 <template>
   <div v-if="userRole && translatedUserRole" class="change-role">
     <span><b>Роль пользователя</b></span>
-    <br />
+    <br>
     <span>{{ translatedUserRole?.translate }}</span>
-    <br />
+    <br>
     <span><b>Поменять роль</b></span>
-    <br />
+    <br>
     <a-select
       ref="select"
       v-model:value="updatedRole"
@@ -13,8 +13,13 @@
       style="width: 300px"
       :options="roles"
     />
-    <br />
-    <CommonButton :loading="loading" class="change-role__save-btn" title="сохранить" @click="updateRole" />
+    <br>
+    <CommonButton
+      :loading="loading"
+      class="change-role__save-btn"
+      title="сохранить"
+      @click="updateRole"
+    />
   </div>
 </template>
 

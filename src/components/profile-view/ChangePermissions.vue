@@ -1,19 +1,19 @@
 <template>
   <div class="change-permissions">
     <span><b>Права предоставляемые ролью пользователя</b></span>
-    <br />
+    <br>
     <a-checkbox
-      class="change-permissions__item"
       v-for="perm in translatedRolePermissions"
       :key="perm"
+      class="change-permissions__item"
       checked
       disabled
     >
       {{ perm.translate }}
     </a-checkbox>
-    <br />
+    <br>
     <span><b>Редактируемые</b></span>
-    <br />
+    <br>
     <a-checkbox
       v-for="perm in translatedAdditionalPermissions"
       :key="perm"
@@ -31,7 +31,7 @@
     >
       {{ perm.translate }}
     </a-checkbox>
-    <br />
+    <br>
     <CommonButton
       :loading="loading"
       class="change-permissions__save-btn"

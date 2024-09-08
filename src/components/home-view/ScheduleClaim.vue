@@ -11,21 +11,21 @@
           class="schedule-claim__icon"
           :src="getIcon(field.additional_field_template_d)"
           alt="additional-field-icon"
-        />
+        >
         <SmileOutlined v-if="field.value" class="schedule-claim__icon" />
       </div>
     </div>
     <span class="schedule-claim__main-container" @click="$emit('on-claim-click', claim)">
       <b v-if="claim.questionable" class="schedule-claim__questionable">?</b>
       {{ username }}
-      <b class="schedule-claim__additional-people" v-if="claim.additional_people">
+      <b v-if="claim.additional_people" class="schedule-claim__additional-people">
         +{{ claim.additional_people }}
       </b>
     </span>
     <EditOutlined
       v-if="isMyClaim"
-      @click="this.$emit('on-update-click')"
       style="margin-left: auto"
+      @click="$emit('on-update-click')"
     />
   </div>
 </template>

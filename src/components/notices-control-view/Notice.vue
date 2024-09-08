@@ -2,12 +2,12 @@
   <div class="notice">
     <label for="title">Заголовок</label>
     <input
+      id="notice-title"
       v-model="notice.title"
       :disabled="!edit"
       class="notice__title"
       :class="{ notice__title__background: !title }"
-      id="notice-title"
-    />
+    >
     <span v-if="edit" class="notice__error">{{ getError('title') }}</span>
     <label for="description">Подробности</label>
     <textarea
@@ -37,7 +37,13 @@
         title="сохранить"
         @click="onUpdate"
       />
-      <CommonButton v-if="edit" :disabled="loading" class="notice__cancel-btn" title="отменить" @click="onCancel" />
+      <CommonButton
+        v-if="edit"
+        :disabled="loading"
+        class="notice__cancel-btn"
+        title="отменить"
+        @click="onCancel"
+      />
       <CommonButton
         v-if="hasPermissions('DELETE_NOTICE')"
         :disabled="loading"

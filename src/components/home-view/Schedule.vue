@@ -14,7 +14,12 @@
             </span>
           </span>
         </div>
-        <ScheduleTimeLine title="УТРО" type="morning" :schedule="morningSchedule" @refresh-schedule="refreshSchedule" />
+        <ScheduleTimeLine
+          title="УТРО"
+          type="morning"
+          :schedule="morningSchedule"
+          @refresh-schedule="refreshSchedule"
+        />
         <ScheduleTimeLine
           class="schedule__evening"
           title="ВЕЧЕР"

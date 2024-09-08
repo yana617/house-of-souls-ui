@@ -19,14 +19,14 @@
       src="@/assets/sort-asc.png"
       alt="sort-asc"
       @click="handleOrder('desc')"
-    />
+    >
     <img
       v-if="currentSortBy && currentOrder === 'desc'"
       class="sorting__order-icon"
       src="@/assets/sort-desc.png"
       alt="sort-desc"
       @click="handleOrder('asc')"
-    />
+    >
   </div>
 </template>
 

@@ -1,7 +1,22 @@
 <template>
-  <input :value="name" type="text" placeholder="Имя" @input="$emit('update:name', $event.target.value)" />
-  <input :value="surname" type="text" placeholder="Фамилия" @input="$emit('update:surname', $event.target.value)" />
-  <input :value="phone" type="text" placeholder="Телефон" @input="$emit('update:phone', $event.target.value)" />
+  <input
+    :value="name"
+    type="text"
+    placeholder="Имя"
+    @input="$emit('update:name', $event.target.value)"
+  >
+  <input
+    :value="surname"
+    type="text"
+    placeholder="Фамилия"
+    @input="$emit('update:surname', $event.target.value)"
+  >
+  <input
+    :value="phone"
+    type="text"
+    placeholder="Телефон"
+    @input="$emit('update:phone', $event.target.value)"
+  >
 </template>
 
 <script>
