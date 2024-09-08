@@ -2,7 +2,7 @@
   <div class="permissions_and_roles">
     <div class="permissions_and_roles__form">
       <ChangePermissions />
-      <hr class="permissions_and_roles__line" />
+      <hr class="permissions_and_roles__line">
       <ChangeRole />
     </div>
   </div>

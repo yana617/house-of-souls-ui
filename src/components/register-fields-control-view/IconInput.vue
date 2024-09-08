@@ -1,10 +1,21 @@
 <template>
   <div class="icon-input__container">
     <div class="icon-input__sub-container" :class="{ 'icon-input__no-icon': !icon }">
-      <img class="icon-input__image" alt="icon" :src="icon" />
+      <img class="icon-input__image" alt="icon" :src="icon">
     </div>
-    <CommonButton v-if="edit" class="icon-input__upload-btn" title="обновить иконку" @click="uploadIcon()" />
-    <input id="icon-input-id" type="file" accept="image/*" class="icon-input__unvisible-input" @change="onIconChange" />
+    <CommonButton
+      v-if="edit"
+      class="icon-input__upload-btn"
+      title="обновить иконку"
+      @click="uploadIcon()"
+    />
+    <input
+      id="icon-input-id"
+      type="file"
+      accept="image/*"
+      class="icon-input__unvisible-input"
+      @change="onIconChange"
+    >
   </div>
 </template>
 
@@ -36,6 +47,7 @@ export default {
 
 <style lang="scss" scoped>
 $lightGrey: #ccc;
+$green: #42b983;
 
 .icon-input {
   &__container {

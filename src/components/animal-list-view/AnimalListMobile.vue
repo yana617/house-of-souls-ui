@@ -11,7 +11,12 @@
     <AnimalTypeAgeMobileFilter />
     <div class="animal-list-mobile__count-filter-container">
       <span>По запросу найдено: {{ animals.length }}</span>
-      <img class="animal-list-mobile__filter-icon" alt="filter" src="@/assets/filter.png" @click="filtersOpen = true" />
+      <img
+        class="animal-list-mobile__filter-icon"
+        alt="filter"
+        src="@/assets/filter.png"
+        @click="filtersOpen = true"
+      >
     </div>
     <AnimalCard
       v-for="animal of animals"

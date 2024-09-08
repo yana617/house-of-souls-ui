@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { rest } from 'msw';
 
 import { API_HOST } from '@/constants';

@@ -2,11 +2,13 @@
   <div v-if="anotherUserProfile" class="forgot-password">
     <form :onsubmit="forgotPassword">
       <p>Сгенерировать ссылку для {{ userNameSurname }}</p>
+      <!-- eslint-disable vue/no-v-html -->
       <a-typography-text
         type="secondary"
         class="forgot-password__description"
         v-html="description"
       />
+      <!--eslint-enable-->
       <CommonButton
         v-if="!resetLink"
         class="forgot-password__generate-btn"
@@ -15,9 +17,9 @@
       <CommonButton
         v-if="resetLink"
         type="button"
-        @click="onCopyLink"
         class="forgot-password__copy-btn"
         title="Скопировать ссылку"
+        @click="onCopyLink"
       />
     </form>
   </div>
@@ -39,11 +41,6 @@ export default {
   data() {
     return { description };
   },
-  mounted() {
-    if (this.userId) {
-      this.loadUser();
-    }
-  },
   computed: mapState({
     anotherUserProfile: (state) => state.users.userProfile,
     resetLink: (state) => state.auth.resetLink,
@@ -58,6 +55,11 @@ export default {
       return null;
     },
   }),
+  mounted() {
+    if (this.userId) {
+      this.loadUser();
+    }
+  },
   methods: {
     loadUser() {
       this.$store.dispatch('app/setLoading', true);
@@ -76,6 +78,7 @@ export default {
       try {
         await navigator.clipboard.writeText(this.resetLink);
         notifications.success('Успешно скопировано!');
+      // eslint-disable-next-line no-unused-vars
       } catch (e) {
         notifications.error('Ошибка копирования :(');
       }

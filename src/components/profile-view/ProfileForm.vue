@@ -4,48 +4,48 @@
     <div class="profile-form__main-info-container">
       <label for="name">Имя</label>
       <input
-        :disabled="!edit"
         id="name"
+        v-model="profile.name"
+        :disabled="!edit"
         class="profile-form__input"
         placeholder="Имя"
-        v-model="profile.name"
-      />
+      >
       <span class="profile-form__error">{{ getError('name') }}</span>
       <label for="surname">Фамилия</label>
       <input
-        :disabled="!edit"
         id="surname"
+        v-model="profile.surname"
+        :disabled="!edit"
         class="profile-form__input"
         placeholder="Фамилия"
-        v-model="profile.surname"
-      />
+      >
       <span class="profile-form__error">{{ getError('surname') }}</span>
       <label for="phone">Телефон</label>
       <input
-        :disabled="!edit"
         id="phone"
+        v-model="profile.phone"
+        :disabled="!edit"
         class="profile-form__input"
         placeholder="Телефон"
-        v-model="profile.phone"
-      />
+      >
       <span class="profile-form__error">{{ getError('phone') }}</span>
       <label for="email">E-mail</label>
       <input
-        :disabled="!edit"
         id="email"
+        v-model="profile.email"
+        :disabled="!edit"
         class="profile-form__input"
         placeholder="E-mail"
-        v-model="profile.email"
-      />
+      >
       <span class="profile-form__error">{{ getError('email') }}</span>
       <label for="birthday">Дата рождения</label>
       <a-date-picker
-        :disabled="!edit"
         id="birthday"
+        v-model:value="birthday"
+        :disabled="!edit"
         size="large"
         placeholder="Дата рождения"
         class="profile-form__date-picker"
-        v-model:value="birthday"
       />
       <span class="profile-form__error">{{ getError('birthday') }}</span>
     </div>
@@ -59,9 +59,9 @@
         <label :for="uaf.id">{{ uaf.label }}</label>
         <a-switch
           :id="uaf.id"
+          v-model:checked="mappedUserAdditionalFields[uaf.id].value"
           style="width: 44px"
           :disabled="!edit"
-          v-model:checked="mappedUserAdditionalFields[uaf.id].value"
         />
       </div>
       <span v-if="noUaf()">-</span>

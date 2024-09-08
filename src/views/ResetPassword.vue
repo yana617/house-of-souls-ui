@@ -4,9 +4,9 @@
       <label for="pass">Восстановление пароля</label>
       <a-input
         id="pass"
+        v-model:value="password"
         type="password"
         size="large"
-        v-model:value="password"
         placeholder="Новый пароль"
       />
       <span class="reset-password__error">{{ getError('password') }}</span>
@@ -41,14 +41,14 @@ export default {
       findError,
     };
   },
+  computed: mapState({
+    errors: (state) => state.auth.resetPasswordErrors,
+  }),
   created() {
     if (getToken()) {
       this.$router.push('/');
     }
   },
-  computed: mapState({
-    errors: (state) => state.auth.resetPasswordErrors,
-  }),
   methods: {
     resetPassword() {
       if (this.password !== this.repeatPassword) {

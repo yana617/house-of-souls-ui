@@ -10,7 +10,7 @@
         {{ curator.phone ? prettifyPhone(curator.phone) : defaultCurator.phones[0] }}
       </span>
     </div>
-    <div class="curator-contact__sub-container" v-if="!curator.phone">
+    <div v-if="!curator.phone" class="curator-contact__sub-container">
       <span class="curator-contact__title">Для связи</span>
       <span class="curator-contact__value">{{ defaultCurator.phones[1] }}</span>
     </div>

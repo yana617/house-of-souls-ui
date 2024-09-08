@@ -3,7 +3,7 @@
     <div class="profile__header">
       <div class="profile__main-data-container">
         <div class="profile__img-container">
-          <img class="profile__img" src="@/assets/cat_infos.jpeg" alt="profile-icon" />
+          <img class="profile__img" src="@/assets/cat_infos.jpeg" alt="profile-icon">
         </div>
         <div class="profile__name-phone-container">
           <div class="profile__name-role-container">
@@ -20,12 +20,12 @@
       </div>
       <CommonButton
         v-if="isAnotherUserProfile && hasPermissionsToEditPermissions"
-        @click="$router.push(`/forgot-password?userId=${userId}`)"
         class="profile__reset-password-btn"
         title="Сгенерировать ссылку для смены пароля"
+        @click="$router.push(`/forgot-password?userId=${userId}`)"
       />
     </div>
-    <a-tabs v-model:activeKey="activeKey">
+    <a-tabs v-model:active-key="activeKey">
       <a-tab-pane key="1" tab="Посещения">
         <VisitsTable :claims="personalClaims" />
       </a-tab-pane>

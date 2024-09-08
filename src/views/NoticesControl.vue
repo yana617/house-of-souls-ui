@@ -5,7 +5,7 @@
       v-for="noticeId in notices.list"
       :key="noticeId"
       v-bind="notices.data[noticeId]"
-      :noticeId="noticeId"
+      :notice-id="noticeId"
     />
     <CommonButton
       v-if="hasPermissionsToCreateNotice"
@@ -15,7 +15,7 @@
     />
     <NewNoticeModal v-if="isModalOpen" />
   </div>
-  <img class="notices-control__img" src="@/assets/cat_infos.jpeg" alt="background-image" />
+  <img class="notices-control__img" src="@/assets/cat_infos.jpeg" alt="background-image">
 </template>
 
 <script>

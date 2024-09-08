@@ -5,18 +5,18 @@
         class="auth-modal__background-image"
         src="@/assets/auth-modal-back.jpg"
         alt="back-icon"
-      />
+      >
       <img
         class="auth-modal__background-image mobile"
         src="@/assets/auth-modal-mobile.jpg"
         alt="mobile back icon"
-      />
+      >
       <img
-        @click="setModal(null)"
         class="auth-modal__header__close-icon"
         src="@/assets/close.png"
         alt="close-icon"
-      />
+        @click="setModal(null)"
+      >
       <div class="auth-modal__header">
         <span
           class="auth-modal__header__title"

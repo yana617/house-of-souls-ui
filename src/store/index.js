@@ -13,7 +13,7 @@ import animals from './modules/animals';
 import animalMedicalHistory from './modules/animal-medical-history';
 import app from './modules/app';
 
-const debug = process.env.NODE_ENV !== 'production';
+const debug = import.meta.env.NODE_ENV !== 'production';
 
 export default createStore({
   state: {

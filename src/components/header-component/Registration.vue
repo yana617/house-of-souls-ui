@@ -1,17 +1,46 @@
 <template>
   <div class="registration">
     <div class="registration__wrapper">
-      <input id="name" v-model="name" type="text" name="name" placeholder="Имя" />
+      <input
+        id="name"
+        v-model="name"
+        type="text"
+        name="name"
+        placeholder="Имя"
+      >
       <span class="registration__error">{{ getError('name') }}</span>
-      <input id="surname" v-model="surname" type="text" name="surname" placeholder="Фамилия" />
+      <input
+        id="surname"
+        v-model="surname"
+        type="text"
+        name="surname"
+        placeholder="Фамилия"
+      >
       <span class="registration__error">{{ getError('surname') }}</span>
       <PhoneInput id="phone" placeholder="Телефон" @onchange="onChangePhone" />
       <span class="registration__error">{{ getError('phone') }}</span>
-      <input id="email" v-model="email" type="text" name="email" placeholder="E-mail" />
+      <input
+        id="email"
+        v-model="email"
+        type="text"
+        name="email"
+        placeholder="E-mail"
+      >
       <span class="registration__error">{{ getError('email') }}</span>
-      <a-date-picker v-model:value="birthday" size="large" placeholder="Дата рождения" class="registration__birthday" />
+      <a-date-picker
+        v-model:value="birthday"
+        size="large"
+        placeholder="Дата рождения"
+        class="registration__birthday"
+      />
       <span class="registration__error">{{ getError('birthday') }}</span>
-      <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
+      <input
+        id="password"
+        v-model="password"
+        type="password"
+        name="password"
+        placeholder="Пароль"
+      >
       <span class="registration__error">{{ getError('password') }}</span>
       <div v-if="aftLoading && !additionalFields" class="registration__loader-wrapper">
         <Loader class-name="registration__loader" />

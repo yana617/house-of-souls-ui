@@ -5,15 +5,15 @@
       :class="{ 'home__layout-content__padding': hasPermissions('CREATE_CLAIM') }"
     >
       <div class="home">
-        <Notice
+        <HomeNotice
           v-for="noticeId in noticesToShow"
           :key="noticeId"
           :notice-id="noticeId"
           v-bind="notices.data[noticeId]"
         />
         <button
-          type="button"
           v-if="showLoadAllNoticesBtn"
+          type="button"
           class="home__notices__load-all-btn"
           @click="showAllNotices = !showAllNotices"
         >
@@ -35,7 +35,7 @@ import { mapState } from 'vuex';
 
 import HistoryActions from '@/components/home-view/HistoryActions.vue';
 import CommonFooter from '@/components/common/CommonFooter.vue';
-import Notice from '@/components/home-view/Notice.vue';
+import HomeNotice from '@/components/home-view/HomeNotice.vue';
 import Schedule from '@/components/home-view/Schedule.vue';
 import { getToken } from '@/utils/sessionStorage';
 import { getWeekDatesRange } from '@/utils/date';
@@ -46,7 +46,7 @@ export default {
   name: 'Home',
   components: {
     CommonFooter,
-    Notice,
+    HomeNotice,
     Schedule,
     HistoryActions,
   },

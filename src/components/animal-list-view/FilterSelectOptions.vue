@@ -18,7 +18,7 @@
         alt="selected-icon"
         class="filter-select__selected-icon"
         src="@/assets/selected-circle.png"
-      />
+      >
     </div>
     <CommonButton class="filter-select__confirm-btn" title="Применить" @click="handleSelectSubmit()" />
   </div>

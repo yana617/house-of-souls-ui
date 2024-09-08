@@ -2,11 +2,11 @@
   <div class="modal__wrapper" @click="closeModal()">
     <div class="new-additional-field-modal" @click.stop>
       <img
-        @click="closeModal()"
         class="new-additional-field-modal__close-icon"
         src="@/assets/close.png"
         alt="close"
-      />
+        @click="closeModal()"
+      >
       <h2>Новое дополнительное поле</h2>
       <div v-if="false" class="new-additional-field-modal__icon-container">
         <input
@@ -15,12 +15,12 @@
           accept="image/*"
           class="new-additional-field-modal__unvisible-input"
           @change="onIconChange"
-        />
+        >
         <div
           class="new-additional-field-modal__icon-sub-container"
           :class="{ 'new-additional-field-modal__no-icon': !icon }"
         >
-          <img class="new-additional-field-modal__icon" alt="additional-field-icon" :src="icon" />
+          <img class="new-additional-field-modal__icon" alt="additional-field-icon" :src="icon">
         </div>
         <CommonButton
           class="new-additional-field-modal__btn__upload-icon"
@@ -33,19 +33,19 @@
         v-model="label"
         class="new-additional-field-modal__label"
         placeholder="Короткое название (желательно одно слово)"
-      />
+      >
       <span class="new-additional-field-modal__error">{{ getError('label') }}</span>
       <textarea
-        class="new-additional-field-modal__description"
         v-model="description"
+        class="new-additional-field-modal__description"
         placeholder="Описание"
       />
       <span class="new-additional-field-modal__error">{{ getError('description') }}</span>
       <CommonButton
         :loading="loading"
         class="new-additional-field-modal__btn__save"
-        @click="create()"
         title="Добавить"
+        @click="create()"
       />
     </div>
   </div>
@@ -60,10 +60,6 @@ import CommonButton from '@/components/common/CommonButton.vue';
 export default {
   name: 'NewAdditionalFieldModal',
   components: { CommonButton },
-  computed: mapState({
-    icon: (state) => state.additionalFields.new?.icon,
-    errors: (state) => state.additionalFields.createErrors,
-  }),
   data() {
     return {
       label: null,
@@ -72,6 +68,10 @@ export default {
       loading: false,
     };
   },
+  computed: mapState({
+    icon: (state) => state.additionalFields.new?.icon,
+    errors: (state) => state.additionalFields.createErrors,
+  }),
   unmounted() {
     this.$store.dispatch('additionalFields/clearCreateErrors');
   },
