@@ -20,6 +20,7 @@
     "@ant-design/icons-vue": "6.0.1",
     "@cwist/vue-match-media": "3.0.3",
     "@vitejs/plugin-vue": "5.2.1",
+    "@vueuse/integrations": "12.7.0",
     "ant-design-vue": "2.2.8",
     "axios": "1.8.3",
     "dayjs": "1.11.12",
@@ -32,6 +33,7 @@
     "vue": "3.5.13",
     "vue-inline-svg": "3.1.2",
     "vue-router": "4.5.0",
+    "vue3-carousel": "0.14.0",
     "vuex": "4.1.0",
     "yorkie": "2.0.0"
   },

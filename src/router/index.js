@@ -4,8 +4,8 @@ import authRequired from './authRequired';
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
+    path: '/schedule',
+    name: 'schedule',
     component: () => import('../views/Home.vue'),
   },
   {
@@ -30,45 +30,83 @@ const routes = [
     path: '/reset-password',
     name: 'reset-password',
     component: () => import('../views/ResetPassword.vue'),
-  }, {
+  },
+  {
     path: '/users/:id',
     name: 'user',
     component: () => import('../views/Profile.vue'),
     meta: { authRequired: true },
-  }, {
+  },
+  {
     path: '/rating',
     name: 'rating',
     component: () => import('../views/Rating.vue'),
     meta: { authRequired: true },
-  }, {
+  },
+  {
+    path: '/map',
+    name: 'map',
+    component: () => import('../views/Map.vue'),
+    meta: { authRequired: true },
+  },
+  {
     path: '/animals',
+    name: 'animals2',
+    component: () => import('../views/AnimalList.vue'),
+  },
+  {
+    path: '/',
     name: 'animals',
     component: () => import('../views/AnimalList.vue'),
-  }, {
+  },
+  {
     path: '/animals/:id',
     name: 'animal',
     component: () => import('../views/Animal.vue'),
-  }, {
+  },
+  {
+    path: '/animals/:id/edit',
+    name: 'edit-animal',
+    component: () => import('../views/EditAnimal.vue'),
+    meta: { authRequired: true },
+  },
+  {
+    path: '/animals/:id/photos',
+    name: 'update-animal-photos',
+    component: () => import('../views/UpdateAnimalPhotos.vue'),
+    meta: { authRequired: true },
+  },
+  {
+    path: '/animals/create',
+    name: 'create-animal',
+    component: () => import('../views/CreateAnimal.vue'),
+    meta: { authRequired: true },
+  },
+  {
     path: '/admin',
     name: 'AdminPanel',
     redirect: '/admin/volunteers-requests',
     component: () => import('../views/AdminPanel.vue'),
-    children: [{
-      path: '/admin/volunteers-requests',
-      meta: { authRequired: true },
-      name: 'volunteers-requests',
-      component: () => import('../views/VolunteersRequests.vue'),
-    }, {
-      path: '/admin/register-fields-control',
-      meta: { authRequired: true },
-      name: 'register-fields-control',
-      component: () => import('../views/RegisterFieldsControl.vue'),
-    }, {
-      path: '/admin/notices',
-      meta: { authRequired: true },
-      name: 'notices',
-      component: () => import('../views/NoticesControl.vue'),
-    }],
+    children: [
+      {
+        path: '/admin/volunteers-requests',
+        meta: { authRequired: true },
+        name: 'volunteers-requests',
+        component: () => import('../views/VolunteersRequests.vue'),
+      },
+      {
+        path: '/admin/register-fields-control',
+        meta: { authRequired: true },
+        name: 'register-fields-control',
+        component: () => import('../views/RegisterFieldsControl.vue'),
+      },
+      {
+        path: '/admin/notices',
+        meta: { authRequired: true },
+        name: 'notices',
+        component: () => import('../views/NoticesControl.vue'),
+      },
+    ],
   },
 ];
 

@@ -2,7 +2,15 @@
   <div class="animal-image-name-container">
     <div v-if="noNotices" class="animal-image-name-container__indent" />
     <StatusHashtag :status="animal.status" />
-    <img class="animal-image-name-container__image" alt="avatar" :src="animal.photos?.[0]">
+    <img
+      v-if="animal.photos?.[0]?.url"
+      class="animal-image-name-container__image"
+      alt="avatar"
+      :src="animal.photos?.[0]?.url"
+    >
+    <div v-else class="animal-image-name-container__no-image">
+      <span>Нет фото</span>
+    </div>
     <h4 class="animal-image-name-container__name">
       {{ animal.name }}
     </h4>
@@ -46,6 +54,7 @@ export default {
 
 <style scoped lang="scss">
 $darkBlue: #2f3e4e;
+$lightGrey: #ccc;
 
 .animal-image-name-container {
   display: flex;
@@ -57,12 +66,19 @@ $darkBlue: #2f3e4e;
   width: 100%;
   padding: 32px 24px;
 
-  &__image {
+  &__image, &__no-image {
     width: 200px;
     height: 200px;
     border-radius: 100px;
     object-fit: cover;
     margin: 24px 0;
+    background-color: $lightGrey;
+  }
+
+  &__no-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &__name {

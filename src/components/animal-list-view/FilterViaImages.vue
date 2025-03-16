@@ -28,7 +28,7 @@ export default {
   computed: mapState({
     permissions: (state) => state.permissions.my,
     hasViewAnimalPermission() {
-      return this.permissions.includes('VIEW_ANIMAL');
+      return this.permissions.includes('VIEW_ANIMALS');
     },
   }),
   methods: {

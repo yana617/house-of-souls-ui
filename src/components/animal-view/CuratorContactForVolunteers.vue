@@ -55,6 +55,9 @@ export default {
       });
     }
   },
+  unmounted() {
+    this.$store.dispatch('users/clearCurator');
+  },
 };
 </script>
 

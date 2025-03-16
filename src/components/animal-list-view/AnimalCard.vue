@@ -1,7 +1,15 @@
 <template>
   <router-link class="animal-card" :to="`/animals/${id}`">
     <div class="animal-card__image-container">
-      <img class="animal-card__image" alt="avatar" :src="photos[0]">
+      <img
+        v-if="photo"
+        class="animal-card__image"
+        alt="avatar"
+        :src="photo"
+      >
+      <div v-else class="animal-card__no-photo">
+        <span>Нет фото</span>
+      </div>
       <div />
     </div>
     <p class="animal-card__name">
@@ -31,7 +39,7 @@ export default {
   props: {
     id: String,
     name: String,
-    photos: Array,
+    photo: String,
     height: Number,
     sex: String,
     sterilized: Boolean,
@@ -42,7 +50,7 @@ export default {
   computed: mapState({
     permissions: (state) => state.permissions.my,
     hasViewAnimalPermission() {
-      return this.permissions.includes('VIEW_ANIMAL');
+      return this.permissions.includes('VIEW_ANIMALS');
     },
     description() {
       const sterilizedText = translates[Filters.STERILIZED].one[this.sex]?.toLowerCase();
@@ -73,6 +81,7 @@ export default {
 $darkBlue: #2f3e4e;
 $grey1: #8a92a6;
 $blue: #3f91f7;
+$lightGrey: #ccc;
 
 .animal-card {
   display: flex;
@@ -96,6 +105,15 @@ $blue: #3f91f7;
     max-height: 100%;
     min-height: 100%;
     object-fit: cover;
+  }
+
+  &__no-photo {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $lightGrey;
   }
 
   &__name {

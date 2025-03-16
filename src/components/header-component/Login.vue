@@ -39,7 +39,7 @@ export default {
     };
   },
   mounted() {
-    this.$router.push('/');
+    this.$router.push('/schedule');
   },
   methods: {
     async submitLogin() {

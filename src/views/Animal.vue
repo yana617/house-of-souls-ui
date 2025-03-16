@@ -1,6 +1,6 @@
 <template>
   <div class="animal__container">
-    <div v-if="animal" class="animal">
+    <div v-if="animal?.name" class="animal">
       <AnimalNavigation :type="animal.type" :animal-name="animal.name" />
       <div class="animal__base">
         <div v-if="hasViewAnimalPermission" class="animal__base__left">
@@ -40,7 +40,7 @@ export default {
     },
     animal: (state) => state.animals.current,
     hasViewAnimalPermission() {
-      return this.permissions.includes('VIEW_ANIMAL');
+      return this.permissions.includes('VIEW_ANIMALS');
     },
   }),
   created() {
@@ -56,6 +56,9 @@ export default {
       });
     }
   },
+  unmounted() {
+    this.$store.dispatch('animals/clearAnimal');
+  }
 };
 </script>
 
