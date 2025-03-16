@@ -9,14 +9,15 @@ import userMocks from './mocks';
 import userAdditionalFieldMocks from '../userAdditionalFields/mocks';
 
 export default [
-  rest.post(`${API_HOST}/login`, (req, res, ctx) => {
-    const { email } = req.body.user;
+  rest.post(`${API_HOST}/auth/login`, (req, res, ctx) => {
+    const { email } = req.body;
 
     if (!email) {
       return res(
         ctx.status(401),
         ctx.json({
-          errorMessage: 'Please provide a email to log in',
+          success: false,
+          error: 'Please provide a email to log in',
         }),
       );
     }
@@ -27,7 +28,8 @@ export default [
       return res(
         ctx.status(401),
         ctx.json({
-          errorMessage: `There is no registered users with email ${email}. Please, register`,
+          success: false,
+          error: `There is no registered users with email ${email}. Please, register`,
         }),
       );
     }
@@ -36,7 +38,8 @@ export default [
     return res(
       ctx.status(200),
       ctx.json({
-        user: userFromDB,
+        success: true,
+        data: { ...userFromDB, token: 'token' },
       }),
     );
   }),
@@ -85,7 +88,7 @@ export default [
     if (!isAuth) {
       return res(
         ctx.status(401),
-        ctx.json({ errorMessage: 'Please, authorize to change a user' }),
+        ctx.json({ success: false, error: 'Please, authorize to change a user' }),
       );
     }
 
@@ -126,19 +129,19 @@ export default [
   )),
 
   rest.get(`${API_HOST}/users`, (req, res, ctx) => {
-    const isVerifiedQuery = req.url.searchParams.get('isVerified');
-    if (!isVerifiedQuery) {
+    const roles = req.url.searchParams.get('roles');
+    if (!roles) {
       return res(
         ctx.status(401),
         ctx.json({
-          errorMessage: 'Please provide a isVerified query',
+          success: false,
+          error: 'Please provide a roles query',
         }),
       );
     }
 
-    const isVerified = isVerifiedQuery === 'true';
-    let users = userMocks.filter((user) => user.isVerified === isVerified);
-    users = users.map((user) => {
+    // let users = userMocks.filter((user) => user.role === roles);
+    const users = userMocks.map((user) => {
       const user_additional_fields = userAdditionalFieldMocks
         .filter((uaf) => uaf.user_id === user._id);
       return { ...user, user_additional_fields };
@@ -182,7 +185,7 @@ export default [
     if (!isAuth) {
       return res(
         ctx.status(401),
-        ctx.json({ errorMessage: 'Please, authorize to change a user' }),
+        ctx.json({ success: false, error: 'Please, authorize to change a user' }),
       );
     }
 
@@ -194,7 +197,7 @@ export default [
       ctx.status(200),
       ctx.json({
         success: true,
-        user: userFromDb,
+        data: userFromDb,
       }),
     );
   }),

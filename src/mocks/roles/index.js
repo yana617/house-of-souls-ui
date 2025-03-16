@@ -19,7 +19,8 @@ export default [
     return res(
       ctx.status(200),
       ctx.json({
-        roles: roleMocks,
+        success: true,
+        data: roleMocks,
       }),
     );
   }),

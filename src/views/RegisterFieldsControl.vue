@@ -48,7 +48,7 @@ export default {
   name: 'RegisterFieldsControl',
   components: { CommonButton, AdditionalField, NewAdditionalFieldModal },
   computed: mapState({
-    additionalFields: (state) => state.additionalFields.current,
+    additionalFields: (state) => state.additionalFields.all,
     permissions: (state) => state.permissions.my,
     modal: (state) => state.app.modal,
     fields() {

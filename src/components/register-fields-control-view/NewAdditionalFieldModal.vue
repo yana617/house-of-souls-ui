@@ -8,33 +8,18 @@
         @click="closeModal()"
       >
       <h2>Новое дополнительное поле</h2>
-      <div v-if="false" class="new-additional-field-modal__icon-container">
-        <input
-          id="new-additional-field-icon-input"
-          type="file"
-          accept="image/*"
-          class="new-additional-field-modal__unvisible-input"
-          @change="onIconChange"
-        >
-        <div
-          class="new-additional-field-modal__icon-sub-container"
-          :class="{ 'new-additional-field-modal__no-icon': !icon }"
-        >
-          <img class="new-additional-field-modal__icon" alt="additional-field-icon" :src="icon">
-        </div>
-        <CommonButton
-          class="new-additional-field-modal__btn__upload-icon"
-          title="Загрузить иконку"
-          @click="uploadIcon()"
-        />
-      </div>
-      <span class="new-additional-field-modal__error">{{ getError('icon') }}</span>
       <input
         v-model="label"
         class="new-additional-field-modal__label"
         placeholder="Короткое название (желательно одно слово)"
       >
       <span class="new-additional-field-modal__error">{{ getError('label') }}</span>
+      <input
+        v-model="icon"
+        class="new-additional-field-modal__label"
+        placeholder="Иконка (для отображения в графике)"
+      >
+      <span class="new-additional-field-modal__error">{{ getError('icon') }}</span>
       <textarea
         v-model="description"
         class="new-additional-field-modal__description"
@@ -63,13 +48,13 @@ export default {
   data() {
     return {
       label: null,
+      icon: null,
       description: null,
       findError,
       loading: false,
     };
   },
   computed: mapState({
-    icon: (state) => state.additionalFields.new?.icon,
     errors: (state) => state.additionalFields.createErrors,
   }),
   unmounted() {
@@ -79,21 +64,10 @@ export default {
     closeModal() {
       this.$store.dispatch('app/setModal', null);
     },
-    uploadIcon() {
-      document.getElementById('new-additional-field-icon-input').click();
-    },
-    onIconChange(e) {
-      const files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return;
-      const [icon] = files;
-      const formData = new FormData();
-      formData.append('icon', icon);
-      this.$store.dispatch('additionalFields/uploadIcon', formData);
-    },
     create() {
       const body = {
-        icon: this.icon,
         label: this.label,
+        icon: this.icon,
         description: this.description,
       };
       this.loading = true;

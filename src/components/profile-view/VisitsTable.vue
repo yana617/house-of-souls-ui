@@ -9,7 +9,10 @@
       class="visit__table"
     >
       <template #date="{ text: date }">
-        <span class="visit__date"><b>{{ parseDate(date) }}</b>&nbsp;({{ weekDayOfDate(date) }})</span>
+        <span class="visit__date">
+          <b>{{ parseDate(date, true) }}</b>
+          &nbsp;({{ weekDayOfDate(date) }})
+        </span>
       </template>
       <template #additionalPeople="{ record }">
         <span>{{ record.additional_people ? `+${record.additional_people}` : '-' }}</span>

@@ -117,7 +117,7 @@ export default {
   },
   computed: mapState({
     user: (state) => state.auth.user,
-    additionalFieldsTemplates: (state) => state.additionalFields.current,
+    additionalFieldsTemplates: (state) => state.additionalFields.all,
     userAdditionalFields: (state) => state.userAdditionalFields.current,
     getUserAdditionalFields() {
       if (!this.additionalFieldsTemplates || !this.userAdditionalFields) return null;

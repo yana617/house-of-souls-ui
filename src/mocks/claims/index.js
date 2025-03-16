@@ -32,11 +32,12 @@ export default [
     claims = claims.map((claim) => {
       const { user_id } = claim;
       const user = userMocks.find((u) => u._id === user_id);
-      const user_additional_fields = userAdditionalFieldMocks
-        .filter((uaf) => uaf.user_id === user_id);
+      const user_additional_fields = userAdditionalFieldMocks.filter(
+        (uaf) => uaf.user_id === user_id,
+      );
       return {
         ...claim,
-        user: {
+        data: {
           ...user,
           user_additional_fields,
         },
@@ -47,12 +48,12 @@ export default [
       ctx.status(200),
       ctx.json({
         success: true,
-        claims,
+        data: claims,
       }),
     );
   }),
 
-  rest.get(`${API_HOST}/claims/:userId`, (req, res, ctx) => {
+  rest.get(`${API_HOST}/users/:userId/claims`, (req, res, ctx) => {
     const { userId } = req.params;
 
     const claims = claimMocks.filter((claim) => claim.user_id === userId);
@@ -61,8 +62,7 @@ export default [
       ctx.status(200),
       ctx.json({
         success: true,
-        claims,
-        total: claims.length,
+        data: claims,
       }),
     );
   }),
@@ -81,17 +81,12 @@ export default [
 
     const claimFromDB = claimMocks.find((claim) => claim._id === id);
     if (!claimFromDB) {
-      return res(
-        ctx.status(404),
-        ctx.json({ success: false }),
-      );
+      return res(ctx.status(404), ctx.json({ success: false }));
     }
 
     claimMocks.splice(claimMocks.indexOf(claimFromDB), 1);
 
-    return res(
-      ctx.status(204),
-    );
+    return res(ctx.status(204));
   }),
   rest.post(`${API_HOST}/claims`, (req, res, ctx) => {
     const isAuth = sessionStorage.getItem(IS_AUTH);
@@ -107,10 +102,7 @@ export default [
     const checkClaimResult = mockUtils.checkRequiredClaimFields(claimFromRequest);
 
     if (checkClaimResult.error) {
-      return res(
-        ctx.status(400),
-        ctx.json(checkClaimResult),
-      );
+      return res(ctx.status(400), ctx.json(checkClaimResult));
     }
 
     const newClaim = {
@@ -122,7 +114,7 @@ export default [
 
     return res(
       ctx.json({
-        claim: newClaim,
+        data: newClaim,
         success: true,
       }),
       ctx.status(201),

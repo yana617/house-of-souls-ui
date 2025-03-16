@@ -12,7 +12,7 @@ export default [
     if (!isAuth) {
       return res(
         ctx.status(401),
-        ctx.json({ errorMessage: 'Please, authorize to change a notice' }),
+        ctx.json({ success: false, error: 'Please, authorize to change a notice' }),
       );
     }
 
@@ -33,7 +33,7 @@ export default [
     if (!isAuth) {
       return res(
         ctx.status(401),
-        ctx.json({ errorMessage: 'Please, authorize to change a notice' }),
+        ctx.json({ success: false, error: 'Please, authorize to change a notice' }),
       );
     }
 

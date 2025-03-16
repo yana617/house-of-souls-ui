@@ -95,7 +95,7 @@ export default {
     };
   },
   computed: mapState({
-    additionalFields: (state) => state.additionalFields.current,
+    additionalFields: (state) => state.additionalFields.all,
     errors: (state) => state.auth.registerErrors,
   }),
   created() {
