@@ -5,7 +5,7 @@
       <router-link v-if="hasPermissions('VIEW_USERS')" to="/volunteers">
         Волонтеры
       </router-link>
-      <router-link class="header__nav-menu__right-btn" to="/animals">
+      <router-link class="header__nav-menu__right-btn" to="/">
         Животные
       </router-link>
       <router-link v-if="hasPermissions('VIEW_PROFILE')" class="header__nav-menu__right-btn" to="/schedule">
@@ -178,7 +178,7 @@ $header-color: #1d1d1f;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     justify-content: space-between;
     padding: 0 12px;
 

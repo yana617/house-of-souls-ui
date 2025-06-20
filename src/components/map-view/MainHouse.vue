@@ -1,65 +1,40 @@
 <template>
   <div class="main-house">
+    <span class="main-house__title">Главный дом</span>
     <div class="main-house__room1" :class="{ blink: isBlink(1) }">
       <RoomNumber room-number="1" />
-      <MapAnimal
-        v-for="animal of firstRoomAnimals"
-        :key="animal.id"
-        v-bind="animal"
-        :size="getAnimalCardSize(200, 100, firstRoomAnimals.length)"
-      />
+      <AnimalCount :count="firstRoomAnimals.length" />
+      <Door class="main-house__room1__door" />
     </div>
     <div class="main-house__room2" :class="{ blink: isBlink(2) }">
       <RoomNumber room-number="2" />
-      <MapAnimal
-        v-for="animal of secondRoomAnimals"
-        :key="animal.id"
-        v-bind="animal"
-        :size="getAnimalCardSize(200, 100, secondRoomAnimals.length)"
-      />
+      <AnimalCount :count="secondRoomAnimals.length" />
+      <Door class="main-house__room2__door" />
     </div>
     <div class="main-house__room3">
       <div class="main-house__room3__a" :class="{ blink: isBlink(3) }">
         <RoomNumber room-number="3" />
-        <MapAnimal
-          v-for="animal of thirdRoomAnimals"
-          :key="animal.id"
-          v-bind="animal"
-          :size="getAnimalCardSize(100, 200, thirdRoomAnimals.length)"
-        />
+        <AnimalCount :count="thirdRoomAnimals.length" />
+        <Door is-vertical class="main-house__room3__a__door" />
       </div>
       <div class="main-house__room3__b" :class="{ blink: isBlink(4) }">
         <RoomNumber room-number="4" />
-        <MapAnimal
-          v-for="animal of fourthRoomAnimals"
-          :key="animal.id"
-          v-bind="animal"
-          :size="getAnimalCardSize(100, 200, fourthRoomAnimals.length)"
-        />
+        <AnimalCount :count="fourthRoomAnimals.length" />
       </div>
     </div>
     <div class="main-house__room4">
       <div class="main-house__room4__a" :class="{ blink: isBlink(5) }">
         <RoomNumber room-number="5" />
-        <MapAnimal
-          v-for="animal of fifthRoomAnimals"
-          :key="animal.id"
-          v-bind="animal"
-          :size="getAnimalCardSize(200, 100, fifthRoomAnimals.length)"
-        />
+        <AnimalCount :count="fifthRoomAnimals.length" />
+        <Door class="main-house__room4__a__door" />
       </div>
       <div class="main-house__room4__b">
         <div class="main-house__room4__b__a">
-          <div class="main-house__room4__b__a__door" />
+          <Door class="main-house__room4__b__a__door main-house__main-door" />
         </div>
         <div class="main-house__room4__b__b" :class="{ blink: isBlink(6) }">
           <RoomNumber room-number="6" />
-          <MapAnimal
-            v-for="animal of sixthRoomAnimals"
-            :key="animal.id"
-            v-bind="animal"
-            :size="getAnimalCardSize(100, 100, sixthRoomAnimals.length)"
-          />
+          <AnimalCount :count="sixthRoomAnimals.length" />
         </div>
       </div>
     </div>
@@ -68,7 +43,7 @@
 
 <script>
 import RoomNumber from './RoomNumber.vue';
-import MapAnimal from './MapAnimal.vue';
+import Door from './Door.vue';
 import { getAnimalCardSize } from '@/utils/get-animal-card-size';
 import AnimalPlace from '@/utils/enums/AnimalPlace';
 
@@ -76,7 +51,7 @@ export default {
   name: 'MainHouse',
   components: {
     RoomNumber,
-    MapAnimal,
+    Door,
   },
   props: {
     animals: Array,
@@ -133,6 +108,17 @@ $lightestGrey: #eff1f3;
   position: relative;
   text-align: left;
 
+  &__main-door {
+    background-color: yellow;
+    border: 1px solid black;
+  }
+
+  &__title {
+    position: absolute;
+    top: -20px;
+    right: 0;
+  }
+
   &__room1 {
     width: 200px;
     height: 100px;
@@ -140,6 +126,10 @@ $lightestGrey: #eff1f3;
     border: 1px solid black;
     display: flex;
     flex-wrap: wrap;
+
+    &__door {
+      right: 30px;
+    }
   }
 
   &__room2 {
@@ -151,6 +141,10 @@ $lightestGrey: #eff1f3;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
     display: flex;
+  
+    &__door {
+      right: 40px;
+    }
   }
 
   &__room3 {
@@ -167,10 +161,15 @@ $lightestGrey: #eff1f3;
     &__b {
       width: 100px;
       height: 199px;
+      position: relative;
     }
 
     &__a {
       border-right: 1px solid black;
+      
+      &__door {
+        top: 70px;
+      }
     }
   }
 
@@ -183,20 +182,30 @@ $lightestGrey: #eff1f3;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
 
+    &__a {
+      &__door {
+        left: 40px;
+        z-index: 10;
+      }
+    }
+
     &__a,
     &__b {
       width: 200px;
       height: 100px;
+      position: relative;
     }
 
     &__b {
       border-top: 1px solid black;
       display: flex;
+      position: relative;
 
       &__a,
       &__b {
         width: 100px;
         min-height: 100%;
+        position: relative;
       }
 
       &__a {
@@ -204,12 +213,7 @@ $lightestGrey: #eff1f3;
         position: relative;
 
         &__door {
-          position: absolute;
-          width: 40px;
-          height: 5px;
-          background-color: grey;
-          bottom: -2px;
-          left: 30px;
+          left: 40px;
         }
       }
     }

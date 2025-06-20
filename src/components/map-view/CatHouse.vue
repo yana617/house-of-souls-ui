@@ -1,47 +1,29 @@
 <template>
   <div class="cat-house">
+    <span class="cat-house__title">Кошачий дом</span>
     <div class="cat-house__room cat-house__room1" :class="{ blink: isBlink(1) }">
       <RoomNumber room-number="1" />
-      <MapAnimal
-        v-for="animal of firstRoomAnimals"
-        :key="animal.id"
-        v-bind="animal"
-        :size="getAnimalCardSize(200, 150, firstRoomAnimals.length)"
-      />
+      <AnimalCount :count="firstRoomAnimals.length" />
     </div>
     <div class="cat-house__room cat-house__room2" :class="{ blink: isBlink(2) }">
       <RoomNumber room-number="2" />
-      <MapAnimal
-        v-for="animal of secondRoomAnimals"
-        :key="animal.id"
-        v-bind="animal"
-        :size="getAnimalCardSize(200, 150, secondRoomAnimals.length)"
-      />
+      <AnimalCount :count="secondRoomAnimals.length" />
     </div>
     <div class="cat-house__room cat-house__room3" :class="{ blink: isBlink(3) }">
       <RoomNumber room-number="3" />
-      <MapAnimal
-        v-for="animal of thirdRoomAnimals"
-        :key="animal.id"
-        v-bind="animal"
-        :size="getAnimalCardSize(150, 100, thirdRoomAnimals.length)"
-      />
+      <AnimalCount :count="thirdRoomAnimals.length" />
     </div>
     <div class="cat-house__room cat-house__room4" :class="{ blink: isBlink(4) }">
       <RoomNumber room-number="4" />
-      <MapAnimal
-        v-for="animal of fourthRoomAnimals"
-        :key="animal.id"
-        v-bind="animal"
-        :size="getAnimalCardSize(250, 100, fourthRoomAnimals.length)"
-      />
+      <AnimalCount :count="fourthRoomAnimals.length" />
     </div>
+    <Door is-vertical class="cat-house__main-door" />
   </div>
 </template>
 
 <script>
 import RoomNumber from './RoomNumber.vue';
-import MapAnimal from './MapAnimal.vue';
+import Door from './Door.vue';
 import AnimalPlace from '@/utils/enums/AnimalPlace';
 import { getAnimalCardSize } from '@/utils/get-animal-card-size';
 
@@ -49,7 +31,7 @@ export default {
   name: 'CatHouse',
   components: {
     RoomNumber,
-    MapAnimal,
+    Door,
   },
   props: {
     animals: Array,
@@ -95,6 +77,19 @@ $lightestGrey: #eff1f3;
   height: 250px;
   position: relative;
   text-align: left;
+
+  &__main-door {
+    background-color: yellow;
+    border: 1px solid black;
+    left: -2px;
+    right: unset;
+    bottom: 20px !important;
+  }
+
+  &__title {
+    position: absolute;
+    bottom: -20px;
+  }
 
   &__room {
     position: absolute;

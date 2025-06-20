@@ -1,18 +1,21 @@
 <template>
   <div class="curator-contact" :class="{ loading }">
+    <p class="curator-contact__h1">
+      Контакты
+    </p>
     <div class="curator-contact__sub-container">
       <span class="curator-contact__title">Куратор</span>
       <span class="curator-contact__value">{{ curator.name || defaultCurator.name }}</span>
     </div>
     <div class="curator-contact__sub-container">
       <span class="curator-contact__title">Для связи</span>
-      <span class="curator-contact__value">
-        {{ curator.phone ? prettifyPhone(curator.phone) : defaultCurator.phones[0] }}
-      </span>
+      <a class="curator-contact__value" :href="`tel:${curatorPhone}`">
+        {{ curatorPhone }}
+      </a>
     </div>
     <div v-if="!curator.phone" class="curator-contact__sub-container">
       <span class="curator-contact__title">Для связи</span>
-      <span class="curator-contact__value">{{ defaultCurator.phones[1] }}</span>
+      <a class="curator-contact__value" :href="`tel:${defaultCurator.phones[1]}`">{{ defaultCurator.phones[1] }}</a>
     </div>
   </div>
 </template>
@@ -43,6 +46,9 @@ export default {
     defaultCurator() {
       return defaultCuratorPhones[this.animal.type] || defaultCuratorPhones.dog;
     },
+    curatorPhone() {
+      return this.curator.phone ? prettifyPhone(this.curator.phone) : this.defaultCurator.phones[0];
+    }
   }),
   created() {
     if (this.animal.curator_id) {
@@ -81,6 +87,7 @@ $darkBlue: #2f3e4e;
     0% {
       background-color: inherit;
     }
+
     100% {
       background-color: rgb(230, 230, 230);
     }
@@ -124,9 +131,28 @@ $darkBlue: #2f3e4e;
     width: 16px;
   }
 
-  @media (max-width: 425px) {
-    box-shadow: 0px 0px 28px rgba(208, 210, 218, 0.4);
-    border-radius: 0;
+  &__h1 {
+    display: none;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 100%;
+    padding-top: 16px;
+    margin-bottom: 4px;
+  }
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+    height: fit-content;
+    align-items: flex-start;
+    gap: 16px;
+
+    &__h1 {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 479px) {
+    box-shadow: none;
     margin: 32px 0;
   }
 }

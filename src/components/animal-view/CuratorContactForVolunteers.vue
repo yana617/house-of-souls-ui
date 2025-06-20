@@ -131,7 +131,7 @@ $darkBlue: #2f3e4e;
     width: 16px;
   }
 
-  @media (max-width: 425px) {
+  @media (max-width: 479px) {
     box-shadow: 0px 0px 28px rgba(208, 210, 218, 0.4);
     border-radius: 0;
     margin: 32px 0;

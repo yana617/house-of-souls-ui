@@ -1,7 +1,7 @@
 <template>
   <div class="photo-input">
     <label for="upload" class="photo-input__label">
-      Выбрать фото
+      Добавить фото
     </label>
     <input
       id="upload"
@@ -32,12 +32,14 @@ const onFilesChange = () => {
 
 <style scoped lang="scss">
 $grey1: #8a92a6;
+$green: #42b983;
 
 .photo-input {
   width: 200px;
-  height: 200px;
+  height: 60px;
   border-radius: 8px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border: 1px solid $green;
 
   input {
     display: none;
@@ -50,6 +52,10 @@ $grey1: #8a92a6;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+  }
+
+  &:hover {
+    box-shadow: rgba(100, 100, 111, 0.4) 0px 7px 29px 0px;
   }
 }
 </style>

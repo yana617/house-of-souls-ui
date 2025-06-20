@@ -2,7 +2,6 @@
   <div class="animal-description" :class="{ 'full-width': !hasViewAnimalPermission }">
     <div class="animal-description__title-container">
       <span class="animal-description__title">Описание</span>
-      <AnimalActionsDropdown v-if="hasViewAnimalPermission && animal.id" :id="animal.id" />
     </div>
     <DescriptionIconItems :has-view-animal-permission="hasViewAnimalPermission" />
     <div v-if="hasViewAnimalPermission" class="animal-description__row border-bottom">
@@ -74,13 +73,12 @@ import { parseDateWithNumbers, calculatePassedTime } from '@/utils/date';
 import translates from '@/utils/translates/index';
 import AnimalType from '@/utils/enums/AnimalType';
 import AnimalPlace from '@/utils/enums/AnimalPlace';
-import AnimalActionsDropdown from './AnimalActionsDropdown.vue';
 
 import DescriptionIconItems from './DescriptionIconItems.vue';
 
 export default {
   name: 'AnimalDescription',
-  components: { DescriptionIconItems, AnimalActionsDropdown },
+  components: { DescriptionIconItems },
   computed: mapState({
     permissions: (state) => state.permissions.my,
     lastVaccine: (state) => state.animalMedicalHistory.last,
@@ -110,8 +108,9 @@ export default {
       if (!this.lastVaccine) {
         return '-';
       }
-      const { date, drugName } = this.lastVaccine;
-      return `${parseDateWithNumbers(date)} (${drugName})`;
+      return "-";
+      // const { date, drugName } = this.lastVaccine;
+      // return `${parseDateWithNumbers(date)} (${drugName})`;
     },
     formattedSecondBirthday() {
       return parseDateWithNumbers(this.animal.second_birthday);
@@ -231,7 +230,7 @@ $grey2: #f4f6f9;
     }
   }
 
-  @media (max-width: 425px) {
+  @media (max-width: 479px) {
     box-shadow: none;
   }
 }

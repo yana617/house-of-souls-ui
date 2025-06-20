@@ -70,11 +70,11 @@ export default {
     handleSortBy(sortByValue) {
       const { query } = this.$route;
       const requestQuery = { ...query, sortBy: sortByValue, order: 'ASC' };
-      this.$router.push({ path: '/animals', query: requestQuery });
+      this.$router.push({ path: '/', query: requestQuery });
     },
     handleOrder(orderValue) {
       const { query } = this.$route;
-      this.$router.push({ path: '/animals', query: { ...query, order: orderValue } });
+      this.$router.push({ path: '/', query: { ...query, order: orderValue } });
     },
   },
 };

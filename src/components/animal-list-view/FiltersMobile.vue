@@ -83,7 +83,7 @@ export default {
       this.selectOptionsFor = null;
     },
     handleClearFilters() {
-      this.$router.push({ path: '/animals', query: '' });
+      this.$router.push({ path: '/', query: '' });
     },
     handleClose() {
       this.$emit('on-close');

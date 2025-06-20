@@ -1,15 +1,16 @@
 <template>
   <div class="animal-list__title-container">
     <span class="animal-list__title">Наши животные</span>
-    <a-button
-      v-if="hasCreateAnimalPermission"
-      type="primary"
-      shape="round"
-      class="animal-list__add-button"
-      @click="onAddClick"
-    >
-      Добавить
-    </a-button>
+    <router-link class="animal-card" :to="`/animals/create`">
+      <a-button
+        v-if="hasCreateAnimalPermission"
+        type="primary"
+        shape="round"
+        class="animal-list__add-button"
+      >
+        Добавить
+      </a-button>
+    </router-link>
   </div>
   
   <span v-if="!hasViewAnimalPermission" class="animal-list__description">
@@ -64,11 +65,6 @@ export default {
       return this.permissions.includes('CREATE_ANIMAL');
     },
   }),
-  methods: {
-    onAddClick() {
-      this.$router.push({ path: '/animals/create' });
-    }
-  }
 };
 </script>
 

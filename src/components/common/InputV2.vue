@@ -1,9 +1,11 @@
 <template>
-  <label v-show="label">{{ label }}</label>
-  <input v-if="!isTextarea" v-model="inputValue">
-  <textarea v-else v-model="inputValue" />
-  <span v-show="description" class="input-v2__description">{{ description }}</span>
-  <span class="input-v2__error">{{ error }}</span>
+  <div class="input-v2">
+    <label v-show="label">{{ label }}</label>
+    <input v-if="!isTextarea" v-model="inputValue">
+    <textarea v-else v-model="inputValue" />
+    <span v-show="description" class="input-v2__description">{{ description }}</span>
+    <span class="input-v2__error">{{ error }}</span>
+  </div>
 </template>
 
 <script setup>
@@ -35,6 +37,32 @@ $lightGrey: #ccc;
 $grey1: #8a92a6;
 
 .input-v2 {
+  width: 100%;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  label {
+    font-weight: bold;
+  }
+
+  input,
+  textarea {
+    outline: none;
+    border: 1px solid $lightGrey;
+    padding: 4px 8px;
+    border-radius: 4px;
+    resize: none;
+    margin-bottom: 4px;
+    min-width: 300px;
+    width: 100%;
+  }
+
+  textarea {
+    min-height: 300px;
+  }
+
   &__description {
     color: $grey1;
     line-height: 1em;
@@ -45,26 +73,5 @@ $grey1: #8a92a6;
     color: red;
     margin-top: 4px;
   }
-}
-
-label {
-  margin: 12px 0 4px;
-  font-weight: bold;
-}
-
-input,
-textarea {
-  outline: none;
-  border: 1px solid $lightGrey;
-  padding: 4px 8px;
-  border-radius: 4px;
-  resize: none;
-  margin-bottom: 4px;
-  min-width: 300px;
-  width: 100%;
-}
-
-textarea {
-  min-height: 300px;
 }
 </style>

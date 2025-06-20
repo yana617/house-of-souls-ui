@@ -1,14 +1,16 @@
 <template>
   <AnimalNavigation v-if="!showImageFilters" class="animal-list-mobile__nav" />
   <span class="animal-list-mobile__title">Наши животные</span>
-  <a-button
-    v-if="hasCreateAnimalPermission"
-    type="primary"
-    shape="round"
-    class="animal-list-mobile__add-button"
-  >
-    Добавить
-  </a-button>
+  <router-link class="animal-card" :to="`/animals/create`">
+    <a-button
+      v-if="hasCreateAnimalPermission"
+      type="primary"
+      shape="round"
+      class="animal-list-mobile__add-button"
+    >
+      Добавить
+    </a-button>
+  </router-link>
   <Search v-if="hasViewAnimalPermission" />
   <span v-if="!hasViewAnimalPermission && showImageFilters" class="animal-list-mobile__description">
     {{ animalListDescription }}

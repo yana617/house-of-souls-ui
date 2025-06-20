@@ -10,15 +10,15 @@
 <script setup>
 import { CloseOutlined } from "@ant-design/icons-vue";
 
-const { displayOrder } = defineProps({
+const { id } = defineProps({
   url: String,
-  displayOrder: Number,
+  id: String,
 });
 
 const emit = defineEmits(['onDelete']);
 
 const onDeleteImage = () => {
-  emit("onDelete", displayOrder)
+  emit("onDelete", id)
 }
 
 </script>

@@ -106,7 +106,7 @@ $lightGrey: #ccc;
     height: 32px;
   }
 
-  @media (max-width: 425px) {
+  @media (max-width: 479px) {
     box-shadow: none;
     padding: 0;
   }

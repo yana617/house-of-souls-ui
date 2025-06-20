@@ -1,10 +1,10 @@
 <template>
   <div class="animal-navigation">
-    <router-link class="animal-navigation__link" :to="`/animals`">
+    <router-link class="animal-navigation__link" :to="`/`">
       Животные
     </router-link>
     <div v-if="animalType" class="animal-navigation__right-arrow" />
-    <router-link v-if="animalType" class="animal-navigation__link" :to="`/animals?type=${animalType}`">
+    <router-link v-if="animalType" class="animal-navigation__link" :to="`/?type=${animalType}`">
       {{ typeTranslate }}
     </router-link>
     <div v-if="animalName || age" class="animal-navigation__right-arrow" />
@@ -72,7 +72,7 @@ $grey1: #8a92a6;
     }
   }
 
-  @media (max-width: 425px) {
+  @media (max-width: 479px) {
     margin-left: 24px;
   }
 }

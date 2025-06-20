@@ -1,23 +1,25 @@
 <template>
   <div class="update-animal-photos">
     <div class="update-animal-photos__sub-container">
+      <AnimalNavigation :type="animal.type" :animal-name="animal.name" />
       <div class="update-animal-photos__header">
         <div class="update-animal-photos__header__left">
           <h2>Фотографии - {{ animal.name }}</h2>
-          <h4>Максимум - 15 фото, максимальный размер фотографии 10MB</h4>
+          <h4 style="text-align:left">
+            Максимум - 15 фото, максимальный размер фотографии 10MB
+          </h4>
         </div>
-        <CommonButton class="update-animal-photos__save-btn" title="Сохранить" @click="onSubmit" />
+
+        <PhotoInput @on-photos-selected="onPhotosSelected" />
       </div>
 
       <div class="update-animal-photos__photos-container">
-        <PhotoInput @on-photos-selected="onPhotosSelected" />
-
         <div ref="el" class="update-animal-photos__photos">
           <Photo
-            v-for="(image, index) of images"
+            v-for="image of images"
+            :id="image.id"
             :key="image.url"
             :url="image.url"
-            :display-order="index"
             @on-delete="onDeleteImage"
           />
         </div>
@@ -27,7 +29,7 @@
 </template>
 
 <script setup>
-import { computed, ref, toRaw } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { useSortable } from '@vueuse/integrations/useSortable';
@@ -45,14 +47,30 @@ const animalId = route.params.id;
 const animal = computed(() => store.state.animals.current);
 
 const MAX_IMAGES = 15;
-const images = ref([]); // { id?: string, url: string, file?: File }[]
+const images = ref([]); // { id?: string, url: string }[]
 
-useSortable(el, images);
+const loadImages = () => {
+  store.dispatch('app/setLoading', true);
+  store.dispatch('animals/getAnimalById', { id: animalId }).finally(() => {
+    store.dispatch('app/setLoading', false);
+    images.value = [...animal.value?.photos] || [];
+  });
+}
+loadImages();
 
-store.dispatch('app/setLoading', true);
-store.dispatch('animals/getAnimalById', { id: animalId }).finally(() => {
-  store.dispatch('app/setLoading', false);
-  images.value = animal.value?.photos || [];
+useSortable(el, images, {
+  onUpdate: (e) => {
+    const imageId = images.value[e.oldIndex].id;
+
+    store.dispatch('app/setLoading', true);
+    store.dispatch(
+      'animals/updateImageOrder',
+      { id: animalId, imageId, body: { display_order: e.newIndex + 1 } },
+    )
+      .then(() => {
+        loadImages();
+      });
+  }
 });
 
 const onPhotosSelected = (files) => {
@@ -61,55 +79,34 @@ const onPhotosSelected = (files) => {
     return;
   }
 
+  const formData = new FormData();
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
-    const url = URL.createObjectURL(file);
-    images.value.push({ url, file });
+    formData.append(i, file);
   }
-}
-
-const onDeleteImage = (index) => {
-  mages.value.splice(index, 1);
-};
-
-function onSubmit() {
-  const existedPhotos = animal.value?.photos || [];
-
-  const photos = toRaw(images.value);
-  const formData = new FormData();
-  const filesOrder = [];
-
-  const existedPhotosNewOrder = {};
-
-  photos.forEach((img, index) => {
-    if (!!img.file) {
-      formData.append(index + 1, img.file);
-      filesOrder.push(index + 1);
-    } else {
-      existedPhotosNewOrder[img.id] = index + 1;
-    }
-  });
-
-  const existedPhotosWithUpdatedOrder = existedPhotos.reduce((acc, { id }, index) => {
-    const previousOrder = index + 1;
-    if (existedPhotosNewOrder[id] !== previousOrder) {
-      acc.push({ id, display_order: existedPhotosNewOrder[id] })
-    }
-    return acc;
-  }, []);
-
-
-  formData.append("filesOrder", filesOrder.join(","))
-  formData.append("existedPhotosWithUpdatedOrder", JSON.stringify(existedPhotosWithUpdatedOrder));
 
   store.dispatch('app/setLoading', true);
   store
-    .dispatch(`animals/updateImages`, { id: animalId, body: formData })
-    .then()
+    .dispatch(`animals/uploadImages`, { id: animalId, body: formData })
+    .then(() => {
+      loadImages();
+    })
     .finally(() => {
       store.dispatch('app/setLoading', false);
     });
 }
+
+const onDeleteImage = (imageId) => {
+  store.dispatch('app/setLoading', true);
+  store
+    .dispatch(`animals/deleteImage`, { id: animalId, imageId })
+    .then(() => {
+      loadImages();
+    })
+    .finally(() => {
+      store.dispatch('app/setLoading', false);
+    });
+};
 
 </script>
 
@@ -132,9 +129,10 @@ $green: #42b983;
 
   &__header {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     width: 100%;
+    margin-top: 16px;
 
     &__left {
       display: flex;
@@ -165,6 +163,11 @@ $green: #42b983;
 
     @media (min-width: 1200px) {
       min-width: 1064px;
+    }
+
+    @media (max-width: 800px) {
+      min-width: unset;
+      max-width: 100%;
     }
   }
 

@@ -275,7 +275,7 @@ $lightestGrey: #f0f0f0;
     margin-bottom: 4px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     &__title {
       min-width: unset;
     }

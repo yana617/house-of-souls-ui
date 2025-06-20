@@ -1,6 +1,7 @@
 <template>
   <div class="map-container">
     <div class="map">
+      <div class="map__door" />
       <div class="map__quarantine-house">
         <QuarantineHouse :animals="quarantineHouseAnimals" />
       </div>
@@ -12,41 +13,21 @@
       </div>
       <div class="map__aviary1" :class="{ blink: isAviaryBlink(1) }">
         <RoomNumber room-number="1" />
-        <MapAnimal
-          v-for="animal of aviary1Animals"
-          :key="animal.id"
-          v-bind="animal"
-          :size="getAnimalCardSize(100, 100, aviary1Animals.length)"
-        />
+        <AnimalCount :count="aviary1Animals.length" />
       </div>
       <div class="map__aviary23">
         <div class="map__aviary23__a" :class="{ blink: isAviaryBlink(2) }">
           <RoomNumber room-number="2" />
-          <MapAnimal
-            v-for="animal of aviary2Animals"
-            :key="animal.id"
-            v-bind="animal"
-            :size="getAnimalCardSize(100, 50, aviary2Animals.length)"
-          />
+          <AnimalCount :count="aviary2Animals.length" />
         </div>
         <div class="map__aviary23__b" :class="{ blink: isAviaryBlink(3) }">
           <RoomNumber room-number="3" />
-          <MapAnimal
-            v-for="animal of aviary3Animals"
-            :key="animal.id"
-            v-bind="animal"
-            :size="getAnimalCardSize(100, 50, aviary3Animals.length)"
-          />
+          <AnimalCount :count="aviary3Animals.length" />
         </div>
       </div>
       <div class="map__aviary4" :class="{ blink: isAviaryBlink(4) }">
         <RoomNumber room-number="4" />
-        <MapAnimal
-          v-for="animal of aviary4Animals"
-          :key="animal.id"
-          v-bind="animal"
-          :size="getAnimalCardSize(100, 100, aviary4Animals.length)"
-        />
+        <AnimalCount :count="aviary4Animals.length" />
       </div>
     </div>
   </div>
@@ -57,6 +38,7 @@ import { mapState } from 'vuex';
 
 import MainHouse from '@/components/map-view/MainHouse.vue';
 import CatHouse from '@/components/map-view/CatHouse.vue';
+import AnimalCount from '@/components/map-view/AnimalCount.vue';
 import QuarantineHouse from '@/components/map-view/QuarantineHouse.vue';
 import RoomNumber from '@/components/map-view/RoomNumber.vue';
 import AnimalPlace from '@/utils/enums/AnimalPlace';
@@ -64,7 +46,7 @@ import { getAnimalCardSize } from '@/utils/get-animal-card-size';
 
 export default {
   name: 'Map',
-  components: { MainHouse, CatHouse, QuarantineHouse, RoomNumber },
+  components: { MainHouse, CatHouse, QuarantineHouse, RoomNumber, AnimalCount },
   data() {
     return { getAnimalCardSize };
   },
@@ -143,6 +125,15 @@ $lightestGrey: #eff1f3;
   border-radius: 8px;
   position: relative;
 
+  &__door {
+    position: absolute;
+    width: 5px;
+    height: 50px;
+    background-color: grey;
+    left: -2px;
+    top: 250px;
+  }
+
   &__quarantine-house {
     width: 300px;
     height: 200px;
@@ -189,12 +180,14 @@ $lightestGrey: #eff1f3;
       height: 50px;
       border-bottom: 1px solid black;
       display: flex;
+      position: relative;
     }
 
     &__b {
       width: 100%;
       height: 50px;
       display: flex;
+      position: relative;
     }
   }
 

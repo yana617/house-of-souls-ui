@@ -2,6 +2,7 @@
   <div class="animal__container">
     <div v-if="animal?.name" class="animal">
       <AnimalNavigation :type="animal.type" :animal-name="animal.name" />
+      <AdsInfoForGuests v-if="!hasViewAnimalPermission" />
       <div class="animal__base">
         <div v-if="hasViewAnimalPermission" class="animal__base__left">
           <AnimalImageNameContainer />
@@ -9,7 +10,14 @@
         </div>
         <AnimalDescription />
       </div>
+      <AdsInfoForVolunteers v-if="hasViewAnimalPermission" />
       <CuratorContactForGuests v-if="!hasViewAnimalPermission" />
+      <CommonButton
+        v-permission="'DELETE_ANIMAL'"
+        class="animal__delete-btn"
+        title="Удалить"
+        @click="handleDelete()"
+      />
     </div>
   </div>
 </template>
@@ -22,6 +30,9 @@ import AnimalImageNameContainer from '@/components/animal-view/AnimalImageNameCo
 import AnimalDescription from '@/components/animal-view/AnimalDescription.vue';
 import CuratorContactForVolunteers from '@/components/animal-view/CuratorContactForVolunteers.vue';
 import CuratorContactForGuests from '@/components/animal-view/CuratorContactForGuests.vue';
+import AdsInfoForVolunteers from '@/components/animal-view/AdsInfoForVolunteers.vue';
+import AdsInfoForGuests from '@/components/animal-view/AdsInfoForGuests.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 export default {
   name: 'Animal',
@@ -31,6 +42,9 @@ export default {
     AnimalDescription,
     CuratorContactForVolunteers,
     CuratorContactForGuests,
+    AdsInfoForVolunteers,
+    AdsInfoForGuests,
+    CommonButton,
   },
   computed: mapState({
     notices: (state) => state.animals.notices,
@@ -58,6 +72,15 @@ export default {
   },
   unmounted() {
     this.$store.dispatch('animals/clearAnimal');
+  },
+  methods: {
+    handleDelete() {
+      this.$store.dispatch('animals/deleteAnimal', {
+        id: this.animalId,
+      }).then(() => {
+        this.$router.push('/');
+      });
+    }
   }
 };
 </script>
@@ -71,6 +94,8 @@ $lightestGrey: #fafafa;
     min-height: calc(100vh - 50px);
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 
   width: 60%;
@@ -85,6 +110,18 @@ $lightestGrey: #fafafa;
       flex-direction: column;
       width: 30%;
       margin-right: 32px;
+    }
+  }
+
+  &__delete-btn {
+    color: red;
+    border-color: red;
+    width: 100%;
+    margin-top: 32px;
+
+    &:hover {
+      background-color: red;
+      color: white;
     }
   }
 
@@ -114,12 +151,16 @@ $lightestGrey: #fafafa;
     }
   }
 
-  @media (max-width: 425px) {
+  @media (max-width: 479px) {
     padding: 24px 0;
     background-color: white;
 
     &__base__left {
       margin: 32px 0 0 0;
+    }
+
+    &__delete-btn {
+      width: 90%;
     }
   }
 }

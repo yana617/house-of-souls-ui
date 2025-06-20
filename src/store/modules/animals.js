@@ -53,8 +53,20 @@ const actions = {
     }
   },
 
-  updateImages: async (_, { id, body = {} }) => {
-    await animalsApi.updateImages(id, body);
+  uploadImages: async (_, { id, body = {} }) => {
+    await animalsApi.uploadImages(id, body);
+  },
+
+  deleteImage: async (_, { id, imageId }) => {
+    await animalsApi.deleteImage(id, imageId);
+  },
+
+  updateImageOrder: async (_, { id, imageId, body = {} }) => {
+    await animalsApi.updateImageOrder(id, imageId, body);
+  },
+
+  deleteAnimal: async (_, { id }) => {
+    await animalsApi.deleteAnimal(id);
   },
 };
 

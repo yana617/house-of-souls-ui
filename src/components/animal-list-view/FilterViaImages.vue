@@ -53,7 +53,7 @@ export default {
             behavior: 'smooth',
           });
         });
-        this.$router.push(`/animals?type=${type}&age=${age}`);
+        this.$router.push({ path: '/', query: { type, age } });
       }
     },
   },

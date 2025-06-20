@@ -57,13 +57,31 @@ export const animalsApi = {
       .then((response) => response.data)
       .catch((error) => error.response.data),
 
-  updateImages: async (id, body) =>
+  uploadImages: async (id, body) =>
     axios
-      .patch(`${ANIMALS_URL}/${id}/images`, body, {
+      .post(`${ANIMALS_URL}/${id}/images`, body, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       })
+      .then((response) => response.data)
+      .catch((error) => error.response.data),
+
+  deleteImage: async (id, imageId) =>
+    axios
+      .delete(`${ANIMALS_URL}/${id}/images/${imageId}`)
+      .then((response) => response.data)
+      .catch((error) => error.response.data),
+
+  updateImageOrder: async (id, imageId, body) =>
+    axios
+      .patch(`${ANIMALS_URL}/${id}/images/${imageId}/order`, body)
+      .then((response) => response.data)
+      .catch((error) => error.response.data),
+
+  deleteAnimal: async (id) =>
+    axios
+      .delete(`${ANIMALS_URL}/${id}`)
       .then((response) => response.data)
       .catch((error) => error.response.data),
 };

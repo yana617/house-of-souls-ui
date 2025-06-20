@@ -1,12 +1,14 @@
 <template>
-  <label v-show="label">{{ label }}</label>
-  <a-select
-    :value="input"
-    class="common-select"
-    :options="options"
-    @change="(value) =>$emit('update:modelValue', value)"
-  />
-  <span v-show="description" class="common-select__description">{{ description }}</span>
+  <div class="select">
+    <label v-show="label">{{ label }}</label>
+    <a-select
+      :value="input"
+      class="select__input"
+      :options="options"
+      @change="(value) =>$emit('update:modelValue', value)"
+    />
+    <span v-show="description" class="select__description">{{ description }}</span>
+  </div>
 </template>
 
 <script setup>
@@ -28,15 +30,22 @@ const input = toRef(() => props.modelValue);
 <style lang="scss">
 $grey1: #8a92a6;
 
-label {
-  margin: 12px 0 4px;
-  font-weight: bold;
-}
-
-.common-select {
-  min-width: 300px;
+.select {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  gap: 4px;
 
+  label {
+    font-weight: bold;
+  }
+
+  &__input {
+    min-width: 300px;
+    width: 100%;  
+  }
+  
   &__description {
     color: $grey1;
     line-height: 1em;

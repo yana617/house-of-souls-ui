@@ -179,7 +179,7 @@ $lightGrey: #ccc;
     margin-bottom: 4px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     h2 {
       font-size: 16px;
       margin-bottom: 16px;

@@ -1,38 +1,26 @@
 <template>
   <div class="quarantine-house">
+    <span class="quarantine-house__title">Бытовка</span>
     <div class="quarantine-house__room1" :class="{ blink: isBlink(1) }">
       <RoomNumber room-number="1" />
-      <MapAnimal
-        v-for="animal of firstRoomAnimals"
-        :key="animal.id"
-        v-bind="animal"
-        :size="getAnimalCardSize(150, 150, firstRoomAnimals.length)"
-      />
+      <AnimalCount :count="firstRoomAnimals.length" />
     </div>
     <div class="quarantine-house__room2">
       <RoomNumber room-number="2" />
-      <MapAnimal
-        v-for="animal of secondRoomAnimals"
-        :key="animal.id"
-        v-bind="animal"
-        :size="getAnimalCardSize(150, 150, secondRoomAnimals.length)"
-      />
+      <AnimalCount :count="secondRoomAnimals.length" />
     </div>
     <div class="quarantine-house__room3">
       <RoomNumber room-number="3" />
-      <MapAnimal
-        v-for="animal of thirdRoomAnimals"
-        :key="animal.id"
-        v-bind="animal"
-        :size="getAnimalCardSize(300, 50, thirdRoomAnimals.length)"
-      />
+      <AnimalCount :count="thirdRoomAnimals.length" />
     </div>
+    <Door class="quarantine-house__main-door" />
   </div>
 </template>
 
 <script>
 import RoomNumber from './RoomNumber.vue';
-import MapAnimal from './MapAnimal.vue';
+import Door from './Door.vue';
+import AnimalCount from './AnimalCount.vue';
 import AnimalPlace from '@/utils/enums/AnimalPlace';
 import { getAnimalCardSize } from '@/utils/get-animal-card-size';
 
@@ -40,7 +28,8 @@ export default {
   name: 'QuarantineHouse',
   components: {
     RoomNumber,
-    MapAnimal,
+    AnimalCount,
+    Door,
   },
   props: {
     animals: Array,
@@ -81,6 +70,17 @@ export default {
   height: 200px;
   position: relative;
   text-align: left;
+
+  &__main-door {
+    background-color: yellow;
+    border: 1px solid black;
+    left: 150px;
+  }
+
+  &__title {
+    position: absolute;
+    bottom: -20px;
+  }
 
   &__room1 {
     width: 150px;

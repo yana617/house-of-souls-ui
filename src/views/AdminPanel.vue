@@ -78,7 +78,7 @@ $greyBlue: #2c3e50;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     flex-direction: column;
     padding-left: 0px;
 

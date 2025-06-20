@@ -131,7 +131,7 @@ $borderRadius: 16px;
     }
   }
 
-  @media (max-width: 350px) {
+  @media (max-width: 359px) {
     &__name-row {
       min-width: 130px;
       max-width: 130px;

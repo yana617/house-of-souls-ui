@@ -7,7 +7,13 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.includes('swiper-'),
+        },
+      },
+    }),
     Components({
       resolvers: [
         AntDesignVueResolver({
@@ -23,8 +29,11 @@ export default defineConfig({
   },
   server: {
     port: 8080,
+    headers: {
+      'Cache-Control': 'public, max-age=86400', // 24 hours in seconds
+    },
   },
   test: {
-    environment: "jsdom"
+    environment: 'jsdom',
   },
 });

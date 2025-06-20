@@ -122,7 +122,7 @@ $green: #42b983;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     width: 100%;
     height: 100%;
 

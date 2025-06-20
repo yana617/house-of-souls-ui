@@ -50,11 +50,6 @@ const routes = [
     meta: { authRequired: true },
   },
   {
-    path: '/animals',
-    name: 'animals2',
-    component: () => import('../views/AnimalList.vue'),
-  },
-  {
     path: '/',
     name: 'animals',
     component: () => import('../views/AnimalList.vue'),
