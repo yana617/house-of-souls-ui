@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "test": "vitest",
+    "test": "vitest run",
     "lint": "eslint --ignore-pattern .gitignore --fix src",
     "development:setup": "pm2 deploy ecosystem.config.js development setup",
     "development:deploy": "pm2 deploy ecosystem.config.js development --force",
@@ -34,7 +34,6 @@
     "vue": "3.5.13",
     "vue-inline-svg": "3.1.2",
     "vue-router": "4.5.0",
-    "vue3-carousel": "0.14.0",
     "vuex": "4.1.0",
     "yorkie": "2.0.0"
   },
@@ -52,7 +51,7 @@
     "prettier": "3.5.1",
     "sass-embedded": "1.78.0",
     "uuid": "8.3.2",
-    "vitest": "2.0.5"
+    "vitest": "3.2.4"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
