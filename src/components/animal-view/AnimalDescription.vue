@@ -213,12 +213,13 @@ $grey2: #f4f6f9;
     }
   }
 
-  @media (max-width: 850px) {
+  @media (max-width: 1024px) {
     width: 100%;
     margin: 0;
+    margin-top: 32px;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 767px) {
     &__row {
       flex-direction: column;
       align-items: flex-start;

@@ -14,12 +14,12 @@
     <h4 class="animal-image-name-container__name">
       {{ animal.name }}
     </h4>
-    <CommonButton
+    <!-- <CommonButton
       v-if="!noNotices"
       class="animal-image-name-container__notices-btn"
       title="Лечение"
       @click="showNotices()"
-    />
+    /> -->
     <div v-if="noNotices" class="animal-image-name-container__indent" />
   </div>
 </template>
@@ -27,12 +27,12 @@
 <script>
 import { mapState } from 'vuex';
 
-import CommonButton from '@/components/common/CommonButton.vue';
+// import CommonButton from '@/components/common/CommonButton.vue';
 import StatusHashtag from './StatusHashtag.vue';
 
 export default {
   name: 'AnimalImageNameContainer',
-  components: { CommonButton, StatusHashtag },
+  components: { StatusHashtag },
   computed: mapState({
     notices: (state) => state.notices.list,
     animalId() {
@@ -65,6 +65,7 @@ $lightGrey: #ccc;
   border-radius: 8px;
   width: 100%;
   padding: 32px 24px;
+  height: 540px;
 
   &__image, &__no-image {
     width: 200px;
@@ -104,6 +105,10 @@ $lightGrey: #ccc;
 
   &__indent {
     height: 32px;
+  }
+
+  @media (max-width: 767px) {
+    height: unset;
   }
 
   @media (max-width: 479px) {

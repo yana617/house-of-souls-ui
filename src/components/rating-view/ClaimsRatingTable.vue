@@ -112,10 +112,11 @@ $borderRadius: 16px;
 
   @media (max-width: 1200px) {
     max-width: 500px;
+    margin-bottom: 16px;
+    
     &__name-row {
       min-width: 300px;
     }
-    margin-bottom: 16px;
   }
 
   @media (max-width: 520px) {

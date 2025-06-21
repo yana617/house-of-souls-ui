@@ -29,9 +29,6 @@ export default defineConfig({
   },
   server: {
     port: 8080,
-    headers: {
-      'Cache-Control': 'public, max-age=86400', // 24 hours in seconds
-    },
   },
   test: {
     environment: 'jsdom',

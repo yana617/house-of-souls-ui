@@ -33,11 +33,12 @@ function onSubmit(values) {
     .dispatch(`animals/updateAnimal`, { id: animalId, body: toRaw(values) })
     .then(() => {
       if (errors.value.length === 0) {
-        router.push(`/animals/${animalId}`);
+        store.dispatch('animals/getAnimalById', { id: animalId }).finally(() => {
+          store.dispatch('app/setLoading', false);
+          router.push(`/animals/${animalId}`);
+        });
+        
       }
-    })
-    .finally(() => {
-      store.dispatch('app/setLoading', false);
     });
 }
 

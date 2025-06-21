@@ -76,6 +76,7 @@ $darkBlue: #2f3e4e;
   width: 100%;
   margin-top: 32px;
   padding: 32px 48px;
+  height: calc(160px - 32px);
 
   &.loading {
     animation: color-change 0.5s infinite linear alternate;

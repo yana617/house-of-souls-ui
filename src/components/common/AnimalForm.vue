@@ -91,7 +91,10 @@ store.dispatch('users/getCurators').finally(() => {
 const errors = computed(() => store.state.animals.errors);
 const curators = computed(() => {
   const { curators: curatorUsers } = store.state.users;
-  return curatorUsers.map(({ id, name, surname, phone }) => ({ value: id, label: `${name} ${surname} (${phone})` }));
+  return [
+    { value: null, label: 'Нет куратора' },
+    ...curatorUsers.map(({ id, name, surname, phone }) => ({ value: id, label: `${name} ${surname} (${phone})` })),
+  ];
 });
 
 const { initialValues } = defineProps({

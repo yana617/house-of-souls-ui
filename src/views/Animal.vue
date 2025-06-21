@@ -89,6 +89,9 @@ export default {
 $lightestGrey: #fafafa;
 
 .animal {
+  width: 60%;
+  padding: 32px;
+  
   &__container {
     background-color: $lightestGrey;
     min-height: calc(100vh - 50px);
@@ -98,18 +101,17 @@ $lightestGrey: #fafafa;
     flex-direction: column;
   }
 
-  width: 60%;
-  padding: 32px;
-
   &__base {
     display: flex;
     padding-top: 32px;
+    height: 700px;
 
     &__left {
       display: flex;
       flex-direction: column;
       width: 30%;
       margin-right: 32px;
+      height: 100%;
     }
   }
 
@@ -133,20 +135,32 @@ $lightestGrey: #fafafa;
     width: 80%;
   }
 
-  @media (max-width: 1100px) {
+  @media (max-width: 1200px) {
     width: 90%;
   }
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1023px) {
     width: 100%;
+
+    &__base {
+      flex-direction: column;
+      height: unset;
+
+      &__left {
+        width: 100%;
+        height: unset;
+      }
+    }
   }
 
   @media (max-width: 850px) {
     &__base {
       flex-direction: column;
+      height: unset;
 
       &__left {
         width: 100%;
+        height: unset;
       }
     }
   }

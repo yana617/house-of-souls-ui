@@ -1,12 +1,16 @@
 <template>
-  <a-checkbox v-model:checked="input" class="checkbox-v2">
+  <a-checkbox  
+    v-model:checked="input" 
+    class="checkbox-v2"
+    @change="handleChange"
+  >
     {{ label }}
   </a-checkbox>
   <span v-show="description" class="checkbox-v2__description">{{ description }}</span>
 </template>
 
 <script setup>
-import { toRef } from 'vue';
+import { ref, watch } from 'vue';
 
 const props = defineProps({
   label: String,
@@ -14,8 +18,17 @@ const props = defineProps({
   modelValue: Boolean,
 });
 
-const input = toRef(() => props.modelValue);
+const emit = defineEmits(['update:modelValue']);
 
+const input = ref(props.modelValue);
+
+const handleChange = (e) => {
+  emit('update:modelValue', e.target.checked);
+};
+
+watch(() => props.modelValue, (newVal) => {
+  input.value = newVal;
+});
 </script>
 
 <style lang="scss">
