@@ -63,5 +63,8 @@
   },
   "msw": {
     "workerDirectory": "public"
+  },
+  "optionalDependencies": {
+    "sass-embedded-linux-x64": "1.78.0"
   }
 }
