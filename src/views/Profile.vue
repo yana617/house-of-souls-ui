@@ -225,7 +225,7 @@ $darkGrey: #646464;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     &__header {
       height: 180px;
       display: flex;

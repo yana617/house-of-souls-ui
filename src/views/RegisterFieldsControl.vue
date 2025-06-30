@@ -158,7 +158,7 @@ $darkGrey: #999;
     text-align: left;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     &__fields-container {
       flex-direction: column;
     }

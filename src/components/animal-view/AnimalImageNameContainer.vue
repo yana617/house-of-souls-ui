@@ -2,16 +2,24 @@
   <div class="animal-image-name-container">
     <div v-if="noNotices" class="animal-image-name-container__indent" />
     <StatusHashtag :status="animal.status" />
-    <img class="animal-image-name-container__image" alt="avatar" :src="animal.photos?.[0]">
+    <img
+      v-if="animal.photos?.[0]?.url"
+      class="animal-image-name-container__image"
+      alt="avatar"
+      :src="animal.photos?.[0]?.url"
+    >
+    <div v-else class="animal-image-name-container__no-image">
+      <span>Нет фото</span>
+    </div>
     <h4 class="animal-image-name-container__name">
       {{ animal.name }}
     </h4>
-    <CommonButton
+    <!-- <CommonButton
       v-if="!noNotices"
       class="animal-image-name-container__notices-btn"
       title="Лечение"
       @click="showNotices()"
-    />
+    /> -->
     <div v-if="noNotices" class="animal-image-name-container__indent" />
   </div>
 </template>
@@ -19,12 +27,12 @@
 <script>
 import { mapState } from 'vuex';
 
-import CommonButton from '@/components/common/CommonButton.vue';
+// import CommonButton from '@/components/common/CommonButton.vue';
 import StatusHashtag from './StatusHashtag.vue';
 
 export default {
   name: 'AnimalImageNameContainer',
-  components: { CommonButton, StatusHashtag },
+  components: { StatusHashtag },
   computed: mapState({
     notices: (state) => state.notices.list,
     animalId() {
@@ -46,6 +54,7 @@ export default {
 
 <style scoped lang="scss">
 $darkBlue: #2f3e4e;
+$lightGrey: #ccc;
 
 .animal-image-name-container {
   display: flex;
@@ -56,13 +65,21 @@ $darkBlue: #2f3e4e;
   border-radius: 8px;
   width: 100%;
   padding: 32px 24px;
+  height: 540px;
 
-  &__image {
+  &__image, &__no-image {
     width: 200px;
     height: 200px;
     border-radius: 100px;
     object-fit: cover;
     margin: 24px 0;
+    background-color: $lightGrey;
+  }
+
+  &__no-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &__name {
@@ -90,7 +107,11 @@ $darkBlue: #2f3e4e;
     height: 32px;
   }
 
-  @media (max-width: 425px) {
+  @media (max-width: 767px) {
+    height: unset;
+  }
+
+  @media (max-width: 479px) {
     box-shadow: none;
     padding: 0;
   }

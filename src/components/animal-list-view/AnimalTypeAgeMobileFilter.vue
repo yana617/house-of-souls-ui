@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     generateLink(type, age) {
-      return `/animals?type=${type}&age=${age}`;
+      return `?type=${type}&age=${age}`;
     },
     isSelected(option) {
       const { age, type } = this.$route.query;

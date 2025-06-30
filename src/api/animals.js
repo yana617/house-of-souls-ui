@@ -8,7 +8,7 @@ import DogHeight from '@/utils/enums/DogHeight';
 const { VITE_ANIMAL_SERVICE: ANIMAL_SERVICE_API } = import.meta.env;
 const ANIMALS_URL = `${ANIMAL_SERVICE_API}/animals`;
 
-export default {
+export const animalsApi = {
   getAnimals: async (params) => {
     const mappedParams = { ...params };
     mappedParams.status = params.status || AnimalStatus.HOMELESS;
@@ -38,8 +38,50 @@ export default {
       .then((response) => response.data)
       .catch((error) => error.response.data);
   },
-  getAnimalById: async ({ id }) => axios
-    .get(`${ANIMALS_URL}/${id}`)
-    .then((response) => response.data)
-    .catch((error) => error.response.data),
+
+  getAnimalById: async ({ id }) =>
+    axios
+      .get(`${ANIMALS_URL}/${id}`)
+      .then((response) => response.data)
+      .catch((error) => error.response.data),
+
+  createAnimal: async (body) =>
+    axios
+      .post(ANIMALS_URL, body)
+      .then((response) => response.data)
+      .catch((error) => error.response.data),
+
+  updateAnimal: async (id, body) =>
+    axios
+      .patch(`${ANIMALS_URL}/${id}`, body)
+      .then((response) => response.data)
+      .catch((error) => error.response.data),
+
+  uploadImages: async (id, body) =>
+    axios
+      .post(`${ANIMALS_URL}/${id}/images`, body, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((response) => response.data)
+      .catch((error) => error.response.data),
+
+  deleteImage: async (id, imageId) =>
+    axios
+      .delete(`${ANIMALS_URL}/${id}/images/${imageId}`)
+      .then((response) => response.data)
+      .catch((error) => error.response.data),
+
+  updateImageOrder: async (id, imageId, body) =>
+    axios
+      .patch(`${ANIMALS_URL}/${id}/images/${imageId}/order`, body)
+      .then((response) => response.data)
+      .catch((error) => error.response.data),
+
+  deleteAnimal: async (id) =>
+    axios
+      .delete(`${ANIMALS_URL}/${id}`)
+      .then((response) => response.data)
+      .catch((error) => error.response.data),
 };

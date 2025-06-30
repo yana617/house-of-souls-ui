@@ -176,11 +176,12 @@ $lightGrey: #ccc;
 
   &__birthday {
     input {
+      margin: 4px 0px;
+      line-height: 1 !important;
+
       &::placeholder {
         font-size: 13.3px;
       }
-      margin: 4px 0px;
-      line-height: 1 !important;
     }
   }
 

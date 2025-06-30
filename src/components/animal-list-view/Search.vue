@@ -17,7 +17,7 @@ export default {
     searchText(searchValue) {
       const { query } = this.$route;
       const requestQuery = { ...query, search: searchValue };
-      this.$router.push({ path: '/animals', query: requestQuery });
+      this.$router.push({ path: '/', query: requestQuery });
     },
   },
 };

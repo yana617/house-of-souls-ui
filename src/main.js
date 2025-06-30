@@ -11,7 +11,7 @@ import logger from './utils/logger';
 import interceptorsSetup from './utils/axios';
 
 const breakpoints = {
-  tablet: { maxWidth: 768 },
+  tablet: { maxWidth: 767 },
   mobile: { maxWidth: 600 },
 };
 const VueMatchMediaPlugin = createVueMatchMediaPlugin({ breakpoints });
@@ -34,6 +34,17 @@ const run = () => {
   app.config.globalProperties.$socket = socket;
 
   app.component('InlineSvg', InlineSvg);
+
+  app.directive('permission', {
+    mounted(el, binding) {
+      const { value } = binding;
+      const permissions = store.state.permissions.my;
+      
+      if (!permissions?.includes(value)) {
+        el.remove();
+      }
+    }
+  });
 
   app.mount('#app');
 };

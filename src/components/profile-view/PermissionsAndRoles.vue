@@ -50,7 +50,7 @@ $green: #42b983;
     height: 100%;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     padding-left: 16px;
     padding-right: 16px;
 

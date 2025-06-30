@@ -68,7 +68,7 @@ export default {
     white-space: nowrap;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     padding: 8px 16px;
   }
 

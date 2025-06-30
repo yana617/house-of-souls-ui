@@ -1,6 +1,8 @@
 <template>
   <div class="animal-description" :class="{ 'full-width': !hasViewAnimalPermission }">
-    <span class="animal-description__title">Описание</span>
+    <div class="animal-description__title-container">
+      <span class="animal-description__title">Описание</span>
+    </div>
     <DescriptionIconItems :has-view-animal-permission="hasViewAnimalPermission" />
     <div v-if="hasViewAnimalPermission" class="animal-description__row border-bottom">
       <div class="animal-description__row__sub-container">
@@ -10,7 +12,7 @@
       <div class="animal-description__row__sub-container">
         <span class="animal-description__data-title">{{ roomTitle }}</span>
         <span class="animal-description__data-description">
-          <router-link v-if="animal.room" :to="`/home?place=${animal.place}&room=${animal.room}`">
+          <router-link v-if="animal.room" :to="`/map?place=${animal.place}&room=${animal.room}`">
             {{ animal.room }}
           </router-link>
           <span v-if="!animal.room">-</span>
@@ -27,10 +29,7 @@
       </div>
     </div>
 
-    <div
-      class="animal-description__row border-bottom"
-      :class="{ 'no-padding': hasViewAnimalPermission }"
-    >
+    <div class="animal-description__row border-bottom" :class="{ 'no-padding': hasViewAnimalPermission }">
       <div class="animal-description__row__sub-container">
         <span class="animal-description__data-title">История</span>
         <span class="animal-description__data-description">{{ animal.description || "-" }}</span>
@@ -109,8 +108,9 @@ export default {
       if (!this.lastVaccine) {
         return '-';
       }
-      const { date, drugName } = this.lastVaccine;
-      return `${parseDateWithNumbers(date)} (${drugName})`;
+      return "-";
+      // const { date, drugName } = this.lastVaccine;
+      // return `${parseDateWithNumbers(date)} (${drugName})`;
     },
     formattedSecondBirthday() {
       return parseDateWithNumbers(this.animal.second_birthday);
@@ -119,7 +119,7 @@ export default {
       return this.animal?.type === AnimalType.DOG;
     },
     hasViewAnimalPermission() {
-      return this.permissions.includes('VIEW_ANIMAL');
+      return this.permissions.includes('VIEW_ANIMALS');
     },
   }),
   methods: {
@@ -147,15 +147,23 @@ $grey2: #f4f6f9;
   border-radius: 8px;
   width: 70%;
   color: $black1;
+  box-sizing: border-box;
 
   &.full-width {
     width: 100%;
   }
 
+  &__title-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 16px 32px;
+  }
+
   &__title {
     font-weight: 500;
     font-size: 28px;
-    margin: 16px 32px;
+    margin-right: 16px;
   }
 
   &__row {
@@ -205,12 +213,13 @@ $grey2: #f4f6f9;
     }
   }
 
-  @media (max-width: 850px) {
+  @media (max-width: 1024px) {
     width: 100%;
     margin: 0;
+    margin-top: 32px;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 767px) {
     &__row {
       flex-direction: column;
       align-items: flex-start;
@@ -222,7 +231,7 @@ $grey2: #f4f6f9;
     }
   }
 
-  @media (max-width: 425px) {
+  @media (max-width: 479px) {
     box-shadow: none;
   }
 }

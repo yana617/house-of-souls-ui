@@ -281,7 +281,7 @@ $blue: #1890ff;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     padding: 8px 16px 16px 16px;
   }
 }

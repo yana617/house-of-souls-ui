@@ -5,10 +5,10 @@
       <router-link v-if="hasPermissions('VIEW_USERS')" to="/volunteers">
         Волонтеры
       </router-link>
-      <router-link class="header__nav-menu__right-btn" to="/animals">
+      <router-link class="header__nav-menu__right-btn" to="/">
         Животные
       </router-link>
-      <router-link class="header__nav-menu__right-btn" to="/">
+      <router-link v-if="hasPermissions('VIEW_PROFILE')" class="header__nav-menu__right-btn" to="/schedule">
         График
       </router-link>
       <router-link v-if="hasPermissions('VIEW_PROFILE')" class="header__nav-menu__right-btn" to="/profile">
@@ -17,8 +17,11 @@
       <router-link v-if="hasPermissions('VIEW_RATING')" class="header__nav-menu__right-btn" to="/rating">
         Рейтинг
       </router-link>
+      <!-- <router-link v-if="hasPermissions('VIEW_ANIMALS')" class="header__nav-menu__right-btn" to="/map">
+        Карта
+      </router-link> -->
     </div>
-    <div class="header__auth">
+    <div v-if="hasPermissions('VIEW_PROFILE') || isSchedulePath" class="header__auth">
       <CommonButton
         v-if="permissionsLoaded && !hasPermissions('VIEW_PROFILE')"
         title="Вход"
@@ -87,6 +90,9 @@ export default {
     },
     permissions: (state) => state.permissions.my,
     permissionsLoaded: (state) => state.permissions.loaded,
+    isSchedulePath() {
+      return this.$route.path === '/schedule';
+    },
   }),
   methods: {
     setModal(modalName) {
@@ -172,7 +178,7 @@ $header-color: #1d1d1f;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     justify-content: space-between;
     padding: 0 12px;
 

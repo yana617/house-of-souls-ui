@@ -59,7 +59,7 @@ export default {
   computed: mapState({
     permissions: (state) => state.permissions.my,
     hasViewAnimalPermission() {
-      return this.permissions.includes('VIEW_ANIMAL');
+      return this.permissions.includes('VIEW_ANIMALS');
     },
   }),
   methods: {
@@ -83,7 +83,7 @@ export default {
       this.selectOptionsFor = null;
     },
     handleClearFilters() {
-      this.$router.push({ path: '/animals', query: '' });
+      this.$router.push({ path: '/', query: '' });
     },
     handleClose() {
       this.$emit('on-close');

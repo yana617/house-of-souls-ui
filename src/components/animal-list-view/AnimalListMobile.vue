@@ -1,6 +1,16 @@
 <template>
   <AnimalNavigation v-if="!showImageFilters" class="animal-list-mobile__nav" />
   <span class="animal-list-mobile__title">Наши животные</span>
+  <router-link class="animal-card" :to="`/animals/create`">
+    <a-button
+      v-if="hasCreateAnimalPermission"
+      type="primary"
+      shape="round"
+      class="animal-list-mobile__add-button"
+    >
+      Добавить
+    </a-button>
+  </router-link>
   <Search v-if="hasViewAnimalPermission" />
   <span v-if="!hasViewAnimalPermission && showImageFilters" class="animal-list-mobile__description">
     {{ animalListDescription }}
@@ -66,7 +76,10 @@ export default {
       return this.visitingFirstTime && Object.keys(query).length === 0;
     },
     hasViewAnimalPermission() {
-      return this.permissions.includes('VIEW_ANIMAL');
+      return this.permissions.includes('VIEW_ANIMALS');
+    },
+    hasCreateAnimalPermission() {
+      return this.permissions.includes('CREATE_ANIMAL');
     },
   }),
   beforeUnmount() {
@@ -84,6 +97,7 @@ export default {
 
 <style scoped lang="scss">
 $grey1: #8a92a6;
+$green: #42b983;
 
 .animal-list-mobile {
   &__nav {
@@ -95,6 +109,11 @@ $grey1: #8a92a6;
   &__title {
     margin-top: 32px;
     font-size: 36px;
+  }
+
+  &__add-button {
+    background-color: $green;
+    border-color: $green;
   }
 
   &__description {

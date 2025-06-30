@@ -1,30 +1,34 @@
 <template>
-  <span class="animal-list__title">Наши животные</span>
+  <div class="animal-list__title-container">
+    <span class="animal-list__title">Наши животные</span>
+    <router-link class="animal-card" :to="`/animals/create`">
+      <a-button
+        v-if="hasCreateAnimalPermission"
+        type="primary"
+        shape="round"
+        class="animal-list__add-button"
+      >
+        Добавить
+      </a-button>
+    </router-link>
+  </div>
+  
   <span v-if="!hasViewAnimalPermission" class="animal-list__description">
     {{ animalListDescription }}
   </span>
   <FilterViaImages />
 
-  <div
-    class="animal-list__filters-cards-container"
-    :class="{ 'volunteer-view': hasViewAnimalPermission }"
-  >
+  <div class="animal-list__filters-cards-container" :class="{ 'volunteer-view': hasViewAnimalPermission }">
     <Filters />
 
-    <div
-      class="animal-list__cards-container"
-      :class="{ 'volunteer-view': hasViewAnimalPermission }"
-    >
+    <div class="animal-list__cards-container" :class="{ 'volunteer-view': hasViewAnimalPermission }">
       <div class="animal-list__animal-count-and-sorting-container">
         <span>
           По запросу найдено: <b>{{ animals.length }}</b>
         </span>
         <Sorting v-if="hasViewAnimalPermission" />
       </div>
-      <div
-        class="animal-list__cards-sub-container"
-        :class="{ 'volunteer-view': hasViewAnimalPermission }"
-      >
+      <div class="animal-list__cards-sub-container" :class="{ 'volunteer-view': hasViewAnimalPermission }">
         <AnimalCard v-for="animal of animals" :key="animal.id" v-bind="animal" />
       </div>
     </div>
@@ -55,7 +59,10 @@ export default {
     animals: (state) => state.animals.list,
     permissions: (state) => state.permissions.my,
     hasViewAnimalPermission() {
-      return this.permissions.includes('VIEW_ANIMAL');
+      return this.permissions.includes('VIEW_ANIMALS');
+    },
+    hasCreateAnimalPermission() {
+      return this.permissions.includes('CREATE_ANIMAL');
     },
   }),
 };
@@ -63,10 +70,22 @@ export default {
 
 <style scoped lang="scss">
 $grey1: #8a92a6;
+$green: #42b983;
 
 .animal-list {
-  &__title {
+  &__add-button {
+    margin-left: 24px;
+    background-color: $green;
+    border-color: $green;
+  }
+
+  &__title-container {
     margin-top: 32px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__title {
     font-size: 36px;
   }
 

@@ -6,6 +6,7 @@ const SET_PERMISSIONS = 'SET_PERMISSIONS';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_USER_UPDATE_ERRORS = 'SET_USER_UPDATE_ERRORS';
 const SET_CURATOR = 'SET_CURATOR';
+const SET_CURATORS = 'SET_CURATORS';
 
 const state = () => ({
   list: [],
@@ -16,6 +17,7 @@ const state = () => ({
   },
   userUpdateErrors: [],
   curator: {},
+  curators: [],
 });
 
 const getters = {};
@@ -73,8 +75,19 @@ const actions = {
     commit(SET_USERS, []);
   },
   getCurator: async ({ commit }, { userId } = {}) => {
-    const result = await usersApi.getCurator(userId);
-    commit(SET_CURATOR, result);
+    const response = await usersApi.getCurator({ userId });
+    if (response.success) {
+      commit(SET_CURATOR, response.data);
+    }
+  },
+  clearCurator: ({ commit }) => {
+    commit(SET_CURATOR, {});
+  },
+  getCurators: async ({ commit }) => {
+    const response = await usersApi.getCurators();
+    if (response.success) {
+      commit(SET_CURATORS, response.data);
+    }
   },
 };
 
@@ -97,6 +110,9 @@ const mutations = {
   },
   [SET_CURATOR](state, result) {
     state.curator = result;
+  },
+  [SET_CURATORS](state, result) {
+    state.curators = result;
   },
 };
 

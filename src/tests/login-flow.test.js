@@ -20,6 +20,12 @@ const $socket = {
 const $matchMedia = {
   mobile: false,
 };
+const mockRoute = {
+  path: '/schedule',
+};
+const mockRouter = {
+  currentRoute: { value: mockRoute },
+};
 
 describe('Home.vue', () => {
   let getPermissionsSpy;
@@ -47,10 +53,14 @@ describe('Home.vue', () => {
         mocks: {
           $socket,
           $matchMedia,
+          $route: mockRoute,
         },
         stubs: {
           RouterLink: RouterLinkStub,
           RouterView: RouterViewStub,
+        },
+        provide: {
+          $router: mockRouter,
         },
       },
     });

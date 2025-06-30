@@ -180,7 +180,7 @@ $green: #42b983;
     margin-bottom: 4px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     max-width: 100%;
     min-width: 300px;
   }

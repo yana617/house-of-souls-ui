@@ -69,7 +69,7 @@ export default {
   computed: mapState({
     permissions: (state) => state.permissions.my,
     hasViewAnimalPermission() {
-      return this.permissions.includes('VIEW_ANIMAL');
+      return this.permissions.includes('VIEW_ANIMALS');
     },
   }),
   methods: {
@@ -94,7 +94,7 @@ export default {
       const { query } = this.$route;
       const requestQuery = { ...query, [filterName]: value === 'all' ? undefined : value };
 
-      this.$router.push({ path: '/animals', query: requestQuery });
+      this.$router.push({ path: '/', query: requestQuery });
     },
     toggleFilter(filterName) {
       if (this.openFilterName === filterName) {
@@ -104,7 +104,7 @@ export default {
       this.openFilterName = filterName;
     },
     handleClearFilters() {
-      this.$router.push({ path: '/animals', query: '' });
+      this.$router.push({ path: '/', query: '' });
     },
   },
 };

@@ -91,7 +91,7 @@ export default {
     },
     permissions: (state) => state.permissions.my,
     hasViewAnimalPermission() {
-      return this.permissions.includes('VIEW_ANIMAL');
+      return this.permissions.includes('VIEW_ANIMALS');
     },
   }),
 };
@@ -159,7 +159,7 @@ $grey2: #f4f6f9;
     }
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 767px) {
     flex-direction: column;
     align-items: flex-start;
 

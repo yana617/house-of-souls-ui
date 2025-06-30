@@ -64,7 +64,7 @@ export default {
       const { query } = this.$route;
       const requestQuery = { ...query, [this.filterName]: this.selected === 'all' ? undefined : this.selected };
 
-      this.$router.push({ path: '/animals', query: requestQuery });
+      this.$router.push({ path: '/', query: requestQuery });
       this.handleClose();
     },
     handleClose() {

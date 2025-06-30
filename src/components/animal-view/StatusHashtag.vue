@@ -1,6 +1,6 @@
 <template>
   <div class="status-hashtag">
-    # {{ statusTranslate }}
+    <span># {{ statusTranslate }}</span>
   </div>
 </template>
 
@@ -25,11 +25,16 @@ $grey2: #f4f6f9;
 $green: #42b983;
 
 .status-hashtag {
-  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
   background: $grey2;
   border-radius: 44px;
   color: $green;
   margin-top: 16px;
   font-size: 14px;
+  height: 50px;
+  width: max-content;
 }
 </style>

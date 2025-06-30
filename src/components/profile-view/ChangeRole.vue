@@ -89,10 +89,10 @@ $green: #42b983;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     margin: 24px 0px;
   }
-  @media (max-width: 350px) {
+  @media (max-width: 359px) {
     margin: 24px 12px;
   }
 }

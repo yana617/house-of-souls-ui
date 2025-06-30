@@ -14,18 +14,18 @@
       {{ sortOption.label }}
     </div>
     <img
-      v-if="currentSortBy && currentOrder === 'asc'"
+      v-if="currentSortBy && currentOrder === 'ASC'"
       class="sorting__order-icon"
       src="@/assets/sort-asc.png"
       alt="sort-asc"
-      @click="handleOrder('desc')"
+      @click="handleOrder('DESC')"
     >
     <img
-      v-if="currentSortBy && currentOrder === 'desc'"
+      v-if="currentSortBy && currentOrder === 'DESC'"
       class="sorting__order-icon"
       src="@/assets/sort-desc.png"
       alt="sort-desc"
-      @click="handleOrder('asc')"
+      @click="handleOrder('ASC')"
     >
   </div>
 </template>
@@ -69,12 +69,12 @@ export default {
   methods: {
     handleSortBy(sortByValue) {
       const { query } = this.$route;
-      const requestQuery = { ...query, sortBy: sortByValue, order: 'asc' };
-      this.$router.push({ path: '/animals', query: requestQuery });
+      const requestQuery = { ...query, sortBy: sortByValue, order: 'ASC' };
+      this.$router.push({ path: '/', query: requestQuery });
     },
     handleOrder(orderValue) {
       const { query } = this.$route;
-      this.$router.push({ path: '/animals', query: { ...query, order: orderValue } });
+      this.$router.push({ path: '/', query: { ...query, order: orderValue } });
     },
   },
 };

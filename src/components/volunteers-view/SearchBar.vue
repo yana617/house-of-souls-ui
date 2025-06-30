@@ -140,7 +140,7 @@ $green: #42b983;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     flex-direction: column-reverse;
 
     &__input-container {

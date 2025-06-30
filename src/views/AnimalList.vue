@@ -18,7 +18,7 @@ export default {
     '$route.query': function () {
       const { path, query } = this.$route;
 
-      if (path === '/animals') {
+      if (path === '/') {
         this.$store.dispatch('app/setLoading', true);
         this.$store.dispatch('animals/getAnimals', query).finally(() => {
           this.$store.dispatch('app/setLoading', false);

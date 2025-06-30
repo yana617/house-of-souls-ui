@@ -37,8 +37,7 @@ const mutations = {
     state.list = result;
   },
   [SET_MY_PERMISSIONS](state, result) {
-    // REMOVE BEFORE MERGE
-    state.my = [...result, 'VIEW_ANIMAL'];
+    state.my = result;
     state.loaded = true;
   },
 };
