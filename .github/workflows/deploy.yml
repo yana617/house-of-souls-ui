@@ -1,0 +1,47 @@
+name: Build and Deploy to DigitalOcean
+
+on:
+  push:
+    branches: [ development ]
+    
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies and build
+        run: |
+          npm install
+          npm run build
+        
+      - name: Create build artifact
+        run: tar -czvf dist.tar.gz -C dist .
+
+      - name: Deploy to DigitalOcean
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST_V2 }}
+          username: ${{ secrets.SSH_USERNAME_V2 }}
+          key: ${{ secrets.SSH_KEY_V2 }}
+          source: "dist.tar.gz"
+          target: ${{ DEV_FOLDER_PATH }}
+
+      - name: Extract and restart
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST_V2 }}
+          username: ${{ secrets.SSH_USERNAME_V2 }}
+          key: ${{ secrets.SSH_KEY_V2 }}
+          script: |
+            cd ${{ DEV_FOLDER_PATH }}
+            tar -xzvf dist.tar.gz --strip-components=1
+            rm dist.tar.gz
+            sudo systemctl restart nginx
