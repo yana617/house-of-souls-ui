@@ -3,7 +3,7 @@ name: Build and Deploy to DigitalOcean
 on:
   push:
     branches: [ development ]
-    
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME_V2 }}
           key: ${{ secrets.SSH_KEY_V2 }}
           source: "dist.tar.gz"
-          target: ${{ DEV_FOLDER_PATH }}
+          target: ${{ secrets.DEV_FOLDER_PATH }}
 
       - name: Extract and restart
         uses: appleboy/ssh-action@v1
@@ -41,7 +41,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME_V2 }}
           key: ${{ secrets.SSH_KEY_V2 }}
           script: |
-            cd ${{ DEV_FOLDER_PATH }}
+            cd ${{ secrets.DEV_FOLDER_PATH }}
             tar -xzvf dist.tar.gz --strip-components=1
             rm dist.tar.gz
             sudo systemctl restart nginx
