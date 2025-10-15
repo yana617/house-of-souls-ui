@@ -12,9 +12,9 @@
         Скопировать
       </div>
     </div>
-    <div class="ads-info-for-volunteers__text">
+    <p class="ads-info-for-volunteers__text">
       {{ animal.advertising_text }}
-    </div>
+    </p>
     <div class="ads-info-for-volunteers__gallery">
       <div>
         <span class="ads-info-for-volunteers__gallery-title">Фотоальбом</span>
@@ -103,6 +103,7 @@ $grey1: #8a92a6;
     font-size: 16px;
     line-height: 175%;
     text-align: left;
+    white-space: pre-line;
   }
 
   &__gallery {

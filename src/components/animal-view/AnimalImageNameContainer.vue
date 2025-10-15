@@ -14,47 +14,63 @@
     <h4 class="animal-image-name-container__name">
       {{ animal.name }}
     </h4>
-    <!-- <CommonButton
+    <CommonButton
       v-if="!noNotices"
       class="animal-image-name-container__notices-btn"
       title="Лечение"
-      @click="showNotices()"
-    /> -->
+      @click="openModal()"
+    />
+    <div v-if="animal.taken_home_date" class="animal-image-name-container__taken-home-date">
+      Забрали {{ parseDateWithNumbers(animal.taken_home_date) }}
+    </div>
     <div v-if="noNotices" class="animal-image-name-container__indent" />
+
+    <NoticesModal
+      :visible="isNoticesModalOpened"
+      @onclose="closeModal"
+    />
   </div>
 </template>
 
-<script>
-import { mapState } from 'vuex';
+<script setup>
+import { computed, onMounted, ref } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 
-// import CommonButton from '@/components/common/CommonButton.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 import StatusHashtag from './StatusHashtag.vue';
+import { parseDateWithNumbers } from '@/utils/date';
 
-export default {
-  name: 'AnimalImageNameContainer',
-  components: { StatusHashtag },
-  computed: mapState({
-    notices: (state) => state.notices.list,
-    animalId() {
-      return this.$route.params.id;
-    },
-    animal: (state) => state.animals.current,
-    noNotices() {
-      return this.notices.length === 0;
-    },
-  }),
-  created() {
-    this.$store.dispatch('app/setLoading', true);
-    this.$store.dispatch('notices/getNotices', { animal_id: this.animalId }).finally(() => {
-      this.$store.dispatch('app/setLoading', false);
+const store = useStore();
+const route = useRoute();
+
+const animalId = computed(() => route.params.id);
+const notices = computed(() => store.state.notices.list);
+const animal = computed(() => store.state.animals.current);
+const noNotices = computed(() => notices.value.length === 0);
+
+const isNoticesModalOpened = ref(false);
+
+onMounted(() => {
+  store.dispatch('app/setLoading', true);
+  store.dispatch('notices/getNotices', { animal_id: animalId.value })
+    .finally(() => {
+      store.dispatch('app/setLoading', false);
     });
-  },
+});
+
+const openModal = () => {
+  isNoticesModalOpened.value = true;
+};
+const closeModal = () => {
+  isNoticesModalOpened.value = false;
 };
 </script>
 
 <style scoped lang="scss">
 $darkBlue: #2f3e4e;
 $lightGrey: #ccc;
+$green: #42b983;
 
 .animal-image-name-container {
   display: flex;
@@ -101,6 +117,14 @@ $lightGrey: #ccc;
       background-color: white;
       color: $darkBlue;
     }
+  }
+
+  &__taken-home-date {
+    width: 180px;
+    padding: 8px 16px;
+    border-radius: 24px;
+    border: 1px solid $green;
+    color: $green;
   }
 
   &__indent {

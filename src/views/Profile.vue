@@ -25,7 +25,7 @@
         @click="$router.push(`/forgot-password?userId=${userId}`)"
       />
     </div>
-    <a-tabs v-model:active-key="activeKey">
+    <a-tabs v-model:active-key="activeKey" class="ant-tabs-centered">
       <a-tab-pane key="1" tab="Посещения">
         <VisitsTable :claims="personalClaims" />
       </a-tab-pane>

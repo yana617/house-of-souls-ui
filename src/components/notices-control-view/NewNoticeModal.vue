@@ -1,17 +1,22 @@
 <template>
-  <div class="modal__wrapper" @click="closeModal()">
+  <div class="modal__wrapper" @click="onCloseModal()">
     <div class="new-notice-modal" @click.stop>
       <img
         class="new-notice-modal__close-icon"
         alt="close-icon"
         src="@/assets/close.png"
-        @click="closeModal()"
+        @click="onCloseModal()"
       >
       <h2>Добавление новости</h2>
       <input v-model="title" class="new-notice-modal__title" placeholder="Заголовок">
+      <span class="new-notice-modal__title__description">
+        Не нужно указывать кличку животного, если вы выбрали животное ниже (будет дублироваться)
+      </span>
       <span class="new-notice-modal__error">{{ getError('title') }}</span>
       <textarea v-model="description" class="new-notice-modal__description" placeholder="Подробности" />
       <span class="new-notice-modal__error">{{ getError('description') }}</span>
+      <Select v-model="animalId" :options="animalsShort" class="new-notice-modal__animal-id" />
+      <span class="new-notice-modal__error">{{ getError('animal_id') }}</span>
       <label for="authorized-switch" class="new-notice-modal__authorized">
         Только для волонторов
         <a-switch id="authorized-switch" v-model:checked="internalOnly" />
@@ -20,65 +25,66 @@
         :loading="loading"
         class="new-notice-modal__create-btn"
         title="Добавить"
-        @click="create()"
+        @click="onSubmit()"
       />
     </div>
   </div>
 </template>
 
-<script>
-import { ref } from 'vue';
-import { mapState } from 'vuex';
-
+<script setup>
+import { ref, computed, onUnmounted } from 'vue';
+import { useStore } from 'vuex';
 import { findError } from '@/utils/validation';
 import CommonButton from '@/components/common/CommonButton.vue';
 
-export default {
-  name: 'NewNoticeModal',
-  components: { CommonButton },
-  data() {
-    return {
-      title: null,
-      description: null,
-      internalOnly: ref(false),
-      findError,
-      loading: false,
-    };
-  },
-  computed: mapState({
-    errors: (state) => state.notices.createErrors,
-  }),
-  unmounted() {
-    this.$store.dispatch('notices/clearCreateErrors');
-  },
-  methods: {
-    closeModal() {
-      this.$store.dispatch('app/setModal', null);
-    },
-    create() {
-      const body = {
-        title: this.title,
-        description: this.description,
-        internalOnly: this.internalOnly,
-      };
-      this.loading = true;
-      this.$store
-        .dispatch('notices/createNotice', body)
-        .then(() => {
-          if (this.errors.length === 0) {
-            this.$store.dispatch('notices/getNotices');
-            this.$store.dispatch('app/setModal', null);
-          }
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    },
-    getError(field) {
-      return this.findError(this.errors, field);
-    },
-  },
+const store = useStore();
+
+const title = ref("");
+const description = ref("");
+const internalOnly = ref(false);
+const animalId = ref(null);
+const loading = ref(false);
+
+const errors = computed(() => store.state.notices.createErrors);
+const animalsShort = computed(
+  () => {
+    const animals = store.state.animals.shortList || [];
+    const mappedAnimals = animals.map((animal) => ({ label: animal.name, value: animal.id }));
+    return [{ label: "Не выбрано", value: null }, ...mappedAnimals];
+  });
+
+const onCloseModal = () => {
+  store.dispatch('app/setModal', null);
 };
+
+const onSubmit = () => {
+  const body = {
+    title: title.value,
+    description: description.value,
+    internalOnly: internalOnly.value,
+    animal_id: animalId.value,
+  };
+
+  loading.value = true;
+  store.dispatch('notices/createNotice', body)
+    .then(() => {
+      if (errors.value.length === 0) {
+        store.dispatch('notices/getNotices');
+        store.dispatch('app/setModal', null);
+      }
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+};
+
+const getError = (field) => {
+  return findError(errors.value, field);
+};
+
+onUnmounted(() => {
+  store.dispatch('notices/clearCreateErrors');
+});
 </script>
 
 <style lang="scss" scoped>
@@ -113,6 +119,15 @@ $lightGrey: #ccc;
     outline: none;
     padding: 8px 16px;
     margin: 8px;
+    border-radius: 8px;
+  }
+
+  &__animal-id {
+    display: flex;
+    width: 80%;
+    margin: 8px 8px 16px 8px;
+    border-radius: 8px;
+    text-align: left;
   }
 
   &__authorized {
@@ -145,6 +160,16 @@ $lightGrey: #ccc;
     font-size: 13px;
     margin-top: -6px;
     margin-bottom: 4px;
+  }
+
+  &__title {
+    &__description {
+      text-align: left;
+      width: 80%;
+      font-size: 12px;
+      margin-top: -4px;
+      margin-bottom: 4px;
+    }
   }
 }
 </style>
