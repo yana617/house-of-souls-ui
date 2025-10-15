@@ -14,7 +14,7 @@
     />
     <NewNoticeModal v-if="isModalOpen" />
   </div>
-  <img class="notices-control__img" src="@/assets/cat_infos.jpeg" alt="background-image">
+  <img class="notices-control__img" src="@/assets/cat_infos.webp" alt="background-image">
 </template>
 
 <script>

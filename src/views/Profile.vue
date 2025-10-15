@@ -3,7 +3,7 @@
     <div class="profile__header">
       <div class="profile__main-data-container">
         <div class="profile__img-container">
-          <img class="profile__img" src="@/assets/cat_infos.jpeg" alt="profile-icon">
+          <img class="profile__img" src="@/assets/cat_infos.webp" alt="profile-icon">
         </div>
         <div class="profile__name-phone-container">
           <div class="profile__name-role-container">

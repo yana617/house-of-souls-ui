@@ -20,5 +20,3 @@ Allow: /assets/
 Allow: /js/
 Allow: /css/
 Allow: /img/
-
-Sitemap: https://ваш-сайт.ру/sitemap.xml

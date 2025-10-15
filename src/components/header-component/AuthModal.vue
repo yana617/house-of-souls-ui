@@ -3,12 +3,12 @@
     <div class="auth-modal">
       <img
         class="auth-modal__background-image"
-        src="@/assets/auth-modal-back.jpg"
+        src="@/assets/auth-modal-back.webp"
         alt="back-icon"
       >
       <img
         class="auth-modal__background-image mobile"
-        src="@/assets/auth-modal-mobile.jpg"
+        src="@/assets/auth-modal-mobile.webp"
         alt="mobile back icon"
       >
       <img
