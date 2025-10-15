@@ -36,6 +36,8 @@ export default {
 $lightGrey: #ccc;
 
 .base-input {
+  display: flex;
+  flex-direction: column;
   margin-top: 12px;
 
   label {

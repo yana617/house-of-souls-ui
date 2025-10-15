@@ -4,7 +4,6 @@
     <Notice
       v-for="noticeId in notices.list"
       :key="noticeId"
-      v-bind="notices.data[noticeId]"
       :notice-id="noticeId"
     />
     <CommonButton
@@ -15,7 +14,7 @@
     />
     <NewNoticeModal v-if="isModalOpen" />
   </div>
-  <img class="notices-control__img" src="@/assets/cat_infos.jpeg" alt="background-image">
+  <img class="notices-control__img" src="@/assets/cat_infos.webp" alt="background-image">
 </template>
 
 <script>
@@ -46,6 +45,7 @@ export default {
     this.$store.dispatch('notices/getNotices').finally(() => {
       this.$store.dispatch('app/setLoading', false);
     });
+    this.$store.dispatch('animals/getAnimalsShort');
   },
   methods: {
     openModal() {

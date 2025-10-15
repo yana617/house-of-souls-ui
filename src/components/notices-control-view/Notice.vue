@@ -3,7 +3,7 @@
     <label for="title">Заголовок</label>
     <input
       id="notice-title"
-      v-model="notice.title"
+      v-model="title"
       :disabled="!edit"
       class="notice__title"
       :class="{ notice__title__background: !title }"
@@ -11,17 +11,25 @@
     <span v-if="edit" class="notice__error">{{ getError('title') }}</span>
     <label for="description">Подробности</label>
     <textarea
-      v-model="notice.description"
+      v-model="description"
       :disabled="!edit"
       :class="{ notice__description__background: !description }"
       class="notice__description"
     />
     <span v-if="edit" class="notice__error">{{ getError('description') }}</span>
+    <label for="animal_id">Для животного</label>
+    <Select
+      v-model="animalId"
+      :disabled="!edit"
+      :options="animalsShort"
+      class="notice__animal-id"
+    />
+    <span v-if="edit" class="notice__error">{{ getError('animal_id') }}</span>
     <div class="notice__checkbox-container">
       <div class="notice__authorized-label">
         Видно только волонтерам:
       </div>
-      <a-switch v-model:checked="notice.internalOnly" :disabled="!edit" />
+      <a-switch v-model:checked="internalOnly" :disabled="!edit" />
     </div>
     <div class="notice__btn-container">
       <CommonButton
@@ -55,100 +63,93 @@
   </div>
 </template>
 
-<script>
-import { ref } from 'vue';
-import { mapState } from 'vuex';
-
+<script setup>
+import { ref, computed, watch, onMounted } from 'vue';
+import { useStore } from 'vuex';
 import CommonButton from '@/components/common/CommonButton.vue';
 import { findError } from '@/utils/validation';
 
-export default {
-  name: 'Notice',
-  components: { CommonButton },
-  props: {
-    noticeId: String,
-    title: String,
-    description: String,
-    internalOnly: Boolean,
+const { noticeId } = defineProps({
+  noticeId: {
+    type: String,
+    required: true
   },
-  data() {
-    return {
-      notice: {
-        _id: this.noticeId,
-        title: this.title,
-        description: this.description,
-        internalOnly: ref(this.internalOnly),
-      },
-      edit: false,
-      loading: false,
-      findError,
-    };
-  },
-  computed: mapState({
-    errors: (state) => state.notices.updateErrors,
-    permissions: (state) => state.permissions.my,
-  }),
-  watch: {
-    title(newValue) {
-      this.notice.title = newValue;
-    },
-    description(newValue) {
-      this.notice.description = newValue;
-    },
-    internalOnly(newValue) {
-      this.notice.internalOnly = ref(newValue);
-    },
-  },
-  created() {
-    if (!this.title) {
-      this.$store.dispatch('notices/getNoticeById', { _id: this.noticeId });
-    }
-  },
-  methods: {
-    onEdit() {
-      this.edit = true;
-    },
-    onUpdate() {
-      this.loading = true;
-      this.$store
-        .dispatch('notices/updateNotice', this.notice)
-        .then(() => {
-          if (this.errors.length === 0) {
-            this.edit = false;
-          }
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    },
-    onCancel() {
-      this.notice = {
-        _id: this.noticeId,
-        title: this.title,
-        description: this.description,
-        internalOnly: ref(this.internalOnly),
-      };
-      this.edit = false;
-    },
-    onDelete() {
-      this.loading = true;
-      this.$store
-        .dispatch('notices/deleteNotice', { _id: this.noticeId })
-        .then(() => {
-          this.$store.dispatch('notices/getNotices');
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    },
-    getError(field) {
-      return this.findError(this.errors, field);
-    },
-    hasPermissions(permission) {
-      return this.permissions.includes(permission);
-    },
-  },
+});
+
+const store = useStore();
+const edit = ref(false);
+const loading = ref(false);
+
+const notices = computed(() => store.state.notices.data);
+const notice = computed(() => notices.value[noticeId] || {});
+const animalsShort = computed(
+  () => {
+    const animals = store.state.animals.shortList || [];
+    const mappedAnimals = animals.map((animal) => ({ label: animal.name, value: animal.id }));
+    return [{ label: "Не выбрано", value: null }, ...mappedAnimals];
+  });
+
+const errors = computed(() => store.state.notices.updateErrors);
+const permissions = computed(() => store.state.permissions.my);
+
+const title = ref('');
+const description = ref('');
+const internalOnly = ref(false);
+const animalId = ref('');
+
+watch(notice, (newNotice) => {
+  if (newNotice) {
+    title.value = newNotice.title || '';
+    description.value = newNotice.description || '';
+    internalOnly.value = newNotice.internalOnly || false;
+    animalId.value = newNotice.animal_id || null;
+  }
+}, { immediate: true });
+
+onMounted(() => {
+  if (!notice.value?.title) {
+    store.dispatch('notices/getNoticeById', { _id: noticeId });
+  }
+});
+
+const onEdit = () => {
+  edit.value = true;
 };
+
+const onUpdate = () => {
+  loading.value = true;
+  store.dispatch('notices/updateNotice', {
+    _id: noticeId,
+    title: title.value,
+    description: description.value,
+    internalOnly: internalOnly.value,
+    animal_id: animalId.value,
+  }).then(() => {
+    if (this.errors.length === 0) {
+      edit.value = false;
+    }
+  }).finally(() => {
+    loading.value = false;
+  });
+};
+
+const onCancel = () => {
+  title.value = notice.value.title || '';
+  description.value = notice.value.description || '';
+  internalOnly.value = notice.value.internalOnly || false;
+  animalId.value = notice.value.animal_id || '';
+  edit.value = false;
+};
+
+const onDelete = () => {
+  loading.value = true;
+  store.dispatch('notices/deleteNotice', { _id: noticeId })
+    .then(() => store.dispatch('notices/getNotices'))
+    .finally(() => loading.value = false)
+};
+
+const getError = (field) => findError(errors.value, field);
+const hasPermissions = (permission) => permissions.value.includes(permission);
 </script>
 
 <style lang="scss" scoped>
@@ -180,7 +181,7 @@ $lightestGrey: #f0f0f0;
     font-size: 14px;
 
     &:disabled {
-      background-color: transparent;
+      background-color: rgba(0, 0, 0, 0.05);
       border-color: $lightestGrey;
     }
 
@@ -203,7 +204,7 @@ $lightestGrey: #f0f0f0;
     font-size: 14px;
 
     &:disabled {
-      background-color: transparent;
+      background-color: rgba(0, 0, 0, 0.05);
       border-color: $lightestGrey;
     }
 
@@ -212,6 +213,10 @@ $lightestGrey: #f0f0f0;
       animation: rainbow 3s infinite;
       border: none;
     }
+  }
+
+  &__animal-id {
+    margin: 8px 0;
   }
 
   &__btn-container {
@@ -229,6 +234,7 @@ $lightestGrey: #f0f0f0;
       color: white;
     }
   }
+
   &__update-btn {
     color: $green;
     background-color: white;
@@ -240,6 +246,7 @@ $lightestGrey: #f0f0f0;
       color: white;
     }
   }
+
   &__cancel-btn,
   &__delete-btn {
     color: red;
@@ -251,6 +258,7 @@ $lightestGrey: #f0f0f0;
       color: white;
     }
   }
+
   &__delete-btn {
     margin-left: auto;
     margin-right: 0;

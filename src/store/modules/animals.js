@@ -24,6 +24,14 @@ const actions = {
     }
   },
 
+  getAnimalsShort: async ({ commit }) => {
+    const response = await animalsApi.getAnimalsShort();
+
+    if (response.success) {
+      commit(SET_ANIMALS_SHORT_LIST, response.data);
+    }
+  },
+
   getAnimalById: async ({ commit }, params = {}) => {
     const response = await animalsApi.getAnimalById(params);
 

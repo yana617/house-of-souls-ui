@@ -6,7 +6,7 @@ export const HEADER_LINKS = [
     permissions: ['VIEW_USERS'],
   },
   {
-    url: '/animals',
+    url: '/',
     label: 'Животные',
     slug: 'animals',
   },
@@ -14,6 +14,7 @@ export const HEADER_LINKS = [
     url: '/schedule',
     label: 'График',
     slug: 'schedule',
+    permissions: ['VIEW_USERS'],
   },
   // {
   //   url: '/map',

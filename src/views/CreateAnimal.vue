@@ -9,16 +9,20 @@
 
 <script setup>
 import { toRaw } from 'vue';
-import { useStore } from 'vuex'
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import AnimalForm from '@/components/common/AnimalForm.vue';
 
 const store = useStore();
+const router = useRouter();
 
 function onSubmit(values) {
   store.dispatch('app/setLoading', true);
   store
     .dispatch(`animals/createAnimal`, toRaw(values))
-    .then()
+    .then(() => {
+      router.push(`/`);
+    })
     .finally(() => {
       store.dispatch('app/setLoading', false);
     });

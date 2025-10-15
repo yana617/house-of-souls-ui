@@ -155,6 +155,10 @@ $grey1: #8a92a6;
     font-size: 62px;
     line-height: 100%;
 
+    @media (max-width: 767px) {
+      margin-top: 32px;
+    }
+
     @media (max-width: 400px) {
       flex-direction: column-reverse;
     }
@@ -163,6 +167,7 @@ $grey1: #8a92a6;
   &__text {
     text-align: left;
     font-size: 16px;
+    white-space: pre-line;
   }
 
   &__image {
@@ -240,6 +245,10 @@ $grey1: #8a92a6;
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  @media (max-width: 767px) {
+      margin: 0px;
   }
 
   @media (max-width: 479px) {

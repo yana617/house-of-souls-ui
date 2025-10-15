@@ -3,7 +3,7 @@
     <div v-if="animal?.name" class="animal">
       <AnimalNavigation :type="animal.type" :animal-name="animal.name" />
       <AdsInfoForGuests v-if="!hasViewAnimalPermission" />
-      <div class="animal__base">
+      <div class="animal__base" :class="{ notVolunteer: !hasViewAnimalPermission }">
         <div v-if="hasViewAnimalPermission" class="animal__base__left">
           <AnimalImageNameContainer />
           <CuratorContactForVolunteers />
@@ -106,6 +106,10 @@ $lightestGrey: #fafafa;
     padding-top: 32px;
     height: 700px;
 
+    &.notVolunteer {
+      height: unset;
+    }
+
     &__left {
       display: flex;
       flex-direction: column;
@@ -142,18 +146,6 @@ $lightestGrey: #fafafa;
   @media (max-width: 1023px) {
     width: 100%;
 
-    &__base {
-      flex-direction: column;
-      height: unset;
-
-      &__left {
-        width: 100%;
-        height: unset;
-      }
-    }
-  }
-
-  @media (max-width: 850px) {
     &__base {
       flex-direction: column;
       height: unset;

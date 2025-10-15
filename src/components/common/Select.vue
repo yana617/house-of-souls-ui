@@ -5,6 +5,7 @@
       :value="input"
       class="select__input"
       :options="options"
+      :disabled="disabled"
       @change="(value) =>$emit('update:modelValue', value)"
     />
     <span v-show="description" class="select__description">{{ description }}</span>
@@ -18,13 +19,13 @@ const props = defineProps({
   label: String,
   options: Array,
   description: String,
+  disabled: Boolean,
   modelValue: [String, Number],
 });
 
 defineEmits(["update:modelValue"]);
 
 const input = toRef(() => props.modelValue);
-
 </script>
 
 <style lang="scss">

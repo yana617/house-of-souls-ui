@@ -44,6 +44,12 @@ export const animalsApi = {
       .get(`${ANIMALS_URL}/${id}`)
       .then((response) => response.data)
       .catch((error) => error.response.data),
+  
+  getAnimalsShort: async () =>
+    axios
+      .get(`${ANIMALS_URL}/short`)
+      .then((response) => response.data)
+      .catch((error) => error.response.data),
 
   createAnimal: async (body) =>
     axios

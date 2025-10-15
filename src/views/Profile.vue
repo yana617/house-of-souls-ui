@@ -3,7 +3,7 @@
     <div class="profile__header">
       <div class="profile__main-data-container">
         <div class="profile__img-container">
-          <img class="profile__img" src="@/assets/cat_infos.jpeg" alt="profile-icon">
+          <img class="profile__img" src="@/assets/cat_infos.webp" alt="profile-icon">
         </div>
         <div class="profile__name-phone-container">
           <div class="profile__name-role-container">
@@ -25,7 +25,7 @@
         @click="$router.push(`/forgot-password?userId=${userId}`)"
       />
     </div>
-    <a-tabs v-model:active-key="activeKey">
+    <a-tabs v-model:active-key="activeKey" class="ant-tabs-centered">
       <a-tab-pane key="1" tab="Посещения">
         <VisitsTable :claims="personalClaims" />
       </a-tab-pane>

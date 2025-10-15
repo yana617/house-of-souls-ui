@@ -2,7 +2,6 @@ import { createApp } from 'vue';
 import { io } from 'socket.io-client';
 import { createVueMatchMediaPlugin } from '@cwist/vue-match-media';
 import InlineSvg from 'vue-inline-svg';
-import 'ant-design-vue/dist/antd.css';
 
 import App from './App.vue';
 import router from './router';

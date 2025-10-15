@@ -10,6 +10,8 @@
           :key="noticeId"
           :notice-id="noticeId"
           v-bind="notices.data[noticeId]"
+          :animal-name="animalsShort[notices.data[noticeId]?.animal_id]?.name"
+          :animal-photo="animalsShort[notices.data[noticeId]?.animal_id]?.photo"
         />
         <button
           v-if="showLoadAllNoticesBtn"
@@ -61,6 +63,10 @@ export default {
     currentSchedule: (state) => state.claims.currentSchedule,
     nextWeekSchedule: (state) => state.claims.nextWeekSchedule,
     permissions: (state) => state.permissions.my,
+    animalsShort: (state) => {
+      const animals = state.animals.shortList || [];
+      return animals.reduce((acc, animal) => ({ ...acc, [animal.id]: animal }), {});
+    },
 
     noticesToShow() {
       if (!this.showAllNotices) {
@@ -96,6 +102,8 @@ export default {
     this.$store.dispatch('app/setLoading', false);
 
     this.$store.dispatch('additionalFields/getAdditionalFields');
+
+    this.$store.dispatch('animals/getAnimalsShort');
   },
   methods: {
     async loadCurrentSchedule() {
@@ -133,7 +141,7 @@ $mediumBlue: #3682f3;
 
   &__notices {
     &__load-all-btn {
-      margin: 8px 8px 8px auto;
+      margin: 8px auto 8px 8px;
       border: none;
       background-color: white;
       color: $mediumBlue;
