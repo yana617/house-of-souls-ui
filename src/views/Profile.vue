@@ -72,7 +72,7 @@ export default {
     },
     anotherUserProfile: (state) => state.users.userProfile,
     user: (state) => state.auth.user,
-    personalClaims: (state) => state.claims.personal,
+    personalClaims: (state) => (state.claims.personal ? [...state.claims.personal] : []).reverse(),
     userId() {
       if (this.isAnotherUserProfile) {
         return this.$route.params.id;

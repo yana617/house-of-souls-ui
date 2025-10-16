@@ -29,7 +29,6 @@
       <span class="registration__error">{{ getError('email') }}</span>
       <a-date-picker
         v-model:value="birthday"
-        size="large"
         placeholder="Дата рождения"
         class="registration__birthday"
       />
@@ -175,6 +174,10 @@ $lightGrey: #ccc;
   }
 
   &__birthday {
+    background: transparent;
+    padding: 0;
+    border: none;
+
     input {
       margin: 4px 0px;
       line-height: 1 !important;
