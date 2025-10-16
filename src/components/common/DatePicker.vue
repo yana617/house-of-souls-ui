@@ -52,7 +52,7 @@ $grey1: #8a92a6;
   }
 
   &__picker {
-    padding: 4px 0;
+    padding: 4px 8px;
     margin-bottom: 4px;
     min-width: 300px;
     width: 100%;

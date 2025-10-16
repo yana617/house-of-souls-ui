@@ -1,8 +1,8 @@
 <template>
   <div class="animal-navigation">
-    <router-link class="animal-navigation__link" :to="`/`">
+    <a class="animal-navigation__link" href="/">
       Животные
-    </router-link>
+    </a>
     <div v-if="animalType" class="animal-navigation__right-arrow" />
     <router-link v-if="animalType" class="animal-navigation__link" :to="`/?type=${animalType}`">
       {{ typeTranslate }}
@@ -66,6 +66,7 @@ $grey1: #8a92a6;
 
   &__link {
     color: $grey1;
+
     &:hover {
       color: $blue;
       text-decoration: underline;
