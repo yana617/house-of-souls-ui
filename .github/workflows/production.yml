@@ -19,10 +19,10 @@ jobs:
 
       - name: Create .env for production
         run: |
-          echo "VITE_LIMIT=${{ secrets.VITE_LIMIT_PROD }}" > .env
-          echo "VITE_AUTH_SERVICE=${{ secrets.VITE_AUTH_SERVICE_PROD }}" >> .env
-          echo "VITE_HOS_SERVICE=${{ secrets.VITE_HOS_SERVICE_PROD }}" >> .env
-          echo "VITE_ANIMAL_SERVICE=${{ secrets.VITE_ANIMAL_SERVICE_PROD }}" >> .env
+          echo "VUE_APP_LIMIT=${{ secrets.VITE_LIMIT_PROD }}" > .env
+          echo "VUE_APP_AUTH_SERVICE=${{ secrets.VITE_AUTH_SERVICE_PROD }}" >> .env
+          echo "VUE_APP_HOS_SERVICE=${{ secrets.VITE_HOS_SERVICE_PROD }}" >> .env
+          echo "VUE_APP_ANIMAL_SERVICE=${{ secrets.VITE_ANIMAL_SERVICE_PROD }}" >> .env
 
       - name: Install dependencies and build
         run: |
