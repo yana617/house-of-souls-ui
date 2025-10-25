@@ -2,6 +2,7 @@ User-agent: *
 Allow: /$
 Allow: /animals/
 Allow: /animals/*
+Allow: /how-to-help
 
 Disallow: /schedule
 Disallow: /volunteers

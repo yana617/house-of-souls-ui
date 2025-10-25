@@ -8,6 +8,9 @@
       <router-link class="header__nav-menu__right-btn" to="/">
         Животные
       </router-link>
+      <router-link v-if="!hasPermissions('VIEW_PROFILE')" class="header__nav-menu__right-btn" to="/how-to-help">
+        Как помочь
+      </router-link>
       <router-link v-if="hasPermissions('VIEW_PROFILE')" class="header__nav-menu__right-btn" to="/schedule">
         График
       </router-link>

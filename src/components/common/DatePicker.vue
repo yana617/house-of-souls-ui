@@ -12,6 +12,7 @@
 
 <script setup>
 import { computed } from 'vue';
+import dayjs from 'dayjs';
 
 const props = defineProps({
   description: String,
@@ -23,7 +24,7 @@ const emit = defineEmits(["update:modelValue"]);
 
 const inputValue = computed({
   get() {
-    return props.modelValue;
+    return dayjs(props.modelValue);
   },
   set(newValue) {
     emit('update:modelValue', newValue.toISOString())

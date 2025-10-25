@@ -3,6 +3,23 @@ import { createRouter, createWebHistory } from 'vue-router';
 import authRequired from './authRequired';
 
 const routes = [
+  // PUBLIC
+  {
+    path: '/',
+    name: 'animals',
+    component: () => import('../views/AnimalList.vue'),
+  },
+  {
+    path: '/animals/:id',
+    name: 'animal',
+    component: () => import('../views/Animal.vue'),
+  },
+  {
+    path: '/how-to-help',
+    name: 'how-to-help',
+    component: () => import('../views/HowToHelp.vue'),
+  },
+  // PRIVATE
   {
     path: '/schedule',
     name: 'schedule',
@@ -48,16 +65,6 @@ const routes = [
     name: 'map',
     component: () => import('../views/Map.vue'),
     meta: { authRequired: true },
-  },
-  {
-    path: '/',
-    name: 'animals',
-    component: () => import('../views/AnimalList.vue'),
-  },
-  {
-    path: '/animals/:id',
-    name: 'animal',
-    component: () => import('../views/Animal.vue'),
   },
   {
     path: '/animals/:id/edit',
