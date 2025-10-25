@@ -33,9 +33,9 @@
             Редактировать
           </div>
         </router-link>
-        <div v-if="animal.photos.length > 0" class="ads-info-for-volunteers__download-button">
+        <!-- <div v-if="animal.photos.length > 0" class="ads-info-for-volunteers__download-button">
           Скачать всё
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="ads-info-for-volunteers__gallery-container">

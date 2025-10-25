@@ -47,6 +47,7 @@ body {
 }
 html {
   min-height: 100vh;
+  scroll-behavior: smooth;
 }
 body {
   min-height: calc(100vh - #{$headerHeight});

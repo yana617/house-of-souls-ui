@@ -1,6 +1,8 @@
 <template>
   <div class="animal-list__title-container">
-    <span class="animal-list__title">Наши животные</span>
+    <h1 class="animal-list__title">
+      Наши животные
+    </h1>
     <router-link class="animal-card" :to="`/animals/create`">
       <a-button
         v-if="hasCreateAnimalPermission"
@@ -87,6 +89,8 @@ $green: #42b983;
 
   &__title {
     font-size: 36px;
+    font-weight: 400;
+    margin: 0;
   }
 
   &__description {

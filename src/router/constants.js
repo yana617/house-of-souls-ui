@@ -11,6 +11,11 @@ export const HEADER_LINKS = [
     slug: 'animals',
   },
   {
+    url: '/how-to-help',
+    label: 'Животные',
+    slug: 'how-to-help',
+  },
+  {
     url: '/schedule',
     label: 'График',
     slug: 'schedule',
@@ -71,5 +76,6 @@ export const PATHS = {
   '/admin/volunteers-requests': 'volunteers-requests',
   '/admin/notices': 'notices',
   '/animals': 'animals',
+  '/how-to-help': 'how-to-help',
   '/': 'animals',
 };
