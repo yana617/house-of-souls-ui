@@ -12,7 +12,7 @@ export const HEADER_LINKS = [
   },
   {
     url: '/how-to-help',
-    label: 'Животные',
+    label: 'Как помочь',
     slug: 'how-to-help',
   },
   {
