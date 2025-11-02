@@ -1,13 +1,13 @@
 <template>
   <ClaimForm
     :claim="claim"
-    :submitButton="submitButton"
+    :submit-button="submitButton"
     :title="title"
     :errors="isUpdateMode ? updateErrors : createErrors"
-    :isUpdateMode="isUpdateMode"
+    :is-update-mode="isUpdateMode"
     :loading="loading"
     @on-submit="submit"
-    @onclose="this.$emit('onclose')"
+    @onclose="$emit('onclose')"
   />
 </template>
 
@@ -40,6 +40,12 @@ export default {
     mode: String,
     canSubscribeYourself: Boolean,
   },
+  emits: ['onclose'],
+  data() {
+    return {
+      loading: false,
+    };
+  },
   computed: mapState({
     createErrors: (state) => state.claims.createErrors,
     updateErrors: (state) => state.claims.updateErrors,
@@ -53,11 +59,6 @@ export default {
       return this.mode === 'update';
     },
   }),
-  data() {
-    return {
-      loading: false,
-    };
-  },
   methods: {
     submit(body) {
       if (this.mode === 'create' && !this.canSubscribeYourself && !body.guest) {

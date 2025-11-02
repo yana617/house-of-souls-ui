@@ -1,38 +1,38 @@
 <template>
   <div class="change-permissions">
     <span><b>Права предоставляемые ролью пользователя</b></span>
-    <br />
+    <br>
     <a-checkbox
-      class="change-permissions__item"
       v-for="perm in translatedRolePermissions"
       :key="perm"
+      class="change-permissions__item"
       checked
       disabled
     >
       {{ perm.translate }}
     </a-checkbox>
-    <br />
+    <br>
     <span><b>Редактируемые</b></span>
-    <br />
+    <br>
     <a-checkbox
-      class="change-permissions__item"
       v-for="perm in translatedAdditionalPermissions"
       :key="perm"
+      class="change-permissions__item"
       :checked="updatedPermissions[perm.name]"
       @change="(e) => onChange(e, perm.name)"
     >
       {{ perm.translate }}
     </a-checkbox>
     <a-checkbox
-      class="change-permissions__item"
       v-for="perm in userPermissionsToAdd"
       :key="perm"
+      class="change-permissions__item"
       @change="(e) => onChange(e, perm.name)"
     >
       {{ perm.translate }}
     </a-checkbox>
-    <br />
-    <Button
+    <br>
+    <CommonButton
       :loading="loading"
       class="change-permissions__save-btn"
       title="сохранить"
@@ -44,11 +44,11 @@
 <script>
 import { mapState } from 'vuex';
 
-import Button from '../common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 export default {
   name: 'ChangePermissions',
-  components: { Button },
+  components: { CommonButton },
   data() {
     return {
       updatedPermissions: {},
@@ -124,10 +124,10 @@ $green: #42b983;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     margin: 24px 0px;
   }
-  @media (max-width: 350px) {
+  @media (max-width: 359px) {
     margin: 24px 12px;
   }
 }

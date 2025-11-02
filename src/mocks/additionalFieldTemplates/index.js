@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { rest } from 'msw';
 import { v4 as uuidv4 } from 'uuid';
 

@@ -1,4 +1,5 @@
 import { notification } from 'ant-design-vue';
+import 'ant-design-vue/lib/notification/style/css';
 
 const error = (message) => {
   notification.error({

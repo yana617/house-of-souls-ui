@@ -1,19 +1,36 @@
 <template>
   <div class="login">
     <div class="login__wrapper">
-      <input id="email" v-model="email" type="text" name="email" placeholder="E-mail" />
-      <input id="password" v-model="password" type="password" name="password" placeholder="Пароль" />
-      <Button :disabled="loading" @click="submitLogin" class="login__submit-btn" title="Войти" />
+      <input
+        id="email"
+        v-model="email"
+        type="text"
+        name="email"
+        placeholder="E-mail"
+      >
+      <input
+        id="password"
+        v-model="password"
+        type="password"
+        name="password"
+        placeholder="Пароль"
+      >
+      <CommonButton
+        :disabled="loading"
+        class="login__submit-btn"
+        title="Войти"
+        @click="submitLogin"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import Button from '../common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 export default {
   name: 'Login',
-  components: { Button },
+  components: { CommonButton },
   data() {
     return {
       email: null,
@@ -22,7 +39,7 @@ export default {
     };
   },
   mounted() {
-    this.$router.push('/');
+    this.$router.push('/schedule');
   },
   methods: {
     async submitLogin() {

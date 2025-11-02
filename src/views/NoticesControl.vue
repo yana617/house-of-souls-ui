@@ -4,10 +4,9 @@
     <Notice
       v-for="noticeId in notices.list"
       :key="noticeId"
-      v-bind="notices.data[noticeId]"
-      :noticeId="noticeId"
+      :notice-id="noticeId"
     />
-    <Button
+    <CommonButton
       v-if="hasPermissionsToCreateNotice"
       class="notices-control__add-btn"
       title="Добавить"
@@ -15,7 +14,7 @@
     />
     <NewNoticeModal v-if="isModalOpen" />
   </div>
-  <img class="notices-control__img" src="@/assets/cat_infos.jpeg" alt="background-image" />
+  <img class="notices-control__img" src="@/assets/cat_infos.webp" alt="background-image">
 </template>
 
 <script>
@@ -23,12 +22,12 @@ import { mapState } from 'vuex';
 
 import { MODAL } from '@/utils/constants';
 import Notice from '@/components/notices-control-view/Notice.vue';
-import Button from '@/components/common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 import NewNoticeModal from '@/components/notices-control-view/NewNoticeModal.vue';
 
 export default {
   name: 'NoticesControl',
-  components: { Notice, Button, NewNoticeModal },
+  components: { Notice, CommonButton, NewNoticeModal },
   computed: mapState({
     notices: (state) => state.notices,
     modal: (state) => state.app.modal,
@@ -46,6 +45,7 @@ export default {
     this.$store.dispatch('notices/getNotices').finally(() => {
       this.$store.dispatch('app/setLoading', false);
     });
+    this.$store.dispatch('animals/getAnimalsShort');
   },
   methods: {
     openModal() {

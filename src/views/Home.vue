@@ -5,28 +5,30 @@
       :class="{ 'home__layout-content__padding': hasPermissions('CREATE_CLAIM') }"
     >
       <div class="home">
-        <Notice
+        <HomeNotice
           v-for="noticeId in noticesToShow"
           :key="noticeId"
-          :noticeId="noticeId"
+          :notice-id="noticeId"
           v-bind="notices.data[noticeId]"
+          :animal-name="animalsShort[notices.data[noticeId]?.animal_id]?.name"
+          :animal-photo="animalsShort[notices.data[noticeId]?.animal_id]?.photo"
         />
         <button
-          type="button"
           v-if="showLoadAllNoticesBtn"
-          @click="showAllNotices = !showAllNotices"
+          type="button"
           class="home__notices__load-all-btn"
+          @click="showAllNotices = !showAllNotices"
         >
           {{ loadNoticesBtnTitle }}
         </button>
-        <Schedule v-bind="currentSchedule" @refreshSchedule="loadCurrentSchedule" />
-        <Schedule v-bind="nextWeekSchedule" @refreshSchedule="loadNextWeekSchedule" />
+        <Schedule v-bind="currentSchedule" @refresh-schedule="loadCurrentSchedule" />
+        <Schedule v-bind="nextWeekSchedule" @refresh-schedule="loadNextWeekSchedule" />
       </div>
     </a-layout-content>
     <HistoryActions v-if="hasPermissions('CREATE_CLAIM')" />
   </a-layout>
   <a-layout-footer>
-    <Footer />
+    <CommonFooter />
   </a-layout-footer>
 </template>
 
@@ -34,8 +36,8 @@
 import { mapState } from 'vuex';
 
 import HistoryActions from '@/components/home-view/HistoryActions.vue';
-import Footer from '@/components/common/Footer.vue';
-import Notice from '@/components/home-view/Notice.vue';
+import CommonFooter from '@/components/common/CommonFooter.vue';
+import HomeNotice from '@/components/home-view/HomeNotice.vue';
 import Schedule from '@/components/home-view/Schedule.vue';
 import { getToken } from '@/utils/sessionStorage';
 import { getWeekDatesRange } from '@/utils/date';
@@ -45,10 +47,15 @@ const DEFAULT_NOTICES_TO_SHOW_COUNT = 2;
 export default {
   name: 'Home',
   components: {
-    Footer,
-    Notice,
+    CommonFooter,
+    HomeNotice,
     Schedule,
     HistoryActions,
+  },
+  data() {
+    return {
+      showAllNotices: false,
+    };
   },
   computed: mapState({
     notices: (state) => state.notices,
@@ -56,6 +63,10 @@ export default {
     currentSchedule: (state) => state.claims.currentSchedule,
     nextWeekSchedule: (state) => state.claims.nextWeekSchedule,
     permissions: (state) => state.permissions.my,
+    animalsShort: (state) => {
+      const animals = state.animals.shortList || [];
+      return animals.reduce((acc, animal) => ({ ...acc, [animal.id]: animal }), {});
+    },
 
     noticesToShow() {
       if (!this.showAllNotices) {
@@ -70,10 +81,13 @@ export default {
       return this.showAllNotices ? 'Свернуть' : 'Показать все записи';
     },
   }),
-  data() {
-    return {
-      showAllNotices: false,
-    };
+  watch: {
+    user() {
+      if (this.user) {
+        this.loadCurrentSchedule();
+        this.loadNextWeekSchedule();
+      }
+    },
   },
   async created() {
     if (!!getToken() && !this.user) {
@@ -88,6 +102,8 @@ export default {
     this.$store.dispatch('app/setLoading', false);
 
     this.$store.dispatch('additionalFields/getAdditionalFields');
+
+    this.$store.dispatch('animals/getAnimalsShort');
   },
   methods: {
     async loadCurrentSchedule() {
@@ -98,14 +114,6 @@ export default {
     },
     hasPermissions(permission) {
       return this.permissions.includes(permission);
-    },
-  },
-  watch: {
-    user() {
-      if (this.user) {
-        this.loadCurrentSchedule();
-        this.loadNextWeekSchedule();
-      }
     },
   },
 };
@@ -133,7 +141,7 @@ $mediumBlue: #3682f3;
 
   &__notices {
     &__load-all-btn {
-      margin: 8px 8px 8px auto;
+      margin: 8px auto 8px 8px;
       border: none;
       background-color: white;
       color: $mediumBlue;

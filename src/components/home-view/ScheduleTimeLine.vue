@@ -16,13 +16,13 @@
         @on-claim-click="openApply"
         @on-update-click="openUpdateClaimModal(claim)"
       />
-      <Button
+      <CommonButton
         v-if="hasPermissionsToAssign && user && canSubscribe(day.claims)"
         class="schedule-time-line__claim-btn"
         title="Записаться"
         @click="openAssignModal(day.date, day.claims)"
       />
-      <Button
+      <CommonButton
         v-if="!hasPermissionToAssignUnregisteredUsers && canUnsubscribe(day.claims)"
         class="schedule-time-line__unsubscribe-btn"
         title="Отписаться"
@@ -33,19 +33,19 @@
       v-if="claimInfoModalOpen"
       v-bind="selectedClaim"
       @onclose="claimInfoModalOpen = false"
-      @refreshSchedule="refreshSchedule"
+      @refresh-schedule="refreshSchedule"
     />
     <a-modal
       v-model:visible="updateOrCreateModalOpen"
       :footer="null"
       centered
-      :afterClose="onClaimModalClose"
-      destroyOnClose
+      :after-close="onClaimModalClose"
+      destroy-on-close
     >
       <ClaimModal
         :claim="claimForCreateOrUpdate"
         :mode="mode"
-        :canSubscribeYourself="canSubscribeYourself"
+        :can-subscribe-yourself="canSubscribeYourself"
         @onclose="onClaimModalClose"
       />
     </a-modal>
@@ -55,7 +55,7 @@
 <script>
 import { mapState } from 'vuex';
 
-import Button from '../common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 import ScheduleClaim from './ScheduleClaim.vue';
 import ClaimInfoModal from './ClaimInfoModal.vue';
 import ClaimModal from './ClaimModal.vue';
@@ -64,7 +64,7 @@ import NoPeople from './NoPeople.vue';
 export default {
   name: 'ScheduleTimeLine',
   components: {
-    Button,
+    CommonButton,
     ScheduleClaim,
     ClaimInfoModal,
     ClaimModal,
@@ -77,6 +77,7 @@ export default {
     borderTop: Boolean,
     period: String,
   },
+  emits: ['refresh-schedule'],
   data() {
     return {
       claimInfoModalOpen: false,
@@ -149,7 +150,7 @@ export default {
       this.refreshSchedule();
     },
     refreshSchedule() {
-      this.$emit('refreshSchedule');
+      this.$emit('refresh-schedule');
     },
   },
 };

@@ -5,6 +5,7 @@ import userAdditionalFieldsHandlers from './userAdditionalFields';
 import claimsHandlers from './claims';
 import permissionsHandlers from './permissions';
 import rolesHandlers from './roles';
+import animalsHandlers from './animals';
 
 const handlers = [
   ...noticesHandlers,
@@ -14,6 +15,7 @@ const handlers = [
   ...claimsHandlers,
   ...permissionsHandlers,
   ...rolesHandlers,
+  ...animalsHandlers,
 ];
 
 export default handlers;

@@ -1,13 +1,9 @@
-import {
-  mount,
-  flushPromises,
-  RouterLinkStub,
-  RouterViewStub,
-} from '@vue/test-utils';
+import { mount, flushPromises, RouterLinkStub, RouterViewStub } from '@vue/test-utils';
 import Antd from 'ant-design-vue';
+import { describe, vi, beforeAll, it, expect } from 'vitest';
 
 import App from '@/App.vue';
-import Header from '@/components/common/Header.vue';
+import CommonHeader from '@/components/common/CommonHeader.vue';
 import Login from '@/components/header-component/Login.vue';
 import { permissionsApi } from '@/api/permissions';
 import { noticesApi } from '@/api/notices';
@@ -18,13 +14,17 @@ import { authApi } from '@/api/auth';
 
 import store from '../store';
 
-jest.mock('axios');
-
 const $socket = {
-  on: jest.fn(),
+  on: vi.fn(),
 };
 const $matchMedia = {
   mobile: false,
+};
+const mockRoute = {
+  path: '/schedule',
+};
+const mockRouter = {
+  currentRoute: { value: mockRoute },
 };
 
 describe('Home.vue', () => {
@@ -33,23 +33,17 @@ describe('Home.vue', () => {
   let wrapper;
 
   beforeAll(async () => {
-    getPermissionsSpy = jest
+    getPermissionsSpy = vi
       .spyOn(permissionsApi, 'getMyPermissions')
       .mockResolvedValue({ success: true, data: [] });
 
-    jest
-      .spyOn(noticesApi, 'getNotices')
-      .mockResolvedValue({ success: true, data: [] });
+    vi.spyOn(noticesApi, 'getNotices').mockResolvedValue({ success: true, data: [] });
 
-    jest
-      .spyOn(claimsApi, 'getClaims')
-      .mockResolvedValue({ success: true, data: [] });
+    vi.spyOn(claimsApi, 'getClaims').mockResolvedValue({ success: true, data: [] });
 
-    jest
-      .spyOn(aftApi, 'getAdditionalFields')
-      .mockResolvedValue({ success: true, data: [] });
+    vi.spyOn(aftApi, 'getAdditionalFields').mockResolvedValue({ success: true, data: [] });
 
-    loginSpy = jest
+    loginSpy = vi
       .spyOn(authApi, 'login')
       .mockResolvedValue({ success: true, data: { token: 'token' } });
 
@@ -59,10 +53,14 @@ describe('Home.vue', () => {
         mocks: {
           $socket,
           $matchMedia,
+          $route: mockRoute,
         },
         stubs: {
           RouterLink: RouterLinkStub,
           RouterView: RouterViewStub,
+        },
+        provide: {
+          $router: mockRouter,
         },
       },
     });
@@ -70,7 +68,7 @@ describe('Home.vue', () => {
   });
 
   it('loads login btn and it works = shows modal correctly', async () => {
-    expect(wrapper.findComponent(Header).exists()).toBe(true);
+    expect(wrapper.findComponent(CommonHeader).exists()).toBe(true);
 
     const loginBtn = wrapper.find('.header__auth__login-btn');
     expect(loginBtn.exists()).toBe(true);

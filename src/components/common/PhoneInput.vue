@@ -1,5 +1,5 @@
 <template>
-  <input @input="$emit('onchange', $event.target.value)" :id="id" :placeholder="placeholder" />
+  <input :id="id" :placeholder="placeholder" @input="$emit('onchange', $event.target.value)">
 </template>
 
 <script>
@@ -11,6 +11,7 @@ export default {
     id: String,
     placeholder: String,
   },
+  emits: ['onchange'],
   data() {
     return {
       phone: null,

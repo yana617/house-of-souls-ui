@@ -1,5 +1,7 @@
-exports.randomIntNumber = (max = 10000) => Math.round(Math.random() * max);
+export const randomIntNumber = (max = 10000) => Math.round(Math.random() * max);
 
-exports.randomStringNumber = (max = 10000) => this.randomIntNumber(max).toString();
+export const randomStringNumber = (max = 10000) => this.randomIntNumber(max).toString();
 
-exports.randomElement = (arr) => arr[this.randomIntNumber(arr.length - 1)];
+export const randomElement = (arr) => arr[this.randomIntNumber(arr.length - 1)];
+
+export const randomIntNumberFromTo = (min, max) => Math.floor(Math.random() * (max - min)) + min;

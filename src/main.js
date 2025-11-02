@@ -1,27 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { createApp } from 'vue';
-import {
-  Switch,
-  Table,
-  Tag,
-  Spin,
-  Tabs,
-  DatePicker,
-  TimePicker,
-  Checkbox,
-  Input,
-  Layout,
-  LayoutContent,
-  LayoutFooter,
-  Typography,
-  Select,
-  Modal,
-  Divider,
-} from 'ant-design-vue';
 import { io } from 'socket.io-client';
 import { createVueMatchMediaPlugin } from '@cwist/vue-match-media';
 import InlineSvg from 'vue-inline-svg';
-import 'ant-design-vue/dist/antd.css';
 
 import App from './App.vue';
 import router from './router';
@@ -30,15 +10,16 @@ import logger from './utils/logger';
 import interceptorsSetup from './utils/axios';
 
 const breakpoints = {
-  mobile: { maxWidth: 768 },
+  tablet: { maxWidth: 767 },
+  mobile: { maxWidth: 600 },
 };
 const VueMatchMediaPlugin = createVueMatchMediaPlugin({ breakpoints });
 interceptorsSetup();
 
-const { VUE_APP_HOS_SERVICE } = process.env;
-const socket = io(VUE_APP_HOS_SERVICE, {
+const { VITE_HOS_SERVICE } = import.meta.env;
+const socket = io(VITE_HOS_SERVICE, {
   cors: {
-    origin: VUE_APP_HOS_SERVICE,
+    origin: VITE_HOS_SERVICE,
     methods: ['GET', 'POST'],
   },
 });
@@ -47,32 +28,27 @@ const run = () => {
   const app = createApp(App)
     .use(store)
     .use(router)
-    .use(Switch)
-    .use(Spin)
-    .use(Tabs)
-    .use(DatePicker)
-    .use(TimePicker)
-    .use(Checkbox)
-    .use(Table)
-    .use(Tag)
-    .use(Input)
-    .use(Layout)
-    .use(LayoutContent)
-    .use(LayoutFooter)
-    .use(Typography)
-    .use(Select)
-    .use(Modal)
-    .use(Divider)
     .use(VueMatchMediaPlugin);
 
   app.config.globalProperties.$socket = socket;
 
-  app.component('inline-svg', InlineSvg);
+  app.component('InlineSvg', InlineSvg);
+
+  app.directive('permission', {
+    mounted(el, binding) {
+      const { value } = binding;
+      const permissions = store.state.permissions.my;
+      
+      if (!permissions?.includes(value)) {
+        el.remove();
+      }
+    }
+  });
 
   app.mount('#app');
 };
 
-if (process.env.VUE_APP_MSW === 'true') {
+if (import.meta.env.VITE_MSW === 'true') {
   Promise
     .all([import('msw'), import('@/mocks/handlers')])
     .then(([{ setupWorker }, { default: handlers }]) => setupWorker(...handlers))

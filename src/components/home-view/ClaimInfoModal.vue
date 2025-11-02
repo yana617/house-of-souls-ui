@@ -1,7 +1,12 @@
 <template>
-  <div @click="$emit('onclose')" class="modal__wrapper claim-info-modal__wrapper">
+  <div class="modal__wrapper claim-info-modal__wrapper" @click="$emit('onclose')">
     <div class="claim-info-modal" @click.stop>
-      <img @click="$emit('onclose')" class="claim-info-modal__close-icon" src="@/assets/close.png" alt="close" />
+      <img
+        class="claim-info-modal__close-icon"
+        src="@/assets/close.png"
+        alt="close"
+        @click="$emit('onclose')"
+      >
       <div class="claim-info-modal__header" />
       <span class="claim-info-modal__info-title">Данные о волонтёре</span>
       <span class="claim-info-modal__info-description name"> {{ userToShow.name }} {{ userToShow.surname }} </span>
@@ -10,18 +15,18 @@
       </a>
       <span v-if="haveTruthyAdditionFields" class="claim-info-modal__additional-fields">
         <div
-          class="claim-info-modal__additional-fields__item"
           v-for="field in user.user_additional_fields"
           :key="field._id"
+          class="claim-info-modal__additional-fields__item"
         >
           <CheckCircleTwoTone v-if="field.value" :two-tone-color="twoToneColor" />
-          <span class="claim-info-modal__additional-fields__label" v-if="field.value">
+          <span v-if="field.value" class="claim-info-modal__additional-fields__label">
             {{ additionalFieldsById[field.additional_field_template_id]?.label }}
           </span>
           <Tooltip
-            class="claim-info-modal__tooltip"
             v-if="field.value"
-            :helpText="additionalFieldsById[field.additional_field_template_id]?.description"
+            class="claim-info-modal__tooltip"
+            :help-text="additionalFieldsById[field.additional_field_template_id]?.description"
           />
         </div>
       </span>
@@ -35,7 +40,7 @@
       </div>
       <span v-if="!comment" class="claim-info-modal__info-description">-</span>
       <span v-if="questionable" class="claim-info-modal__info-title red">Под вопросом!</span>
-      <Button
+      <CommonButton
         v-if="isAdmin"
         class="claim-info-modal__delete-btn"
         :title="isMyClaim ? 'Отписаться' : 'Удалить запись'"
@@ -49,15 +54,30 @@
 import { mapState } from 'vuex';
 import { CheckCircleTwoTone } from '@ant-design/icons-vue';
 
-import Button from '@/components/common/Button.vue';
-import mapPhone from '@/utils/phoneMapper';
+import CommonButton from '@/components/common/CommonButton.vue';
+import prettifyPhone from '@/utils/prettifyPhone';
 import Tooltip from '../common/CustomTooltip.vue';
 
 const TWO_TONE_COLOR = '#52c41a';
 
 export default {
   name: 'ClaimInfoModal',
-  components: { Tooltip, CheckCircleTwoTone, Button },
+  components: { Tooltip, CheckCircleTwoTone, CommonButton },
+  props: {
+    _id: String,
+    additional_people: Number,
+    arrival_time: String,
+    comment: String,
+    user: Object,
+    guest: {
+      type: [Object, null],
+    },
+    guest_id: {
+      type: [String, null],
+    },
+    questionable: Boolean,
+  },
+  emits: ['refresh-schedule', 'onclose'],
   data() {
     return {
       twoToneColor: TWO_TONE_COLOR,
@@ -93,7 +113,7 @@ export default {
       return this.authUser && this.authUser.role === 'ADMIN';
     },
     phoneToShow() {
-      return mapPhone(this.userToShow.phone);
+      return prettifyPhone(this.userToShow.phone);
     },
   }),
   methods: {
@@ -102,27 +122,13 @@ export default {
       this.$store
         .dispatch('claims/deleteClaim', { _id: this._id })
         .then(() => {
-          this.$emit('refreshSchedule');
+          this.$emit('refresh-schedule');
         })
         .finally(() => {
           this.$store.dispatch('app/setLoading', false);
           this.$emit('onclose');
         });
     },
-  },
-  props: {
-    _id: String,
-    additional_people: Number,
-    arrival_time: String,
-    comment: String,
-    user: Object,
-    guest: {
-      type: [Object, null],
-    },
-    guest_id: {
-      type: [String, null],
-    },
-    questionable: Boolean,
   },
 };
 </script>

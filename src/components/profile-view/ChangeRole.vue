@@ -1,31 +1,36 @@
 <template>
   <div v-if="userRole && translatedUserRole" class="change-role">
     <span><b>Роль пользователя</b></span>
-    <br />
+    <br>
     <span>{{ translatedUserRole?.translate }}</span>
-    <br />
+    <br>
     <span><b>Поменять роль</b></span>
-    <br />
+    <br>
     <a-select
-      placeholder="Выберите роль"
       ref="select"
       v-model:value="updatedRole"
+      placeholder="Выберите роль"
       style="width: 300px"
       :options="roles"
     />
-    <br />
-    <Button :loading="loading" class="change-role__save-btn" title="сохранить" @click="updateRole" />
+    <br>
+    <CommonButton
+      :loading="loading"
+      class="change-role__save-btn"
+      title="сохранить"
+      @click="updateRole"
+    />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 
-import Button from '../common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 export default {
   name: 'ChangeRole',
-  components: { Button },
+  components: { CommonButton },
   data() {
     return {
       updatedRole: null,
@@ -84,10 +89,10 @@ $green: #42b983;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     margin: 24px 0px;
   }
-  @media (max-width: 350px) {
+  @media (max-width: 359px) {
     margin: 24px 12px;
   }
 }

@@ -5,7 +5,7 @@
       :data-source="claims"
       :row-key="(record) => record._id"
       :pagination="paginationOpt"
-      :defaultExpandAllRows="true"
+      :default-expand-all-rows="true"
       class="visit__table"
     >
       <template #date="{ text: date }">
@@ -68,7 +68,7 @@ export default {
     white-space: nowrap;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     padding: 8px 16px;
   }
 

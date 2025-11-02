@@ -97,6 +97,17 @@ const claimFormDescriptions = {
   comment: 'Если вы отклоняетесь от этого времени - предупредите в комментарии пожалуйста!',
 };
 
+const defaultCuratorPhones = {
+  dog: {
+    name: 'Тамара',
+    phones: ['+375(29) 322-61-55', '+375(33) 66-11-625'],
+  },
+  cat: {
+    name: 'Ирина',
+    phones: ['+375(44) 772-72-65', '+375(29) 775-61-72'],
+  },
+};
+
 export {
   MODAL,
   volunteersColumns,
@@ -105,4 +116,5 @@ export {
   claimFormLabels,
   claimFormDescriptions,
   claimsRatingColumns,
+  defaultCuratorPhones,
 };

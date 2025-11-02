@@ -1,28 +1,40 @@
 <template>
   <div class="additional-field">
-    <BaseInput :disabled="!edit" v-model="labelModel" />
+    <BaseInput v-model="labelModel" :disabled="!edit" />
     <span class="additional-field__error">{{ getError('label') }}</span>
-    <BaseInput :disabled="!edit" v-model="iconModel" />
+    <BaseInput v-model="iconModel" :disabled="!edit" />
     <span class="additional-field__error">{{ getError('icon') }}</span>
-    <BaseInput is-textarea :disabled="!edit" v-model="descriptionModel" />
+    <BaseInput v-model="descriptionModel" is-textarea :disabled="!edit" />
     <span class="additional-field__error">{{ getError('description') }}</span>
     <div class="additional-field__control-btns">
-      <Button
-        class="additional-field__edit-btn"
+      <CommonButton
         v-if="!edit && hasPermissions('EDIT_ADDITIONAL_FIELD_TEMPLATE')"
+        class="additional-field__edit-btn"
         :loading="loading"
-        @click="edit = true"
         title="редактировать"
+        @click="edit = true"
       />
-      <Button v-if="edit" :loading="loading" class="additional-field__save-btn" @click="update()" title="сохранить" />
-      <Button
+      <CommonButton
+        v-if="edit"
+        :loading="loading"
+        class="additional-field__save-btn"
+        title="сохранить"
+        @click="update()"
+      />
+      <CommonButton
         v-if="!edit && hasPermissions('DELETE_ADDITIONAL_FIELD_TEMPLATE')"
         class="additional-field__delete-btn"
         :loading="loading"
-        @click="deleteField()"
         title="удалить"
+        @click="deleteField()"
       />
-      <Button v-if="edit" class="additional-field__cancel-btn" :disabled="loading" @click="cancel()" title="отменить" />
+      <CommonButton
+        v-if="edit"
+        class="additional-field__cancel-btn"
+        :disabled="loading"
+        title="отменить"
+        @click="cancel()"
+      />
     </div>
   </div>
 </template>
@@ -30,13 +42,13 @@
 <script>
 import { mapState } from 'vuex';
 
-import Button from '@/components/common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 import BaseInput from '@/components/common/BaseInput.vue';
 import { findError } from '@/utils/validation';
 
 export default {
   name: 'AdditionalField',
-  components: { Button, BaseInput },
+  components: { CommonButton, BaseInput },
   props: {
     id: String,
     icon: String,
@@ -168,7 +180,7 @@ $green: #42b983;
     margin-bottom: 4px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     max-width: 100%;
     min-width: 300px;
   }

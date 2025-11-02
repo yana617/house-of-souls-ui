@@ -2,22 +2,22 @@
   <div class="volunteers">
     <span id="title">
       <span> Список волонтеров </span>
-      <span class="volunteers__total" v-if="totalIsNumber">{{ total }}</span>
+      <span v-if="totalIsNumber" class="volunteers__total">{{ total }}</span>
     </span>
     <SearchBar ref="searchBar" @reset-skip="resetSkip" />
-    <div class="volunteers__list" id="volunteers__list">
-      <div class="volunteers__item" v-for="volunteer in volunteers" :key="volunteer.id">
+    <div id="volunteers__list" class="volunteers__list">
+      <div v-for="volunteer in volunteers" :key="volunteer.id" class="volunteers__item">
         <router-link :to="`/users/${volunteer.id}`">
           <span> {{ volunteer.name }} {{ volunteer.surname }} </span>
         </router-link>
         <a class="volunteers__phone-container" :href="`tel:+${volunteer.phone.replace(/\s/g, '')}`">
-          <img class="volunteers__phone-icon" src="@/assets/phone-icon.png" alt="phone" />
+          <img class="volunteers__phone-icon" src="@/assets/phone-icon.png" alt="phone">
           +{{ prettifyPhone(volunteer.phone) }}
         </a>
       </div>
     </div>
     <div v-if="loading" class="volunteers__loader-wrapper">
-      <Loader className="volunteers__loader" />
+      <Loader class-name="volunteers__loader" />
     </div>
     <span v-if="!loading && noVolunteers">Волонтеры не найдены</span>
   </div>
@@ -28,11 +28,18 @@ import { mapState } from 'vuex';
 
 import SearchBar from '@/components/volunteers-view/SearchBar.vue';
 import Loader from '@/components/common/Loader.vue';
+import prettifyPhone from '@/utils/prettifyPhone';
 import { LIMIT } from '@/api/constants';
 
 export default {
   name: 'Volunteers',
   components: { SearchBar, Loader },
+  data() {
+    return {
+      skip: 0,
+      loading: true,
+    };
+  },
   computed: mapState({
     volunteers: (state) => state.users.list,
     total: (state) => state.users.total,
@@ -43,12 +50,6 @@ export default {
       return !this.volunteers || this.volunteers.length === 0;
     },
   }),
-  data() {
-    return {
-      skip: 0,
-      loading: true,
-    };
-  },
   created() {
     this.$store
       .dispatch('users/getUsers', {
@@ -95,7 +96,7 @@ export default {
         });
     },
     prettifyPhone(phone) {
-      return `${phone.substr(0, 3)} ${phone.substring(3, 5)} ${phone.substring(5)}`;
+      return prettifyPhone(phone);
     },
     checkScroll() {
       if (this.loading) return;

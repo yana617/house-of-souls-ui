@@ -7,14 +7,16 @@
       defaultPageSize: 10,
       'onUpdate:current': (page) => (currentPage = page),
     }"
-    :defaultExpandAllRows="true"
+    :default-expand-all-rows="true"
     class="claims-rating-table"
     size="small"
-    :rowClassName="(record, index) => getRowClass(record, index)"
+    :row-class-name="(record, index) => getRowClass(record, index)"
   >
-    <template #title>{{ header }}</template>
+    <template #title>
+      {{ header }}
+    </template>
     <template #place="{ index }">
-      <b>{{ getIndex(index) }} <StarFilled class="claims-rating-table__star" v-if="getIndex(index) <= 3" /></b>
+      <b>{{ getIndex(index) }} <StarFilled v-if="getIndex(index) <= 3" class="claims-rating-table__star" /></b>
     </template>
     <template #fullName="{ record }">
       <span class="claims-rating-table__name-row">{{ record.fullName }}</span>
@@ -110,10 +112,11 @@ $borderRadius: 16px;
 
   @media (max-width: 1200px) {
     max-width: 500px;
+    margin-bottom: 16px;
+    
     &__name-row {
       min-width: 300px;
     }
-    margin-bottom: 16px;
   }
 
   @media (max-width: 520px) {
@@ -129,7 +132,7 @@ $borderRadius: 16px;
     }
   }
 
-  @media (max-width: 350px) {
+  @media (max-width: 359px) {
     &__name-row {
       min-width: 130px;
       max-width: 130px;

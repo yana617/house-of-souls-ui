@@ -2,26 +2,26 @@
   <div class="schedule-claim" :class="{ 'is-my-claim': isMyClaim }">
     <div v-if="haveTruthyAdditionFields()" class="schedule-claim__additional-fields">
       <div
-        class="schedule-claim__additional-fields__wrapper"
         v-for="field in claim.user?.user_additional_fields"
         :key="field.id"
+        class="schedule-claim__additional-fields__wrapper"
       >
         <span v-if="field.value && additionalFieldsById[field.additional_field_template_id]?.icon">
           {{ additionalFieldsById[field.additional_field_template_id].icon }}
         </span>
       </div>
     </div>
-    <span @click="$emit('on-claim-click', claim)" class="schedule-claim__main-container">
+    <span class="schedule-claim__main-container" @click="$emit('on-claim-click', claim)">
       <b v-if="claim.questionable" class="schedule-claim__questionable">?</b>
       {{ username }}
-      <b class="schedule-claim__additional-people" v-if="claim.additional_people">
+      <b v-if="claim.additional_people" class="schedule-claim__additional-people">
         +{{ claim.additional_people }}
       </b>
     </span>
     <EditOutlined
       v-if="isMyClaim"
-      @click="this.$emit('on-update-click')"
       style="margin-left: auto"
+      @click="$emit('on-update-click')"
     />
   </div>
 </template>
@@ -36,6 +36,7 @@ export default {
   props: {
     claim: Object,
   },
+  emits: ['on-update-click', 'on-claim-click'],
   computed: mapState({
     additionalFields: (state) => state.additionalFields.all,
     user: (state) => state.auth.user,

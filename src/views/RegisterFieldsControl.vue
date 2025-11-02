@@ -25,11 +25,11 @@
       </div>
     </div>
     <div class="register-fields-control__additional-fields__add-btn__container">
-      <Button
+      <CommonButton
         v-if="hasPermissions('CREATE_ADDITIONAL_FIELD_TEMPLATE')"
         class="register-fields-control__additional-fields__add-btn"
-        @click="openModal()"
         title="Добавить новое поле"
+        @click="openModal()"
       />
       <NewAdditionalFieldModal v-if="isModalOpen" />
     </div>
@@ -39,14 +39,14 @@
 <script>
 import { mapState } from 'vuex';
 
-import Button from '@/components/common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 import AdditionalField from '@/components/register-fields-control-view/AdditionalField.vue';
 import NewAdditionalFieldModal from '@/components/register-fields-control-view/NewAdditionalFieldModal.vue';
 import { MODAL } from '@/utils/constants';
 
 export default {
   name: 'RegisterFieldsControl',
-  components: { Button, AdditionalField, NewAdditionalFieldModal },
+  components: { CommonButton, AdditionalField, NewAdditionalFieldModal },
   computed: mapState({
     additionalFields: (state) => state.additionalFields.all,
     permissions: (state) => state.permissions.my,
@@ -158,7 +158,7 @@ $darkGrey: #999;
     text-align: left;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     &__fields-container {
       flex-direction: column;
     }

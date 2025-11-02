@@ -1,25 +1,37 @@
 <template>
   <div v-if="claims" class="schedule">
-    <div class="schedule__dates-info">с {{ fromDate }} по {{ toDate }}</div>
+    <div class="schedule__dates-info">
+      с {{ fromDate }} по {{ toDate }}
+    </div>
     <div class="schedule__container">
       <div class="schedule__sub-container">
         <div class="schedule__line">
           <div style="min-width: 80px" />
-          <span v-for="day in claims" :key="day.date" class="schedule__date">
+          <span
+            v-for="day in claims"
+            :key="day.date"
+            class="schedule__date"
+            :class="{ today: isToday(day.date) }"
+          >
             <span class="schedule__date__sub-container">
               {{ dayOfWeek(day.date) }}
               <span class="schedule__date__numeric">{{ parseDate(day.date) }}</span>
             </span>
           </span>
         </div>
-        <ScheduleTimeLine title="УТРО" type="morning" :schedule="morningSchedule" @refreshSchedule="refreshSchedule" />
+        <ScheduleTimeLine
+          title="УТРО"
+          type="morning"
+          :schedule="morningSchedule"
+          @refresh-schedule="refreshSchedule"
+        />
         <ScheduleTimeLine
           class="schedule__evening"
           title="ВЕЧЕР"
           type="evening"
-          borderTop
+          border-top
           :schedule="eveningSchedule"
-          @refreshSchedule="refreshSchedule"
+          @refresh-schedule="refreshSchedule"
         />
       </div>
     </div>
@@ -30,6 +42,9 @@
 import { daysOfWeek, parseDate } from '@/utils/date';
 import ScheduleTimeLine from './ScheduleTimeLine.vue';
 
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
 export default {
   name: 'Schedule',
   components: { ScheduleTimeLine },
@@ -38,6 +53,7 @@ export default {
     to: String,
     claims: Array,
   },
+  emits: ['refresh-schedule'],
   computed: {
     morningSchedule() {
       return this.claims.map((day) => ({ date: day.date, claims: day.morning }));
@@ -61,8 +77,15 @@ export default {
       return new Date(date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'numeric' });
     },
     refreshSchedule() {
-      this.$emit('refreshSchedule');
+      this.$emit('refresh-schedule');
     },
+    isToday(date) {
+      const inputDate = new Date(date);
+
+      return inputDate.getFullYear() === today.getFullYear() &&
+        inputDate.getMonth() === today.getMonth() &&
+        inputDate.getDate() === today.getDate();
+    }
   },
 };
 </script>
@@ -129,6 +152,13 @@ $lightBlue: #d0e1f9;
 
     &__sub-container {
       margin: auto;
+    }
+
+    &.today {
+      background-color: #f8f9fa;
+      border-left: 4px solid #007bff;
+      border-right: 4px solid #007bff;
+      font-weight: bold;
     }
   }
 }

@@ -1,18 +1,20 @@
 <template>
-  <label v-show="label">{{ label }}</label>
-  <span v-show="description">{{ description }}</span>
-  <input
-    v-if="!isTextarea"
-    v-bind="$attrs"
-    :value="modelValue"
-    @input="$emit('update:modelValue', $event.target.value)"
-  />
-  <textarea
-    v-if="isTextarea"
-    v-bind="$attrs"
-    :value="modelValue"
-    @input="$emit('update:modelValue', $event.target.value)"
-  />
+  <div class="base-input">
+    <label v-show="label">{{ label }}</label>
+    <span v-show="description">{{ description }}</span>
+    <input
+      v-if="!isTextarea"
+      v-bind="$attrs"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+    >
+    <textarea
+      v-if="isTextarea"
+      v-bind="$attrs"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+    />
+  </div>
 </template>
 
 <script>
@@ -26,28 +28,35 @@ export default {
       default: '',
     },
   },
+  emits: ['update:modelValue'],
 };
 </script>
 
 <style lang="scss" scoped>
 $lightGrey: #ccc;
 
-label {
-  margin: 12px 0 8px;
-  font-weight: bold;
-}
+.base-input {
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
 
-span {
-  margin-bottom: 8px;
-}
+  label {
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
 
-input,
-textarea {
-  outline: none;
-  border: 1px solid $lightGrey;
-  padding: 4px 8px;
-  border-radius: 4px;
-  resize: none;
-  margin-bottom: 4px;
+  span {
+    margin-bottom: 8px;
+  }
+
+  input,
+  textarea {
+    outline: none;
+    border: 1px solid $lightGrey;
+    padding: 4px 8px;
+    border-radius: 4px;
+    resize: none;
+    margin-bottom: 4px;
+  }
 }
 </style>

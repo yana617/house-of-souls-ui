@@ -1,36 +1,36 @@
 <template>
-  <div @click="closeModal()" class="modal__wrapper">
+  <div class="modal__wrapper" @click="closeModal()">
     <div class="new-additional-field-modal" @click.stop>
       <img
-        @click="closeModal()"
         class="new-additional-field-modal__close-icon"
         src="@/assets/close.png"
         alt="close"
-      />
+        @click="closeModal()"
+      >
       <h2>Новое дополнительное поле</h2>
       <input
+        v-model="label"
         class="new-additional-field-modal__label"
         placeholder="Короткое название (желательно одно слово)"
-        v-model="label"
-      />
+      >
       <span class="new-additional-field-modal__error">{{ getError('label') }}</span>
       <input
+        v-model="icon"
         class="new-additional-field-modal__label"
         placeholder="Иконка (для отображения в графике)"
-        v-model="icon"
-      />
+      >
       <span class="new-additional-field-modal__error">{{ getError('icon') }}</span>
       <textarea
-        class="new-additional-field-modal__description"
         v-model="description"
+        class="new-additional-field-modal__description"
         placeholder="Описание"
       />
       <span class="new-additional-field-modal__error">{{ getError('description') }}</span>
-      <Button
+      <CommonButton
         :loading="loading"
         class="new-additional-field-modal__btn__save"
-        @click="create()"
         title="Добавить"
+        @click="create()"
       />
     </div>
   </div>
@@ -40,14 +40,11 @@
 import { mapState } from 'vuex';
 
 import { findError } from '@/utils/validation';
-import Button from '../common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 
 export default {
   name: 'NewAdditionalFieldModal',
-  components: { Button },
-  computed: mapState({
-    errors: (state) => state.additionalFields.createErrors,
-  }),
+  components: { CommonButton },
   data() {
     return {
       label: null,
@@ -57,6 +54,9 @@ export default {
       loading: false,
     };
   },
+  computed: mapState({
+    errors: (state) => state.additionalFields.createErrors,
+  }),
   unmounted() {
     this.$store.dispatch('additionalFields/clearCreateErrors');
   },
@@ -133,6 +133,7 @@ $lightGrey: #ccc;
       color: black !important;
       border-color: black !important;
     }
+
     &__save {
       margin-top: 12px;
       color: $green !important;
@@ -178,7 +179,7 @@ $lightGrey: #ccc;
     margin-bottom: 4px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     h2 {
       font-size: 16px;
       margin-bottom: 16px;

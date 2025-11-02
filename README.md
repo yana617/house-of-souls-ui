@@ -5,8 +5,8 @@ Volunteers come to the house of the rescued souls (HOS, in russian - Домик 
 ## Project setup
 
 ### Requirements
-node version **14.17.2**
-npm version **6.14.13**
+node version **20.17.0**
+npm version **10.8.2**
 
 ```bash
 npm install
@@ -20,9 +20,9 @@ npm install
 
 Create **.env.local** file from **.env.example** file and setup local variables.
 
-To have a mock server via service worker it's required to provide env variable `VUE_APP_MSW` with value `true`
+To have a mock server via service worker it's required to provide env variable `VITE_MSW` with value `true`
 
-Setup `VUE_APP_AUTH_SERVICE` and `VUE_APP_HOS_SERVICE` variables with API urls
+Setup `VITE_AUTH_SERVICE` and `VITE_HOS_SERVICE` variables with API urls
 
 Run:
 

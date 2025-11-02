@@ -2,12 +2,23 @@
   <div class="reset-password">
     <form :onsubmit="resetPassword">
       <label for="pass">Восстановление пароля</label>
-      <a-input id="pass" type="password" size="large" v-model:value="password" placeholder="Новый пароль" />
+      <a-input
+        id="pass"
+        v-model:value="password"
+        type="password"
+        size="large"
+        placeholder="Новый пароль"
+      />
       <span class="reset-password__error">{{ getError('password') }}</span>
-      <a-input type="password" size="large" v-model:value="repeatPassword" placeholder="Подтвердите пароль" />
+      <a-input
+        v-model:value="repeatPassword"
+        type="password"
+        size="large"
+        placeholder="Подтвердите пароль"
+      />
       <span class="reset-password__error">{{ getError('token') }}</span>
       <span class="reset-password__error">{{ getError('userId') }}</span>
-      <Button class="reset-password__btn" title="Обновить пароль" />
+      <CommonButton class="reset-password__btn" title="Обновить пароль" />
     </form>
   </div>
 </template>
@@ -16,13 +27,13 @@
 import { mapState } from 'vuex';
 
 import notifications from '@/utils/notifications';
-import Button from '@/components/common/Button.vue';
+import CommonButton from '@/components/common/CommonButton.vue';
 import { findError } from '@/utils/validation';
 import { getToken } from '@/utils/sessionStorage';
 
 export default {
   name: 'ResetPassword',
-  components: { Button },
+  components: { CommonButton },
   data() {
     return {
       password: '',
@@ -30,14 +41,14 @@ export default {
       findError,
     };
   },
+  computed: mapState({
+    errors: (state) => state.auth.resetPasswordErrors,
+  }),
   created() {
     if (getToken()) {
       this.$router.push('/');
     }
   },
-  computed: mapState({
-    errors: (state) => state.auth.resetPasswordErrors,
-  }),
   methods: {
     resetPassword() {
       if (this.password !== this.repeatPassword) {
