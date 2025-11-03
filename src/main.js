@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import { io } from 'socket.io-client';
 import { createVueMatchMediaPlugin } from '@cwist/vue-match-media';
 import InlineSvg from 'vue-inline-svg';
+import { configure } from 'vue-gtag';
 
 import App from './App.vue';
 import router from './router';
@@ -24,11 +25,16 @@ const socket = io(VITE_HOS_SERVICE, {
   },
 });
 
+configure({
+  config: 'G-7RDPV1QH6F',
+  pageTracker: {
+    router,
+  },
+  exclude: ['schedule', 'volunteers'],
+});
+
 const run = () => {
-  const app = createApp(App)
-    .use(store)
-    .use(router)
-    .use(VueMatchMediaPlugin);
+  const app = createApp(App).use(store).use(router).use(VueMatchMediaPlugin);
 
   app.config.globalProperties.$socket = socket;
 
@@ -38,19 +44,18 @@ const run = () => {
     mounted(el, binding) {
       const { value } = binding;
       const permissions = store.state.permissions.my;
-      
+
       if (!permissions?.includes(value)) {
         el.remove();
       }
-    }
+    },
   });
 
   app.mount('#app');
 };
 
 if (import.meta.env.VITE_MSW === 'true') {
-  Promise
-    .all([import('msw'), import('@/mocks/handlers')])
+  Promise.all([import('msw'), import('@/mocks/handlers')])
     .then(([{ setupWorker }, { default: handlers }]) => setupWorker(...handlers))
     .then((worker) => worker.start())
     .then(() => {
