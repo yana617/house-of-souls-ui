@@ -26,7 +26,7 @@ const socket = io(VITE_HOS_SERVICE, {
 });
 
 configure({
-  config: 'G-7RDPV1QH6F',
+  tagId: 'G-7RDPV1QH6F',
   pageTracker: {
     router,
   },
