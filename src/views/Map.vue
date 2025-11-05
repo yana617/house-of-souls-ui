@@ -1,6 +1,7 @@
 <template>
   <div class="map-container">
-    <div class="map">
+    <h1>Карта</h1>
+    <div class="map">  
       <div class="map__door" />
       <div class="map__quarantine-house">
         <QuarantineHouse :animals="quarantineHouseAnimals" />
@@ -31,6 +32,7 @@
       </div>
     </div>
   </div>
+  <List />
 </template>
 
 <script>
@@ -41,12 +43,13 @@ import CatHouse from '@/components/map-view/CatHouse.vue';
 import AnimalCount from '@/components/map-view/AnimalCount.vue';
 import QuarantineHouse from '@/components/map-view/QuarantineHouse.vue';
 import RoomNumber from '@/components/map-view/RoomNumber.vue';
+import List from '@/components/map-view/List.vue';
 import AnimalPlace from '@/utils/enums/AnimalPlace';
 import { getAnimalCardSize } from '@/utils/get-animal-card-size';
 
 export default {
   name: 'Map',
-  components: { MainHouse, CatHouse, QuarantineHouse, RoomNumber, AnimalCount },
+  components: { MainHouse, CatHouse, QuarantineHouse, RoomNumber, AnimalCount, List },
   data() {
     return { getAnimalCardSize };
   },
@@ -98,7 +101,10 @@ export default {
       }
 
       return false;
-    }
+    },
+    animalsFilteredByRoomNumber(roomNumber) {
+      return this.animals.filter((a) => a.room === roomNumber);
+    },
   }
 };
 </script>
@@ -107,10 +113,16 @@ export default {
 $lightestGrey: #eff1f3;
 
 .map-container {
-  min-height: calc(100vh - 50px);
   display: flex;
+  padding: 16px;
+  overflow: auto;
+  max-width: 100%;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+
+  @media (max-width: 1200px) {
+    align-items: flex-start;
+  }
 }
 
 .blink {
@@ -121,6 +133,8 @@ $lightestGrey: #eff1f3;
   display: flex;
   width: 1100px;
   height: 700px;
+  min-width: 1100px;
+  min-height: 700px;
   background-color: $lightestGrey;
   border-radius: 8px;
   position: relative;
