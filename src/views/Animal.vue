@@ -34,6 +34,8 @@ import AdsInfoForVolunteers from '@/components/animal-view/AdsInfoForVolunteers.
 import AdsInfoForGuests from '@/components/animal-view/AdsInfoForGuests.vue';
 import CommonButton from '@/components/common/CommonButton.vue';
 
+const originalTitle = document.title;
+
 export default {
   name: 'Animal',
   components: {
@@ -57,6 +59,13 @@ export default {
       return this.permissions.includes('VIEW_ANIMALS');
     },
   }),
+  watch: {
+    animal() {
+      if (this.animal) {
+        document.title = `ДСД - ${this.animal.name}`;
+      }
+    }
+  },
   created() {
     this.$store.dispatch('notices/clearNotices');
     this.$store.dispatch('app/setLoading', true);
@@ -72,6 +81,7 @@ export default {
   },
   unmounted() {
     this.$store.dispatch('animals/clearAnimal');
+    document.title = originalTitle;
   },
   methods: {
     handleDelete() {
@@ -91,7 +101,7 @@ $lightestGrey: #fafafa;
 .animal {
   width: 60%;
   padding: 32px;
-  
+
   &__container {
     background-color: $lightestGrey;
     min-height: calc(100vh - 50px);
