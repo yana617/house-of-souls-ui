@@ -8,30 +8,42 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import AnimalListDesktop from '@/components/animal-list-view/AnimalListDesktop.vue';
 import AnimalListMobile from '@/components/animal-list-view/AnimalListMobile.vue';
 
 export default {
   name: 'AnimalList',
   components: { AnimalListDesktop, AnimalListMobile },
+  computed: mapState({
+    permissions: (state) => state.permissions.my,
+  }),
   watch: {
     '$route.query': function () {
       const { path, query } = this.$route;
 
       if (path === '/') {
         this.$store.dispatch('app/setLoading', true);
-        this.$store.dispatch('animals/getAnimals', query).finally(() => {
-          this.$store.dispatch('app/setLoading', false);
-        });
+        this.$store
+          .dispatch(
+            'animals/getAnimals',
+            {
+              ...query, hasViewAnimalsPermission: !!this.permissions.includes('VIEW_ANIMALS'),
+            })
+          .finally(() => {
+            this.$store.dispatch('app/setLoading', false);
+          });
       }
     },
   },
   created() {
     const { query } = this.$route;
     this.$store.dispatch('app/setLoading', true);
-    this.$store.dispatch('animals/getAnimals', query).finally(() => {
-      this.$store.dispatch('app/setLoading', false);
-    });
+    this.$store
+      .dispatch('animals/getAnimals', { ...query, hasViewAnimalsPermission: this.permissions.includes('VIEW_ANIMALS') })
+      .finally(() => {
+        this.$store.dispatch('app/setLoading', false);
+      });
   },
 };
 </script>
