@@ -68,6 +68,7 @@
 <script setup>
 import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
+import dayjs from 'dayjs';
 
 import InputV2 from '@/components/common/InputV2.vue';
 import CheckboxV2 from '@/components/common/CheckboxV2.vue';
@@ -108,7 +109,8 @@ let animal = reactive({
   sex: AnimalSex.MALE,
   place: AnimalPlace.CAT_HOUSE,
   status: AnimalStatus.HOMELESS,
-  birthday: null,
+  birthday: dayjs().subtract(1, 'year'),
+  second_birthday: dayjs().subtract(1, 'month'),
   sterilized: true,
   photos: '',
   curator_id: null,
