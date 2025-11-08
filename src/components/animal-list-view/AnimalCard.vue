@@ -22,6 +22,9 @@
       {{ cutText }}
     </p>
     <span class="animal-card__go-btn">Подробнее</span>
+    <div v-if="status === AnimalStatus.PREPARATION" class="animal-card__on-pause">
+      на паузе
+    </div>
   </router-link>
 </template>
 
@@ -33,6 +36,7 @@ import { calculateAge } from '@/utils/date';
 import translates from '@/utils/translates/index';
 import Filters from '@/utils/enums/Filters';
 import AnimalType from '@/utils/enums/AnimalType';
+import AnimalStatus from '@/utils/enums/AnimalStatus';
 
 export default {
   name: 'AnimalCard',
@@ -46,6 +50,12 @@ export default {
     type: String,
     advertising_text: String,
     birthday: String,
+    status: String,
+  },
+  data() {
+    return {
+      AnimalStatus,
+    };
   },
   computed: mapState({
     permissions: (state) => state.permissions.my,
@@ -82,6 +92,7 @@ $darkBlue: #2f3e4e;
 $grey1: #8a92a6;
 $blue: #3f91f7;
 $lightGrey: #ccc;
+$orange: #ffc100;
 
 .animal-card {
   display: flex;
@@ -93,6 +104,19 @@ $lightGrey: #ccc;
   overflow: hidden;
   color: $darkBlue;
   padding-bottom: 16px;
+  position: relative;
+
+  &__on-pause {
+    background-color: $orange;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    margin: 8px;
+    font-size: 13px;
+    font-weight: 700;
+  }
 
   &__image-container {
     height: 170px;
@@ -153,6 +177,7 @@ $lightGrey: #ccc;
     &__image-container {
       height: 180px;
     }
+
     &__description {
       height: unset;
     }
