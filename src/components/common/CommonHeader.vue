@@ -20,9 +20,9 @@
       <router-link v-if="hasPermissions('VIEW_RATING')" class="header__nav-menu__right-btn" to="/rating">
         Рейтинг
       </router-link>
-      <!-- <router-link v-if="hasPermissions('VIEW_ANIMALS')" class="header__nav-menu__right-btn" to="/map">
+      <router-link v-if="hasPermissions('VIEW_ANIMALS')" class="header__nav-menu__right-btn" to="/map">
         Карта
-      </router-link> -->
+      </router-link>
     </div>
     <div v-if="hasPermissions('VIEW_PROFILE') || isSchedulePath" class="header__auth">
       <CommonButton

@@ -21,11 +21,12 @@ export const HEADER_LINKS = [
     slug: 'schedule',
     permissions: ['VIEW_USERS'],
   },
-  // {
-  //   url: '/map',
-  //   label: 'Карта',
-  //   slug: 'map',
-  // },
+  {
+    url: '/map',
+    label: 'Карта',
+    slug: 'map',
+    permissions: ['VIEW_ANIMALS'],
+  },
   {
     url: '/profile',
     label: 'Профиль',

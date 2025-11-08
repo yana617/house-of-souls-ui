@@ -53,6 +53,7 @@ $green: #42b983;
 
   &__line {
     width: 3px;
+    min-width: 3px;
     border-radius: 4px;
     background-color: $green;
     margin-right: 8px;

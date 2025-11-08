@@ -1,7 +1,7 @@
 <template>
   <div class="map-container">
     <h1>Карта</h1>
-    <div class="map">  
+    <div class="map">
       <div class="map__door" />
       <div class="map__quarantine-house">
         <QuarantineHouse :animals="quarantineHouseAnimals" />
@@ -35,8 +35,10 @@
   <List />
 </template>
 
-<script>
-import { mapState } from 'vuex';
+<script setup>
+import { computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 
 import MainHouse from '@/components/map-view/MainHouse.vue';
 import CatHouse from '@/components/map-view/CatHouse.vue';
@@ -45,68 +47,66 @@ import QuarantineHouse from '@/components/map-view/QuarantineHouse.vue';
 import RoomNumber from '@/components/map-view/RoomNumber.vue';
 import List from '@/components/map-view/List.vue';
 import AnimalPlace from '@/utils/enums/AnimalPlace';
-import { getAnimalCardSize } from '@/utils/get-animal-card-size';
+import AnimalStatus from '@/utils/enums/AnimalStatus';
 
-export default {
-  name: 'Map',
-  components: { MainHouse, CatHouse, QuarantineHouse, RoomNumber, AnimalCount, List },
-  data() {
-    return { getAnimalCardSize };
-  },
-  computed: mapState({
-    animals: (state) => state.animals.list,
-    mainHouseAnimals() {
-      return this.mappedAnimals.filter((a) => a.place === AnimalPlace.MAIN_HOUSE);
-    },
-    catHouseAnimals() {
-      return this.mappedAnimals.filter((a) => a.place === AnimalPlace.CAT_HOUSE);
-    },
-    quarantineHouseAnimals() {
-      return this.mappedAnimals.filter((a) => a.place === AnimalPlace.QUARANTINE_HOUSE);
-    },
-    aviary1Animals() {
-      return this.mappedAnimals.filter((a) => a.place === AnimalPlace.AVIARY && a.room === 1);
-    },
-    aviary2Animals() {
-      return this.mappedAnimals.filter((a) => a.place === AnimalPlace.AVIARY && a.room === 2);
-    },
-    aviary3Animals() {
-      return this.mappedAnimals.filter((a) => a.place === AnimalPlace.AVIARY && a.room === 3);
-    },
-    aviary4Animals() {
-      return this.mappedAnimals.filter((a) => a.place === AnimalPlace.AVIARY && a.room === 4);
-    },
-    mappedAnimals() {
-      return this.animals.map((animal) => ({
-        photo: animal.photos ? animal.photos[0] : null,
-        id: animal.id,
-        name: animal.name,
-        sex: animal.sex,
-        place: animal.place,
-        room: animal.room,
-      }));
-    }
-  }),
-  created() {
-    this.$store.dispatch('app/setLoading', true);
-    this.$store.dispatch('animals/getAnimals').finally(() => {
-      this.$store.dispatch('app/setLoading', false);
-    });
-  },
-  methods: {
-    isAviaryBlink(roomNumber) {
-      const { place, room } = this.$route.query;
-      if (place === AnimalPlace.AVIARY && room == roomNumber) {
-        return true;
-      }
+const store = useStore();
+const route = useRoute();
 
-      return false;
-    },
-    animalsFilteredByRoomNumber(roomNumber) {
-      return this.animals.filter((a) => a.room === roomNumber);
-    },
-  }
+const animals = computed(() => store.state.animals.list);
+
+const mappedAnimals = computed(() =>
+  animals.value.map(animal => ({
+    photo: animal.photos ? animal.photos[0] : null,
+    id: animal.id,
+    name: animal.name,
+    sex: animal.sex,
+    place: animal.place,
+    room: animal.room,
+  }))
+);
+
+const mainHouseAnimals = computed(() =>
+  mappedAnimals.value.filter(a => a.place === AnimalPlace.MAIN_HOUSE)
+);
+
+const catHouseAnimals = computed(() =>
+  mappedAnimals.value.filter(a => a.place === AnimalPlace.CAT_HOUSE)
+);
+
+const quarantineHouseAnimals = computed(() =>
+  mappedAnimals.value.filter(a => a.place === AnimalPlace.QUARANTINE_HOUSE)
+);
+
+const aviary1Animals = computed(() =>
+  mappedAnimals.value.filter(a => a.place === AnimalPlace.AVIARY && a.room === 1)
+);
+
+const aviary2Animals = computed(() =>
+  mappedAnimals.value.filter(a => a.place === AnimalPlace.AVIARY && a.room === 2)
+);
+
+const aviary3Animals = computed(() =>
+  mappedAnimals.value.filter(a => a.place === AnimalPlace.AVIARY && a.room === 3)
+);
+
+const aviary4Animals = computed(() =>
+  mappedAnimals.value.filter(a => a.place === AnimalPlace.AVIARY && a.room === 4)
+);
+
+const isAviaryBlink = (roomNumber) => {
+  const { place, room } = route.query;
+  return place === AnimalPlace.AVIARY && room == roomNumber;
 };
+
+onMounted(() => {
+  store.dispatch('app/setLoading', true);
+  store.dispatch(
+    'animals/getAnimals',
+    { status: `${AnimalStatus.HOMELESS},${AnimalStatus.PREPARATION}` }
+  ).finally(() => {
+    store.dispatch('app/setLoading', false);
+  });
+});
 </script>
 
 <style lang="scss">
