@@ -25,13 +25,15 @@ const socket = io(VITE_HOS_SERVICE, {
   },
 });
 
-configure({
-  tagId: 'G-7RDPV1QH6F',
-  pageTracker: {
-    router,
-  },
-  exclude: ['schedule', 'volunteers'],
-});
+if (import.meta.env.NODE_ENV === 'production') {
+  configure({
+    tagId: 'G-7RDPV1QH6F',
+    pageTracker: {
+      router,
+    },
+    exclude: ['schedule', 'volunteers'],
+  });
+}
 
 const run = () => {
   const app = createApp(App).use(store).use(router).use(VueMatchMediaPlugin);
