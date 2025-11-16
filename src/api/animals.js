@@ -10,11 +10,8 @@ const ANIMALS_URL = `${ANIMAL_SERVICE_API}/animals`;
 
 export const animalsApi = {
   getAnimals: async (params) => {
-    const { hasViewAnimalsPermission, ...mappedParams } = params;
-    mappedParams.status =
-      params.status || (hasViewAnimalsPermission
-        ? `${AnimalStatus.HOMELESS},${AnimalStatus.PREPARATION}`
-        : AnimalStatus.HOMELESS);
+    const mappedParams = { ...params };
+    mappedParams.status = params.status || AnimalStatus.HOMELESS;
 
     if (params.age) {
       if (params.age === AnimalAge.OVER_YEAR) {
