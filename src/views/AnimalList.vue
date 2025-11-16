@@ -11,6 +11,7 @@
 import { mapState } from 'vuex';
 import AnimalListDesktop from '@/components/animal-list-view/AnimalListDesktop.vue';
 import AnimalListMobile from '@/components/animal-list-view/AnimalListMobile.vue';
+import AnimalStatus from '@/utils/enums/AnimalStatus';
 
 export default {
   name: 'AnimalList',
@@ -28,7 +29,11 @@ export default {
           .dispatch(
             'animals/getAnimals',
             {
-              ...query, hasViewAnimalsPermission: !!this.permissions.includes('VIEW_ANIMALS'),
+              ...query,
+              status: query.status ||
+                (!!this.permissions.includes('VIEW_ANIMALS')
+                  ? `${AnimalStatus.HOMELESS},${AnimalStatus.PREPARATION},${AnimalStatus.ON_PROBATION}`
+                  : undefined),
             })
           .finally(() => {
             this.$store.dispatch('app/setLoading', false);
@@ -40,7 +45,12 @@ export default {
     const { query } = this.$route;
     this.$store.dispatch('app/setLoading', true);
     this.$store
-      .dispatch('animals/getAnimals', { ...query, hasViewAnimalsPermission: this.permissions.includes('VIEW_ANIMALS') })
+      .dispatch('animals/getAnimals', {
+        ...query, status: query.status ||
+          (!!this.permissions.includes('VIEW_ANIMALS')
+            ? `${AnimalStatus.HOMELESS},${AnimalStatus.PREPARATION},${AnimalStatus.ON_PROBATION}`
+            : undefined),
+      })
       .finally(() => {
         this.$store.dispatch('app/setLoading', false);
       });

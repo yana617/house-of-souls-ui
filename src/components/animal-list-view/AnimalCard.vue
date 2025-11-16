@@ -25,6 +25,9 @@
     <div v-if="status === AnimalStatus.PREPARATION" class="animal-card__on-pause">
       на паузе
     </div>
+    <div v-if="status === AnimalStatus.ON_PROBATION" class="animal-card__on-probation">
+      на испытательном
+    </div>
   </router-link>
 </template>
 
@@ -93,6 +96,7 @@ $grey1: #8a92a6;
 $blue: #3f91f7;
 $lightGrey: #ccc;
 $orange: #ffc100;
+$lightGreen: #5CE65C;
 
 .animal-card {
   display: flex;
@@ -106,8 +110,7 @@ $orange: #ffc100;
   padding-bottom: 16px;
   position: relative;
 
-  &__on-pause {
-    background-color: $orange;
+  &__on-probation, &__on-pause {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -116,6 +119,15 @@ $orange: #ffc100;
     margin: 8px;
     font-size: 13px;
     font-weight: 700;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  }
+
+  &__on-pause {
+    background-color: $orange;
+  }
+
+  &__on-probation {
+    background-color: $lightGreen;
   }
 
   &__image-container {
