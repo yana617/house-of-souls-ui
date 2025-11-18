@@ -5,11 +5,11 @@
       <RoomNumber room-number="1" />
       <AnimalCount :count="firstRoomAnimals.length" />
     </div>
-    <div class="quarantine-house__room2">
+    <div class="quarantine-house__room2" :class="{ blink: isBlink(2) }">
       <RoomNumber room-number="2" />
       <AnimalCount :count="secondRoomAnimals.length" />
     </div>
-    <div class="quarantine-house__room3">
+    <div class="quarantine-house__room3" :class="{ blink: isBlink(3) }">
       <RoomNumber room-number="3" />
       <AnimalCount :count="thirdRoomAnimals.length" />
     </div>
