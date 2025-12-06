@@ -7,55 +7,57 @@
   </div>
 </template>
 
-<script>
-import { mapState } from 'vuex';
+<script setup>
+import { computed, watch, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 import AnimalListDesktop from '@/components/animal-list-view/AnimalListDesktop.vue';
 import AnimalListMobile from '@/components/animal-list-view/AnimalListMobile.vue';
 import AnimalStatus from '@/utils/enums/AnimalStatus';
 
-export default {
-  name: 'AnimalList',
-  components: { AnimalListDesktop, AnimalListMobile },
-  computed: mapState({
-    permissions: (state) => state.permissions.my,
-  }),
-  watch: {
-    '$route.query': function () {
-      const { path, query } = this.$route;
+const statusesForVolunteerUser = `${AnimalStatus.HOMELESS},${AnimalStatus.PREPARATION},${AnimalStatus.ON_PROBATION}`;
 
-      if (path === '/') {
-        this.$store.dispatch('app/setLoading', true);
-        this.$store
-          .dispatch(
-            'animals/getAnimals',
-            {
-              ...query,
-              status: query.status ||
-                (!!this.permissions.includes('VIEW_ANIMALS')
-                  ? `${AnimalStatus.HOMELESS},${AnimalStatus.PREPARATION},${AnimalStatus.ON_PROBATION}`
-                  : undefined),
-            })
-          .finally(() => {
-            this.$store.dispatch('app/setLoading', false);
-          });
-      }
-    },
-  },
-  created() {
-    const { query } = this.$route;
-    this.$store.dispatch('app/setLoading', true);
-    this.$store
-      .dispatch('animals/getAnimals', {
-        ...query, status: query.status ||
-          (!!this.permissions.includes('VIEW_ANIMALS')
-            ? `${AnimalStatus.HOMELESS},${AnimalStatus.PREPARATION},${AnimalStatus.ON_PROBATION}`
-            : undefined),
-      })
-      .finally(() => {
-        this.$store.dispatch('app/setLoading', false);
-      });
-  },
+const route = useRoute();
+const store = useStore();
+
+const permissions = computed(() => store.state.permissions.my);
+
+const fetchAnimals = () => {
+  const statusesIfNotDefined = permissions.value?.includes('VIEW_ANIMALS') 
+    ? statusesForVolunteerUser 
+    : undefined;
+
+  store.dispatch('app/setLoading', true);
+  store.dispatch('animals/getAnimals', {
+    ...route.query,
+    status: route.query.status || statusesIfNotDefined,
+  })
+  .finally(() => {
+    store.dispatch('app/setLoading', false);
+  });
 };
+
+watch(
+  () => route.query,
+  () => {
+    if (route.path === '/') {
+      fetchAnimals();
+    }
+  }
+);
+
+watch(
+  permissions,
+  (newPermissions) => {
+    if (newPermissions?.includes('VIEW_ANIMALS')) {
+      fetchAnimals();
+    }
+  }
+);
+
+onMounted(() => {
+  fetchAnimals();
+});
 </script>
 
 <style scoped lang="scss">
