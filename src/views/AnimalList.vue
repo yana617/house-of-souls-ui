@@ -14,6 +14,7 @@ import { useStore } from 'vuex';
 import AnimalListDesktop from '@/components/animal-list-view/AnimalListDesktop.vue';
 import AnimalListMobile from '@/components/animal-list-view/AnimalListMobile.vue';
 import AnimalStatus from '@/utils/enums/AnimalStatus';
+import logger from '../utils/logger';
 
 const statusesForVolunteerUser = `${AnimalStatus.HOMELESS},${AnimalStatus.PREPARATION},${AnimalStatus.ON_PROBATION}`;
 
@@ -23,8 +24,8 @@ const store = useStore();
 const permissions = computed(() => store.state.permissions.my);
 
 const fetchAnimals = () => {
-  const statusesIfNotDefined = permissions.value?.includes('VIEW_ANIMALS') 
-    ? statusesForVolunteerUser 
+  const statusesIfNotDefined = permissions.value?.includes('VIEW_ANIMALS')
+    ? statusesForVolunteerUser
     : undefined;
 
   store.dispatch('app/setLoading', true);
@@ -32,9 +33,9 @@ const fetchAnimals = () => {
     ...route.query,
     status: route.query.status || statusesIfNotDefined,
   })
-  .finally(() => {
-    store.dispatch('app/setLoading', false);
-  });
+    .finally(() => {
+      store.dispatch('app/setLoading', false);
+    });
 };
 
 watch(
@@ -57,6 +58,12 @@ watch(
 
 onMounted(() => {
   fetchAnimals();
+
+  if (window.gtag) {
+    logger.log('gtag is available');
+  } else {
+    logger.error('gtag is NOT available');
+  }
 });
 </script>
 

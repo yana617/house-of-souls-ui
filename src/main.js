@@ -25,7 +25,7 @@ const socket = io(VITE_HOS_SERVICE, {
   },
 });
 
-if (import.meta.env.NODE_ENV === 'production') {
+if (import.meta.env.PROD) {
   configure({
     tagId: 'G-7RDPV1QH6F',
     pageTracker: {
