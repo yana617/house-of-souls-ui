@@ -1,7 +1,7 @@
 <template>
   <div class="how-to-help">
     <h1 class="how-to-help__title">
-      Как помочь
+      Как помочь приюту для животных "Домик Спасенных Душ"
     </h1>
     <div class="how-to-help__preview-container">
       <div class="how-to-help__preview">
@@ -19,6 +19,10 @@
       <div class="how-to-help__preview">
         <a href="#finance">Финансовая помощь</a>
         <h4>На лечение, стерилизации, прививки и другое</h4>
+      </div>
+      <div class="how-to-help__preview">
+        <a href="#foster">Передержка</a>
+        <h4>Временный дом для животных</h4>
       </div>
     </div>
     <section id="volunteering" class="how-to-help__block">
@@ -190,7 +194,17 @@
         помогать - позвоните нам!
       </h3>
     </section>
-    <section id="finance" class="how-to-help__block light">
+    <section id="foster" class="how-to-help__block light">
+      <h2>Помощь передержкой</h2>
+      <h3 class="how-to-help__car">
+        Передержка - это временный дом для животного, когда постоянного ещё нет. Она нужна, чтобы спасти питомца с
+        улицы, дать ему восстановиться после болезни или просто переждать, пока мы ищем ему хозяев. Для многих наших
+        подопечных это единственный шанс на спасение, ведь в приюте не всегда есть свободные места. Если у вас есть
+        немного свободного места, времени и желания заботиться о хвостатом госте - станьте временным приютом. Ваша
+        помощь напрямую спасает жизни! Под полное обеспечение со стороны приюта.
+      </h3>
+    </section>
+    <section id="finance" class="how-to-help__block">
       <h3 class="how-to-help__final-text">
         Если ВЫ хотите к нам присоединиться, помните<br>
         Мы ВСЕГДА рады ВАМ<br>
@@ -231,6 +245,7 @@ $colorr: #f2f0e8;
     justify-content: space-between;
     width: 80%;
     margin: 32px 0 64px;
+    gap: 16px;
   }
 
   &__preview {
@@ -246,7 +261,7 @@ $colorr: #f2f0e8;
     }
 
     h4 {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 400;
       margin-top: 24px;
       text-align: left;
@@ -257,7 +272,7 @@ $colorr: #f2f0e8;
     background-color: $colorr;
     width: 100%;
     padding: 64px 10%;
-    font-size: 20px;
+    font-size: 18px;
 
     h2 {
       font-size: 28px;
@@ -380,7 +395,7 @@ $colorr: #f2f0e8;
   }
 
   &__car {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
     text-align: left;
   }
