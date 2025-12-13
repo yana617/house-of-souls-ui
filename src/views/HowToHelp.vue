@@ -380,6 +380,7 @@ $colorr: #f2f0e8;
   }
 
   &__car {
+    font-size: 20px;
     font-weight: 400;
     text-align: left;
   }

@@ -191,6 +191,7 @@ $black1: #232d42;
 
       &.visible {
         display: flex;
+        z-index: 1;
       }
     }
 
