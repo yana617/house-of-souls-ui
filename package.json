@@ -48,9 +48,8 @@
     "husky": "9.1.7",
     "lint-staged": "11.2.3",
     "msw": "0.27.1",
-    "node-sass": "8.0.0",
     "prettier": "3.5.1",
-    "sass-embedded": "1.78.0",
+    "sass-embedded": "1.97.0",
     "uuid": "8.3.2",
     "vitest": "3.2.4"
   },
@@ -63,6 +62,6 @@
     "workerDirectory": "public"
   },
   "optionalDependencies": {
-    "sass-embedded-linux-x64": "1.78.0"
+    "sass-embedded-linux-x64": "1.97.0"
   }
 }
