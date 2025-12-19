@@ -47,4 +47,10 @@ export const usersApi = {
       .get(`${AUTH_USERS_URL}/curators`)
       .then((response) => response.data)
       .catch((error) => error.response.data),
+
+  getBirthdayPeople: async () =>
+    axios
+      .get(`${AUTH_USERS_URL}/birthday`)
+      .then((response) => response.data)
+      .catch((error) => error.response.data),
 };

@@ -14,37 +14,38 @@
     "development:deploy:setup": "npm run development:setup && npm run development:deploy",
     "production:setup": "pm2 deploy ecosystem.config.js production setup",
     "production:deploy": "pm2 deploy ecosystem.config.js production --force",
-    "production:deploy:setup": "npm run production:setup && npm run production:deploy"
+    "production:deploy:setup": "npm run production:setup && npm run production:deploy",
+    "prepare": "husky"
   },
   "dependencies": {
     "@ant-design/icons-vue": "6.0.1",
     "@cwist/vue-match-media": "3.0.3",
-    "@vitejs/plugin-vue": "5.2.1",
+    "@vitejs/plugin-vue": "6.0.3",
     "@vueuse/integrations": "12.7.0",
     "ant-design-vue": "3.2.20",
-    "axios": "1.8.3",
+    "axios": "1.13.2",
+    "canvas-confetti": "1.9.4",
     "dayjs": "1.11.12",
     "inputmask": "5.0.6",
     "socket.io-client": "4.8.1",
     "swiper": "11.2.8",
     "unplugin-vue-components": "0.27.4",
-    "vite": "5.4.3",
+    "vite": "7.3.0",
     "vite-plugin-eslint": "1.8.1",
     "vue": "3.5.13",
     "vue-gtag": "3.6.3",
     "vue-inline-svg": "3.1.2",
     "vue-router": "4.5.0",
-    "vuex": "4.1.0",
-    "yorkie": "2.0.0"
+    "vuex": "4.1.0"
   },
   "devDependencies": {
-    "@vue/compiler-sfc": "3.5.13",
     "@vue/test-utils": "2.4.6",
     "cross-env": "7.0.3",
     "eslint": "9.10.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-prettier": "5.2.1",
     "eslint-plugin-vue": "9.28.0",
+    "husky": "9.1.7",
     "lint-staged": "11.2.3",
     "msw": "0.27.1",
     "node-sass": "8.0.0",
@@ -53,12 +54,9 @@
     "uuid": "8.3.2",
     "vitest": "3.2.4"
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
   "lint-staged": {
     "*.{js,jsx,vue}": [
-      "eslint --ignore-pattern .gitignore --fix src"
+      "eslint --fix"
     ]
   },
   "msw": {

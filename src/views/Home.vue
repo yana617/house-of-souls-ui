@@ -1,5 +1,6 @@
 <template>
   <a-layout>
+    <BirthdayConfetti />
     <a-layout-content
       class="home__layout-content"
       :class="{ 'home__layout-content__padding': hasPermissions('CREATE_CLAIM') }"
@@ -32,8 +33,9 @@
   </a-layout-footer>
 </template>
 
-<script>
-import { mapState } from 'vuex';
+<script setup>
+import { computed, watch, ref, onMounted } from 'vue';
+import { useStore } from 'vuex';
 
 import HistoryActions from '@/components/home-view/HistoryActions.vue';
 import CommonFooter from '@/components/common/CommonFooter.vue';
@@ -41,82 +43,73 @@ import HomeNotice from '@/components/home-view/HomeNotice.vue';
 import Schedule from '@/components/home-view/Schedule.vue';
 import { getToken } from '@/utils/sessionStorage';
 import { getWeekDatesRange } from '@/utils/date';
+import BirthdayConfetti from '@/components/home-view/BirthdayConfetti.vue';
 
 const DEFAULT_NOTICES_TO_SHOW_COUNT = 2;
 
-export default {
-  name: 'Home',
-  components: {
-    CommonFooter,
-    HomeNotice,
-    Schedule,
-    HistoryActions,
-  },
-  data() {
-    return {
-      showAllNotices: false,
-    };
-  },
-  computed: mapState({
-    notices: (state) => state.notices,
-    user: (state) => state.auth.user,
-    currentSchedule: (state) => state.claims.currentSchedule,
-    nextWeekSchedule: (state) => state.claims.nextWeekSchedule,
-    permissions: (state) => state.permissions.my,
-    animalsShort: (state) => {
-      const animals = state.animals.shortList || [];
-      return animals.reduce((acc, animal) => ({ ...acc, [animal.id]: animal }), {});
-    },
+const store = useStore();
 
-    noticesToShow() {
-      if (!this.showAllNotices) {
-        return this.notices.list.slice(0, DEFAULT_NOTICES_TO_SHOW_COUNT);
-      }
-      return this.notices.list;
-    },
-    showLoadAllNoticesBtn() {
-      return this.notices.list.length > DEFAULT_NOTICES_TO_SHOW_COUNT;
-    },
-    loadNoticesBtnTitle() {
-      return this.showAllNotices ? 'Свернуть' : 'Показать все записи';
-    },
-  }),
-  watch: {
-    user() {
-      if (this.user) {
-        this.loadCurrentSchedule();
-        this.loadNextWeekSchedule();
-      }
-    },
-  },
-  async created() {
-    if (!!getToken() && !this.user) {
-      this.$store.dispatch('users/getUser');
-    }
-    this.$store.dispatch('app/setLoading', true);
-    this.$store.dispatch('notices/getNotices');
+const showAllNotices = ref(false);
 
-    await this.loadCurrentSchedule();
-    await this.loadNextWeekSchedule();
+const notices = computed(() => store.state.notices);
+const user = computed(() => store.state.auth.user);
+const currentSchedule = computed(() => store.state.claims.currentSchedule);
+const nextWeekSchedule = computed(() => store.state.claims.nextWeekSchedule);
+const permissions = computed(() => store.state.permissions.my);
+const animalsShort = computed(() => {
+  const animals = store.state.animals.shortList || [];
+  return animals.reduce((acc, animal) => ({ ...acc, [animal.id]: animal }), {});
+});
 
-    this.$store.dispatch('app/setLoading', false);
+const noticesToShow = computed(() => {
+  if (!showAllNotices.value) {
+    return notices.value.list.slice(0, DEFAULT_NOTICES_TO_SHOW_COUNT);
+  }
+  return notices.value.list;
+});
+const showLoadAllNoticesBtn = computed(
+  () => notices.value.list.length > DEFAULT_NOTICES_TO_SHOW_COUNT,
+);
+const loadNoticesBtnTitle = computed(() =>
+  showAllNotices.value ? 'Свернуть' : 'Показать все записи',
+);
 
-    this.$store.dispatch('additionalFields/getAdditionalFields');
-
-    this.$store.dispatch('animals/getAnimalsShort');
-  },
-  methods: {
-    async loadCurrentSchedule() {
-      await this.$store.dispatch('claims/getSchedule', getWeekDatesRange());
-    },
-    async loadNextWeekSchedule() {
-      await this.$store.dispatch('claims/getNextWeekSchedule', getWeekDatesRange(+1));
-    },
-    hasPermissions(permission) {
-      return this.permissions.includes(permission);
-    },
-  },
+const loadCurrentSchedule = async () => {
+  await store.dispatch('claims/getSchedule', getWeekDatesRange());
 };
+
+const loadNextWeekSchedule = async () => {
+  await store.dispatch('claims/getNextWeekSchedule', getWeekDatesRange(+1));
+};
+
+const hasPermissions = (permission) => {
+  return permissions.value.includes(permission);
+};
+
+watch(user, (newUser) => {
+  if (newUser) {
+    loadCurrentSchedule();
+    loadNextWeekSchedule();
+  }
+});
+
+onMounted(async () => {
+  if (!!getToken() && !user.value) {
+    store.dispatch('users/getUser');
+  }
+
+  store.dispatch('app/setLoading', true);
+
+  store.dispatch('notices/getNotices');
+
+  await loadCurrentSchedule();
+  await loadNextWeekSchedule();
+
+  store.dispatch('app/setLoading', false);
+
+  store.dispatch('additionalFields/getAdditionalFields');
+  store.dispatch('animals/getAnimalsShort');
+});
 </script>
 
 <style scoped lang="scss">
