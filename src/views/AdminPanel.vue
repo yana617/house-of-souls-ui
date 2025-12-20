@@ -39,13 +39,16 @@ export default {
 
 <style lang="scss" scoped>
 $headerHeight: 50px;
-$navPanelWidth: 230px;
+$navPanelWidth: 270px;
 $lightGrey: #ccc;
 $greyBlue: #2c3e50;
+$green: #42b983;
 
 .router-link-active {
   color: white !important;
-  background-color: #233241;
+  background-color: $green;
+  margin: 0 8px;
+  border-radius: 16px;
 }
 
 .admin {

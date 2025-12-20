@@ -34,10 +34,22 @@ export const HEADER_LINKS = [
     permissions: ['VIEW_PROFILE'],
   },
   {
-    url: '/rating',
+    url: '/analytics/rating',
     label: 'Рейтинг',
     slug: 'rating',
     permissions: ['VIEW_RATING'],
+  },
+  {
+    url: '/analytics/stats',
+    label: 'Статистика',
+    slug: 'stats',
+    permissions: ['VIEW_RATING'],
+  },
+  {
+    url: '/ads',
+    label: 'Реклама',
+    slug: 'ads',
+    permissions: ['VIEW_PROFILE'],
   },
 ];
 
@@ -64,6 +76,12 @@ export const ADMIN_LINKS = [
     slug: 'notices',
     permissions: ['CREATE_NOTICE', 'EDIT_NOTICE', 'DELETE_NOTICE'],
   },
+  {
+    url: '/admin/platforms',
+    label: 'Платформы для рекламы',
+    slug: 'platforms',
+    permissions: ['MANAGE_PLATFORMS'],
+  },
 ];
 
 export const PATHS = {
@@ -71,7 +89,8 @@ export const PATHS = {
   '/volunteers': 'volunteers',
   '/map': 'map',
   '/profile': 'profile',
-  '/rating': 'rating',
+  '/analytics/rating': 'rating',
+  '/analytics/stats': 'stats',
   '/admin': 'admin',
   '/admin/register-fields-control': 'register-fields-control',
   '/admin/volunteers-requests': 'volunteers-requests',

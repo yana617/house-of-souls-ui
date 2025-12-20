@@ -245,7 +245,7 @@ onMounted(() => {
 }
 
 // Медиа-запросы для адаптивности
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .birthday-confetti {
     &__modal-content {
       padding: 4px;

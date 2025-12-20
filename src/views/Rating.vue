@@ -1,34 +1,11 @@
 <template>
   <div class="rating">
-    <a-tabs 
-      v-model:active-key="activeKey" 
-      class="rating__tabs ant-tabs-centered"
-      tab-bar-style="margin: 0; padding-top: 8px;"
-    >
-      <a-tab-pane key="1" tab="Посещения">
-        <ClaimsRating />
-      </a-tab-pane>
-      <a-tab-pane key="2" tab="Реклама">
-        Нет данных
-      </a-tab-pane>
-    </a-tabs>
+    <ClaimsRating />
   </div>
 </template>
 
-<script>
-import { ref } from 'vue';
-
+<script setup>
 import ClaimsRating from '@/components/rating-view/ClaimsRating.vue';
-
-export default {
-  name: 'Rating',
-  components: { ClaimsRating },
-  data() {
-    return {
-      activeKey: ref('1'),
-    };
-  },
-};
 </script>
 
 <style scoped lang="scss">
@@ -37,9 +14,6 @@ $lightestGrey: #eff1f3;
 .rating {
   background-color: $lightestGrey;
   min-height: calc(100vh - 50px);
-
-  &__tabs {
-    background-color: white;
-  }
+  width: 100%;
 }
 </style>
