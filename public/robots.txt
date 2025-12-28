@@ -10,7 +10,8 @@ Disallow: /profile
 Disallow: /forgot-password
 Disallow: /reset-password
 Disallow: /users/
-Disallow: /rating
+Disallow: /analytics
+Disallow: /ads
 Disallow: /map
 Disallow: /admin
 Disallow: /animals/*/edit

@@ -62,7 +62,7 @@ onMounted(() => {
   if (window.gtag) {
     logger.log('gtag is available');
   } else {
-    logger.error('gtag is NOT available');
+    logger.warn('gtag is NOT available');
   }
 });
 </script>

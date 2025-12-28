@@ -25,40 +25,40 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useStore } from 'vuex';
 import CommonButton from '@/components/common/CommonButton.vue';
+import { useRouter } from 'vue-router';
 
-export default {
-  name: 'Login',
-  components: { CommonButton },
-  data() {
-    return {
-      email: null,
-      password: null,
-      loading: false,
-    };
-  },
-  mounted() {
-    this.$router.push('/schedule');
-  },
-  methods: {
-    async submitLogin() {
-      const body = {
-        email: this.email,
-        password: this.password,
-      };
-      this.loading = true;
-      this.$store
-        .dispatch('auth/login', body)
-        .then(() => {
-          this.$store.dispatch('permissions/getMyPermissions');
-          this.$store.dispatch('notices/getNotices');
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    },
-  },
+const router = useRouter();
+const store = useStore();
+
+const email = ref(null);
+const password = ref(null);
+const loading = ref(false);
+
+onMounted(() => {
+  router.push('/schedule');
+});
+
+const submitLogin = async () => {
+  const body = {
+    email: email.value,
+    password: password.value,
+  };
+  
+  loading.value = true;
+  
+  try {
+    await store.dispatch('auth/login', body);
+    await Promise.all([
+      store.dispatch('permissions/getMyPermissions'),
+      store.dispatch('notices/getNotices')
+    ]);
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
 
