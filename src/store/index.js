@@ -12,6 +12,7 @@ import permissions from './modules/permissions';
 import animals from './modules/animals';
 import animalMedicalHistory from './modules/animal-medical-history';
 import app from './modules/app';
+import stats from './modules/stats';
 
 const debug = !import.meta.env.PROD;
 
@@ -35,6 +36,7 @@ export default createStore({
     permissions,
     animals,
     animalMedicalHistory,
+    stats,
   },
   strict: debug,
 });

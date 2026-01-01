@@ -25,6 +25,7 @@
     "ant-design-vue": "3.2.20",
     "axios": "1.13.2",
     "canvas-confetti": "1.9.4",
+    "chart.js": "4.5.1",
     "dayjs": "1.11.12",
     "inputmask": "5.0.6",
     "socket.io-client": "4.8.1",
