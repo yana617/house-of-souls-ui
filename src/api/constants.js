@@ -20,6 +20,7 @@ export const NOTICES_URL = `${HOS_SERVICE_API}/notices`;
 export const HISTORY_ACTIONS_URL = `${HOS_SERVICE_API}/history-actions`;
 
 export const ANIMALS_URL = `${ANIMAL_SERVICE_API}/animals`;
+export const PLATFORMS_URL = `${ANIMAL_SERVICE_API}/platforms`;
 
 export const STATS_HOS_URL = `${HOS_SERVICE_API}/stats`;
 export const STATS_AUTH_URL = `${AUTH_SERVICE_API}/stats`;

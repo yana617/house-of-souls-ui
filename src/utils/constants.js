@@ -3,6 +3,7 @@ const MODAL = {
   REGISTRATION: 'registration',
   ADDITIONAL_FIELD: 'additional-field',
   NOTICE: 'notice',
+  PLATFORM: 'platform',
 };
 
 const volunteersColumns = [
