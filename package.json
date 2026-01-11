@@ -23,7 +23,7 @@
     "@vueuse/integrations": "12.7.0",
     "ant-design-vue": "3.2.20",
     "axios": "1.8.3",
-    "dayjs": "1.11.12",
+    "dayjs": "1.11.19",
     "inputmask": "5.0.6",
     "socket.io-client": "4.8.1",
     "swiper": "11.2.8",
