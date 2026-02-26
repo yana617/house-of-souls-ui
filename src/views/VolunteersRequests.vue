@@ -115,7 +115,7 @@ export default {
           roles: 'USER',
           sortBy: 'createdAt',
           order: 'desc',
-          limit: 50,
+          limit: 100,
         })
         .finally(() => {
           this.$store.dispatch('app/setLoading', false);

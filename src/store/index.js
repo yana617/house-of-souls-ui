@@ -14,6 +14,7 @@ import animalMedicalHistory from './modules/animal-medical-history';
 import app from './modules/app';
 import stats from './modules/stats';
 import platforms from './modules/platforms';
+import ads from './modules/ads';
 
 const debug = !import.meta.env.PROD;
 
@@ -39,6 +40,7 @@ export default createStore({
     animalMedicalHistory,
     stats,
     platforms,
+    ads,
   },
   strict: debug,
 });

@@ -111,6 +111,12 @@ const routes = [
     meta: { authRequired: true },
   },
   {
+    path: '/ads/info',
+    name: 'ads-info',
+    component: () => import('../views/AdsInfo.vue'),
+    meta: { authRequired: true },
+  },
+  {
     path: '/admin',
     name: 'AdminPanel',
     redirect: '/admin/volunteers-requests',
