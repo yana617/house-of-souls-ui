@@ -88,4 +88,12 @@ export const animalsApi = {
       .delete(`${ANIMALS_URL}/${id}`)
       .then((response) => response.data)
       .catch((error) => error.response.data),
+
+  downloadImagesArchive: async ({ id }) =>
+    axios
+      .get(`${ANIMALS_URL}/${id}/images/archive`, {
+        responseType: 'blob',
+      })
+      .then((response) => response.data)
+      .catch((error) => error.response.data),
 };

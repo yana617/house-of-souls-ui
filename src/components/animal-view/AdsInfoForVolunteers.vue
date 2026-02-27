@@ -33,9 +33,9 @@
             Редактировать
           </div>
         </router-link>
-        <!-- <div v-if="animal.photos.length > 0" class="ads-info-for-volunteers__download-button">
+        <div v-if="animal.photos.length > 0" class="ads-info-for-volunteers__download-button" @click="onDownload">
           Скачать всё
-        </div> -->
+        </div>
       </div>
     </div>
     <div class="ads-info-for-volunteers__gallery-container">
@@ -58,6 +58,24 @@ const copyToClipboardAnimalText = async () => {
   await navigator.clipboard.writeText(animal.value?.advertising_text);
   notifications.success('Успешно скопировано');
 };
+
+const onDownload = async () => {
+  store.dispatch('app/setLoading', true);
+
+  const blob = await store.dispatch('animals/downloadImagesArchive', { id: animal.value.id });
+
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', `archive-${animal.value.name}.zip`);
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.URL.revokeObjectURL(url);
+
+  store.dispatch('app/setLoading', false);
+}
 </script>
 
 <style scoped lang="scss">
