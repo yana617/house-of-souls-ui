@@ -39,6 +39,11 @@ const actions = {
       commit(SET_ANIMAL_DATA, response.data);
     }
   },
+
+  downloadImagesArchive: async ({ _ }, params = {}) => {
+    return animalsApi.downloadImagesArchive(params);
+  },
+
   clearAnimal: async ({ commit }) => {
     commit(SET_ANIMAL_DATA, {});
   },
