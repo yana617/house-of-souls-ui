@@ -18,7 +18,7 @@
         @change="handleTableChange"
       >
         <template #title>
-          Дата последнего размещения / окончание проплаченных поднятий
+          Дата последнего размещения / окончания проплаченных поднятий
         </template>
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
