@@ -76,6 +76,7 @@ $green: #42b983;
   &__description {
     font-weight: normal;
     font-size: 14px;
+    white-space: pre-line;
   }
 
   &__animal-photo {
