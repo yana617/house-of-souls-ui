@@ -1,10 +1,10 @@
 <template>
-  <div class="ads">
-    <div class="ads__container">
-      <div class="ads__title__container">
+  <div class="reklama">
+    <div class="reklama__container">
+      <div class="reklama__title__container">
         <h1>Реклама</h1>
         <router-link class="animal-card" :to="`/ads/info`">
-          <a-button type="primary" shape="round" class="ads__title__btn">
+          <a-button type="primary" shape="round" class="reklama__title__btn">
             Как это работает?
           </a-button>
         </router-link>
@@ -37,7 +37,7 @@
             >
               {{ record[column.key] ? 'обновить' : 'добавить' }}
             </a>
-            <a-tag v-if="isUrgent(record[column.key])" class="ads__tag" color="red">
+            <a-tag v-if="isUrgent(record[column.key])" class="reklama__tag" color="red">
               горит
             </a-tag>
           </template>
@@ -156,7 +156,7 @@ $lightestGrey: #f0f0f0;
 $lightGrey: #ccc;
 $blue: #3f91f7;
 
-.ads {
+.reklama {
   display: flex;
   flex-direction: column;
   align-items: center;
