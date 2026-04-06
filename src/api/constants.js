@@ -1,6 +1,7 @@
 const {
   VITE_AUTH_SERVICE: AUTH_SERVICE_API,
   VITE_HOS_SERVICE: HOS_SERVICE_API,
+  VITE_ANIMAL_SERVICE: ANIMAL_SERVICE_API,
   VITE_LIMIT,
 } = import.meta.env;
 
@@ -17,3 +18,11 @@ export const CLAIMS_URL = `${HOS_SERVICE_API}/claims`;
 export const HOS_USERS_URL = `${HOS_SERVICE_API}/users`;
 export const NOTICES_URL = `${HOS_SERVICE_API}/notices`;
 export const HISTORY_ACTIONS_URL = `${HOS_SERVICE_API}/history-actions`;
+
+export const ANIMALS_URL = `${ANIMAL_SERVICE_API}/animals`;
+export const PLATFORMS_URL = `${ANIMAL_SERVICE_API}/platforms`;
+export const ADS_URL = `${ANIMAL_SERVICE_API}/ads`;
+
+export const STATS_HOS_URL = `${HOS_SERVICE_API}/stats`;
+export const STATS_AUTH_URL = `${AUTH_SERVICE_API}/stats`;
+export const STATS_ANIMAL_URL = `${ANIMAL_SERVICE_API}/stats`;

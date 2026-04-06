@@ -12,6 +12,7 @@
         v-for="claim in day.claims"
         :key="claim.id"
         class="schedule-time-line__claim"
+        :class="{ 'is-critical': day.claims.length === 1 }"
         :claim="claim"
         @on-claim-click="openApply"
         @on-update-click="openUpdateClaimModal(claim)"
@@ -184,6 +185,10 @@ $lightGrey: #ccc;
     border-left: 1px solid $lightGrey;
     border-right: 1px solid $lightGrey;
     border-bottom: 1px solid $lightGrey;
+
+    &.is-critical {
+      border-color: red;
+    }
   }
 
   &__title {

@@ -3,11 +3,17 @@ import axios from 'axios';
 import { LIMIT, AUTH_USERS_URL } from './constants';
 
 export const usersApi = {
-  getUsers: async (params) =>
-    axios
-      .get(AUTH_USERS_URL, { params: { limit: LIMIT, ...params } })
+  getUsers: async (params) => {
+    let rolesPrettified = params.roles || undefined;
+    if (rolesPrettified.includes(",")) {
+      rolesPrettified = rolesPrettified.split(',');
+    }
+
+    return axios
+      .get(AUTH_USERS_URL, { params: { limit: LIMIT, ...params, roles: rolesPrettified } })
       .then((response) => response.data)
-      .catch((error) => error.response.data),
+      .catch((error) => error.response.data);
+  },
 
   updateUser: async (body) =>
     axios
@@ -45,6 +51,12 @@ export const usersApi = {
   getCurators: async () =>
     axios
       .get(`${AUTH_USERS_URL}/curators`)
+      .then((response) => response.data)
+      .catch((error) => error.response.data),
+
+  getBirthdayPeople: async () =>
+    axios
+      .get(`${AUTH_USERS_URL}/birthday`)
       .then((response) => response.data)
       .catch((error) => error.response.data),
 };

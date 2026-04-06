@@ -4,9 +4,7 @@ import dayjs from 'dayjs';
 import AnimalStatus from '@/utils/enums/AnimalStatus';
 import AnimalAge from '@/utils/enums/AnimalAge';
 import DogHeight from '@/utils/enums/DogHeight';
-
-const { VITE_ANIMAL_SERVICE: ANIMAL_SERVICE_API } = import.meta.env;
-const ANIMALS_URL = `${ANIMAL_SERVICE_API}/animals`;
+import { ANIMALS_URL } from './constants';
 
 export const animalsApi = {
   getAnimals: async (params) => {
@@ -88,6 +86,14 @@ export const animalsApi = {
   deleteAnimal: async (id) =>
     axios
       .delete(`${ANIMALS_URL}/${id}`)
+      .then((response) => response.data)
+      .catch((error) => error.response.data),
+
+  downloadImagesArchive: async ({ id }) =>
+    axios
+      .get(`${ANIMALS_URL}/${id}/images/archive`, {
+        responseType: 'blob',
+      })
       .then((response) => response.data)
       .catch((error) => error.response.data),
 };

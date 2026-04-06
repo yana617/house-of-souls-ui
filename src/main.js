@@ -11,6 +11,7 @@ import logger from './utils/logger';
 import interceptorsSetup from './utils/axios';
 
 const breakpoints = {
+  desktop: { maxWidth: 1023 },
   tablet: { maxWidth: 767 },
   mobile: { maxWidth: 600 },
 };

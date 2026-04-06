@@ -7,24 +7,22 @@ import CommonHeader from '@/components/common/CommonHeader.vue';
 import Login from '@/components/header-component/Login.vue';
 import { permissionsApi } from '@/api/permissions';
 import { noticesApi } from '@/api/notices';
-import router from '@/router';
 import { claimsApi } from '@/api/claims';
 import { aftApi } from '@/api/additional-fields';
 import { authApi } from '@/api/auth';
 
 import store from '../store';
 
+vi.mock('vue-router', () => ({
+  useRoute: () => ({ path: '/schedule' }),
+  useRouter: () => ({ push: vi.fn() }),
+}));
+
 const $socket = {
   on: vi.fn(),
 };
 const $matchMedia = {
-  mobile: false,
-};
-const mockRoute = {
-  path: '/schedule',
-};
-const mockRouter = {
-  currentRoute: { value: mockRoute },
+  desktop: false,
 };
 
 describe('Home.vue', () => {
@@ -49,18 +47,14 @@ describe('Home.vue', () => {
 
     wrapper = mount(App, {
       global: {
-        plugins: [store, Antd, router],
+        plugins: [store, Antd],
         mocks: {
           $socket,
           $matchMedia,
-          $route: mockRoute,
         },
         stubs: {
           RouterLink: RouterLinkStub,
           RouterView: RouterViewStub,
-        },
-        provide: {
-          $router: mockRouter,
         },
       },
     });
@@ -72,6 +66,7 @@ describe('Home.vue', () => {
 
     const loginBtn = wrapper.find('.header__auth__login-btn');
     expect(loginBtn.exists()).toBe(true);
+
     expect(wrapper.findComponent(Login).exists()).toBe(false);
 
     await loginBtn.trigger('click');

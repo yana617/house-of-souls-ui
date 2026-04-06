@@ -55,10 +55,30 @@ const routes = [
     meta: { authRequired: true },
   },
   {
-    path: '/rating',
+    path: '/analytics',
     name: 'rating',
     component: () => import('../views/Rating.vue'),
     meta: { authRequired: true },
+  },
+  {
+    path: '/analytics',
+    name: 'Analytics',
+    redirect: '/analytics/rating',
+    component: () => import('../views/Analytics.vue'),
+    children: [
+      {
+        path: '/analytics/rating',
+        meta: { authRequired: true },
+        name: 'rating',
+        component: () => import('../views/Rating.vue'),
+      },
+      {
+        path: '/analytics/stats',
+        meta: { authRequired: true },
+        name: 'stats',
+        component: () => import('../views/Stats.vue'),
+      },
+    ],
   },
   {
     path: '/map',
@@ -85,6 +105,18 @@ const routes = [
     meta: { authRequired: true },
   },
   {
+    path: '/ads',
+    name: 'ads',
+    component: () => import('../views/Ads.vue'),
+    meta: { authRequired: true },
+  },
+  {
+    path: '/ads/info',
+    name: 'ads-info',
+    component: () => import('../views/AdsInfo.vue'),
+    meta: { authRequired: true },
+  },
+  {
     path: '/admin',
     name: 'AdminPanel',
     redirect: '/admin/volunteers-requests',
@@ -107,6 +139,12 @@ const routes = [
         meta: { authRequired: true },
         name: 'notices',
         component: () => import('../views/NoticesControl.vue'),
+      },
+      {
+        path: '/admin/platforms',
+        meta: { authRequired: true },
+        name: 'platforms',
+        component: () => import('../views/Platforms.vue'),
       },
     ],
   },

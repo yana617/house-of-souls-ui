@@ -7,6 +7,7 @@ const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_USER_UPDATE_ERRORS = 'SET_USER_UPDATE_ERRORS';
 const SET_CURATOR = 'SET_CURATOR';
 const SET_CURATORS = 'SET_CURATORS';
+const SET_BIRTHDAY_PEOPLE = 'SET_BIRTHDAY_PEOPLE';
 
 const state = () => ({
   list: [],
@@ -18,6 +19,7 @@ const state = () => ({
   userUpdateErrors: [],
   curator: {},
   curators: [],
+  birthdayPeople: [],
 });
 
 const getters = {};
@@ -89,6 +91,12 @@ const actions = {
       commit(SET_CURATORS, response.data);
     }
   },
+  getBirthdayPeople: async ({ commit }) => {
+    const response = await usersApi.getBirthdayPeople();
+    if (response.success && response.data?.length > 0) {
+      commit(SET_BIRTHDAY_PEOPLE, response.data);
+    }
+  },
 };
 
 const mutations = {
@@ -113,6 +121,9 @@ const mutations = {
   },
   [SET_CURATORS](state, result) {
     state.curators = result;
+  },
+  [SET_BIRTHDAY_PEOPLE](state, result) {
+    state.birthdayPeople = result;
   },
 };
 

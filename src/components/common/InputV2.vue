@@ -1,7 +1,7 @@
 <template>
   <div class="input-v2">
     <label v-show="label">{{ label }}</label>
-    <input v-if="!isTextarea" v-model="inputValue">
+    <input v-if="!isTextarea" v-model="inputValue" :placeholder="placeholder">
     <textarea v-else v-model="inputValue" />
     <span v-show="description" class="input-v2__description">{{ description }}</span>
     <span class="input-v2__error">{{ error }}</span>
@@ -18,6 +18,7 @@ const props = defineProps({
   isTextarea: Boolean,
   modelValue: [String, Number],
   error: String,
+  placeholder: String,
 });
 
 const emit = defineEmits(["update:modelValue"]);

@@ -5,7 +5,7 @@ Volunteers come to the house of the rescued souls (HOS, in russian - Домик 
 ## Project setup
 
 ### Requirements
-node version **20.17.0**
+node version **22.21.1**
 npm version **10.8.2**
 
 ```bash
