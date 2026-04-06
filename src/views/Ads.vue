@@ -13,7 +13,7 @@
       <a-table
         :columns="columns"
         :data-source="data"
-        :scroll="{ x: 900, y: 1000 }"
+        :scroll="{ x: 900 }"
         :pagination="false"
         @change="handleTableChange"
       >
@@ -66,7 +66,7 @@ const platforms = computed(() => store.state.platforms.list);
 const animalsWithAds = computed(() => store.state.ads.list);
 
 const columns = computed(() => [
-  { title: '#', width: 40, dataIndex: 'index', key: 'index', fixed: 'left' },
+  { title: '#', width: 50, dataIndex: 'index', key: 'index', fixed: 'left' },
   { title: 'Имя', width: 130, dataIndex: 'name', key: 'name', fixed: 'left' },
   ...platforms.value.map((platform) => ({
     title: platform.name,
@@ -165,6 +165,7 @@ $blue: #3f91f7;
     display: flex;
     width: 70%;
     flex-direction: column;
+    margin-bottom: 32px;
   }
 
   &__title {
