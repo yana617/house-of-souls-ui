@@ -4,6 +4,7 @@
       <AnimalListDesktop v-if="!$matchMedia.mobile" />
       <AnimalListMobile v-if="$matchMedia.mobile" />
     </div>
+    <GuestFooter />
   </div>
 </template>
 
@@ -15,6 +16,7 @@ import AnimalListDesktop from '@/components/animal-list-view/AnimalListDesktop.v
 import AnimalListMobile from '@/components/animal-list-view/AnimalListMobile.vue';
 import AnimalStatus from '@/utils/enums/AnimalStatus';
 import logger from '../utils/logger';
+import GuestFooter from '@/components/common/GuestFooter.vue';
 
 const statusesForVolunteerUser = `${AnimalStatus.HOMELESS},${AnimalStatus.PREPARATION},${AnimalStatus.ON_PROBATION}`;
 
@@ -77,10 +79,12 @@ $black1: #232d42;
   display: flex;
   align-items: flex-start;
   flex-direction: column;
+  margin-bottom: 32px;
 
   &__container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     background-color: $lightestGrey;
     min-height: calc(100vh - 50px);
   }
