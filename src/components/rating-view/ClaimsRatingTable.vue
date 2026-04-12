@@ -52,11 +52,6 @@ export default {
   computed: mapState({
     user: (state) => state.auth.user,
   }),
-  mounted() {
-    if (!this.user) {
-      this.$store.dispatch('users/getUser');
-    }
-  },
   methods: {
     getIndex(index) {
       return (this.currentPage - 1) * USERS_PER_PAGE + index + 1;

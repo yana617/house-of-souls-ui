@@ -26,6 +26,7 @@
   height: 120px;
   line-height: 1.25;
   text-align: left;
+  margin-top: auto;
 
   &__no-animals {
     margin-top: 2px;

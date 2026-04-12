@@ -7,6 +7,14 @@
     <p v-if="!$matchMedia.tablet" class="ads-info-for-guests__text">
       {{ animal.advertising_text }}
     </p>
+    <div v-permission="'VIEW_PROFILE'" class="ads-info-for-guests__ads-buttons">
+      <button class="ads-info-for-guests__copy-button" @click="copyToClipboardAnimalText">
+        Скопировать текст
+      </button>
+      <button v-if="animal.photos.length > 0" class="ads-info-for-guests__download-button" @click="onDownload">
+        Скачать все фото
+      </button>
+    </div>
     <swiper-container
       ref="swiperEl"
       navigation="true"
@@ -70,6 +78,7 @@
 import { computed, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { register } from 'swiper/element/bundle';
+import notifications from '@/utils/notifications';
 
 register();
 
@@ -129,6 +138,30 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowLeft') lightboxSwiper.value.swiper.slidePrev();
   if (e.key === 'ArrowRight') lightboxSwiper.value.swiper.slideNext();
 });
+
+const copyToClipboardAnimalText = async () => {
+  await navigator.clipboard.writeText(animal.value?.advertising_text);
+  notifications.success('Успешно скопировано');
+};
+
+const onDownload = async () => {
+  store.dispatch('app/setLoading', true);
+
+  const blob = await store.dispatch('animals/downloadImagesArchive', { id: animal.value.id });
+
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', `archive-${animal.value.name}.zip`);
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.URL.revokeObjectURL(url);
+
+  store.dispatch('app/setLoading', false);
+}
+
 </script>
 
 <style scoped lang="scss">
@@ -247,8 +280,26 @@ $grey1: #8a92a6;
     justify-content: center;
   }
 
+  &__ads-buttons {
+    display: flex;
+    align-items: center;
+    margin: 16px 0;
+    gap: 8px;
+  }
+
+  &__copy-button, &__download-button {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 175%;
+    color: $blue;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: unset;
+  }
+
   @media (max-width: 767px) {
-      margin: 0px;
+    margin: 0px;
   }
 
   @media (max-width: 479px) {
