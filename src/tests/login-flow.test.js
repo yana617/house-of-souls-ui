@@ -12,6 +12,7 @@ import { aftApi } from '@/api/additional-fields';
 import { authApi } from '@/api/auth';
 
 import store from '../store';
+import { usersApi } from '@/api/users';
 
 vi.mock('vue-router', () => ({
   useRoute: () => ({ path: '/schedule' }),
@@ -36,6 +37,8 @@ describe('Home.vue', () => {
       .mockResolvedValue({ success: true, data: [] });
 
     vi.spyOn(noticesApi, 'getNotices').mockResolvedValue({ success: true, data: [] });
+
+    vi.spyOn(usersApi, 'getUser').mockResolvedValue({ success: true, data: {} });
 
     vi.spyOn(claimsApi, 'getClaims').mockResolvedValue({ success: true, data: [] });
 
