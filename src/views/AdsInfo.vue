@@ -13,6 +13,22 @@
         спасения следующего бездомного существа.
       </div>
       <div class="ads-info__question">
+        Наглядное видео
+      </div>
+      <div class="ads-info__answer">
+        <div class="video-container">
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/R092TrRhlPE"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          />
+        </div>
+      </div>
+      <div class="ads-info__question">
         Что нужно для подачи обьявления?
       </div>
       <div class="ads-info__answer">

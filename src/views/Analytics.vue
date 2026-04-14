@@ -7,6 +7,9 @@
       <a-tab-pane key="stats" tab="Статистика">
         <router-view />
       </a-tab-pane>
+      <a-tab-pane key="map" tab="Карта">
+        <router-view />
+      </a-tab-pane>
     </a-tabs>
   </div>
 </template>
@@ -20,21 +23,35 @@ const router = useRouter();
 
 const activeKey = ref('rating');
 
+const routeToTab = {
+  '/analytics/rating': 'rating',
+  '/analytics/stats': 'stats',
+  '/analytics/map': 'map',
+};
+
+const tabToRoute = {
+  rating: '/analytics/rating',
+  stats: '/analytics/stats',
+  map: '/analytics/map',
+};
+
 watch(
   () => route.path,
   (newPath) => {
-    if (newPath.includes('stats')) {
-      activeKey.value = 'stats';
-    } else {
-      activeKey.value = 'rating';
-    }
+    const match = Object.entries(routeToTab).find(([path]) =>
+      newPath.startsWith(path)
+    );
+
+    activeKey.value = match ? match[1] : 'rating';
   },
   { immediate: true },
 );
 
+
 const handleTabChange = (key) => {
-  router.push(`/analytics/${key}`);
+  router.push(tabToRoute[key]);
 };
+
 </script>
 
 <style lang="scss" scoped>

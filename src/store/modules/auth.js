@@ -21,9 +21,12 @@ const actions = {
   login: async ({ commit }, body = {}) => {
     const response = await authApi.login(body);
     if (response.success) {
-      commit(SET_USER, response.data);
+      commit(SET_USER, response.data?.user);
       commit('app/SET_MODAL', null, { root: true });
     }
+  },
+  logout: async () => {
+    await authApi.logout();
   },
   register: async ({ commit }, body = {}) => {
     const response = await authApi.register(body);

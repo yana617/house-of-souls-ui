@@ -41,7 +41,6 @@ import HistoryActions from '@/components/home-view/HistoryActions.vue';
 import CommonFooter from '@/components/common/CommonFooter.vue';
 import HomeNotice from '@/components/home-view/HomeNotice.vue';
 import Schedule from '@/components/home-view/Schedule.vue';
-import { getToken } from '@/utils/sessionStorage';
 import { getWeekDatesRange } from '@/utils/date';
 import BirthdayConfetti from '@/components/home-view/BirthdayConfetti.vue';
 
@@ -94,10 +93,6 @@ watch(user, (newUser) => {
 });
 
 onMounted(async () => {
-  if (!!getToken() && !user.value) {
-    store.dispatch('users/getUser');
-  }
-
   store.dispatch('app/setLoading', true);
 
   store.dispatch('notices/getNotices');

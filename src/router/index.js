@@ -78,13 +78,13 @@ const routes = [
         name: 'stats',
         component: () => import('../views/Stats.vue'),
       },
+      {
+        path: '/analytics/map',
+        name: 'map',
+        component: () => import('../views/Map.vue'),
+        meta: { authRequired: true },
+      },
     ],
-  },
-  {
-    path: '/map',
-    name: 'map',
-    component: () => import('../views/Map.vue'),
-    meta: { authRequired: true },
   },
   {
     path: '/animals/:id/edit',
