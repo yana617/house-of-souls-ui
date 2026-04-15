@@ -1,55 +1,14 @@
 <template>
   <div class="header">
-    <Dropdown v-if="$matchMedia.desktop" :items="headerLinks" :selected="selected" />
+    <Dropdown v-if="$matchMedia.desktop" :selected="selected" />
     <div class="header__nav-menu">
-      <router-link v-if="hasPermissions('VIEW_USERS')" to="/volunteers">
-        Волонтеры
-      </router-link>
-      <router-link class="header__nav-menu__right-btn" to="/">
-        Животные
-      </router-link>
       <router-link
-        v-if="hasPermissions('VIEW_PROFILE')"
-        class="header__nav-menu__right-btn"
-        to="/ads"
+        v-for="item in desktopMenuItems"
+        :key="item.to"
+        :to="item.to"
+        :class="{ 'router-link-exact-active': item.isActive }"
       >
-        Реклама
-      </router-link>
-      <router-link
-        v-if="!hasPermissions('VIEW_PROFILE')"
-        class="header__nav-menu__right-btn"
-        to="/how-to-help"
-      >
-        Как помочь
-      </router-link>
-      <router-link
-        v-if="hasPermissions('VIEW_PROFILE')"
-        class="header__nav-menu__right-btn"
-        to="/schedule"
-      >
-        График
-      </router-link>
-      <router-link
-        v-if="hasPermissions('VIEW_PROFILE') && hasAdminPermissions()"
-        class="header__nav-menu__right-btn"
-        to="/profile"
-      >
-        Профиль
-      </router-link>
-      <router-link
-        v-if="hasPermissions('VIEW_RATING')"
-        class="header__nav-menu__right-btn"
-        :class="{ 'router-link-exact-active': isAnalyticsRoute }"
-        to="/analytics"
-      >
-        Аналитика
-      </router-link>
-      <router-link
-        v-if="hasPermissions('VIEW_ANIMALS')"
-        class="header__nav-menu__right-btn"
-        to="/map"
-      >
-        Карта
+        {{ item.label }}
       </router-link>
     </div>
     <div v-if="hasPermissions('VIEW_PROFILE') || isSchedulePath" class="header__auth">
@@ -66,17 +25,16 @@
         @click="setModal(MODAL.REGISTRATION)"
       />
 
+      <UserOutlined
+        v-if="hasPermissions('VIEW_PROFILE')"
+        style="color: white; font-size: 18px;"
+        @click="$router.push('/profile')"
+      />
       <CommonButton
         v-if="hasAdminPermissions()"
         class="header__auth__admin-btn"
         title="Админка"
         @click="$router.push('/admin/volunteers-requests')"
-      />
-      <CommonButton
-        v-if="hasPermissions('VIEW_PROFILE') && !hasAdminPermissions()"
-        class="header__nav-menu__right-btn"
-        title="Профиль"
-        @click="$router.push('/profile')"
       />
       <CommonButton
         v-if="hasPermissions('VIEW_PROFILE')"
@@ -97,43 +55,38 @@ import { useStore } from 'vuex';
 import { clearStorage } from '@/utils/sessionStorage';
 import CommonButton from '@/components/common/CommonButton.vue';
 import { MODAL } from '@/utils/constants';
-import { PATHS, HEADER_LINKS, ADMIN_LINKS } from '@/router/constants';
+import { PATHS, DESKTOP_MENU_ITEMS } from '@/router/constants';
 import Dropdown from './Dropdown.vue';
 import AuthModal from '../header-component/AuthModal.vue';
+import { UserOutlined } from '@ant-design/icons-vue';
+import { useMenu } from '@/composables/use-menu';
+
+const { desktopMenuItems } = useMenu(DESKTOP_MENU_ITEMS);
 
 const route = useRoute();
 const router = useRouter();
 
 const store = useStore();
 
-const user = computed(() => store.state.auth.user);
 const path = computed(() => route.path);
 const selected = computed(() => PATHS[path.value] || null);
-
-const headerLinks = computed(() => {
-  if (user.value) {
-    return [...HEADER_LINKS, ...ADMIN_LINKS];
-  }
-  return HEADER_LINKS;
-});
 
 const permissions = computed(() => store.state.permissions.my);
 const permissionsLoaded = computed(() => store.state.permissions.loaded);
 
 const isSchedulePath = computed(() => route.path === '/schedule');
 
-const isAnalyticsRoute = computed(() => {
-  return route.path.startsWith('/analytics');
-})
-
 const setModal = (modalName) => {
   store.dispatch('app/setModal', modalName);
 };
 
-const logout = () => {
+const logout = async () => {
   clearStorage();
   store.dispatch('users/clearUser');
   store.dispatch('permissions/resetPermissions');
+
+  await store.dispatch('auth/logout');
+
   store.dispatch('notices/getNotices');
   router.push('/');
 };
@@ -150,10 +103,10 @@ const hasAdminPermissions = () => {
     'CREATE_ADDITIONAL_FIELD_TEMPLATE',
     'EDIT_ADDITIONAL_FIELD_TEMPLATE',
     'DELETE_ADDITIONAL_FIELD_TEMPLATE',
+    'MANAGE_PLATFORMS',
   ];
   return adminPermissions.some((permission) => permissions.value.includes(permission));
 };
-
 </script>
 
 <style scoped lang="scss">
@@ -188,22 +141,19 @@ $header-color: #1d1d1f;
   }
 
   &__nav-menu {
-    &__right-btn {
-      margin-left: 16px;
-    }
+    display: flex;
+    align-items: center;
+    gap: 16px;
   }
 
   &__auth {
     position: absolute;
     right: 30px;
-
-    &__register-btn,
-    &__logout-btn {
-      margin-left: 8px;
-    }
+    display: flex;
+    align-items: center;
+    gap: 12px;
 
     &__admin-btn {
-      margin-left: 8px;
       color: $green;
       border: 1px solid $green;
 

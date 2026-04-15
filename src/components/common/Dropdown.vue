@@ -1,66 +1,79 @@
 <template>
   <div class="dropdown">
     <div :class="['dropdown__selected', { open }]" @click="toggleOpen">
-      <span class="dropdown__selected__text" :class="{ 'long-text': isLongText }">{{ title }}</span>
+      <span class="dropdown__selected__text" :class="{ 'long-text': isLongText }">
+        {{ title }}
+      </span>
       <ArrowBottomSvg />
     </div>
+
     <div :class="['dropdown__options', { open }]">
-      <div v-for="option in items" :key="option.slug">
-        <div v-if="!option.permissions || hasPermissions(option.permissions)" class="dropdown__option">
-          <a :class="{ selected: option.slug === selected }" @click="handleRouteClick(option.url)">
-            {{ option.label }}
-          </a>
-        </div>
+      <div
+        v-for="option in filteredItems"
+        :key="option.slug"
+        class="dropdown__option"
+        :class="{ selected: option.slug === selected, 'with-divider': !!option.withDivider }"
+        @click="handleRouteClick(option.url)"
+      >
+        <a>
+          {{ option.label }}
+        </a>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import { mapState } from 'vuex';
-
+<script setup>
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import ArrowBottomSvg from './ArrowBottomSvg.vue';
+import { MOBILE_MENU_ITEMS } from '@/router/constants';
 
-export default {
-  name: 'Dropdown',
-  components: { ArrowBottomSvg },
-  props: {
-    items: Array,
-    selected: String,
-  },
-  data() {
-    return {
-      open: false,
-    };
-  },
-  computed: mapState({
-    title() {
-      if (!this.items) return null;
-      const selected = this.items.find((item) => item.slug === this.selected);
-      return selected ? selected.label : 'Выбрать';
-    },
-    isLongText() {
-      return this.title.length >= 10;
-    },
-    permissions: (state) => state.permissions.my,
-  }),
-  methods: {
-    toggleOpen() {
-      this.open = !this.open;
-    },
-    handleRouteClick(url) {
-      this.open = false;
-      this.$router.push(url);
-    },
-    hasPermissions(permissionsToCheck) {
-      return permissionsToCheck.every((p) => this.permissions.includes(p));
-    },
-  },
+const props = defineProps({
+  items: Array,
+  selected: String,
+});
+
+const router = useRouter();
+const store = useStore();
+
+const open = ref(false);
+
+const permissions = computed(() => store.state.permissions.my);
+
+const hasPermissions = (required) => {
+  return required.every((p) => permissions.value.includes(p));
+};
+
+const filteredItems = computed(() => {
+  return MOBILE_MENU_ITEMS.filter((item) => {
+    if (!item.permissions) return true;
+    return hasPermissions(item.permissions);
+  });
+});
+
+const title = computed(() => {
+  const selected = MOBILE_MENU_ITEMS.find((item) => item.slug === props.selected);
+  return selected ? selected.label : 'Выбрать';
+});
+
+const isLongText = computed(() => title.value.length >= 10);
+
+const toggleOpen = () => {
+  open.value = !open.value;
+};
+
+const handleRouteClick = (url) => {
+  open.value = false;
+  router.push(url);
 };
 </script>
 
+
 <style lang="scss">
 $green: #42b983;
+$divider: #28313c;
 
 .dropdown {
   position: relative;
@@ -101,8 +114,9 @@ $green: #42b983;
     display: none;
     top: 45px;
     flex-direction: column;
-    background-color: rgba(0, 0, 0, 0.8);
-    border-radius: 4px;
+    background-color: #3e4753;
+    border-radius: 12px;
+    padding: 8px 0;
 
     &.open {
       display: flex;
@@ -113,20 +127,28 @@ $green: #42b983;
     display: flex;
     padding: 8px 16px;
     cursor: pointer;
+    color: white;
+
+    &.selected {
+      color: $green;
+      background-color: rgba(200, 200, 200, 0.1);
+    }
+
+    &.with-divider {
+      border-bottom: 1px solid $divider;
+      padding-bottom: 12px;
+    }
 
     a {
       font-size: 15px;
       text-decoration: none;
-      color: white;
       white-space: nowrap;
-
-      &.selected {
-        color: $green;
-      }
+      color: inherit;
     }
   }
 
   @media (max-width: 360px) {
+
     &__selected span,
     &__option a {
       font-size: 13px;

@@ -40,7 +40,7 @@ export const usersApi = {
     axios
       .get(`${AUTH_USERS_URL}/me`)
       .then((response) => response.data)
-      .catch((error) => error.response.data),
+      .catch((error) => error.response?.data),
 
   getCurator: async ({ userId }) =>
     axios

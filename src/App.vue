@@ -22,8 +22,11 @@ export default {
   computed: mapState({
     loading: (state) => state.app.loading,
   }),
-  created() {
-    this.$store.dispatch('permissions/getMyPermissions');
+  async created() {
+    await this.$store.dispatch('users/getUser'); // wait refresh logic
+
+    await this.$store.dispatch('permissions/getMyPermissions');
+
     this.$socket.on('newAction', (action) => {
       this.$store.dispatch('historyActions/addHistoryAction', action);
     });
@@ -45,18 +48,22 @@ body {
   margin: 0;
   padding: 0;
 }
+
 html {
   min-height: 100vh;
   scroll-behavior: smooth;
 }
+
 body {
   min-height: calc(100vh - #{$headerHeight});
   height: unset !important;
 }
+
 * {
   box-sizing: border-box;
   font-family: 'SF Pro Text', 'Myriad Set Pro', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 }
+
 #app {
   font-family: Helvetica, Avenir, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -97,9 +104,11 @@ body {
   0% {
     background-color: $lightestGrey;
   }
+
   50% {
     background-color: $lightGrey;
   }
+
   100% {
     background-color: $lightestGrey;
   }
