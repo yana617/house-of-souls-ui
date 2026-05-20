@@ -53,138 +53,13 @@
         АДРЕС ПУНКТА ВЫДАЧИ WB: Аг. Гатово, ул. Металлургическая 10А <br>(или всегда можно передать волонтерам
         лично)
       </h3>
-      <div class="how-to-help__block__sub-container">
-        <div class="how-to-help__feed">
-          <ul style="text-align: left; display: flex; flex-direction: column; gap: 8px;">
-            <h3>
-              <li style="font-size: 20px;">
-                Сухой корм Proplan / Royal Canin (Sterilized) для кошек/котят, Royal Canin / Brit / Premil Special для
-                собак
-              </li>
-            </h3>
-            <div class="how-to-help__feed__wb-content">
-              <span>для собак</span>
-              <div style="display: flex">
-                <a
-                  href="https://www.wildberries.by/catalog/180478261/detail.aspx"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="how-to-help__wb-product-link"
-                >
-                  #180478261
-                </a>
-                <a
-                  href="https://www.wildberries.by/catalog/180477134/detail.aspx"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="how-to-help__wb-product-link"
-                >
-                  #180477134
-                </a>
-              </div>
-            </div>
-            <div class="how-to-help__feed__wb-content">
-              <span>для кошек</span>
-              <div style="display: flex">
-                <a
-                  href="https://www.wildberries.by/catalog/181958647/detail.aspx"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="how-to-help__wb-product-link"
-                >
-                  #181958647
-                </a>
-                <a
-                  href="https://www.wildberries.by/catalog/181554089/detail.aspx"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="how-to-help__wb-product-link"
-                >
-                  #181554089
-                </a>
-              </div>
-            </div>
-            <div class="how-to-help__feed__wb-content">
-              <span>для котят (актуально с марта по октябрь)</span>
-              <div style="display: flex">
-                <a
-                  href="https://www.wildberries.by/catalog/271979272/detail.aspx"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="how-to-help__wb-product-link"
-                >
-                  #271979272
-                </a>
-                <a
-                  href="https://www.wildberries.by/catalog/373573684/detail.aspx"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="how-to-help__wb-product-link"
-                >
-                  #373573684
-                </a>
-              </div>
-            </div>
-            <h3>
-              <li style="font-size: 20px;">
-                Древесный наполнитель
-              </li>
-            </h3>
-            <div class="how-to-help__feed__wb-content">
-              <a
-                href="https://www.wildberries.by/catalog/148977087/detail.aspx"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="how-to-help__wb-product-link"
-              >
-                #148977087
-              </a>
-            </div>
-            <h3>
-              <li style="font-size: 20px;">
-                Моющие средства и хоз. инвентарь
-              </li>
-            </h3>
-            <div class="how-to-help__feed__wb-content">
-              <div style="display: flex">
-                <a
-                  href="https://www.wildberries.by/catalog/434401993/detail.aspx"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="how-to-help__wb-product-link"
-                >
-                  #434401993
-                </a>
-                <a
-                  href="https://www.wildberries.by/catalog/176118843/detail.aspx"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="how-to-help__wb-product-link"
-                >
-                  #176118843
-                </a>
-              </div>
-            </div>
-            <span>а также швабры, веники, губки, средства для мытья пола и посуды и другое</span>
-            <h3>
-              <li style="font-size: 20px;">
-                Лекарства и витамины
-              </li>
-            </h3>
-            <span>актуальный список лучше уточнить по телефону</span>
-          </ul>
-        </div>
-        <div class="how-to-help__feed__images">
-          <div class="how-to-help__feed__images__sub-container">
-            <img class="how-to-help__img-5" src="@/assets/how-to-help-5.webp">
-            <img class="how-to-help__img-6" src="@/assets/how-to-help-6.webp">
-          </div>
-          <div class="how-to-help__feed__images__sub-container">
-            <img class="how-to-help__img-7" src="@/assets/how-to-help-7.webp">
-            <img class="how-to-help__img-8" src="@/assets/how-to-help-8.webp">
-          </div>
-        </div>
+      <div class="how-to-help__feed__images">
+        <img class="how-to-help__img-5" src="@/assets/how-to-help-5.webp">
+        <img class="how-to-help__img-6" src="@/assets/how-to-help-6.webp">
+        <img class="how-to-help__img-7" src="@/assets/how-to-help-7.webp">
+        <img class="how-to-help__img-8" src="@/assets/how-to-help-8.webp">
       </div>
+      <Goods />
     </section>
     <section id="car" class="how-to-help__block">
       <h2>Помощь водителей</h2>
@@ -221,6 +96,8 @@
 </template>
 
 <script setup>
+import Goods from '@/components/how-to-help-view/Goods.vue';
+
 </script>
 
 <style scoped lang="scss">
@@ -331,31 +208,6 @@ $colorr: #f2f0e8;
     height: 200px;
   }
 
-  &__wb-product-link {
-    background-color: #EC238D;
-    color: white;
-    padding: 4px 12px;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    height: fit-content;
-    font-weight: 600;
-    min-width: 100px;
-    height: 35px;
-    display: inline;
-    margin-right: 8px;
-    font-size: 16px;
-    background: linear-gradient(97.26deg,
-        #ed3cca .49%,
-        #df34d2 14.88%,
-        #d02bd9 29.27%,
-        #bf22e1 43.14%,
-        #ae1ae8 57.02%,
-        #9a10f0 70.89%,
-        #8306f7 84.76%,
-        #7c1af8 99.15%),
-      linear-gradient(rgba(0, 0, 0, .05), rgba(0, 0, 0, .05));
-  }
-
   &__feed {
     display: flex;
     flex-direction: column;
@@ -371,26 +223,11 @@ $colorr: #f2f0e8;
       margin-top: 8px;
     }
 
-    &__wb-content {
-      display: flex;
-      align-items: center;
-      margin: 4px 0;
-    }
-
     &__images {
       display: flex;
-      align-items: center;
-      max-width: 450px;
-      flex-wrap: wrap;
-      gap: 8px;
+      margin: 32px auto;
+      gap: 16px;
       height: fit-content;
-      margin: auto;
-      margin-left: 16px;
-
-      &__sub-container {
-        display: flex;
-        align-items: center;
-      }
     }
   }
 
@@ -450,13 +287,6 @@ $colorr: #f2f0e8;
     &__description {
       margin: 0;
     }
-
-    &__feed {
-      &__images {
-        margin: auto;
-        max-width: 310px;
-      }
-    }
   }
 
   @media (max-width: 1023px) {
@@ -483,6 +313,13 @@ $colorr: #f2f0e8;
 
     &__preview {
       width: 100%;
+    }
+
+    &__img-5,
+    &__img-6,
+    &__img-7,
+    &__img-8 {
+      height: 150px;
     }
   }
 
@@ -512,27 +349,13 @@ $colorr: #f2f0e8;
       padding: 0;
     }
 
-    &__img-5,
-    &__img-6,
-    &__img-7,
-    &__img-8 {
-      height: 150px;
-    }
-
-    &__wb-product-link {
-      flex-direction: column;
-      gap: 8px;
-    }
-
     &__final-text {
       text-align: left;
     }
 
     &__feed {
-      &__wb-content {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
+      &__images {
+        display: none;
       }
     }
   }

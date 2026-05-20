@@ -15,6 +15,8 @@ import app from './modules/app';
 import stats from './modules/stats';
 import platforms from './modules/platforms';
 import ads from './modules/ads';
+import materials from './modules/materials';
+import documents from './modules/documents';
 
 const debug = !import.meta.env.PROD;
 
@@ -41,6 +43,8 @@ export default createStore({
     stats,
     platforms,
     ads,
+    materials,
+    documents,
   },
   strict: debug,
 });
