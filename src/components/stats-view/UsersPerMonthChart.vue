@@ -33,7 +33,7 @@ const averageUsersPerMonth = computed(
 );
 
 const baddestMonthCount = computed(
-  () => statsUsersPerMonth.value.reduce((acc, monthData) => Math.min(acc, monthData.usersCount), 0)
+  () => statsUsersPerMonth.value.reduce((acc, monthData) => Math.min(acc, monthData.usersCount), Infinity)
 );
 
 const greatestMonthCount = computed(

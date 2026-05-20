@@ -69,7 +69,7 @@ export const MOBILE_MENU_ITEMS = [
     withDivider: true,
   },
   {
-    url: '/map',
+    url: '/analytics/map',
     label: 'Карта',
     slug: 'map',
     permissions: ['VIEW_ANIMALS'],
@@ -84,6 +84,12 @@ export const MOBILE_MENU_ITEMS = [
     url: '/analytics/stats',
     label: 'Статистика',
     slug: 'stats',
+    permissions: ['VIEW_RATING'],
+  },
+  {
+    url: '/analytics/materials',
+    label: 'Материалы',
+    slug: 'materials',
     permissions: ['VIEW_RATING'],
   },
   {
