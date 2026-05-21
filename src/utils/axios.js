@@ -3,15 +3,46 @@ import { getToken, clearStorage, setToken } from './sessionStorage';
 import router from '../router';
 import store from '../store';
 import notification from './notifications';
-import { AUTH_URL } from '@/api/constants';
+import { AUTH_URL, AUTH_USERS_URL } from '@/api/constants';
 
 const REFRESH_URL = `${AUTH_URL}/refresh`;
+const ME_URL = `${AUTH_USERS_URL}/me`;
 
 // Singleton-промис refresh-запроса. Пока он не null — все новые запросы
 // ждут его разрешения (кроме самого refresh).
 let refreshPromise = null;
 
+// Singleton-промис первичной инициализации авторизации:
+// /me (+ возможный /refresh + ретрай /me). Пока он не зарезолвлен — ВСЕ
+// остальные запросы ждут его, чтобы стартовать уже с актуальным токеном
+// и не получить «гостевые» данные на эндпоинтах, которые отдают 200 и
+// для неавторизованных, и для авторизованных пользователей (например /notices).
+let authBootstrapPromise = null;
+
+// Регистрируется снаружи (App.vue / main.js). Принимает промис, который
+// резолвится, когда /me окончательно отработал (включая /refresh-ретрай).
+// Возвращает текущий промис, чтобы вызовы были идемпотентны.
+export const setAuthBootstrap = (promise) => {
+  if (authBootstrapPromise) return authBootstrapPromise;
+  // Глотаем ошибку: даже если /me/refresh упали — гейт должен открыться,
+  // иначе UI зависнет. Ошибки уже обработаны response-интерцептором.
+  authBootstrapPromise = Promise.resolve(promise).catch(() => {});
+  return authBootstrapPromise;
+};
+
 const isRefreshRequest = (url) => typeof url === 'string' && url.includes(REFRESH_URL);
+
+// Запросы, которые не должны ждать auth-bootstrap (иначе будет дедлок или
+// бессмысленная задержка): сам /me, /refresh и публичные auth-эндпоинты.
+const isAuthBootstrapBypass = (url) => {
+  if (typeof url !== 'string') return false;
+  if (url.includes(REFRESH_URL)) return true;
+  if (url.includes(ME_URL)) return true;
+  // login/register/forgot-password/reset-password — пользовательские
+  // действия, которые сами по себе и являются точкой авторизации.
+  if (url.startsWith(AUTH_URL) || url.includes(`${AUTH_URL}/`)) return true;
+  return false;
+};
 
 const performRefresh = () => {
   if (refreshPromise) return refreshPromise;
@@ -51,6 +82,18 @@ const interceptorsSetup = () => {
       if (isRefreshRequest(request.url)) {
         delete request.headers['x-access-token'];
         return request;
+      }
+
+      // Гейт первичной инициализации авторизации.
+      // Все запросы (кроме самого /me, /refresh и публичных auth-эндпоинтов)
+      // ждут, пока /me окончательно отработает — иначе они уйдут без токена
+      // и могут получить «гостевые» 200-ответы вместо авторизованных данных.
+      if (authBootstrapPromise && !isAuthBootstrapBypass(request.url)) {
+        try {
+          await authBootstrapPromise;
+        } catch {
+          // см. комментарий выше — гейт всегда открывается.
+        }
       }
 
       // Если refresh в процессе — ждём его и используем новый токен.

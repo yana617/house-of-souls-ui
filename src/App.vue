@@ -12,6 +12,7 @@ import { mapState } from 'vuex';
 
 import CommonHeader from '@/components/common/CommonHeader.vue';
 import Loader from '@/components/common/Loader.vue';
+import { setAuthBootstrap } from '@/utils/axios';
 
 export default {
   name: 'App',
@@ -22,10 +23,20 @@ export default {
   computed: mapState({
     loading: (state) => state.app.loading,
   }),
-  async created() {
-    await this.$store.dispatch('users/getUser'); // wait refresh logic
+  created() {
+    // Гейт авторизации = только /me (с внутренним 401→/refresh→ретрай).
+    // КРИТИЧНО регистрировать промис СИНХРОННО (до любого await), иначе
+    // дочерний onMounted успеет стартовать запросы раньше гейта.
+    //
+    // /permissions/me НЕ должен входить в гейт, иначе будет дедлок:
+    // он сам бы ждал гейт, который ждёт его. Поэтому permissions
+    // запускается после резолва /me — уже когда гейт открыт.
+    const meBootstrap = this.$store.dispatch('users/getUser');
+    setAuthBootstrap(meBootstrap);
 
-    await this.$store.dispatch('permissions/getMyPermissions');
+    meBootstrap.then(() => {
+      this.$store.dispatch('permissions/getMyPermissions');
+    });
 
     this.$socket.on('newAction', (action) => {
       this.$store.dispatch('historyActions/addHistoryAction', action);
