@@ -14,10 +14,17 @@ import { authApi } from '@/api/auth';
 import store from '../store';
 import { usersApi } from '@/api/users';
 
-vi.mock('vue-router', () => ({
-  useRoute: () => ({ path: '/schedule' }),
-  useRouter: () => ({ push: vi.fn() }),
-}));
+vi.mock('vue-router', async (importOriginal) => {
+  // Берём оригинальный модуль, чтобы остались createRouter / createWebHistory,
+  // которые нужны при импорте src/router/index.js (он тянется через
+  // src/utils/axios.js → import router from '../router').
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    useRoute: () => ({ path: '/schedule' }),
+    useRouter: () => ({ push: vi.fn() }),
+  };
+});
 
 const $socket = {
   on: vi.fn(),

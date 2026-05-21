@@ -1,10 +1,13 @@
 <template>
   <div class="analytics">
     <a-tabs v-model:active-key="activeKey" class="analytics__tabs ant-tabs-centered" @change="handleTabChange">
-      <a-tab-pane key="rating" tab="Посещения">
+      <a-tab-pane key="materials" tab="Материалы">
         <router-view />
       </a-tab-pane>
       <a-tab-pane key="stats" tab="Статистика">
+        <router-view />
+      </a-tab-pane>
+      <a-tab-pane key="rating" tab="Посещения">
         <router-view />
       </a-tab-pane>
       <a-tab-pane key="map" tab="Карта">
@@ -21,18 +24,20 @@ import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
 const router = useRouter();
 
-const activeKey = ref('rating');
+const activeKey = ref('materials');
 
 const routeToTab = {
   '/analytics/rating': 'rating',
   '/analytics/stats': 'stats',
   '/analytics/map': 'map',
+  '/analytics/materials': 'materials',
 };
 
 const tabToRoute = {
   rating: '/analytics/rating',
   stats: '/analytics/stats',
   map: '/analytics/map',
+  materials: '/analytics/materials',
 };
 
 watch(

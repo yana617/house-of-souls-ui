@@ -63,7 +63,7 @@ const routes = [
   {
     path: '/analytics',
     name: 'Analytics',
-    redirect: '/analytics/rating',
+    redirect: '/analytics/materials',
     component: () => import('../views/Analytics.vue'),
     children: [
       {
@@ -82,6 +82,12 @@ const routes = [
         path: '/analytics/map',
         name: 'map',
         component: () => import('../views/Map.vue'),
+        meta: { authRequired: true },
+      },
+      {
+        path: '/analytics/materials',
+        name: 'materials',
+        component: () => import('../views/Materials.vue'),
         meta: { authRequired: true },
       },
     ],
