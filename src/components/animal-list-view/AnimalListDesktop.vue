@@ -13,7 +13,18 @@
         Добавить
       </a-button>
     </router-link>
+    <a-button
+      v-if="hasViewAnimalPermission"
+      type="primary"
+      shape="round"
+      class="animal-list__report-button"
+      :loading="isReportLoading"
+      @click="downloadVaccinationReport"
+    >
+      Скачать отчет о вакцинациях
+    </a-button>
   </div>
+
   
   <span v-if="!hasViewAnimalPermission" class="animal-list__description">
     {{ animalListDescription }}
@@ -41,6 +52,7 @@
 import { mapState } from 'vuex';
 
 import { animalListDescription } from '@/utils/pr-texts';
+import notifications from '@/utils/notifications';
 import FilterViaImages from './FilterViaImages.vue';
 import Filters from './Filters.vue';
 import AnimalCard from './AnimalCard.vue';
@@ -55,7 +67,7 @@ export default {
     Sorting,
   },
   data() {
-    return { animalListDescription };
+    return { animalListDescription, isReportLoading: false };
   },
   computed: mapState({
     animals: (state) => state.animals.list,
@@ -67,12 +79,41 @@ export default {
       return this.permissions.includes('CREATE_ANIMAL');
     },
   }),
+  methods: {
+    async downloadVaccinationReport() {
+      try {
+        this.isReportLoading = true;
+        const blob = await this.$store.dispatch('animals/downloadVaccinationReport');
+
+        if (!blob || !(blob instanceof Blob)) {
+          notifications.error('Не удалось скачать отчёт');
+          return;
+        }
+
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'vaccination-report.pdf');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+      } catch {
+        notifications.error('Не удалось скачать отчёт');
+      } finally {
+        this.isReportLoading = false;
+      }
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
+@use 'sass:color';
+
 $grey1: #8a92a6;
 $green: #42b983;
+$blue: #3f91f7;
 
 .animal-list {
   &__add-button {
@@ -81,10 +122,23 @@ $green: #42b983;
     border-color: $green;
   }
 
+  &__report-button {
+    margin-left: auto;
+    background-color: $blue;
+    border-color: $blue;
+
+    &:hover,
+    &:focus {
+      background-color: color.adjust($blue, $lightness: -8%);
+      border-color: color.adjust($blue, $lightness: -8%);
+    }
+  }
+
   &__title-container {
     margin-top: 32px;
     display: flex;
     align-items: center;
+    width: 100%;
   }
 
   &__title {

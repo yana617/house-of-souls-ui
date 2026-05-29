@@ -44,6 +44,10 @@ const actions = {
     return animalsApi.downloadImagesArchive(params);
   },
 
+  downloadVaccinationReport: async () => {
+    return animalsApi.downloadVaccinationReport();
+  },
+
   clearAnimal: async ({ commit }) => {
     commit(SET_ANIMAL_DATA, {});
   },

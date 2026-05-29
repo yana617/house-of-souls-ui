@@ -96,4 +96,12 @@ export const animalsApi = {
       })
       .then((response) => response.data)
       .catch((error) => error.response.data),
+
+  downloadVaccinationReport: async () =>
+    axios
+      .get(`${ANIMALS_URL}/vaccination-report`, {
+        responseType: 'blob',
+      })
+      .then((response) => response.data)
+      .catch((error) => error.response.data),
 };
