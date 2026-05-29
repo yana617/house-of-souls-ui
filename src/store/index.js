@@ -10,7 +10,7 @@ import claims from './modules/claims';
 import roles from './modules/roles';
 import permissions from './modules/permissions';
 import animals from './modules/animals';
-import animalMedicalHistory from './modules/animal-medical-history';
+import healthRecords from './modules/health-records';
 import app from './modules/app';
 import stats from './modules/stats';
 import platforms from './modules/platforms';
@@ -39,7 +39,7 @@ export default createStore({
     roles,
     permissions,
     animals,
-    animalMedicalHistory,
+    healthRecords,
     stats,
     platforms,
     ads,
