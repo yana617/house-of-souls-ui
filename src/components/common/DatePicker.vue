@@ -24,11 +24,11 @@ const emit = defineEmits(["update:modelValue"]);
 
 const inputValue = computed({
   get() {
-    return dayjs(props.modelValue);
+    return props.modelValue ? dayjs(props.modelValue) : null;
   },
   set(newValue) {
-    emit('update:modelValue', newValue.toISOString())
-  }
+    emit('update:modelValue', newValue ? newValue.toISOString() : '');
+  },
 });
 </script>
 

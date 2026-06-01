@@ -11,6 +11,16 @@
       Добавить
     </a-button>
   </router-link>
+  <a-button
+    v-if="hasViewAnimalPermission"
+    type="primary"
+    shape="round"
+    class="animal-list-mobile__report-button"
+    :loading="isReportLoading"
+    @click="downloadVaccinationReport"
+  >
+    Скачать отчет о вакцинациях
+  </a-button>
   <Search v-if="hasViewAnimalPermission" />
   <span v-if="!hasViewAnimalPermission && showImageFilters" class="animal-list-mobile__description">
     {{ animalListDescription }}
@@ -46,6 +56,7 @@ import { mapState } from 'vuex';
 
 import AnimalNavigation from '@/components/animal-view/AnimalNavigation.vue';
 import { animalListDescription } from '@/utils/pr-texts';
+import notifications from '@/utils/notifications';
 import FilterViaImages from './FilterViaImages.vue';
 import AnimalCard from './AnimalCard.vue';
 import AnimalTypeAgeMobileFilter from './AnimalTypeAgeMobileFilter.vue';
@@ -65,7 +76,7 @@ export default {
     Search,
   },
   data() {
-    return { animalListDescription, filtersOpen: false };
+    return { animalListDescription, filtersOpen: false, isReportLoading: false };
   },
   computed: mapState({
     visitingFirstTime: () => !localStorage.getItem(ANIMALS_PAGE_VISIT_KEY),
@@ -91,6 +102,30 @@ export default {
     handleCloseFilters() {
       this.filtersOpen = false;
     },
+    async downloadVaccinationReport() {
+      try {
+        this.isReportLoading = true;
+        const blob = await this.$store.dispatch('animals/downloadVaccinationReport');
+
+        if (!blob || !(blob instanceof Blob)) {
+          notifications.error('Не удалось скачать отчёт');
+          return;
+        }
+
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'vaccination-report.pdf');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+      } catch {
+        notifications.error('Не удалось скачать отчёт');
+      } finally {
+        this.isReportLoading = false;
+      }
+    },
   },
 };
 </script>
@@ -98,6 +133,7 @@ export default {
 <style scoped lang="scss">
 $grey1: #8a92a6;
 $green: #42b983;
+$blue: #3f91f7;
 
 .animal-list-mobile {
   &__nav {
@@ -114,6 +150,12 @@ $green: #42b983;
   &__add-button {
     background-color: $green;
     border-color: $green;
+  }
+
+  &__report-button {
+    margin-top: 12px;
+    background-color: $blue;
+    border-color: $blue;
   }
 
   &__description {

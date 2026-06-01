@@ -11,6 +11,7 @@
         <AnimalDescription />
       </div>
       <AdsInfoForVolunteers v-if="hasViewAnimalPermission" />
+      <HealthRecords v-if="hasViewAnimalPermission" />
       <CuratorContactForGuests v-if="!hasViewAnimalPermission" />
       <CommonButton
         v-permission="'DELETE_ANIMAL'"
@@ -32,6 +33,7 @@ import CuratorContactForVolunteers from '@/components/animal-view/CuratorContact
 import CuratorContactForGuests from '@/components/animal-view/CuratorContactForGuests.vue';
 import AdsInfoForVolunteers from '@/components/animal-view/AdsInfoForVolunteers.vue';
 import AdsInfoForGuests from '@/components/animal-view/AdsInfoForGuests.vue';
+import HealthRecords from '@/components/animal-view/HealthRecords.vue';
 import CommonButton from '@/components/common/CommonButton.vue';
 
 const originalTitle = document.title;
@@ -46,6 +48,7 @@ export default {
     CuratorContactForGuests,
     AdsInfoForVolunteers,
     AdsInfoForGuests,
+    HealthRecords,
     CommonButton,
   },
   computed: mapState({
@@ -72,12 +75,6 @@ export default {
     this.$store.dispatch('animals/getAnimalById', { id: this.animalId }).finally(() => {
       this.$store.dispatch('app/setLoading', false);
     });
-    if (!this.hasViewAnimalPermission) {
-      this.$store.dispatch('animalMedicalHistory/getLastMedicalItem', {
-        animal_id: this.animalId,
-        type: 'vaccine',
-      });
-    }
   },
   unmounted() {
     this.$store.dispatch('animals/clearAnimal');

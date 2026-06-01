@@ -81,7 +81,6 @@ export default {
   components: { DescriptionIconItems },
   computed: mapState({
     permissions: (state) => state.permissions.my,
-    lastVaccine: (state) => state.animalMedicalHistory.last,
     animalId() {
       return this.$route.params.id;
     },
@@ -104,13 +103,20 @@ export default {
       const end = translates[Filters.STERILIZED]?.one?.[this.animal.sex];
       return `${start}${start ? end?.toLowerCase() : end}`;
     },
+    lastVaccine() {
+      const records = this.animal?.health_records || [];
+      const vaccines = records
+        .filter((r) => r.type === 'vaccine' && r.date)
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
+      return vaccines[0] || null;
+    },
     formattedLastVaccine() {
       if (!this.lastVaccine) {
         return '-';
       }
-      return "-";
-      // const { date, drugName } = this.lastVaccine;
-      // return `${parseDateWithNumbers(date)} (${drugName})`;
+      const { date, drug_name: drugName } = this.lastVaccine;
+      const formattedDate = parseDateWithNumbers(date);
+      return drugName ? `${formattedDate} (${drugName})` : formattedDate;
     },
     formattedSecondBirthday() {
       return parseDateWithNumbers(this.animal.second_birthday);
