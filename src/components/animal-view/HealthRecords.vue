@@ -309,7 +309,7 @@ $darkBlue: #2f3e4e;
   }
 
   &__record-date {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     color: $black1;
   }
