@@ -13,6 +13,9 @@
 <script setup>
 import { computed } from 'vue';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 const props = defineProps({
   description: String,
@@ -27,7 +30,18 @@ const inputValue = computed({
     return props.modelValue ? dayjs(props.modelValue) : null;
   },
   set(newValue) {
-    emit('update:modelValue', newValue ? newValue.toISOString() : '');
+    if (!newValue) {
+      emit('update:modelValue', '');
+      return;
+    }
+    const isoString = dayjs(newValue)
+      .utc()
+      .hour(12)
+      .minute(0)
+      .second(0)
+      .millisecond(0)
+      .format();
+    emit('update:modelValue', isoString);
   },
 });
 </script>
