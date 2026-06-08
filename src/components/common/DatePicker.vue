@@ -5,6 +5,7 @@
       v-model:value="inputValue"
       class="date-picker__picker"
       placeholder="Дата"
+      :locale="pickerLocale"
     />
     <span v-show="description">{{ description }}</span>
   </div>
@@ -14,6 +15,8 @@
 import { computed } from 'vue';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import 'dayjs/locale/ru';
+import pickerLocale from 'ant-design-vue/es/date-picker/locale/ru_RU';
 
 dayjs.extend(utc);
 
