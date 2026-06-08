@@ -110,7 +110,7 @@ let animal = reactive({
   place: AnimalPlace.CAT_HOUSE,
   status: AnimalStatus.HOMELESS,
   birthday: dayjs().subtract(1, 'year'),
-  second_birthday: dayjs().subtract(1, 'month'),
+  second_birthday: dayjs().subtract(2, 'week'),
   sterilized: true,
   photos: '',
   curator_id: null,

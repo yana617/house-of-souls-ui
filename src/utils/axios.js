@@ -4,6 +4,7 @@ import router from '../router';
 import store from '../store';
 import notification from './notifications';
 import { AUTH_URL, AUTH_USERS_URL } from '@/api/constants';
+import logger from './logger';
 
 const REFRESH_URL = `${AUTH_URL}/refresh`;
 const ME_URL = `${AUTH_USERS_URL}/me`;
@@ -47,9 +48,15 @@ const isAuthBootstrapBypass = (url) => {
 const performRefresh = () => {
   if (refreshPromise) return refreshPromise;
 
+  logger.log(`[REFRESH] Started at ${new Date().toISOString()}`);
+  const startTime = Date.now();
+
   refreshPromise = axios
     .post(REFRESH_URL)
     .then((res) => {
+      const duration = Date.now() - startTime;
+      logger.log(`[REFRESH] Completed in ${duration}ms`);
+
       const accessToken = res?.data?.data?.accessToken;
       if (!accessToken) {
         throw new Error('Refresh response did not include accessToken');
