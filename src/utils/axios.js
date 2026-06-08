@@ -4,7 +4,7 @@ import router from '../router';
 import store from '../store';
 import notification from './notifications';
 import { AUTH_URL, AUTH_USERS_URL } from '@/api/constants';
-import logger from './utils/logger';
+import logger from './logger';
 
 const REFRESH_URL = `${AUTH_URL}/refresh`;
 const ME_URL = `${AUTH_USERS_URL}/me`;
