@@ -9,10 +9,10 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          'antd-core': ['ant-design-vue/es/button', 'ant-design-vue/es/input'],
-          'antd-data': ['ant-design-vue/es/table', 'ant-design-vue/es/select'],
-          'antd-overlay': ['ant-design-vue/es/modal'],
+        manualChunks(id) {
+          if (id.includes('ant-design-vue') || id.includes('@ant-design')) {
+            return 'antd';
+          }
         },
       },
     },
