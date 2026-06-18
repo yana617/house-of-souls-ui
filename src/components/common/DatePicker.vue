@@ -38,11 +38,11 @@ const inputValue = computed({
       return;
     }
     const isoString = dayjs(newValue)
-      .utc()
       .hour(12)
       .minute(0)
       .second(0)
       .millisecond(0)
+      .utc()
       .format();
     emit('update:modelValue', isoString);
   },

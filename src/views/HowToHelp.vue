@@ -97,7 +97,14 @@
 
 <script setup>
 import Goods from '@/components/how-to-help-view/Goods.vue';
+import { useSeo, SHELTER_JSON_LD, SITE_URL } from '@/composables/use-seo';
 
+useSeo({
+  title: 'Как помочь приюту',
+  description: 'Подробнее как и чем можно помочь животным из приюта Домик Спасённых Душ в Минске.',
+  url: `${SITE_URL}/how-to-help`,
+  jsonLd: SHELTER_JSON_LD,
+});
 </script>
 
 <style scoped lang="scss">

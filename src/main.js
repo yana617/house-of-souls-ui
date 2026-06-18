@@ -3,6 +3,7 @@ import { io } from 'socket.io-client';
 import { createVueMatchMediaPlugin } from '@cwist/vue-match-media';
 import InlineSvg from 'vue-inline-svg';
 import { configure } from 'vue-gtag';
+import { createHead } from '@unhead/vue/client';
 
 import App from './App.vue';
 import router from './router';
@@ -37,7 +38,8 @@ if (import.meta.env.PROD) {
 }
 
 const run = () => {
-  const app = createApp(App).use(store).use(router).use(VueMatchMediaPlugin);
+  const head = createHead();
+  const app = createApp(App).use(store).use(router).use(VueMatchMediaPlugin).use(head);
 
   app.config.globalProperties.$socket = socket;
 

@@ -24,6 +24,9 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import { useHead } from '@unhead/vue';
 import { mapState } from 'vuex';
 
 import AnimalNavigation from '@/components/animal-view/AnimalNavigation.vue';
@@ -35,8 +38,8 @@ import AdsInfoForVolunteers from '@/components/animal-view/AdsInfoForVolunteers.
 import AdsInfoForGuests from '@/components/animal-view/AdsInfoForGuests.vue';
 import HealthRecords from '@/components/animal-view/HealthRecords.vue';
 import CommonButton from '@/components/common/CommonButton.vue';
-
-const originalTitle = document.title;
+import { SITE_NAME, SITE_URL } from '@/composables/use-seo';
+import AnimalType from '@/utils/enums/AnimalType';
 
 export default {
   name: 'Animal',
@@ -51,6 +54,55 @@ export default {
     HealthRecords,
     CommonButton,
   },
+  setup() {
+    const store = useStore();
+    const animal = computed(() => store.state.animals.current);
+
+    useHead(computed(() => {
+      const a = animal.value;
+      if (!a?.name) return { title: `Животные из приюта | ${SITE_NAME}` };
+
+      const typeLabel =
+        a.type === AnimalType.DOG ? 'собака' :
+        a.type === AnimalType.CAT ? 'кошка' : 'животное';
+
+      const title = `${a.name} — ${typeLabel} из приюта | ${SITE_NAME}`;
+      const rawDesc = a.description
+        ? `${a.name} — ${a.description}`.slice(0, 155)
+        : `${a.name} ищет новый дом. Приют Домик Спасённых Душ, Минск.`;
+      const photo = a.photos?.[0]?.url || '';
+      const pageUrl = `${SITE_URL}/animals/${a.id}`;
+
+      return {
+        title,
+        meta: [
+          { name: 'description', content: rawDesc },
+          { name: 'robots', content: 'index, follow' },
+          { property: 'og:title', content: title },
+          { property: 'og:description', content: rawDesc },
+          { property: 'og:image', content: photo },
+          { property: 'og:url', content: pageUrl },
+          { property: 'og:type', content: 'profile' },
+          { property: 'og:site_name', content: SITE_NAME },
+          { property: 'og:locale', content: 'ru_RU' },
+        ],
+        link: [{ rel: 'canonical', href: pageUrl }],
+        script: a.name ? [
+          {
+            type: 'application/ld+json',
+            innerHTML: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Animal',
+              name: a.name,
+              description: a.description || undefined,
+              image: photo || undefined,
+              url: pageUrl,
+            }),
+          },
+        ] : [],
+      };
+    }));
+  },
   computed: mapState({
     notices: (state) => state.animals.notices,
     permissions: (state) => state.permissions.my,
@@ -62,13 +114,6 @@ export default {
       return this.permissions.includes('VIEW_ANIMALS');
     },
   }),
-  watch: {
-    animal() {
-      if (this.animal) {
-        document.title = `ДСД - ${this.animal.name}`;
-      }
-    }
-  },
   created() {
     this.$store.dispatch('notices/clearNotices');
     this.$store.dispatch('app/setLoading', true);
@@ -78,7 +123,6 @@ export default {
   },
   unmounted() {
     this.$store.dispatch('animals/clearAnimal');
-    document.title = originalTitle;
   },
   methods: {
     handleDelete() {
