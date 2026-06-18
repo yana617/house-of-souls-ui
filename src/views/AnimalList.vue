@@ -17,6 +17,16 @@ import AnimalListMobile from '@/components/animal-list-view/AnimalListMobile.vue
 import AnimalStatus from '@/utils/enums/AnimalStatus';
 import logger from '../utils/logger';
 import GuestFooter from '@/components/common/GuestFooter.vue';
+import { useSeo, SHELTER_JSON_LD, SITE_URL } from '@/composables/use-seo';
+
+useSeo({
+  title: 'Животные из приюта в Минске',
+  description:
+    'Кошки и собаки из мини-приюта Домик Спасённых Душ ищут новый дом.' +
+    ' Посмотрите всех животных и помогите им обрести семью.',
+  url: SITE_URL,
+  jsonLd: SHELTER_JSON_LD,
+});
 
 const statusesForVolunteerUser = `${AnimalStatus.HOMELESS},${AnimalStatus.PREPARATION},${AnimalStatus.ON_PROBATION}`;
 

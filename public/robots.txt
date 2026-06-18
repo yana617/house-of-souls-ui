@@ -22,3 +22,5 @@ Allow: /assets/
 Allow: /js/
 Allow: /css/
 Allow: /img/
+
+Sitemap: https://soulhome.by/sitemap.xml

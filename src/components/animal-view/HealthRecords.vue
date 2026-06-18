@@ -12,48 +12,42 @@
       </button>
     </div>
 
-    <div v-for="section in visibleSections" :key="section.type" class="health-records__section">
-      <div class="health-records__section-title">
-        {{ section.title }}
-      </div>
+    <div ref="timelineRef" class="health-records__timeline-wrapper">
+      <div class="health-records__timeline">
+        <div class="health-records__line" />
 
-      <div
-        :ref="(el) => setTimelineRef(el, section.type)"
-        class="health-records__timeline-wrapper"
-      >
-        <div class="health-records__timeline">
-          <div class="health-records__line" />
+        <a-popover
+          v-for="record in allRecords"
+          :key="record.id"
+          trigger="hover"
+          placement="bottom"
+          overlay-class-name="health-records__popover"
+        >
+          <template #content>
+            <HealthRecordTooltip
+              :record="record"
+              :on-delete="handleDelete"
+            />
+          </template>
 
-          <a-popover
-            v-for="record in getRecordsByType(section.type)"
-            :key="record.id"
-            trigger="hover"
-            placement="bottom"
-            overlay-class-name="health-records__popover"
-          >
-            <template #content>
-              <HealthRecordTooltip
-                :record="record"
-                :on-delete="handleDelete"
-              />
-            </template>
-
-            <div class="health-records__record">
-              <div
-                class="health-records__dot"
-                :class="{ 'health-records__dot--future': isFuture(record.date) }"
-              />
-              <div class="health-records__record-info">
-                <div class="health-records__record-date">
-                  {{ formatDate(record.date) }}
-                </div>
-                <div v-if="record.drug_name" class="health-records__record-name">
-                  {{ record.drug_name }}
-                </div>
+          <div class="health-records__record">
+            <div class="health-records__record-type">
+              {{ typeTitle[record.type] }}
+            </div>
+            <div
+              class="health-records__dot"
+              :class="{ 'health-records__dot--future': isFuture(record.date) }"
+            />
+            <div class="health-records__record-info">
+              <div class="health-records__record-date">
+                {{ formatDate(record.date) }}
+              </div>
+              <div v-if="record.drug_name" class="health-records__record-name">
+                {{ record.drug_name }}
               </div>
             </div>
-          </a-popover>
-        </div>
+          </div>
+        </a-popover>
       </div>
     </div>
 
@@ -85,46 +79,37 @@ const showModal = ref(false);
 
 const sections = [
   { type: HealthRecordType.VACCINE, title: 'Вакцинация' },
-  { type: HealthRecordType.FLEAS_AND_TICKS, title: 'Антипаразитарная обработка от блох и клещей' },
-  { type: HealthRecordType.DEWORMING, title: 'Антипаразитарная обработка от глистов' },
-  { type: HealthRecordType.VET_VISIT, title: 'Осмотр в ветклинике' },
+  { type: HealthRecordType.FLEAS_AND_TICKS, title: 'Обработка от блох/клещей' },
+  { type: HealthRecordType.DEWORMING, title: 'Обработка от глистов' },
+  { type: HealthRecordType.VET_VISIT, title: 'Посещение ветклиники' },
   { type: HealthRecordType.LAB_TEST, title: 'Анализы' },
 ];
 
-const getRecordsByType = (type) => records.value
-  .filter((r) => r.type === type)
-  .slice()
-  .sort((a, b) => new Date(a.date) - new Date(b.date));
+const typeTitle = Object.fromEntries(sections.map((s) => [s.type, s.title]));
 
-const visibleSections = computed(() => sections.filter(
-  (s) => getRecordsByType(s.type).length > 0,
-));
+const allRecords = computed(() => records.value
+  .slice()
+  .sort((a, b) => new Date(a.date) - new Date(b.date)));
 
 const formatDate = (date) => parseDateWithNumbers(date);
 
 const isFuture = (date) => new Date(date) > new Date();
 
-const timelineRefs = ref({});
-const setTimelineRef = (el, type) => {
-  if (el) {
-    timelineRefs.value[type] = el;
+const timelineRef = ref(null);
+
+const scrollToEnd = () => {
+  const el = timelineRef.value;
+  if (el && el.scrollWidth > el.clientWidth) {
+    el.scrollLeft = el.scrollWidth;
   }
 };
 
-const scrollAllToEnd = () => {
-  Object.values(timelineRefs.value).forEach((el) => {
-    if (el && el.scrollWidth > el.clientWidth) {
-      el.scrollLeft = el.scrollWidth;
-    }
-  });
-};
-
 onMounted(() => {
-  nextTick(scrollAllToEnd);
+  nextTick(scrollToEnd);
 });
 
-watch(visibleSections, () => {
-  nextTick(scrollAllToEnd);
+watch(allRecords, () => {
+  nextTick(scrollToEnd);
 });
 
 const handleCreate = async (body) => {
@@ -146,6 +131,7 @@ const handleDelete = async (recordId) => {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:color';
 $black1: #232d42;
 $grey1: #8a92a6;
 $grey2: #f4f6f9;
@@ -192,7 +178,7 @@ $darkBlue: #2f3e4e;
     transition: background-color 0.2s;
 
     &:hover {
-      background: darken($grey2, 5%);
+      background: color.adjust($grey2, $lightness: -5%);
     }
   }
 
@@ -218,30 +204,9 @@ $darkBlue: #2f3e4e;
     }
   }
 
-  &__section {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding-top: 16px;
-    border-top: 1px solid $grey2;
-
-    &:first-of-type {
-      border-top: none;
-      padding-top: 0;
-    }
-  }
-
-  &__section-title {
-    font-weight: 500;
-    font-size: 16px;
-    color: $black1;
-    align-self: flex-start;
-    text-align: left;
-  }
-
   &__timeline-wrapper {
     overflow-x: auto;
-    padding: 16px 0 40px;
+    padding: 40px 0 40px;
 
     &::-webkit-scrollbar {
       height: 6px;
@@ -258,7 +223,7 @@ $darkBlue: #2f3e4e;
     display: flex;
     align-items: center;
     min-height: 60px;
-    gap: 80px;
+    gap: 120px;
     padding: 0 34px 0 44px;
     min-width: max-content;
   }
@@ -294,6 +259,20 @@ $darkBlue: #2f3e4e;
       background: white;
       box-shadow: 0 0 0 2px $darkBlue;
     }
+  }
+
+  &__record-type {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 90px;
+    font-size: 12px;
+    font-weight: 500;
+    color: $black1;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.3;
   }
 
   &__record-info {
