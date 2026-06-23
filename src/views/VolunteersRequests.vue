@@ -6,10 +6,9 @@
       :columns="volunteersColumns"
       :data-source="users"
       :row-key="(record) => record.id"
-      :row-class-name="
-        (record) => ({
-          'volunteers-requests__deactivated-row': record.createdAt !== record.updatedAt,
-        })
+      :row-class-name="(record) => ({
+        'volunteers-requests__deactivated-row': record.createdAt !== record.updatedAt,
+      })
       "
     >
       <template #createdAt="{ text: date }">
@@ -20,10 +19,7 @@
       </template>
       <template #userAdditionalFields="{ record }">
         <span>
-          <AdditionalFieldsTags
-            v-if="!noAtf"
-            :user-additional-fields="record.user_additional_fields"
-          />
+          <AdditionalFieldsTags v-if="!noAtf" :user-additional-fields="record.user_additional_fields" />
           <span v-if="noAtf || !record.user_additional_fields">-</span>
         </span>
       </template>
@@ -35,21 +31,16 @@
     </a-table>
     <div v-if="$matchMedia.tablet">
       <div v-for="user in users" :key="user.id" class="volunteers-requests__mobile">
-        <div class="volunteers-requests__mobile__container top">
-          <h4 class="volunteers-requests__mobile__createdAt">
-            {{ getDate(user.createdAt) }}
-          </h4>
-          <h3 class="volunteers-requests__mobile__name">
-            {{ userInfo(user) }}
-          </h3>
+        <div class="volunteers-requests__mobile__header">
+          <span class="volunteers-requests__mobile__name">{{ userInfo(user) }}</span>
+          <span class="volunteers-requests__mobile__date">{{ getDate(user.createdAt) }}</span>
         </div>
-        <div class="volunteers-requests__mobile__container bottom">
-          <h4>{{ user.phone }}</h4>
-          <div v-if="!noAtf" class="volunteers-requests__mobile__line" />
-          <AdditionalFieldsTags
-            v-if="!noAtf"
-            :user-additional-fields="user.user_additional_fields"
-          />
+        <div class="volunteers-requests__mobile__body">
+          <span class="volunteers-requests__mobile__phone">+{{ prettifyPhone(user.phone) }}</span>
+          <template v-if="!noAtf">
+            <div class="volunteers-requests__mobile__line" />
+            <AdditionalFieldsTags :user-additional-fields="user.user_additional_fields" />
+          </template>
         </div>
         <CommonButton
           class="volunteers-requests__mobile__submit-btn"
@@ -64,71 +55,73 @@
   </div>
 </template>
 
-<script>
-import { mapState } from 'vuex';
+<script setup>
+import { computed, onMounted, onUnmounted } from 'vue';
+import { useStore } from 'vuex';
 
 import { volunteersColumns } from '@/utils/constants';
 import { parseDateAndTime, calculateAge } from '@/utils/date';
 import AdditionalFieldsTags from '@/components/volunteers-requests-view/AdditionalFieldsTags.vue';
 import CommonButton from '@/components/common/CommonButton.vue';
+import prettifyPhone from '@/utils/prettifyPhone';
 
-export default {
-  name: 'VolunteersRequests',
-  components: { CommonButton, AdditionalFieldsTags },
-  data() {
-    return {
-      volunteersColumns,
-    };
-  },
-  computed: mapState({
-    permissions: (state) => state.permissions.my,
-    users: (state) => state.users.list,
-    noAtf: (state) => !state.additionalFields.current
-      || state.additionalFields.current.length === 0,
-  }),
-  created() {
-    this.loadUsers();
-    this.$store.dispatch('additionalFields/getAdditionalFields');
-  },
-  unmounted() {
-    this.$store.dispatch('users/clearUsersList');
-  },
-  methods: {
-    getDate(date) {
-      return parseDateAndTime(date);
-    },
-    getAge(date) {
-      return calculateAge(date);
-    },
-    userInfo(user) {
-      return `${user.name} ${user.surname} (${this.getAge(user.birthday)})`;
-    },
-    changeRole(userId) {
-      this.$store.dispatch('users/updateRole', { userId, role: 'VOLUNTEER' }).then(() => {
-        this.loadUsers();
-      });
-    },
-    loadUsers() {
-      this.$store.dispatch('app/setLoading', true);
-      this.$store
-        .dispatch('users/getUsers', {
-          roles: 'USER',
-          sortBy: 'createdAt',
-          order: 'desc',
-          limit: 100,
-        })
-        .finally(() => {
-          this.$store.dispatch('app/setLoading', false);
-        });
-    },
-    hasPermissions(permission) {
-      return this.permissions.includes(permission);
-    },
-  },
-};
+const store = useStore();
+
+const permissions = computed(() => store.state.permissions.my);
+const users = computed(() => store.state.users.list);
+const noAtf = computed(
+  () =>
+    !store.state.additionalFields.current ||
+    store.state.additionalFields.current.length === 0,
+);
+
+function getDate(date) {
+  return parseDateAndTime(date);
+}
+
+function getAge(date) {
+  return calculateAge(date);
+}
+
+function userInfo(user) {
+  return `${user.name} ${user.surname} (${getAge(user.birthday)})`;
+}
+
+function hasPermissions(permission) {
+  return permissions.value.includes(permission);
+}
+
+function loadUsers() {
+  store.dispatch('app/setLoading', true);
+  store
+    .dispatch('users/getUsers', {
+      roles: 'USER',
+      sortBy: 'createdAt',
+      order: 'desc',
+      limit: 100,
+    })
+    .finally(() => {
+      store.dispatch('app/setLoading', false);
+    });
+}
+
+function changeRole(userId) {
+  store.dispatch('users/updateRole', { userId, role: 'VOLUNTEER' }).then(() => {
+    loadUsers();
+  });
+}
+
+onMounted(() => {
+  loadUsers();
+  store.dispatch('additionalFields/getAdditionalFields');
+});
+
+onUnmounted(() => {
+  store.dispatch('users/clearUsersList');
+});
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $green: #42b983;
 $lightGrey: #ccc;
 $lightestGrey: #f0f0f0;
@@ -143,47 +136,62 @@ $lightRed: #ffe5e1;
 
   &__mobile {
     display: flex;
-    position: relative;
     flex-direction: column;
-    align-items: center;
-    padding: 8px 16px;
-    border: 2px solid $lightestGrey;
-    margin: 8px;
+    gap: 4px;
+    padding: 12px 16px;
+    border: 1px solid $lightestGrey;
+    border-radius: 8px;
+    margin: 8px 16px;
 
-    h3,
-    h4,
-    h5 {
-      margin: 0;
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
     }
 
-    &__container {
+    &__name {
+      font-weight: 600;
+      font-size: 15px;
+      text-align: left;
+    }
+
+    &__date {
+      font-size: 12px;
+      color: #999;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    &__body {
       display: flex;
       align-items: center;
-      justify-content: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
 
-      &.top {
-        margin-top: 12px;
-      }
+    &__phone {
+      font-size: 14px;
+      color: #555;
     }
 
     &__line {
       width: 1px;
-      height: 24px;
+      height: 20px;
       background-color: $lightGrey;
-      margin-left: 8px;
-      margin-right: 8px;
-    }
-
-    &__createdAt {
-      position: absolute;
-      top: 2px;
-      font-size: 12px;
+      margin: 0 4px;
     }
 
     &__submit-btn {
+      margin-top: 8px;
+      width: 100%;
       color: $green;
       border-color: $green;
-      margin-top: 8px;
+
+      &:hover {
+        background-color: $green;
+        color: white;
+      }
     }
 
     &__no-users {
