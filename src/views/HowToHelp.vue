@@ -29,10 +29,26 @@
       <h2>Волонтерство</h2>
       <div class="how-to-help__block__volunteering">
         <div class="how-to-help__images-container">
-          <img class="how-to-help__img-preview" src="@/assets/how-to-help-1.webp">
-          <img class="how-to-help__img-preview" src="@/assets/how-to-help-2.webp">
-          <img class="how-to-help__img-preview" src="@/assets/how-to-help-3.webp">
-          <img class="how-to-help__img-preview" src="@/assets/how-to-help-4.webp">
+          <img
+            class="how-to-help__img-preview"
+            alt="Волонтер гуляет с собаками в приюте Домик Спасённых Душ"
+            src="@/assets/how-to-help-1.webp"
+          >
+          <img
+            class="how-to-help__img-preview"
+            alt="Кошки приюта Домик Спасённых Душ"
+            src="@/assets/how-to-help-2.webp"
+          >
+          <img
+            class="how-to-help__img-preview"
+            alt="Собаки на прогулке в приюте Домик Спасённых Душ"
+            src="@/assets/how-to-help-3.webp"
+          >
+          <img
+            class="how-to-help__img-preview"
+            alt="Котята приюта Домик Спасённых Душ"
+            src="@/assets/how-to-help-4.webp"
+          >
         </div>
         <div class="how-to-help__description">
           Волонтерский мини-приют "Домик Спасенных Душ" всегда нуждается в волонтерах! Дом - там, где сердце ❤️
@@ -54,10 +70,18 @@
         лично)
       </h3>
       <div class="how-to-help__feed__images">
-        <img class="how-to-help__img-5" src="@/assets/how-to-help-5.webp">
-        <img class="how-to-help__img-6" src="@/assets/how-to-help-6.webp">
-        <img class="how-to-help__img-7" src="@/assets/how-to-help-7.webp">
-        <img class="how-to-help__img-8" src="@/assets/how-to-help-8.webp">
+        <img
+          class="how-to-help__img-5"
+          alt="Сухой корм Pro Plan для стерилизованных кошек"
+          src="@/assets/how-to-help-5.webp"
+        >
+        <img
+          class="how-to-help__img-6"
+          alt="Сухой корм Brit Premium для собак средних пород"
+          src="@/assets/how-to-help-6.webp"
+        >
+        <img class="how-to-help__img-7" alt="Наполнитель для кошачьего туалета" src="@/assets/how-to-help-7.webp">
+        <img class="how-to-help__img-8" alt="Средство Mr. Proper для домов с кошками" src="@/assets/how-to-help-8.webp">
       </div>
       <Goods />
     </section>
@@ -100,8 +124,10 @@ import Goods from '@/components/how-to-help-view/Goods.vue';
 import { useSeo, SHELTER_JSON_LD, SITE_URL } from '@/composables/use-seo';
 
 useSeo({
-  title: 'Как помочь приюту',
-  description: 'Подробнее как и чем можно помочь животным из приюта Домик Спасённых Душ в Минске.',
+  title: 'Как помочь приюту в Минске: волонтерство, корм, передержка',
+  description:
+    'Как помочь приюту для животных в Минске: стать волонтером, передать корм, отвезти животное, ' +
+    'или взять на передержку.',
   url: `${SITE_URL}/how-to-help`,
   jsonLd: SHELTER_JSON_LD,
 });

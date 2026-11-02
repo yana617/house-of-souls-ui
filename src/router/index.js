@@ -19,6 +19,16 @@ const routes = [
     name: 'how-to-help',
     component: () => import('../views/HowToHelp.vue'),
   },
+  {
+    path: '/sobaki',
+    name: 'dogs',
+    component: () => import('../views/Dogs.vue'),
+  },
+  {
+    path: '/koty',
+    name: 'cats',
+    component: () => import('../views/Cats.vue'),
+  },
   // PRIVATE
   {
     path: '/schedule',
