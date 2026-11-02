@@ -119,7 +119,7 @@ $greenDark: #349c6f;
     align-items: flex-start;
     width: 100%;
     margin: 32px 0;
-    padding: 16px;
+    padding: 16px 0;
   }
 
   &__hero-head {
@@ -241,7 +241,7 @@ $greenDark: #349c6f;
     width: 90%;
 
     &__hero {
-      padding: 32px;
+      padding: 32px 0;
     }
 
     &__title {
@@ -260,7 +260,7 @@ $greenDark: #349c6f;
 
   @media (max-width: 800px) {
     &__hero {
-      padding: 28px;
+      padding: 28px 0;
       border-radius: 20px;
     }
 
@@ -283,7 +283,7 @@ $greenDark: #349c6f;
     padding: 0 16px;
 
     &__hero {
-      padding: 0;
+      padding: 16px 0;
       margin: 20px 0;
     }
 
