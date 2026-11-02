@@ -14,6 +14,15 @@
       </div>
       <span class="guest-footer__years">© 2009-2026</span>
       <span class="guest-footer__birthday">День рождения: 3 сентября</span>
+      <a
+        href="https://petspace.by?utm_source=soulhome.by"
+        target="_blank"
+        rel="noopener"
+        class="guest-footer__petspace-link"
+      >
+        <img class="guest-footer__petspace-icon" src="/petspace-icon.svg" alt="PetSpace">
+        <span>petspace.by - каталог ветклиник,<br>грумеров и кинологов в Беларуси</span>
+      </a>
     </div>
 
     <div class="guest-footer__right">
@@ -71,6 +80,26 @@ import { InstagramOutlined } from '@ant-design/icons-vue';
   &__birthday {
     font-size: 14px;
     color: #666;
+  }
+
+  &__petspace-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #666;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #000;
+    }
+  }
+
+  &__petspace-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    object-fit: cover;
   }
 
   &__instagram-link {

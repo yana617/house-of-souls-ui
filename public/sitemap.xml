@@ -15,4 +15,18 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- Собаки -->
+  <url>
+    <loc>https://soulhome.by/sobaki</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Коты -->
+  <url>
+    <loc>https://soulhome.by/koty</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
 </urlset>
