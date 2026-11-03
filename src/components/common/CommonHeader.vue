@@ -2,14 +2,21 @@
   <div class="header">
     <Dropdown v-if="$matchMedia.desktop" :selected="selected" />
     <div class="header__nav-menu">
-      <router-link
-        v-for="item in desktopMenuItems"
-        :key="item.to"
-        :to="item.to"
-        :class="{ 'router-link-exact-active': item.isActive }"
-      >
-        {{ item.label }}
-      </router-link>
+      <template v-for="item in desktopMenuItems" :key="item.to">
+        <NavDropdown
+          v-if="item.guestOptions && !hasPermissions('VIEW_PROFILE')"
+          :label="item.label"
+          :options="item.guestOptions"
+          :is-active="item.isActive"
+        />
+        <router-link
+          v-else
+          :to="item.to"
+          :class="{ 'router-link-exact-active': item.isActive }"
+        >
+          {{ item.label }}
+        </router-link>
+      </template>
     </div>
     <div v-if="hasPermissions('VIEW_PROFILE') || isSchedulePath" class="header__auth">
       <CommonButton
@@ -57,6 +64,7 @@ import CommonButton from '@/components/common/CommonButton.vue';
 import { MODAL } from '@/utils/constants';
 import { PATHS, DESKTOP_MENU_ITEMS } from '@/router/constants';
 import Dropdown from './Dropdown.vue';
+import NavDropdown from './NavDropdown.vue';
 import AuthModal from '../header-component/AuthModal.vue';
 import { UserOutlined } from '@ant-design/icons-vue';
 import { useMenu } from '@/composables/use-menu';
