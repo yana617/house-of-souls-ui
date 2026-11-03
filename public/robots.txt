@@ -3,6 +3,9 @@ Allow: /$
 Allow: /animals/
 Allow: /animals/*
 Allow: /how-to-help
+Allow: /sobaki
+Allow: /koty
+Allow: /kak-pristroit-sobaku-ili-koshku
 
 Disallow: /schedule
 Disallow: /volunteers
@@ -12,7 +15,6 @@ Disallow: /reset-password
 Disallow: /users/
 Disallow: /analytics
 Disallow: /ads
-Disallow: /map
 Disallow: /admin
 Disallow: /animals/*/edit
 Disallow: /animals/*/photos

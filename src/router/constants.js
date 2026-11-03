@@ -1,9 +1,24 @@
 export const DESKTOP_MENU_ITEMS = [
   { label: 'Волонтеры', to: '/volunteers', permission: 'VIEW_USERS' },
-  { label: 'Животные', to: '/', permission: null },
+  {
+    label: 'Животные',
+    to: '/',
+    permission: null,
+    guestOptions: [
+      { label: 'Все животные', to: '/' },
+      { label: 'Собаки', to: '/sobaki' },
+      { label: 'Кошки', to: '/koty' },
+    ],
+    match: (path) => ['/', '/sobaki', '/koty'].includes(path),
+  },
   { label: 'График', to: '/schedule', permission: 'VIEW_PROFILE' },
   { label: 'Реклама', to: '/ads', permission: 'VIEW_PROFILE' },
   { label: 'Как помочь', to: '/how-to-help', invert: 'VIEW_PROFILE' },
+  {
+    label: 'Как пристроить',
+    to: '/kak-pristroit-sobaku-ili-koshku',
+    invert: 'VIEW_PROFILE',
+  },
   {
     label: 'Остальное',
     to: '/analytics',

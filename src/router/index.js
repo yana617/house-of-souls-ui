@@ -20,6 +20,11 @@ const routes = [
     component: () => import('../views/HowToHelp.vue'),
   },
   {
+    path: '/kak-pristroit-sobaku-ili-koshku',
+    name: 'rehome-dog',
+    component: () => import('../views/RehomeDog.vue'),
+  },
+  {
     path: '/sobaki',
     name: 'dogs',
     component: () => import('../views/Dogs.vue'),

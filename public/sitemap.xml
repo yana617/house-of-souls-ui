@@ -15,6 +15,13 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- Как пристроить собаку или кошку -->
+  <url>
+    <loc>https://soulhome.by/kak-pristroit-sobaku-ili-koshku</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- Собаки -->
   <url>
     <loc>https://soulhome.by/sobaki</loc>
